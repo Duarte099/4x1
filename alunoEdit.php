@@ -1,5 +1,5 @@
 <?php
-        //inclui o head que inclui as páginas de js necessárias, a base de dados e segurança da página
+    //inclui o head que inclui as páginas de js necessárias, a base de dados e segurança da página
     include('head.php'); 
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
@@ -10,8 +10,24 @@
         header('Location: dashboard.php');
         exit();
     }
+
+    //Obtem o id do admin via GET
+    $idAluno = $_GET['idAluno'];
+
+    //Obtem todas as informações do aluno que está a ser editado
+    $sql = "SELECT * FROM alunos WHERE id = '$idAluno'";
+    $result = $con->query($sql);
+    //Se houver um aluno com o id recebido, guarda as informações
+    if ($result->num_rows > 0) {
+        $rowAluno = $result->fetch_assoc();
+    }
+    //Caso contrário volta para a dashboard para não dar erro
+    else{
+        header('Location: dashboard.php');
+        exit();
+    }
 ?>
-    <title>4x1 | Criar Aluno</title>
+    <title>4x1 | Editar Aluno</title>
     <style>
         .container2 {
             background: white;
@@ -101,109 +117,122 @@
                         <h2 class="fw-bold mb-3">Ficha do aluno</h2>
                     </div>
                 </div>
-                <form action="alunoInserir.php?op=save" method="POST">
+                <form action="alunoInserir.php?idAluno&op=edit" method="POST">
                     <div class="container2">
                         <div class="grid">
                             <div class="campo">
                                 <label>NOME:</label>
-                                <input type="text" name="nome">
+                                <input type="text" name="nome" value="<?php echo $rowAluno['nome']; ?>">
                             </div>
                             <div class="campo">
                                 <label>LOCALIDADE:</label>
-                                <input type="text" name="localidade">
+                                <input type="text" name="localidade" value="<?php echo $rowAluno['localidade']; ?>">
                             </div>
                             
                             <div class="campo">
                                 <label>MORADA:</label>
-                                <input type="text" name="morada">
+                                <input type="text" name="morada" value="<?php echo $rowAluno['morada']; ?>">
                             </div>
                             <div class="campo">
                                 <label>DATA DE NASCIMENTO:</label>
-                                <input type="date" name="dataNascimento">
+                                <input type="date" name="dataNascimento" value="<?php echo $rowAluno['dataNascimento']; ?>">
                             </div>
                             
                             <div class="campo">
                                 <label>CÓDIGO POSTAL:</label>
-                                <input type="text" name="codigoPostal">
+                                <input type="text" name="codigoPostal" value="<?php echo $rowAluno['codigoPostal']; ?>">
                             </div>
                             <div class="campo">
-                                <label>NIF:</label>
-                                <input type="number" name="NIF">
+                                <label>NIF:</label> 
+                                <input type="number" name="NIF" min="100000000" max="999999999" value="<?php echo $rowAluno['nif']; ?>">
                             </div>
                         </div>
 
                         <div class="grid">
                             <div class="campo">
                                 <label>EMAIL:</label>
-                                <input type="email" name="email">
+                                <input type="email" name="email" value="<?php echo $rowAluno['email']; ?>">
                             </div>
                             <div class="campo">
                                 <label>CONTATO:</label>
-                                <input type="text" name="contacto">
+                                <input type="text" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
                             </div>
                             <div class="campo">
                                 <label>ESCOLA:</label>
-                                <input type="text" name="escola">
+                                <input type="text" name="escola" value="<?php echo $rowAluno['escola']; ?>">
                             </div>
                             <div class="campo">
                                 <label>ANO:</label>
-                                <input type="text" name="ano">
+                                <input type="text" name="ano" value="<?php echo $rowAluno['ano']; ?>">
                             </div>
                             <div class="campo">
                                 <label>CURSO:</label>
-                                <input type="text" name="curso">
+                                <input type="text" name="curso" value="<?php echo $rowAluno['curso']; ?>">
                             </div>
                             <div class="campo">
                                 <label>TURMA:</label>
-                                <input type="text" name="turma">
+                                <input type="text" name="turma" value="<?php echo $rowAluno['turma']; ?>">
                             </div>
                             <div class="grid full-width">
                                 <div class="campo full-width">
                                     <label>DISPONIBILIDADE:</label>
-                                    <input type="text" name="disponibilidade">
+                                    <input type="text" name="disponibilidade" value="<?php echo $rowAluno['disponibilidade']; ?>">
                                 </div>
                             </div>
                         </div>
                         <div class="grid">
                             <div class="campo">
                                 <label>MÃE:</label>
-                                <input type="text" name="mae">
+                                <input type="text" name="mae" value="<?php echo $rowAluno['nomeMae']; ?>">
                             </div>
                             <div class="campo">
                                 <label>Tlm:</label>
-                                <input type="text" name="maeTlm" readonly>
+                                <input type="text" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
                             </div>
                             
                             <div class="campo">
                                 <label>PAI:</label>
-                                <input type="text" name="pai">
+                                <input type="text" name="pai" value="<?php echo $rowAluno['nomePai']; ?>">
                             </div>
                             <div class="campo">
                                 <label>Tlm:</label>
-                                <input type="text" name="paiTlm" readonly>
+                                <input type="text" name="paiTlm" value="<?php echo $rowAluno['tlmPai']; ?>">
                             </div>
                         </div>
 
                         <div class="grid full-width">
                             <div class="campo full-width">
                                 <label>MODALIDADE:</label>
-                                <input type="text" name="modalidade">
+                                <input type="text" name="modalidade" value="<?php echo $rowAluno['modalidade']; ?>">
                             </div>
                             
                             <div class="campo full-width">
                                 <label>DISCIPLINAS:</label>
                                 <div class="selectgroup selectgroup-pills">
                                     <?php 
-                                        $sql = "SELECT id, nome FROM disciplinas ;";
+                                        $sql = "SELECT id, nome FROM disciplinas;";
                                         $result = $con->query($sql);
                                         if ($result->num_rows > 0) {
                                             while ($row = $result->fetch_assoc()) {
+                                                $sql = "SELECT * FROM alunos_disciplinas WHERE idAluno = ? AND idDisciplina = ?";
+                                                $result1 = $con->prepare($sql);
+                                                $result1->bind_param('ii', $idAluno, $row['id']);
+                                                $result1->execute(); 
+                                                $result1->store_result();
+                                                if ($result1->num_rows > 0) {
+                                                    $estado = "checked=\"\"";
+                                                }
+                                                else{
+                                                    $estado = "";
+                                                }
+
                                                 echo "<label class=\"selectgroup-item\">
                                                         <input
                                                             type=\"checkbox\"
                                                             name=\"disciplina_" . $row['id'] . "\"
                                                             value=\"" . $row['nome'] . "\"
                                                             class=\"selectgroup-input\"
+                                                            " . $estado . "
                                                         />
                                                         <span class=\"selectgroup-button\">" . $row['nome'] . "</span>
                                                     </label>";

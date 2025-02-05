@@ -53,16 +53,16 @@
     <div class="main-header">
         <div class="main-header-logo">
         <!-- Logo Header -->
-        <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo">
-            <img
-                src="assets/img/kaiadmin/logo_light.svg"
-                alt="navbar brand"
-                class="navbar-brand"
-                height="20"
-            />
-            </a>
-        </div>
+            <div class="logo-header" data-background-color="dark">
+                <a href="index.html" class="logo">
+                <img
+                    src="assets/img/kaiadmin/logo_light.svg"
+                    alt="navbar brand"
+                    class="navbar-brand"
+                    height="20"
+                />
+                </a>
+            </div>
         <!-- End Logo Header -->
         </div>
         <!-- Navbar Header -->
@@ -119,7 +119,7 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Account Setting</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Logout</a>
+                    <a class="dropdown-item" href="indexLogout.php">Logout</a>
                     </li>
                 </div>
                 </ul>
