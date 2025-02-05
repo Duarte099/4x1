@@ -1,9 +1,12 @@
+<?php
+    include('./db/conexao.php');
+?>
 <!-- Sidebar -->
 <div class="sidebar sidebar-style-2" data-background-color="dark">
     <div class="sidebar-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-        <a href="index.html" class="logo">
+        <a href="dashboard.html" class="logo">
             <img
             src="assets/img/kaiadmin/logo_light.svg"
             alt="navbar brand"
@@ -11,14 +14,6 @@
             height="20"
             />
         </a>
-        <!-- <div class="nav-toggle">
-            <button class="btn btn-toggle toggle-sidebar">
-            <i class="gg-menu-right"></i>
-            </button>
-            <button class="btn btn-toggle sidenav-toggler">
-            <i class="gg-menu-left"></i>
-            </button>
-        </div> -->
         <button class="topbar-toggler more">
             <i class="gg-more-vertical-alt"></i>
         </button>
@@ -28,26 +23,44 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
-                <li class="nav-item <?php echo ($estouEm == 1) ? 'active' : ''; ?> submenu">
-                    <a
-                        href="dashboard.php"
-                    >
+                <li class="nav-item <?php echo ($estouEm == 1) ? 'active' : ''; ?>">
+                    <a href="dashboard">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 2) ? 'active' : ''; ?> submenu">
-                    <a
-                        href="aluno.php"
-                    >
-                        <i class="fas fa-home"></i>
+                    <a data-bs-toggle="collapse" href="#alunos">
+                        <i class="fas fa-th-list"></i>
                         <p>Alunos</p>
+                        <span class="caret"></span>
                     </a>
+                    <div class="collapse show" id="alunos">
+                        <ul class="nav nav-collapse">
+                            <li <?php echo ($estouEm == 2 && $estouEm2 == 1) ? 'class="active"' : ''; ?>>
+                                <a href="aluno">
+                                    <span class="sub-item">Ver Alunos</span>
+                                </a>
+                            </li>
+                            <li <?php echo ($estouEm == 2 && $estouEm2 == 2) ? 'class="active"' : ''; ?>>
+                                <a href="alunoCriar">
+                                <span class="sub-item">Criar Aluno</span>
+                                </a>
+                            </li>
+                            <?php if ($estouEm == 2 && $estouEm2 == 3) { ?>
+                                <li class="active">
+                                    <a href="alunoEdit?idAluno=<?php echo $idAluno?>&op=edit">
+                                    <span class="sub-item">Editar Aluno</span>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
-</div>
+    </div>
 <!-- End Sidebar -->
 <div class="main-panel">
     <div class="main-header">
@@ -80,13 +93,13 @@
                 >
                 <div class="avatar-sm">
                     <img
-                    src="assets/img/profile.jpg"
+                    src="<?php echo $imgAdmin; ?>"
                     alt="..."
                     class="avatar-img rounded-circle"
                     />
                 </div>
                 <span class="profile-username">
-                    <span class="fw-bold">Hizrian</span>
+                    <span class="fw-bold"><?php echo $nomeAdmin; ?></span>
                 </span>
                 </a>
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -95,29 +108,27 @@
                     <div class="user-box">
                         <div class="avatar-lg">
                         <img
-                            src="assets/img/profile.jpg"
+                            src="<?php echo $imgAdmin; ?>"
                             alt="image profile"
                             class="avatar-img rounded"
                         />
                         </div>
                         <div class="u-text">
-                        <h4>Hizrian</h4>
-                        <p class="text-muted">hello@example.com</p>
+                        <h4><?php echo $nomeAdmin; ?></h4>
+                        <p class="text-muted"><?php echo $emailAdmin; ?></p>
                         <a
                             href="profile.html"
                             class="btn btn-xs btn-secondary btn-sm"
-                            >View Profile</a
+                            >Ver Perfil</a
                         >
                         </div>
                     </div>
                     </li>
                     <li>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">My Profile</a>
-                    <a class="dropdown-item" href="#">My Balance</a>
-                    <a class="dropdown-item" href="#">Inbox</a>
+                    <a class="dropdown-item" href="#">Perfil</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Account Setting</a>
+                    <a class="dropdown-item" href="#">Definições</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="indexLogout.php">Logout</a>
                     </li>

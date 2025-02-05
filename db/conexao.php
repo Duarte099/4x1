@@ -31,6 +31,11 @@
             header('Location: index.php');
             exit();
         }
+
+        $idAdmin = $_SESSION['id'];
+        $nomeAdmin = $_SESSION['name'];
+        $emailAdmin = $_SESSION['email'];
+        $imgAdmin = $_SESSION['img'];
     }
 
     //Chama as funções para serem usadas em todas as paginas

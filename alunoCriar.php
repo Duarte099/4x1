@@ -4,6 +4,7 @@
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 2;
+    $estouEm2 = 2;
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if (adminPermissions($con, "adm_001", "insert") == 0) {
@@ -215,6 +216,7 @@
                         </div>
 
                         <div class="horario">
+
                             <div class="dia-horario">
                                 <label>2ªF - <input type="number" name="2F" min="0" max="24" value="0" style="width: 50px;">h</label>
                             </div>

@@ -5,7 +5,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-        if ($stmt = $con->prepare('SELECT id, pass, name as nomeX, active FROM administrator WHERE user = ? OR email = ?')) {
+        if ($stmt = $con->prepare('SELECT id, pass, name as nomeX, email, img, active FROM administrator WHERE user = ? OR email = ?')) {
             // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
             $stmt->bind_param('ss', $_POST['username'], $_POST['username']);
             $stmt->execute();
@@ -13,7 +13,7 @@
             $stmt->store_result();
 
             if ($stmt->num_rows > 0) {
-                $stmt->bind_result($id, $password, $nomeX, $active);
+                $stmt->bind_result($id, $password, $nomeX, $email, $img, $active);
                 $stmt->fetch();
                 if ($active == 1) {
                     // Account exists, now we verify the password.
@@ -22,15 +22,16 @@
                         // Verification success! User has logged-in!
                         // Create sessions, so we know the user is logged in, they basically act like cookies but remember the data on the server.
                         session_regenerate_id();
-                        $_SESSION['password'] = $password;
                         $_SESSION['loggedin'] = TRUE;
-                        $_SESSION['name'] = $nomeX;
                         $_SESSION['id'] = $id;
+                        $_SESSION['name'] = $nomeX;
+                        $_SESSION['email'] = $email;
+                        $_SESSION['img'] = $img;
+                        $_SESSION['password'] = $password;
                         $_SESSION['passX'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                        $idAdministrador = $_SESSION['id'];
-                        $username = $_SESSION['name'];
-                        $mensagem = "Administrador " . $username . "(" . $idAdministrador . ") entrou";
-                        registrar_log($mensagem);
+
+                        registrar_log("Administrador " . $nomeX . "(" . $id . ") entrou");
+
                         header('Location: dashboard.php');
                         exit();
                     } else {
