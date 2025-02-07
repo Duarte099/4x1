@@ -111,7 +111,7 @@
     }
 
     function registrar_log($mensagem) {
-        include('./db/conexao.php');
+        include('./db/conexao');
 
         // Inserir na tabela de logs
         $query = "INSERT INTO administrator_logs (idAdministrator, logFile) VALUES (?, ?)";

@@ -57,6 +57,34 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item <?php echo ($estouEm == 3) ? 'active' : ''; ?> submenu">
+                    <a data-bs-toggle="collapse" href="#professores">
+                        <i class="fas fa-th-list"></i>
+                        <p>Professores</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse show" id="professores">
+                        <ul class="nav nav-collapse">
+                            <li <?php echo ($estouEm == 3 && $estouEm2 == 1) ? 'class="active"' : ''; ?>>
+                                <a href="professor">
+                                    <span class="sub-item">Ver Professores</span>
+                                </a>
+                            </li>
+                            <li <?php echo ($estouEm == 3 && $estouEm2 == 2) ? 'class="active"' : ''; ?>>
+                                <a href="professorCriar">
+                                <span class="sub-item">Criar Professor</span>
+                                </a>
+                            </li>
+                            <?php if ($estouEm == 3 && $estouEm2 == 3) { ?>
+                                <li class="active">
+                                    <a href="professorEdit?idProfessor=<?php echo $idProfessor?>&op=edit">
+                                    <span class="sub-item">Editar Professor</span>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -130,7 +158,7 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Definições</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="indexLogout.php">Logout</a>
+                    <a class="dropdown-item" href="indexLogout">Logout</a>
                     </li>
                 </div>
                 </ul>

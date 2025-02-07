@@ -1,7 +1,7 @@
 <?php
     session_start(); // Adicione isso no início para garantir que a sessão seja iniciada
-    $auxLogin = true; // Define a variável ANTES de incluir conexao.php
-    include("./db/conexao.php");
+    $auxLogin = true; // Define a variável ANTES de incluir conexao
+    include("./db/conexao");
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
@@ -32,25 +32,25 @@
 
                         registrar_log("Administrador " . $nomeX . "(" . $id . ") entrou");
 
-                        header('Location: dashboard.php');
+                        header('Location: dashboard');
                         exit();
                     } else {
-                        header('Location: index.php?erro=Password ou user Incorreto!');
+                        header('Location: index?erro=Password ou user Incorreto!');
                         exit();
                     }
                 } else {
-                    header('Location: index.php?erro=Password ou user Incorreto!');
+                    header('Location: index?erro=Password ou user Incorreto!');
                     exit();
                 }
             } else {
-                header('Location: index.php?erro=Password ou user Incorreto!');
+                header('Location: index?erro=Password ou user Incorreto!');
                 exit();
             }
             $stmt->close();
         }
     }
     else {
-        header('Location: index.php');
+        header('Location: index');
         exit();
     }
 ?>

@@ -10,7 +10,7 @@
         if ($op == 'save') {
             //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard
             if (adminPermissions($con, "adm_001", "insert") == 0) {
-                header('Location: dashboard.php');
+                header('Location: dashboard');
                 exit();
             }
 
@@ -78,26 +78,26 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: aluno.php');
+            header('Location: aluno');
         }
         //Se a operação for edit
         elseif ($op == 'edit') {
             //Se o administrador não tiver permissões de editar um aluno então redireciona para a dashboard
             if (adminPermissions($con, "adm_005", "update") == 0) {
-                header('Location: dashboard.php');
+                header('Location: dashboard');
                 exit();
             }
 
             //redireciona para a pagina de edit do administrador que acabou de alterar
-            header('Location: adminEdit.php?idAdmin=' . $idAdmin);
+            header('Location: adminEdit?idAdmin=' . $idAdmin);
         }
         else {
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

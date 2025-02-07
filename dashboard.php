@@ -1,6 +1,6 @@
 <?php
   //inclui o head que inclui as páginas de js necessárias, a base de dados e segurança da página
-  include('head.php'); 
+  include('./head.php'); 
 
   //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
   $estouEm = 1;
@@ -8,7 +8,7 @@
 
   //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
   if (adminPermissions($con, "adm_001", "view") == 0) {
-      header('Location: dashboard.php');
+      header('Location: dashboard');
       exit();
   }
 ?>
@@ -751,7 +751,7 @@
                         <time class="date" datetime="9-23">Sep 23</time>
                         <span class="text"
                           >Joined the group
-                          <a href="single-group.php"
+                          <a href="single-group"
                             >"Boardsmanship Forum"</a
                           ></span
                         >
@@ -774,7 +774,7 @@
                         <time class="date" datetime="9-17">Sep 17</time>
                         <span class="text"
                           >Attending the event
-                          <a href="single-event.php">"Some New Event"</a></span
+                          <a href="single-event">"Some New Event"</a></span
                         >
                       </li>
                     </ol>

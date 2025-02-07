@@ -20,7 +20,7 @@
         
         //Se não tiver logado não deixa entrar na página
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            header('Location: index.php');
+            header('Location: index');
             exit();
         }
 
@@ -28,7 +28,7 @@
         $sql = "SELECT * FROM administrator WHERE id = " . $_SESSION['id'] . " AND pass = '" . $_SESSION['password'] . "';";
         $result = $con->query($sql);
         if ($result->num_rows <= 0) {
-            header('Location: index.php');
+            header('Location: index');
             exit();
         }
 
@@ -39,5 +39,5 @@
     }
 
     //Chama as funções para serem usadas em todas as paginas
-    include_once 'functions.php';
+    include_once './db/functions.php';
 ?>

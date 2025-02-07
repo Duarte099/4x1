@@ -3,16 +3,16 @@
   include('./head.php'); 
 
   //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-  $estouEm = 2;
+  $estouEm = 3;
   $estouEm2 = 1;
 
   //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
-  if (adminPermissions($con, "adm_001", "view") == 0) {
+  if (adminPermissions($con, "adm_002", "view") == 0) {
       header('Location: dashboard');
       exit();
   }
 ?>
-  <title>4x1 | Alunos</title>
+  <title>4x1 | Professores</title>
 </head>
   <body>
     <div class="wrapper">
@@ -25,10 +25,10 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h3 class="fw-bold mb-3">Alunos</h3>
+                <h3 class="fw-bold mb-3">Professores</h3>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="alunoCriar" class="btn btn-primary btn-round">Adicionar aluno</a>
+                <a href="professorCriar" class="btn btn-primary btn-round">Adicionar professor</a>
               </div>
             </div>
             <div class="input-icon">
