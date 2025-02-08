@@ -30,6 +30,39 @@
 ?>
     <title>4x1 | Editar Aluno</title>
     <style>
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 2px solid #dee2e6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #343a40;
+        }
+
+        .highlight {
+            background-color: #f8f9fa;
+        }
+
+        .special {
+            background-color: #f0f0f0;
+        }
+
         .container2 {
             background: white;
             padding: 2rem;
@@ -81,183 +114,304 @@
             }
         }
     </style>
-    </head>
+</head>
     <body>
         <div class="wrapper">
             <?php 
                 include('./sideBar.php'); 
             ?>
-            <div class="container">
-                <div class="page-inner">
-                    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
-                        <div>
-                            <h2 class="fw-bold mb-3">Ficha do aluno</h2>
-                        </div>
+            <div
+                class="modal fade"
+                id="addRowModal"
+                tabindex="-1"
+                role="dialog"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <h1>DISPONIBILIDADE</h1>
+                        <table>
+                            <tr>
+                                <th>Horas</th>
+                                <th>Segunda</th>
+                                <th>Terça</th>
+                                <th>Quarta</th>
+                                <th>Quinta</th>
+                                <th>Sexta</th>
+                                <th>Sábado</th>
+                            </tr>
+                            <tr>
+                                <td class="highlight"><b>14:30</b></td>
+                                <td><button type="checkbox"></button></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="highlight"><b>15:00</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="highlight"><b>15:30</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="highlight"><b>16:00</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="highlight"><b>16:30</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="highlight"><b>17:00</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="highlight"><b>17:30</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="highlight"><b>18:00</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="highlight"><b>18:30</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="highlight"><b>19:00</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
                     </div>
-                    <form action="alunoInserir?op=save" method="POST">
-                        <div class="container2">
-                            <div class="form-section">
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 99.5%;">
-                                        <label>NOME:</label>
-                                        <input type="text" name="nome" value="<?php echo $rowAluno['nome']; ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 64%;">
-                                        <label>MORADA:</label>
-                                        <input type="text" name="morada" value="<?php echo $rowAluno['morada']; ?>">
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 34%;">
-                                        <label>LOCALIDADE:</label>
-                                        <input type="text" name="localidade" value="<?php echo $rowAluno['localidade']; ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 31%;">
-                                        <label>CÓDIGO POSTAL:</label>
-                                        <input type="text" name="codigoPostal" value="<?php echo $rowAluno['codigoPostal']; ?>">
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 32%;">
-                                        <label>NIF:</label>
-                                        <input type="number" name="NIF" value="<?php echo $rowAluno['nif']; ?>">
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 34%;">
-                                        <label>DATA DE NASCIMENTO:</label>
-                                        <input type="date" name="dataNascimento" value="<?php echo $rowAluno['dataNascimento']; ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 64%;">
-                                        <label>EMAIL:</label>
-                                        <input type="email" name="email" value="<?php echo $rowAluno['email']; ?>">
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 34%;">
-                                        <label>CONTATO:</label>
-                                        <input type="text" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 78%;">
-                                        <label>ESCOLA:</label>
-                                        <input type="text" name="escola" value="<?php echo $rowAluno['escola']; ?>">
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 20%;">
-                                        <label>ANO:</label>
-                                        <input type="text" name="ano" value="<?php echo $rowAluno['ano']; ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 78%;">
-                                        <label>CURSO:</label>
-                                        <input type="text" name="curso" value="<?php echo $rowAluno['curso']; ?>">
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 20%;">
-                                        <label>TURMA:</label>
-                                        <input type="text" name="turma" value="<?php echo $rowAluno['turma']; ?>">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 99.5%;">
-                                        <label>DISPONIBILIDADE:</label>
-                                        <input type="text" name="disponibilidade" value="<?php echo $rowAluno['disponibilidade']; ?>">
-                                    </div>
-                                </div>      
-                            </div>
-
-                            <!-- Seção de pais -->
-                            <div class="form-section">
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 49%;">
-                                        <label>MÃE:</label>
-                                        <input type="text" name="mae" value="<?php echo $rowAluno['nomeMae']; ?>">
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 49%;">
-                                        <label>Tlm:</label>
-                                        <input type="text" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 49%;">
-                                        <label>PAI:</label>
-                                        <input type="text" name="pai" value="<?php echo $rowAluno['nomePai']; ?>">
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 49%;" value="<?php echo $rowAluno['tlmPai']; ?>">
-                                        <label>Tlm:</label>
-                                        <input type="text" name="paiTlm">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Modalidade e Disciplinas -->
-                            <div class="form-section">
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 100%;">
-                                        <label>MODALIDADE:</label>
-                                        <input type="text" name="modalidade" value="<?php echo $rowAluno['modalidade']; ?>">
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 100%;">
-                                        <label>DISCIPLINAS:</label>
-                                        <div class="selectgroup selectgroup-pills">
-                                            <?php 
-                                                $sql = "SELECT id, nome FROM disciplinas;";
-                                                $result = $con->query($sql);
-                                                if ($result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        $sql = "SELECT * FROM alunos_disciplinas WHERE idAluno = ? AND idDisciplina = ?";
-                                                        $result1 = $con->prepare($sql);
-                                                        $result1->bind_param('ii', $idAluno, $row['id']);
-                                                        $result1->execute(); 
-                                                        $result1->store_result();
-                                                        if ($result1->num_rows > 0) {
-                                                            $estado = "checked=\"\"";
-                                                        }
-                                                        else{
-                                                            $estado = "";
-                                                        }
-                                                        echo "<label class='selectgroup-item'>
-                                                                <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
-                                                                <span class='selectgroup-button'>" . $row['nome'] . "</span>
-                                                            </label>";
-                                                    }
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="horario">
-                                <div class="dia-horario">
-                                    <label>2ªF - <input type="number" name="2F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                                </div>
-                                <div class="dia-horario">
-                                    <label>3ªF - <input type="number" name="3F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                                </div>
-                                <div class="dia-horario">
-                                    <label>4ªF - <input type="number" name="4F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                                </div>
-                                <div class="dia-horario">
-                                    <label>5ªF - <input type="number" name="5F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                                </div>
-                                <div class="dia-horario">
-                                    <label>6ªF - <input type="number" name="6F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                                </div>
-                                <div class="dia-horario">
-                                    <label>Sab - <input type="number" name="7F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                            </div> -->
-                            <button type="submit" class="btn btn-primary">Criar aluno</button>
-                        </div>
-                    </form>
                 </div>
+            </div>
+            <div class="page-inner">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
+                    <div>
+                        <h2 class="fw-bold mb-3">Ficha do aluno</h2>
+                    </div>
+                </div>
+                <form action="alunoInserir?op=save" method="POST">
+                    <div class="container2">
+                        <div class="form-section">
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 99.5%;">
+                                    <label>NOME:</label>
+                                    <input type="text" name="nome" value="<?php echo $rowAluno['nome']; ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 64%;">
+                                    <label>MORADA:</label>
+                                    <input type="text" name="morada" value="<?php echo $rowAluno['morada']; ?>">
+                                </div>
+                                <div class="campo" style="flex: 0 0 34%;">
+                                    <label>LOCALIDADE:</label>
+                                    <input type="text" name="localidade" value="<?php echo $rowAluno['localidade']; ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 31%;">
+                                    <label>CÓDIGO POSTAL:</label>
+                                    <input type="text" name="codigoPostal" value="<?php echo $rowAluno['codigoPostal']; ?>">
+                                </div>
+                                <div class="campo" style="flex: 0 0 32%;">
+                                    <label>NIF:</label>
+                                    <input type="number" name="NIF" value="<?php echo $rowAluno['nif']; ?>">
+                                </div>
+                                <div class="campo" style="flex: 0 0 34%;">
+                                    <label>DATA DE NASCIMENTO:</label>
+                                    <input type="date" name="dataNascimento" value="<?php echo $rowAluno['dataNascimento']; ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 64%;">
+                                    <label>EMAIL:</label>
+                                    <input type="email" name="email" value="<?php echo $rowAluno['email']; ?>">
+                                </div>
+                                <div class="campo" style="flex: 0 0 34%;">
+                                    <label>CONTATO:</label>
+                                    <input type="text" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 78%;">
+                                    <label>ESCOLA:</label>
+                                    <input type="text" name="escola" value="<?php echo $rowAluno['escola']; ?>">
+                                </div>
+                                <div class="campo" style="flex: 0 0 20%;">
+                                    <label>ANO:</label>
+                                    <input type="text" name="ano" value="<?php echo $rowAluno['ano']; ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 78%;">
+                                    <label>CURSO:</label>
+                                    <input type="text" name="curso" value="<?php echo $rowAluno['curso']; ?>">
+                                </div>
+                                <div class="campo" style="flex: 0 0 20%;">
+                                    <label>TURMA:</label>
+                                    <input type="text" name="turma" value="<?php echo $rowAluno['turma']; ?>">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 100%;">
+                                    <label>DISPONIBILIDADE:</label>
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addRowModal"
+                                    >
+                                        <!-- <i class="fa fa-up-right-from-square"> -->
+                                        DISPONIBILIDADE
+                                    </button>
+                                    <!-- <button type="button" class="btn btn-primary"  ><i class="fa fa-up-right-from-square" style="padding-right: 10px;"></i>DISPONIBILIDADE</button> -->
+                                </div>
+                            </div>      
+                        </div>
+
+                        <!-- Seção de pais -->
+                        <div class="form-section">
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 49%;">
+                                    <label>MÃE:</label>
+                                    <input type="text" name="mae" value="<?php echo $rowAluno['nomeMae']; ?>">
+                                </div>
+                                <div class="campo" style="flex: 0 0 49%;">
+                                    <label>Tlm:</label>
+                                    <input type="text" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 49%;">
+                                    <label>PAI:</label>
+                                    <input type="text" name="pai" value="<?php echo $rowAluno['nomePai']; ?>">
+                                </div>
+                                <div class="campo" style="flex: 0 0 49%;" value="<?php echo $rowAluno['tlmPai']; ?>">
+                                    <label>Tlm:</label>
+                                    <input type="text" name="paiTlm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modalidade e Disciplinas -->
+                        <div class="form-section">
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 100%;">
+                                    <label>MODALIDADE:</label>
+                                    <input type="text" name="modalidade" value="<?php echo $rowAluno['modalidade']; ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 100%;">
+                                    <label>DISCIPLINAS:</label>
+                                    <div class="selectgroup selectgroup-pills">
+                                        <?php 
+                                            $sql = "SELECT id, nome FROM disciplinas;";
+                                            $result = $con->query($sql);
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $sql = "SELECT * FROM alunos_disciplinas WHERE idAluno = ? AND idDisciplina = ?";
+                                                    $result1 = $con->prepare($sql);
+                                                    $result1->bind_param('ii', $idAluno, $row['id']);
+                                                    $result1->execute(); 
+                                                    $result1->store_result();
+                                                    if ($result1->num_rows > 0) {
+                                                        $estado = "checked=\"\"";
+                                                    }
+                                                    else{
+                                                        $estado = "";
+                                                    }
+                                                    echo "<label class='selectgroup-item'>
+                                                            <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
+                                                            <span class='selectgroup-button'>" . $row['nome'] . "</span>
+                                                        </label>";
+                                                }
+                                            }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="horario">
+                            <div class="dia-horario">
+                                <label>2ªF - <input type="number" name="2F" min="0" max="24" value="0" style="width: 50px;">h</label>
+                            </div>
+                            <div class="dia-horario">
+                                <label>3ªF - <input type="number" name="3F" min="0" max="24" value="0" style="width: 50px;">h</label>
+                            </div>
+                            <div class="dia-horario">
+                                <label>4ªF - <input type="number" name="4F" min="0" max="24" value="0" style="width: 50px;">h</label>
+                            </div>
+                            <div class="dia-horario">
+                                <label>5ªF - <input type="number" name="5F" min="0" max="24" value="0" style="width: 50px;">h</label>
+                            </div>
+                            <div class="dia-horario">
+                                <label>6ªF - <input type="number" name="6F" min="0" max="24" value="0" style="width: 50px;">h</label>
+                            </div>
+                            <div class="dia-horario">
+                                <label>Sab - <input type="number" name="7F" min="0" max="24" value="0" style="width: 50px;">h</label>
+                        </div> -->
+                        <button type="submit" class="btn btn-primary">Criar aluno</button>
+                    </div>
+                </form>
             </div>
         </div>
         <?php include('./endPage.php'); ?>
