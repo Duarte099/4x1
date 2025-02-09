@@ -88,8 +88,112 @@
                 exit();
             }
 
-            //redireciona para a pagina de edit do administrador que acabou de alterar
-            header('Location: adminEdit?idAdmin=' . $idAdmin);
+            $idAluno = $_GET['idAluno'];
+
+            print_r($_POST);
+
+            $stmt = $con->prepare('SELECT id FROM alunos WHERE id = ?');
+            $stmt->bind_param('i', $idAluno);
+            $stmt->execute(); 
+            $stmt->store_result();
+            if ($stmt->num_rows <= 0) {
+                header('Location: dashboard');
+                exit();
+            }
+
+            $nome = $_POST['nome'];
+            $localidade = $_POST['localidade'];
+            $morada = $_POST['morada'];
+            $dataNascimento = $_POST['dataNascimento'];
+            $codigoPostal = $_POST['codigoPostal'];
+            $NIF = $_POST['NIF'];
+            $email = $_POST['email'];
+            $contacto = $_POST['contacto'];
+            $escola = $_POST['escola'];
+            $ano = $_POST['ano'];
+            $curso = $_POST['curso'];
+            $turma = $_POST['turma'];
+            $nomeMae = $_POST['mae'];
+            $tlmMae = $_POST['maeTlm'];
+            $nomePai = $_POST['pai'];
+            $tlmPai = $_POST['paiTlm'];
+            $modalidade = $_POST['modalidade'];
+
+            $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ? WHERE id = ?";
+            $result = $con->prepare($sql);
+            if ($result) {
+                $result->bind_param("sssssisisisssisisi", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $nomeMae, $tlmMae, $nomePai, $tlmpai, $modalidade, $idAluno);
+            }
+            $result->execute();
+
+            $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+            $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+            
+            foreach ($dias as $dia) {
+                foreach ($horas as $hora) {
+                    $result2 = $con->prepare('SELECT id FROM alunos_disponibilidade WHERE idAluno = ? AND dia = ? AND hora = ?');
+                    $result2->bind_param('iss', $idAluno, $dia, $hora);
+                    $result2->execute();
+                    $result2->store_result();
+                    $result2->bind_result($idAlunoDisponibilidade);
+                    $result2->fetch();
+                    if ($result2->num_rows <= 0) {
+                        if (isset($_POST["disponibilidade_" . $dia . "_" . $hora . ""]) && $_POST["disponibilidade_" . $dia . "_" . $hora . ""] == "on") {
+                            $sql = "INSERT INTO alunos_disponibilidade (idAluno, dia, hora, disponibilidade) VALUES (?, ?, ?, ?)";
+                            $result = $con->prepare($sql);
+                            if ($result) {
+                                $disponibilidade = 1;
+                                $result->bind_param("issd", $idAluno, $dia, $hora, $disponibilidade);
+                            }
+                            $result->execute();
+                        }
+                    }
+                    else {
+                        if (isset($_POST["disponibilidade_" . $dia . "_" . $hora . ""]) && $_POST["disponibilidade_" . $dia . "_" . $hora . ""] == "on") {
+                            $disponibilidade = 1;
+                        }
+                        else {
+                            $disponibilidade = 0;
+                        }
+                        $sql = "UPDATE alunos_disponibilidade SET disponibilidade = ? WHERE idAluno = ? AND dia = ? AND hora = ?";
+                        $result = $con->prepare($sql);
+                        if ($result) {
+                            $result->bind_param("iiss", $disponibilidade, $idAluno, $dia, $hora);
+                        }
+                        $result->execute();
+                    }
+                }
+            }
+
+            $sql1 = "SELECT id FROM disciplinas;";
+            $result1 = $con->query($sql1);
+            if ($result1->num_rows > 0) {
+                while ($row1 = $result1->fetch_assoc()) {
+                    $result4 = $con->prepare('SELECT id FROM alunos_disciplinas WHERE idAluno = ? AND idDisciplina = ?');
+                    $result4->bind_param('ii', $idAluno, $row1['id']);
+                    $result4->execute();
+                    $result4->store_result();
+                    $result4->bind_result($idAlunoDisciplina);
+                    $result4->fetch();
+                    if ($result4->num_rows <= 0) {
+                        if (isset($_POST['disciplina_'. $row1['id']]) && !empty($_POST['disciplina_'. $row1['id']])) {
+                            $sql = "INSERT INTO alunos_disciplinas (idAluno, idDisciplina) VALUES (?, ?)";
+                            $result3 = $con->prepare($sql);
+                            if ($result3) {
+                                $result3->bind_param("ii", $idAluno, $row1['id']);
+                            }
+                            $result3->execute();
+                        }
+                    }
+                    else if (!isset($_POST['disciplina_'. $row1['id']]) && empty($_POST['disciplina_'. $row1['id']])) {
+                        $result5 = $con->prepare('DELETE FROM alunos_disciplinas WHERE id = ?');
+                        $result5->bind_param("i", $idAlunoDisciplina );
+                        $result5->execute();
+                    }
+                }
+            }
+
+            // header('Location: alunoEdit?idAluno=' . $idAluno);
         }
         else {
             header('Location: dashboard');

@@ -46,11 +46,12 @@
         th,
         td {
             border: 1px solid #dee2e6;
-            padding: 10px;
+            /* padding: 10px; */
             text-align: center;
         }
 
         th {
+            padding: 10px;
             background-color: #f2f2f2;
             color: #343a40;
         }
@@ -104,6 +105,40 @@
             border-radius: 4px;
         }
 
+        /* Ajusta a largura e altura para ocupar o TD inteiro */
+        #selectgroup-item {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 0; /* Remove qualquer padding extra */
+            margin: 0;
+        }
+
+        /* Oculta a checkbox padrão */
+        #electgroup-input {
+            display: none;
+        }
+
+        /* Estiliza o botão (span) para ocupar todo o espaço do TD */
+        .selectgroup-button {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            background-color: white; /* Cor padrão */
+            border: 1px solid #ccc;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+            box-sizing: border-box; /* Garante que o padding não afete o tamanho total */
+        }
+
+        /* Muda a cor quando a checkbox está selecionada */
+        #selectgroup-input:checked + .selectgroup-button {
+            background-color: blue;
+            color: white;
+            font-weight: bold;
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
             .form-row {
@@ -120,127 +155,74 @@
             <?php 
                 include('./sideBar.php'); 
             ?>
-            <div
-                class="modal fade"
-                id="addRowModal"
-                tabindex="-1"
-                role="dialog"
-                aria-hidden="true"
-            >
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <h1>DISPONIBILIDADE</h1>
-                        <table>
-                            <tr>
-                                <th>Horas</th>
-                                <th>Segunda</th>
-                                <th>Terça</th>
-                                <th>Quarta</th>
-                                <th>Quinta</th>
-                                <th>Sexta</th>
-                                <th>Sábado</th>
-                            </tr>
-                            <tr>
-                                <td class="highlight"><b>14:30</b></td>
-                                <td><button type="checkbox"></button></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="highlight"><b>15:00</b></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="highlight"><b>15:30</b></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="highlight"><b>16:00</b></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="highlight"><b>16:30</b></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="highlight"><b>17:00</b></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="highlight"><b>17:30</b></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="highlight"><b>18:00</b></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="highlight"><b>18:30</b></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td class="highlight"><b>19:00</b></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
+            <form action="alunoInserir?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
+                <div
+                    class="modal fade"
+                    id="addRowModal"
+                    tabindex="-1"
+                    role="dialog"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <h1>DISPONIBILIDADE</h1>
+                            <table>
+                                <tr>
+                                    <th>Segunda</th>
+                                    <th>Terça</th>
+                                    <th>Quarta</th>
+                                    <th>Quinta</th>
+                                    <th>Sexta</th>
+                                    <th>Sábado</th>
+                                </tr>
+                                <?php 
+                                    $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+                                    $horasFDS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
+                                    $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+                                
+                                    for ($i = 1; $i <= 11; $i++) {
+                                        echo "<tr>";
+                                        foreach ($dias as $dia) {
+                                            $hora = ($dia == 'Sábado') ? ($horasFDS[$i] ?? '') : ($horas[$i] ?? '');
+                                            $disponibilidade = 0;
+                                            $sql = "SELECT disponibilidade FROM alunos_disponibilidade WHERE idAluno = ? AND dia = ? AND hora = ?";
+                                            $result = $con->prepare($sql);
+                                            $result->bind_param('iss', $idAluno, $dia, $hora);
+                                            $result->execute(); 
+                                            $result->store_result();
+                                            $result->bind_result($disponibilidade);
+                                            $result->fetch();
+                                            if ($disponibilidade == 1) {
+                                                $estado = "checked=\"\"";
+                                            }
+                                            else{
+                                                $estado = "";
+                                            }
+
+                                            if ($hora) {
+                                                echo "<td>
+                                                        <label class='selectgroup-item' id='selectgroup-item'>
+                                                            <input type=\"checkbox\" name=\"disponibilidade_" . $dia . "_" . $hora . "\" class=\"selectgroup-input\" id=\"selectgroup-input\" " . $estado . "/>
+                                                            <span class='selectgroup-button' id='selectgroup-button'>$hora</span>
+                                                        </label>
+                                                    </td>";
+                                            } else {
+                                                echo "<td></td>";
+                                            }
+                                        }
+                                        echo "</tr>";
+                                    }
+                                ?>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="page-inner">
-                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
-                    <div>
-                        <h2 class="fw-bold mb-3">Ficha do aluno</h2>
+                <div class="page-inner">
+                    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
+                        <div>
+                            <h2 class="fw-bold mb-3">Ficha do aluno</h2>
+                        </div>
                     </div>
-                </div>
-                <form action="alunoInserir?op=save" method="POST">
                     <div class="container2">
                         <div class="form-section">
                             <div class="form-row">
@@ -320,7 +302,6 @@
                                         <!-- <i class="fa fa-up-right-from-square"> -->
                                         DISPONIBILIDADE
                                     </button>
-                                    <!-- <button type="button" class="btn btn-primary"  ><i class="fa fa-up-right-from-square" style="padding-right: 10px;"></i>DISPONIBILIDADE</button> -->
                                 </div>
                             </div>      
                         </div>
@@ -381,7 +362,7 @@
                                                     }
                                                     echo "<label class='selectgroup-item'>
                                                             <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
-                                                            <span class='selectgroup-button'>" . $row['nome'] . "</span>
+                                                            <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
                                                         </label>";
                                                 }
                                             }
@@ -409,10 +390,10 @@
                             <div class="dia-horario">
                                 <label>Sab - <input type="number" name="7F" min="0" max="24" value="0" style="width: 50px;">h</label>
                         </div> -->
-                        <button type="submit" class="btn btn-primary">Criar aluno</button>
+                        <button type="submit" class="btn btn-primary">Guardar alterações</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
         <?php include('./endPage.php'); ?>
     </body>

@@ -1,7 +1,7 @@
 <?php
     session_start(); // Adicione isso no início para garantir que a sessão seja iniciada
     $auxLogin = true; // Define a variável ANTES de incluir conexao
-    include("./db/conexao");
+    include("./db/conexao.php");
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
