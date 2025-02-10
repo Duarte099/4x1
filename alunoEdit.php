@@ -264,8 +264,8 @@
                                     <input type="email" name="email" value="<?php echo $rowAluno['email']; ?>">
                                 </div>
                                 <div class="campo" style="flex: 0 0 34%;">
-                                    <label>CONTATO:</label>
-                                    <input type="text" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
+                                    <label>CONTACTO:</label>
+                                    <input type="number" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
                                 </div>
                             </div>
 
@@ -276,7 +276,7 @@
                                 </div>
                                 <div class="campo" style="flex: 0 0 20%;">
                                     <label>ANO:</label>
-                                    <input type="text" name="ano" value="<?php echo $rowAluno['ano']; ?>">
+                                    <input type="number" name="ano" value="<?php echo $rowAluno['ano']; ?>">
                                 </div>
                             </div>
 
@@ -315,7 +315,7 @@
                                 </div>
                                 <div class="campo" style="flex: 0 0 49%;">
                                     <label>Tlm:</label>
-                                    <input type="text" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
+                                    <input type="number" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
                                 </div>
                             </div>
 
@@ -324,9 +324,9 @@
                                     <label>PAI:</label>
                                     <input type="text" name="pai" value="<?php echo $rowAluno['nomePai']; ?>">
                                 </div>
-                                <div class="campo" style="flex: 0 0 49%;" value="<?php echo $rowAluno['tlmPai']; ?>">
+                                <div class="campo" style="flex: 0 0 49%;">
                                     <label>Tlm:</label>
-                                    <input type="text" name="paiTlm">
+                                    <input type="number" name="paiTlm" value="<?php echo $rowAluno['tlmPai']; ?>">
                                 </div>
                             </div>
                         </div>
@@ -334,9 +334,16 @@
                         <!-- Modalidade e Disciplinas -->
                         <div class="form-section">
                             <div class="form-row">
-                                <div class="campo" style="flex: 0 0 100%;">
+                                <div class="campo" style="flex: 0 0 78%;">
                                     <label>MODALIDADE:</label>
                                     <input type="text" name="modalidade" value="<?php echo $rowAluno['modalidade']; ?>">
+                                </div>
+                                <div class="campo" style="flex: 0 0 20%;">
+                                    <label>ESTADO:</label>
+                                    <select name="estado">
+                                        <option <?php if ($rowAluno['ativo'] == 1) { echo "selected"; }?> value="Ativo">Ativo</option>
+                                        <option <?php if ($rowAluno['ativo'] == 0) { echo "selected"; }?> value="Desativado">Desativado</option>
+                                    </select>
                                 </div>
                             </div>
 

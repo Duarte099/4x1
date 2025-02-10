@@ -7,6 +7,27 @@
         //Obtem o operação 
         $op = $_GET['op'];
 
+        $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+        $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+
+        $nome = $_POST['nome'];
+        $localidade = $_POST['localidade'];
+        $morada = $_POST['morada'];
+        $dataNascimento = $_POST['dataNascimento'];
+        $codigoPostal = $_POST['codigoPostal'];
+        $NIF = $_POST['NIF'];
+        $email = $_POST['email'];
+        $contacto = $_POST['contacto'];
+        $escola = $_POST['escola'];
+        $ano = $_POST['ano'];
+        $curso = $_POST['curso'];
+        $turma = $_POST['turma'];
+        $nomeMae = $_POST['mae'];
+        $tlmMae = $_POST['maeTlm'];
+        $nomePai = $_POST['pai'];
+        $tlmPai = $_POST['paiTlm'];
+        $modalidade = $_POST['modalidade'];
+
         if ($op == 'save') {
             //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard
             if (adminPermissions($con, "adm_001", "insert") == 0) {
@@ -14,48 +35,11 @@
                 exit();
             }
 
-            //Obtem os dados inseridos via POST
-            $nome = $_POST['nome'];
-            $localidade = $_POST['localidade'];
-            $morada = $_POST['morada'];
-            $dataNascimento = $_POST['dataNascimento'];
-            $codigoPostal = $_POST['codigoPostal'];
-            $NIF = $_POST['NIF'];
-            $email = $_POST['email'];
-            $contacto = $_POST['contacto'];
-            $escola = $_POST['escola'];
-            $ano = $_POST['ano'];
-            $curso = $_POST['curso'];
-            $turma = $_POST['turma'];
-            $nomeMae = $_POST['mae'];
-            $tlmMae = $_POST['maeTlm'];
-            $nomePai = $_POST['pai'];
-            $tlmPai = $_POST['paiTlm'];
-            $modalidade = $_POST['modalidade'];
-
-            // $stmt = $con->prepare('SELECT id FROM encarregadoeducacao WHERE nome = ? AND contacto = ?');
-            // $stmt->bind_param('ss', $_POST['mae'], $_POST['maeTlm']);
-            // $stmt->execute(); 
-            // $stmt->store_result();
-            // if ($stmt->num_rows > 0) {
-            //     $stmt->bind_result($idMae);
-            //     $stmt->fetch();
-            // }
-
-            // $stmt = $con->prepare('SELECT id FROM encarregadoeducacao WHERE nome = ? AND contacto = ?');
-            // $stmt->bind_param('ss', $_POST['pai'], $_POST['paiTlm']);
-            // $stmt->execute(); 
-            // $stmt->store_result();
-            // if ($stmt->num_rows > 0) {
-            //     $stmt->bind_result($idPai);
-            //     $stmt->fetch();
-            // }
-
             //query sql para inserir os dados do aluno
             $sql = "INSERT INTO alunos (nome, localidade, morada, dataNascimento, codigoPostal, NIF, email, contacto, escola, ano, curso, turma, nomeMae, tlmMae, nomePai, tlmPai, modalidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("sssssisisisssisis", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $nomeMae, $tlmMae, $nomePai, $tlmpai, $modalidade);
+                $result->bind_param("sssssisisisssisis", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade);
             }
             $result->execute();
 
@@ -77,6 +61,20 @@
                 }
             }
 
+            foreach ($dias as $dia) {
+                foreach ($horas as $hora) {
+                    if (isset($_POST["disponibilidade_" . $dia . "_" . $hora . ""]) && $_POST["disponibilidade_" . $dia . "_" . $hora . ""] == "on") {
+                        $sql = "INSERT INTO alunos_disponibilidade (idAluno, dia, hora, disponibilidade) VALUES (?, ?, ?, ?)";
+                        $result = $con->prepare($sql);
+                        if ($result) {
+                            $disponibilidade = 1;
+                            $result->bind_param("issd", $idAluno, $dia, $hora, $disponibilidade);
+                        }
+                        $result->execute();
+                    }
+                }
+            }
+
             //Após tudo ser concluido redireciona para a página dos alunos
             header('Location: aluno');
         }
@@ -90,7 +88,14 @@
 
             $idAluno = $_GET['idAluno'];
 
-            print_r($_POST);
+            $estado = $_POST['estado'];
+
+            if ($estado == "Ativo") {
+                $estado = 1;
+            }
+            else {
+                $estado = 0;
+            }
 
             $stmt = $con->prepare('SELECT id FROM alunos WHERE id = ?');
             $stmt->bind_param('i', $idAluno);
@@ -101,33 +106,13 @@
                 exit();
             }
 
-            $nome = $_POST['nome'];
-            $localidade = $_POST['localidade'];
-            $morada = $_POST['morada'];
-            $dataNascimento = $_POST['dataNascimento'];
-            $codigoPostal = $_POST['codigoPostal'];
-            $NIF = $_POST['NIF'];
-            $email = $_POST['email'];
-            $contacto = $_POST['contacto'];
-            $escola = $_POST['escola'];
-            $ano = $_POST['ano'];
-            $curso = $_POST['curso'];
-            $turma = $_POST['turma'];
-            $nomeMae = $_POST['mae'];
-            $tlmMae = $_POST['maeTlm'];
-            $nomePai = $_POST['pai'];
-            $tlmPai = $_POST['paiTlm'];
-            $modalidade = $_POST['modalidade'];
-
-            $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ? WHERE id = ?";
+            $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ?, ativo = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("sssssisisisssisisi", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $nomeMae, $tlmMae, $nomePai, $tlmpai, $modalidade, $idAluno);
+                $result->bind_param("sssssisisisssisisii", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $estado, $idAluno);
             }
             $result->execute();
-
-            $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
-            $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+            
             
             foreach ($dias as $dia) {
                 foreach ($horas as $hora) {
@@ -192,8 +177,7 @@
                     }
                 }
             }
-
-            // header('Location: alunoEdit?idAluno=' . $idAluno);
+            header('Location: alunoEdit?idAluno=' . $idAluno);
         }
         else {
             header('Location: dashboard');
