@@ -5,7 +5,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-        if ($stmt = $con->prepare('SELECT id, pass, name as nomeX, email, img, active FROM administrator WHERE user = ? OR email = ?')) {
+        if ($stmt = $con->prepare('SELECT id, pass, nome as nomeX, email, img, ativo FROM professores WHERE user = ? OR email = ?')) {
             // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
             $stmt->bind_param('ss', $_POST['username'], $_POST['username']);
             $stmt->execute();

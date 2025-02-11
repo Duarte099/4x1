@@ -50,31 +50,31 @@
                       <thead>
                         <tr>
                           <th>Nome</th>
-                          <th>Ensino</th>
-                          <th>Data Nascimento</th>
+                          <th>Email</th>
+                          <th>Contacto</th>
                           <th style="width: 10%">Ação</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
                           //query para selecionar todos os administradores
-                          $sql = "SELECT id, nome, ano, dataNascimento, IF(ano>=1 AND ano<=4, \"1º CICLO\", IF(ano>4 AND ano<7, \"2º CICLO\", IF(ano>6 AND ano<=9, \"3º CICLO\", \"SECUNDÁRIO e OUTROS\"))) as ensino FROM alunos WHERE ativo = 1 ORDER BY (ano = 0), ano ASC;";
+                          $sql = "SELECT id, nome, email, contacto FROM professores ORDER BY ativo DESC;";
                           $result = $con->query($sql);
                           if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                               //mostra os resultados todos 
                               echo "<tr>
                                       <td>{$row['nome']}</td>
-                                      <td>{$row['ensino']}</td>
-                                      <td>{$row['dataNascimento']}</td>
+                                      <td>{$row['email']}</td>
+                                      <td>{$row['contacto']}</td>
                                       <td>
                                         <div class=\"form-button-action\">
                                           <button
                                             type=\"button\"
                                             data-bs-toggle=\"tooltip\"
-                                            onclick=\"window.location.href='alunoEdit?idAluno=" . $row['id'] . "&op=edit'\"
+                                            onclick=\"window.location.href='professorEdit?idProf=" . $row['id'] . "&op=edit'\"
                                             class=\"btn btn-link btn-primary btn-lg\"
-                                            data-original-title=\"Editar Aluno\"
+                                            data-original-title=\"Editar Professor\"
                                           >
                                             <i class=\"fa fa-edit\"></i>
                                           </button>

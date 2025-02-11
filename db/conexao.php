@@ -25,7 +25,7 @@
         }
 
         // Verificação da password para segurança das paginas
-        $sql = "SELECT * FROM administrator WHERE id = " . $_SESSION['id'] . " AND pass = '" . $_SESSION['password'] . "';";
+        $sql = "SELECT * FROM professores WHERE id = " . $_SESSION['id'] . " AND pass = '" . $_SESSION['password'] . "';";
         $result = $con->query($sql);
         if ($result->num_rows <= 0) {
             header('Location: index');

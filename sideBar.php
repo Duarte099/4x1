@@ -85,6 +85,12 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item <?php echo ($estouEm == 4) ? 'active' : ''; ?>">
+                    <a href="presenca">
+                        <i class="fas fa-home"></i>
+                        <p>Registro de presença</p>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

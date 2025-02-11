@@ -76,7 +76,7 @@
 
         switch ($perm) {
             case "view":
-                $sql = "SELECT pView, cod FROM modules INNER JOIN administrator_modules ON modules.id = administrator_modules.idModule WHERE cod = '$codModule' AND idAdministrator = $idAdminPerms;";
+                $sql = "SELECT pView, cod FROM modulos INNER JOIN professores_modulos ON modulos.id = professores_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
                 $result = $con->query($sql);
                 if ($result->num_rows > 0) { 
                     $row = $result->fetch_assoc();
@@ -84,7 +84,7 @@
                 }
                 break;
             case "insert":
-                $sql = "SELECT pInsert, cod FROM modules INNER JOIN administrator_modules ON modules.id = administrator_modules.idModule WHERE cod = '$codModule' AND idAdministrator = $idAdminPerms;";
+                $sql = "SELECT pInsert, cod FROM modulos INNER JOIN professores_modulos ON modulos.id = professores_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
                 $result = $con->query($sql);
                 if ($result->num_rows > 0) { 
                     $row = $result->fetch_assoc();
@@ -92,7 +92,7 @@
                 }
                 break;
             case "update":
-                $sql = "SELECT pUpdate, cod FROM modules INNER JOIN administrator_modules ON modules.id = administrator_modules.idModule WHERE cod = '$codModule' AND idAdministrator = $idAdminPerms;";
+                $sql = "SELECT pUpdate, cod FROM modulos INNER JOIN professores_modulos ON modulos.id = professores_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
                 $result = $con->query($sql);
                 if ($result->num_rows > 0) {    
                     $row = $result->fetch_assoc();
@@ -100,7 +100,7 @@
                 }
                 break;
             case "delete":
-                $sql = "SELECT pDelete, cod FROM modules INNER JOIN administrator_modules ON modules.id = administrator_modules.idModule WHERE cod = '$codModule' AND idAdministrator = $idAdminPerms;";
+                $sql = "SELECT pDelete, cod FROM modulos INNER JOIN professores_modulos ON modulos.id = professores_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
                 $result = $con->query($sql);
                 if ($result->num_rows > 0) {    
                     $row = $result->fetch_assoc();
@@ -114,7 +114,7 @@
         include('./db/conexao.php');
 
         // Inserir na tabela de logs
-        $query = "INSERT INTO administrator_logs (idAdministrator, logFile) VALUES (?, ?)";
+        $query = "INSERT INTO professores_logs (idProfessor, logFile) VALUES (?, ?)";
 
         $stmt = $con->prepare($query);
         $stmt->bind_param('is', $_SESSION['id'], $mensagem);

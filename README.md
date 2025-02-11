@@ -5,3 +5,5 @@ PACKS:
 18 horas/mes
 
 Tabela de alunos atualmente serve para o seguro, a tabela de alunos deve ser diferente
+
+colocar notificações de edit apagar criar etc
