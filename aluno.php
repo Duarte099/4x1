@@ -72,7 +72,7 @@
                                           <button
                                             type=\"button\"
                                             data-bs-toggle=\"tooltip\"
-                                            onclick=\"window.location.href='alunoEdit?idAluno=" . $row['id'] . "&op=edit'\"
+                                            onclick=\"window.location.href='alunoEdit?idAluno=" . $row['id'] . "'\"
                                             class=\"btn btn-link btn-primary btn-lg\"
                                             data-original-title=\"Editar Aluno\"
                                           >

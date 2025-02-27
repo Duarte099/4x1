@@ -29,61 +29,17 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 2) ? 'active' : ''; ?> submenu">
-                    <a data-bs-toggle="collapse" href="#alunos">
-                        <i class="fas fa-th-list"></i>
+                <li class="nav-item <?php echo ($estouEm == 2) ? 'active' : ''; ?>">
+                    <a href="aluno">
+                        <i class="fas fa-home"></i>
                         <p>Alunos</p>
-                        <span class="caret"></span>
                     </a>
-                    <div class="collapse show" id="alunos">
-                        <ul class="nav nav-collapse">
-                            <li <?php echo ($estouEm == 2 && $estouEm2 == 1) ? 'class="active"' : ''; ?>>
-                                <a href="aluno">
-                                    <span class="sub-item">Ver Alunos</span>
-                                </a>
-                            </li>
-                            <li <?php echo ($estouEm == 2 && $estouEm2 == 2) ? 'class="active"' : ''; ?>>
-                                <a href="alunoCriar">
-                                <span class="sub-item">Criar Aluno</span>
-                                </a>
-                            </li>
-                            <?php if ($estouEm == 2 && $estouEm2 == 3) { ?>
-                                <li class="active">
-                                    <a href="alunoEdit?idAluno=<?php echo $idAluno?>&op=edit">
-                                    <span class="sub-item">Editar Aluno</span>
-                                    </a>
-                                </li>
-                            <?php } ?>
-                        </ul>
-                    </div>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 3) ? 'active' : ''; ?> submenu">
-                    <a data-bs-toggle="collapse" href="#professores">
-                        <i class="fas fa-th-list"></i>
+                <li class="nav-item <?php echo ($estouEm == 3) ? 'active' : ''; ?>">
+                    <a href="professor">
+                        <i class="fas fa-home"></i>
                         <p>Professores</p>
-                        <span class="caret"></span>
                     </a>
-                    <div class="collapse show" id="professores">
-                        <ul class="nav nav-collapse">
-                            <li <?php echo ($estouEm == 3 && $estouEm2 == 1) ? 'class="active"' : ''; ?>>
-                                <a href="professor">
-                                    <span class="sub-item">Ver Professores</span>
-                                </a>
-                            </li>
-                            <li <?php echo ($estouEm == 3 && $estouEm2 == 2) ? 'class="active"' : ''; ?>>
-                                <a href="professorCriar">
-                                <span class="sub-item">Criar Professor</span>
-                                </a>
-                            </li>
-                            <?php if ($estouEm == 3 && $estouEm2 == 3) { ?>
-                                <li class="active">
-                                    <a href="professorEdit?idProfessor=<?php echo $idProfessor?>&op=edit">
-                                    <span class="sub-item">Editar Professor</span>
-                                    </a>
-                                </li>
-                            <?php } ?>
-                        </ul>
-                    </div>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 4) ? 'active' : ''; ?>">
                     <a href="presenca">

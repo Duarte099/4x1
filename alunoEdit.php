@@ -16,7 +16,7 @@
     $idAluno = $_GET['idAluno'];
 
     //Obtem todas as informações do aluno que está a ser editado
-    $sql = "SELECT * FROM alunos WHERE id = '$idAluno'";
+    $sql = "SELECT * FROM alunos WHERE alunos.id = '$idAluno'";
     $result = $con->query($sql);
     //Se houver um aluno com o id recebido, guarda as informações
     if ($result->num_rows > 0) {
@@ -29,7 +29,15 @@
     }
 ?>
     <title>4x1 | Editar Aluno</title>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css'>
     <style>
+        .fc-day-header[data-date="0"],
+        .fc-day[data-date$="-0"] {
+            display: none;
+        }
+
         h1 {
             text-align: center;
             color: #343a40;
@@ -151,6 +159,8 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        
+
         /* Responsividade */
         @media (max-width: 768px) {
             .form-row {
@@ -161,258 +171,416 @@
             }
         }
     </style>
+    <script>
+        $(window).on('load', function() {
+            setTimeout(function() {
+                $('#calendar').fullCalendar('render');
+            }, 500); // Tempo suficiente para o carregamento da página
+        });
+    </script>
 </head>
     <body>
         <div class="wrapper">
-            <?php 
+            <?php
                 include('./sideBar.php'); 
             ?>
-            <form action="alunoInserir?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
-                <div
-                    class="modal fade"
-                    id="addRowModal"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-hidden="true"
-                >
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <h1>DISPONIBILIDADE</h1>
-                            <table>
-                                <tr>
-                                    <th>Segunda</th>
-                                    <th>Terça</th>
-                                    <th>Quarta</th>
-                                    <th>Quinta</th>
-                                    <th>Sexta</th>
-                                    <th>Sábado</th>
-                                </tr>
-                                <?php 
-                                    $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
-                                    $horasFDS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
-                                    $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-                                
-                                    for ($i = 1; $i <= 11; $i++) {
-                                        echo "<tr>";
-                                        foreach ($dias as $dia) {
-                                            $hora = ($dia == 'Sábado') ? ($horasFDS[$i] ?? '') : ($horas[$i] ?? '');
-                                            $disponibilidade = 0;
-                                            $sql = "SELECT disponibilidade FROM alunos_disponibilidade WHERE idAluno = ? AND dia = ? AND hora = ?";
-                                            $result = $con->prepare($sql);
-                                            $result->bind_param('iss', $idAluno, $dia, $hora);
-                                            $result->execute(); 
-                                            $result->store_result();
-                                            $result->bind_result($disponibilidade);
-                                            $result->fetch();
-                                            if ($disponibilidade == 1) {
-                                                $estado = "checked=\"\"";
-                                            }
-                                            else{
-                                                $estado = "";
-                                            }
-
-                                            if ($hora) {
-                                                echo "<td>
-                                                        <label class='selectgroup-item' id='selectgroup-item'>
-                                                            <input type=\"checkbox\" name=\"disponibilidade_" . $dia . "_" . $hora . "\" class=\"selectgroup-input\" id=\"selectgroup-input\" " . $estado . "/>
-                                                            <span class='selectgroup-button' id='selectgroup-button'>$hora</span>
-                                                        </label>
-                                                    </td>";
-                                            } else {
-                                                echo "<td></td>";
-                                            }
-                                        }
-                                        echo "</tr>";
-                                    }
-                                ?>
-                            </table>
-                        </div>
-                    </div>
+            <div class="container">
+                <div class="tab">
+                    <button class="tablinks" onclick="openTab(event, 'editarAluno')" id="defaultOpen">Ficha do Aluno</button>
+                    <button class="tablinks" onclick="openTab(event, 'registroPresenca')" id="defaultOpen">Registo de presença</button>
+                    <button class="tablinks" onclick="openTab(event, 'recibo')" id="defaultOpen">Recibo</button>
                 </div>
-                <div class="page-inner">
-                    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
-                        <div>
-                            <h2 class="fw-bold mb-3">Ficha do aluno</h2>
-                        </div>
-                    </div>
-                    <div class="container2">
-                        <div class="form-section">
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 99.5%;">
-                                    <label>NOME:</label>
-                                    <input type="text" name="nome" value="<?php echo $rowAluno['nome']; ?>">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 64%;">
-                                    <label>MORADA:</label>
-                                    <input type="text" name="morada" value="<?php echo $rowAluno['morada']; ?>">
-                                </div>
-                                <div class="campo" style="flex: 0 0 34%;">
-                                    <label>LOCALIDADE:</label>
-                                    <input type="text" name="localidade" value="<?php echo $rowAluno['localidade']; ?>">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 31%;">
-                                    <label>CÓDIGO POSTAL:</label>
-                                    <input type="text" name="codigoPostal" value="<?php echo $rowAluno['codigoPostal']; ?>">
-                                </div>
-                                <div class="campo" style="flex: 0 0 32%;">
-                                    <label>NIF:</label>
-                                    <input type="number" name="NIF" value="<?php echo $rowAluno['nif']; ?>">
-                                </div>
-                                <div class="campo" style="flex: 0 0 34%;">
-                                    <label>DATA DE NASCIMENTO:</label>
-                                    <input type="date" name="dataNascimento" value="<?php echo $rowAluno['dataNascimento']; ?>">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 64%;">
-                                    <label>EMAIL:</label>
-                                    <input type="email" name="email" value="<?php echo $rowAluno['email']; ?>">
-                                </div>
-                                <div class="campo" style="flex: 0 0 34%;">
-                                    <label>CONTACTO:</label>
-                                    <input type="number" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 78%;">
-                                    <label>ESCOLA:</label>
-                                    <input type="text" name="escola" value="<?php echo $rowAluno['escola']; ?>">
-                                </div>
-                                <div class="campo" style="flex: 0 0 20%;">
-                                    <label>ANO:</label>
-                                    <input type="number" name="ano" value="<?php echo $rowAluno['ano']; ?>">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 78%;">
-                                    <label>CURSO:</label>
-                                    <input type="text" name="curso" value="<?php echo $rowAluno['curso']; ?>">
-                                </div>
-                                <div class="campo" style="flex: 0 0 20%;">
-                                    <label>TURMA:</label>
-                                    <input type="text" name="turma" value="<?php echo $rowAluno['turma']; ?>">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 100%;">
-                                    <label>DISPONIBILIDADE:</label>
-                                    <button
-                                        type="button"
-                                        class="btn btn-primary"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#addRowModal"
-                                    >
-                                        <!-- <i class="fa fa-up-right-from-square"> -->
-                                        DISPONIBILIDADE
-                                    </button>
-                                </div>
-                            </div>      
-                        </div>
-
-                        <!-- Seção de pais -->
-                        <div class="form-section">
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 49%;">
-                                    <label>MÃE:</label>
-                                    <input type="text" name="mae" value="<?php echo $rowAluno['nomeMae']; ?>">
-                                </div>
-                                <div class="campo" style="flex: 0 0 49%;">
-                                    <label>Tlm:</label>
-                                    <input type="number" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 49%;">
-                                    <label>PAI:</label>
-                                    <input type="text" name="pai" value="<?php echo $rowAluno['nomePai']; ?>">
-                                </div>
-                                <div class="campo" style="flex: 0 0 49%;">
-                                    <label>Tlm:</label>
-                                    <input type="number" name="paiTlm" value="<?php echo $rowAluno['tlmPai']; ?>">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Modalidade e Disciplinas -->
-                        <div class="form-section">
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 78%;">
-                                    <label>MODALIDADE:</label>
-                                    <input type="text" name="modalidade" value="<?php echo $rowAluno['modalidade']; ?>">
-                                </div>
-                                <div class="campo" style="flex: 0 0 20%;">
-                                    <label>ESTADO:</label>
-                                    <select name="estado" class="select-box">
-                                        <option <?php if ($rowAluno['ativo'] == 1) { echo "selected"; }?> value="Ativo">Ativo</option>
-                                        <option <?php if ($rowAluno['ativo'] == 0) { echo "selected"; }?> value="Desativado">Desativado</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="campo" style="flex: 0 0 100%;">
-                                    <label>DISCIPLINAS:</label>
-                                    <div class="selectgroup selectgroup-pills">
+                <div id="editarAluno" class="tabcontent">
+                    <form action="alunoInserir?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
+                        <div
+                            class="modal fade"
+                            id="addRowModal"
+                            tabindex="-1"
+                            role="dialog"
+                            aria-hidden="true"
+                        >
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <h1>DISPONIBILIDADE</h1>
+                                    <table>
+                                        <tr>
+                                            <th>Segunda</th>
+                                            <th>Terça</th>
+                                            <th>Quarta</th>
+                                            <th>Quinta</th>
+                                            <th>Sexta</th>
+                                            <th>Sábado</th>
+                                        </tr>
                                         <?php 
-                                            $sql = "SELECT id, nome FROM disciplinas;";
-                                            $result = $con->query($sql);
-                                            if ($result->num_rows > 0) {
-                                                while ($row = $result->fetch_assoc()) {
-                                                    $sql = "SELECT * FROM alunos_disciplinas WHERE idAluno = ? AND idDisciplina = ?";
-                                                    $result1 = $con->prepare($sql);
-                                                    $result1->bind_param('ii', $idAluno, $row['id']);
-                                                    $result1->execute(); 
-                                                    $result1->store_result();
-                                                    if ($result1->num_rows > 0) {
+                                            $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+                                            $horasFDS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
+                                            $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+                                        
+                                            for ($i = 1; $i <= 11; $i++) {
+                                                echo "<tr>";
+                                                foreach ($dias as $dia) {
+                                                    $hora = ($dia == 'Sábado') ? ($horasFDS[$i] ?? '') : ($horas[$i] ?? '');
+                                                    $disponibilidade = 0;
+                                                    $sql = "SELECT disponibilidade FROM alunos_disponibilidade WHERE idAluno = ? AND dia = ? AND hora = ?";
+                                                    $result = $con->prepare($sql);
+                                                    $result->bind_param('iss', $idAluno, $dia, $hora);
+                                                    $result->execute(); 
+                                                    $result->store_result();
+                                                    $result->bind_result($disponibilidade);
+                                                    $result->fetch();
+                                                    if ($disponibilidade == 1) {
                                                         $estado = "checked=\"\"";
                                                     }
                                                     else{
                                                         $estado = "";
                                                     }
-                                                    echo "<label class='selectgroup-item'>
-                                                            <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
-                                                            <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
-                                                        </label>";
+
+                                                    if ($hora) {
+                                                        echo "<td>
+                                                                <label class='selectgroup-item' id='selectgroup-item'>
+                                                                    <input type=\"checkbox\" name=\"disponibilidade_" . $dia . "_" . $hora . "\" class=\"selectgroup-input\" id=\"selectgroup-input\" " . $estado . "/>
+                                                                    <span class='selectgroup-button' id='selectgroup-button'>$hora</span>
+                                                                </label>
+                                                            </td>";
+                                                    } else {
+                                                        echo "<td></td>";
+                                                    }
                                                 }
+                                                echo "</tr>";
                                             }
                                         ?>
-                                    </div>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="horario">
-                            <div class="dia-horario">
-                                <label>2ªF - <input type="number" name="2F" min="0" max="24" value="0" style="width: 50px;">h</label>
+                        <div class="page-inner">
+                            <div class="container2">
+                                <div class="form-section">
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 99.5%;">
+                                            <label>NOME:</label>
+                                            <input type="text" name="nome" value="<?php echo $rowAluno['nome']; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 64%;">
+                                            <label>MORADA:</label>
+                                            <input type="text" name="morada" value="<?php echo $rowAluno['morada']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 34%;">
+                                            <label>LOCALIDADE:</label>
+                                            <input type="text" name="localidade" value="<?php echo $rowAluno['localidade']; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 31%;">
+                                            <label>CÓDIGO POSTAL:</label>
+                                            <input type="text" name="codigoPostal" value="<?php echo $rowAluno['codigoPostal']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 32%;">
+                                            <label>NIF:</label>
+                                            <input type="number" name="NIF" value="<?php echo $rowAluno['nif']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 34%;">
+                                            <label>DATA DE NASCIMENTO:</label>
+                                            <input type="date" name="dataNascimento" value="<?php echo $rowAluno['dataNascimento']; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 64%;">
+                                            <label>EMAIL:</label>
+                                            <input type="email" name="email" value="<?php echo $rowAluno['email']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 34%;">
+                                            <label>CONTACTO:</label>
+                                            <input type="number" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 78%;">
+                                            <label>ESCOLA:</label>
+                                            <input type="text" name="escola" value="<?php echo $rowAluno['escola']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 20%;">
+                                            <label>ANO:</label>
+                                            <input type="number" name="ano" value="<?php echo $rowAluno['ano']; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 78%;">
+                                            <label>CURSO:</label>
+                                            <input type="text" name="curso" value="<?php echo $rowAluno['curso']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 20%;">
+                                            <label>TURMA:</label>
+                                            <input type="text" name="turma" value="<?php echo $rowAluno['turma']; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 100%;">
+                                            <label>DISPONIBILIDADE:</label>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#addRowModal"
+                                            >
+                                                <!-- <i class="fa fa-up-right-from-square"> -->
+                                                DISPONIBILIDADE
+                                            </button>
+                                        </div>
+                                    </div>      
+                                </div>
+
+                                <!-- Seção de pais -->
+                                <div class="form-section">
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 49%;">
+                                            <label>MÃE:</label>
+                                            <input type="text" name="mae" value="<?php echo $rowAluno['nomeMae']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 49%;">
+                                            <label>Tlm:</label>
+                                            <input type="number" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 49%;">
+                                            <label>PAI:</label>
+                                            <input type="text" name="pai" value="<?php echo $rowAluno['nomePai']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 49%;">
+                                            <label>Tlm:</label>
+                                            <input type="number" name="paiTlm" value="<?php echo $rowAluno['tlmPai']; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modalidade e Disciplinas -->
+                                <div class="form-section">
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 78%;">
+                                            <label>MODALIDADE:</label>
+                                            <input type="text" name="modalidade" value="<?php echo $rowAluno['modalidade']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 20%;">
+                                            <label>ESTADO:</label>
+                                            <select name="estado" class="select-box">
+                                                <option <?php if ($rowAluno['ativo'] == 1) { echo "selected"; }?> value="Ativo">Ativo</option>
+                                                <option <?php if ($rowAluno['ativo'] == 0) { echo "selected"; }?> value="Desativado">Desativado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 100%;">
+                                            <label>DISCIPLINAS:</label>
+                                            <div class="selectgroup selectgroup-pills">
+                                                <?php 
+                                                    $sql = "SELECT id, nome FROM disciplinas;";
+                                                    $result = $con->query($sql);
+                                                    if ($result->num_rows > 0) {
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            $sql = "SELECT * FROM alunos_disciplinas WHERE idAluno = ? AND idDisciplina = ?";
+                                                            $result1 = $con->prepare($sql);
+                                                            $result1->bind_param('ii', $idAluno, $row['id']);
+                                                            $result1->execute(); 
+                                                            $result1->store_result();
+                                                            if ($result1->num_rows > 0) {
+                                                                $estado = "checked=\"\"";
+                                                            }
+                                                            else{
+                                                                $estado = "";
+                                                            }
+                                                            echo "<label class='selectgroup-item'>
+                                                                    <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
+                                                                    <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
+                                                                </label>";
+                                                        }
+                                                    }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Guardar alterações</button>
                             </div>
-                            <div class="dia-horario">
-                                <label>3ªF - <input type="number" name="3F" min="0" max="24" value="0" style="width: 50px;">h</label>
+                        </div>
+                    </form>
+                </div>
+                <div id="registroPresenca" class="tabcontent">
+                    <div class="ui container">
+                        <div class="ui grid">
+                            <div class="ui sixteen column">
+                                <div id="calendar"></div>
                             </div>
-                            <div class="dia-horario">
-                                <label>4ªF - <input type="number" name="4F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                            </div>
-                            <div class="dia-horario">
-                                <label>5ªF - <input type="number" name="5F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                            </div>
-                            <div class="dia-horario">
-                                <label>6ªF - <input type="number" name="6F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                            </div>
-                            <div class="dia-horario">
-                                <label>Sab - <input type="number" name="7F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                        </div> -->
-                        <button type="submit" class="btn btn-primary">Guardar alterações</button>
+                        </div>
                     </div>
                 </div>
-            </form>
+
+                <!-- Carregar scripts na ordem correta -->
+                <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
+                <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+                <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/pt.js'></script>
+
+                <script>
+                    $(document).ready(function() {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const idAluno = urlParams.get('idAluno');
+
+                        const presenca = [];
+                        const results = [];
+
+                        $.ajax({
+                            url: 'json.obterPresenca.php?idAluno='+idAluno,
+                            type: 'POST',
+                            success: function(data) {
+                                results.push(...data);
+                                var eventos = [];
+                                if (results.length > 0) {
+                                    results.forEach((result) => {
+                                        eventos.push({
+                                            title: result.nomeDisc + ' | ' + result.nomeProf,
+                                            start: result.dia + 'T' + result.horaInicio,
+                                            end: result.dia + 'T' + result.horaFim,
+                                        });
+                                    });
+                                }
+                                $('#calendar').fullCalendar({
+                                    header: {
+                                        left: 'prev,next today',
+                                        center: 'title',
+                                        right: 'month,agendaWeek,agendaDay'
+                                    },
+                                    locale: 'pt', // Definir idioma para português
+                                    firstDay: 1, // Iniciar a semana na segunda-feira
+                                    hiddenDays: [0], // Esconder os domingos
+                                    navLinks: true,
+                                    editable: false,
+                                    eventStartEditable: false,
+                                    eventDurationEditable: false, 
+                                    eventLimit: true,
+                                    slotLabelFormat: 'HH:mm',
+                                    events: eventos,
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                $('#calendar').fullCalendar({
+                                    header: {
+                                        left: 'prev,next today',
+                                        center: 'title',
+                                        right: 'month,agendaWeek,agendaDay'
+                                    },
+                                    locale: 'pt', // Definir idioma para português
+                                    firstDay: 1, // Iniciar a semana na segunda-feira
+                                    hiddenDays: [0], // Esconder os domingos
+                                    navLinks: true,
+                                    editable: false,
+                                    eventStartEditable: false,
+                                    eventDurationEditable: false, 
+                                    eventLimit: true,
+                                    slotLabelFormat: 'HH:mm',
+                                });
+                            }
+                        });
+                    });
+                </script>
+                <div id="recibo" class="tabcontent">
+                    <form action="alunoInserir?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
+                        <div class="page-inner">
+                            <div class="container2">
+                                <div class="form-section">
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 64%;">
+                                            <label>NOME:</label>
+                                            <input type="text" name="nome" list="datalistNomes" readonly value="<?php echo $rowAluno['nome']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 34%;">
+                                            <label>Pack:</label>
+                                            <input type="text" name="pack" id="pack" readonly value="<?php echo $rowAluno['pack'] . " horas"; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 49%;">
+                                            <label>HORA:</label>
+                                            
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 49%;">
+                                            <label>DIA:</label>
+                                            <input type="date" name="dia" value="<?php echo date('Y-m-d'); ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Registrar hora</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <script>
+                function atualizarCampos(input) {
+                    // O valor do input é o ID do aluno, conforme definido nas opções do datalist
+                    var partes = input.value.split(" | ");
+                    var alunoId = partes[0];
+                    
+                    // Se um valor for selecionado (não vazio)
+                    if(alunoId !== "") {
+                    // Realiza a requisição AJAX para obter os dados do aluno
+                    $.ajax({
+                        url: 'json.obterNome.php',
+                        type: 'GET',
+                        data: { idAluno: alunoId},
+                        success: function(response) {
+                        var data = JSON.parse(response);
+                        if (data == "erro") {
+                            document.getElementById("pack").value = "";
+                            document.getElementById("disciplinasContainer").style.display = "none";
+                        }
+                        else{
+                            document.getElementById("pack").value = data.pack + " horas";
+                            if (data.ciclo == 1) {
+                            document.getElementById("disciplinasContainer").style.display = "none";
+                            } else {
+                            document.getElementById("disciplinasContainer").style.display = "block";
+                            }
+                        }
+                        },
+                        error: function() {
+                        console.error('Erro ao buscar o nome.');
+                        }
+                    });
+                    } else {
+                    // Se não houver um ID válido, limpa o campo Pack
+                    document.getElementById("pack").value = "";
+                    document.getElementById("disciplinasContainer").style.display = "none";
+                    }
+                }
+
+                function openTab(evt, tabName) {
+                    var i, tabcontent, tablinks;
+                    
+                    tabcontent = document.getElementsByClassName("tabcontent");
+                    for (i = 0; i < tabcontent.length; i++) {
+                        tabcontent[i].style.display = "none";
+                    }
+                    tablinks = document.getElementsByClassName("tablinks");
+                    for (i = 0; i < tablinks.length; i++) {
+                        tablinks[i].className = tablinks[i].className.replace(" active", "");
+                    }
+                    
+                    document.getElementById(tabName).style.display = "block";
+                    evt.currentTarget.className += " active";
+                }
+                // Get the element with id="defaultOpen" and click on it
+                document.getElementById("defaultOpen").click();
+            </script>
         </div>
         <?php include('./endPage.php'); ?>
     </body>
