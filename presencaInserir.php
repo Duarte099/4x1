@@ -30,11 +30,16 @@
             $anoLetivo = $_POST['anoLetivo'];
             $hora = $_POST['hora'];
             $dia = $_POST['dia'];
+            if (isset($_POST['individual']) && $_POST['individual'] == "on") {
+                $individual = 1;
+            } else {
+                $individual = 0;
+            }
 
-            $sql = "INSERT INTO alunos_presenca (idAluno, idDisciplina, idProfessor, anoLetivo, hora, dia, criado_por) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO alunos_presenca (idAluno, idDisciplina, idProfessor, anoLetivo, hora, dia, individual, criado_por) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("iiisssi", $idAluno, $idDisciplina, $idAdmin, $anoLetivo, $hora, $dia, $idAdmin);
+                $result->bind_param("iiisssii", $idAluno, $idDisciplina, $idAdmin, $anoLetivo, $hora, $dia, $individual, $idAdmin);
             }
             $result->execute();
 

@@ -22,11 +22,19 @@
         $ano = $_POST['ano'];
         $curso = $_POST['curso'];
         $turma = $_POST['turma'];
+        $horasGrupo = $_POST['horasGrupo'];
+        $horasIndividual = $_POST['horasIndividual'];
         $nomeMae = $_POST['mae'];
         $tlmMae = $_POST['maeTlm'];
         $nomePai = $_POST['pai'];
         $tlmPai = $_POST['paiTlm'];
         $modalidade = $_POST['modalidade'];
+
+        if (isset($_POST['transporte']) && $_POST['transporte'] == "on") {
+            $transporte = 1;
+        } else {
+            $transporte = 0;
+        }
 
         if ($op == 'save') {
             //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard
@@ -36,10 +44,10 @@
             }
 
             //query sql para inserir os dados do aluno
-            $sql = "INSERT INTO alunos (nome, localidade, morada, dataNascimento, codigoPostal, NIF, email, contacto, escola, ano, curso, turma, nomeMae, tlmMae, nomePai, tlmPai, modalidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO alunos (nome, localidade, morada, dataNascimento, codigoPostal, NIF, email, contacto, escola, ano, curso, turma, horasGrupo, horasIndividual, transporte, nomeMae, tlmMae, nomePai, tlmPai, modalidade) VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("sssssisisisssisis", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade);
+                $result->bind_param("sssssisisissiiisisis", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade);
             }
             $result->execute();
 
@@ -106,11 +114,12 @@
                 exit();
             }
 
-            $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ?, ativo = ? WHERE id = ?";
+            $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, horasGrupo = ?, horasIndividual = ?, transporte = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ?, ativo = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("sssssisisisssisisii", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $estado, $idAluno);
+                $result->bind_param("sssssisisissiiisisisii", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $estado, $idAluno);
             }
+
             $result->execute();
             
             
@@ -177,7 +186,7 @@
                     }
                 }
             }
-            header('Location: alunoEdit?idAluno=' . $idAluno);
+            // header('Location: alunoEdit?idAluno=' . $idAluno);
         }
         else {
             header('Location: dashboard');

@@ -15,17 +15,39 @@
     //Obtem o id do admin via GET
     $idAluno = $_GET['idAluno'];
 
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
+
     //Obtem todas as informações do aluno que está a ser editado
     $sql = "SELECT * FROM alunos WHERE alunos.id = '$idAluno'";
     $result = $con->query($sql);
     //Se houver um aluno com o id recebido, guarda as informações
     if ($result->num_rows > 0) {
         $rowAluno = $result->fetch_assoc();
+        if (isset($row['transporte']) && $row['transporte'] == 1) {
+            $transporte = "checked";
+        }
+        else {
+            $transporte = "";
+        }
     }
     //Caso contrário volta para a dashboard para não dar erro
     else{
         header('Location: dashboard');
         exit();
+    }
+
+    $mesAtual = isset($_GET['mes']) ? $_GET['mes'] : date("m-Y");
+
+    //HORAS EM GRUPO
+    $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = $idAluno AND DATE_FORMAT(dia, '%m-%Y') = '$mesAtual'";
+    $result = $con->query($sql);
+    //Se houver um aluno com o id recebido, guarda as informações
+    if ($result->num_rows >= 0) {
+        $row = $result->fetch_assoc();
+        $horasRealizadas = $row['horasRealizadas'];
+    }
+    else{
+        $horasRealizadas = 0;
     }
 ?>
     <title>4x1 | Editar Aluno</title>
@@ -159,8 +181,6 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        
-
         /* Responsividade */
         @media (max-width: 768px) {
             .form-row {
@@ -187,7 +207,7 @@
             <div class="container">
                 <div class="tab">
                     <button class="tablinks" onclick="openTab(event, 'editarAluno')" id="defaultOpen">Ficha do Aluno</button>
-                    <button class="tablinks" onclick="openTab(event, 'registroPresenca')" id="defaultOpen">Registo de presença</button>
+                    <button class="tablinks" onclick="openTab(event, 'registroPresenca')" id="defaultOpen">Calendário de presença</button>
                     <button class="tablinks" onclick="openTab(event, 'recibo')" id="defaultOpen">Recibo</button>
                 </div>
                 <div id="editarAluno" class="tabcontent">
@@ -321,20 +341,34 @@
                                             <input type="text" name="turma" value="<?php echo $rowAluno['turma']; ?>">
                                         </div>
                                     </div>
+
                                     <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 100%;">
+                                        <div class="campo" style="flex: 0 0 23%;">
                                             <label>DISPONIBILIDADE:</label>
                                             <button
                                                 type="button"
                                                 class="btn btn-primary"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#addRowModal"
+                                                style="padding: 3px;"
                                             >
                                                 <!-- <i class="fa fa-up-right-from-square"> -->
                                                 DISPONIBILIDADE
                                             </button>
                                         </div>
-                                    </div>      
+                                        <div class="campo" style="flex: 0 0 23%;">
+                                            <label>HORAS GRUPO:</label>
+                                            <input type="number" name="horasGrupo" min="0" value="<?php echo $rowAluno['horasGrupo']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 23%;">
+                                            <label>HORAS INDIVIDUAL:</label>
+                                            <input type="number" name="horasIndividual" min="0" value="<?php echo $rowAluno['horasIndividual']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 10%;">
+                                            <label>TRANSPORTE:</label>
+                                            <input class="form-check-input" type="checkbox" name="transporte" style="width: 25px; height: 25px; padding: 5px; border: 1px solid #ccc;" id="flexCheckDefault" <?php echo $transporte; ?>>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Seção de pais -->
@@ -477,9 +511,9 @@
                                         center: 'title',
                                         right: 'month,agendaWeek,agendaDay'
                                     },
-                                    locale: 'pt', // Definir idioma para português
-                                    firstDay: 1, // Iniciar a semana na segunda-feira
-                                    hiddenDays: [0], // Esconder os domingos
+                                    locale: 'pt',
+                                    firstDay: 1,
+                                    hiddenDays: [0],
                                     navLinks: true,
                                     editable: false,
                                     eventStartEditable: false,
@@ -492,33 +526,82 @@
                     });
                 </script>
                 <div id="recibo" class="tabcontent">
+                    <form action="" method="GET">
+                        <div class="select-container">
+                            <input type="hidden" style="display: none;" name="idAluno" value="<?= $idAluno ?>">
+                            <input type="hidden" style="display: none;" name="tab" value="1">
+                            <label for="mes" class="select-label">Mês:</label>
+                            <select name="mes" id="mes" onchange="this.form.submit()">
+                                <?php
+                                    $sql = "SELECT DISTINCT DATE_FORMAT(dia, '%m-%Y') AS mes FROM alunos_presenca WHERE idAluno = $idAluno ORDER BY dia DESC;";
+                                    $result = $con->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<option value=\"{$row['mes']}\" " . ($row['mes'] == $mesAtual ? 'selected' : '') . ">{$row['mes']}</option>";
+                                        }
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </form>
+                    <script>
+                        $(document).ready(function() {
+                            const urlParams = new URLSearchParams(window.location.search);
+                            if (urlParams.has('tab')) {
+                                openTab(event, 'recibo');
+                            }
+                        });
+                    </script>
                     <form action="alunoInserir?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
                         <div class="page-inner">
                             <div class="container2">
                                 <div class="form-section">
                                     <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 64%;">
+                                        <div class="campo" style="flex: 0 0 78%;">
                                             <label>NOME:</label>
                                             <input type="text" name="nome" list="datalistNomes" readonly value="<?php echo $rowAluno['nome']; ?>">
                                         </div>
-                                        <div class="campo" style="flex: 0 0 34%;">
-                                            <label>Pack:</label>
-                                            <input type="text" name="pack" id="pack" readonly value="<?php echo $rowAluno['pack'] . " horas"; ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 49%;">
-                                            <label>HORA:</label>
-                                            
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 49%;">
-                                            <label>DIA:</label>
-                                            <input type="date" name="dia" value="<?php echo date('Y-m-d'); ?>">
+                                        <div class="campo" style="flex: 0 0 20%;">
+                                            <label>Ano:</label>
+                                            <input type="text" name="pack" id="pack" readonly value="<?php echo $rowAluno['ano'] . "º"; ?>">
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Registrar hora</button>
+                                <div class="form-section">
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 32%;">
+                                            <label>HORAS EM GRUPO:</label>
+                                            <input type="input" name="horasGrupo" value="<?php echo $rowAluno['horasGrupo']; ?>" readonly>
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 32%;">
+                                            <label>HORAS REALIZADAS:</label>
+                                            <input type="input" name="horasRealizadas" value="<?php echo $horasRealizadas; ?>" readonly>
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 32%;">
+                                            <label>BALANÇO HORAS:</label>
+                                            <input type="input" name="horasBalanco" value="<?php ; ?>" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php if ($rowAluno['horasIndividual'] == 1) { ?>
+                                    <div class="form-section">
+                                        <div class="form-row">
+                                            <div class="campo" style="flex: 0 0 32%;">
+                                                <label>HORAS INDIVIDUAIS:</label>
+                                                <input type="input" name="horasIndividuais" value="<?php echo $rowAluno['horasIndividual']; ?>" readonly >
+                                            </div>
+                                            <div class="campo" style="flex: 0 0 32%;">
+                                                <label>HORAS REALIZADAS:</label>
+                                                <input type="input" name="horasRealizadas" value="<?php ; ?>" readonly>
+                                            </div>
+                                            <div class="campo" style="flex: 0 0 32%;">
+                                                <label>BALANÇO HORAS:</label>
+                                                <input type="input" name="horasBalanco" value="<?php ; ?>" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <!-- <button type="submit" class="btn btn-primary">Registrar hora</button> -->
                             </div>
                         </div>
                     </form>
@@ -565,6 +648,7 @@
 
                 function openTab(evt, tabName) {
                     var i, tabcontent, tablinks;
+                    const urlParams = new URLSearchParams(window.location.search);
                     
                     tabcontent = document.getElementsByClassName("tabcontent");
                     for (i = 0; i < tabcontent.length; i++) {
@@ -576,10 +660,14 @@
                     }
                     
                     document.getElementById(tabName).style.display = "block";
-                    evt.currentTarget.className += " active";
+                    if (!urlParams.has('tab')) {
+                        evt.currentTarget.className += " active";
+                    }
                 }
-                // Get the element with id="defaultOpen" and click on it
-                document.getElementById("defaultOpen").click();
+                const urlParams = new URLSearchParams(window.location.search);
+                if (!urlParams.has('tab')) {
+                    document.getElementById("defaultOpen").click();
+                }
             </script>
         </div>
         <?php include('./endPage.php'); ?>

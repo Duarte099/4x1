@@ -220,7 +220,7 @@
                       </div>
 
                       <div class="form-row">
-                          <div class="campo" style="flex: 0 0 49%;">
+                          <div class="campo" style="flex: 0 0 38%;">
                               <label>HORA:</label>
                               <select
                                 class="form-select form-control"
@@ -246,9 +246,13 @@
                                 <option>19:00 - 20:00</option>
                               </select>
                           </div>
-                          <div class="campo" style="flex: 0 0 49%;">
+                          <div class="campo" style="flex: 0 0 38%;">
                               <label>DIA:</label>
                               <input type="date" name="dia" value="<?php echo date('Y-m-d'); ?>">
+                          </div>
+                          <div class="campo" style="flex: 0 0 10%;">
+                              <label>INDIVIDUAL:</label>
+                              <input class="form-check-input" type="checkbox" name="individual" style="width: 25px; height: 25px; padding: 5px; border: 1px solid #ccc;" id="flexCheckDefault">
                           </div>
                       </div>
                   </div>
