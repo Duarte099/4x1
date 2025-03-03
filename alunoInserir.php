@@ -119,7 +119,6 @@
             if ($result) {
                 $result->bind_param("sssssisisissiiisisisii", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $estado, $idAluno);
             }
-
             $result->execute();
             
             
@@ -186,7 +185,7 @@
                     }
                 }
             }
-            // header('Location: alunoEdit?idAluno=' . $idAluno);
+            header('Location: alunoEdit?idAluno=' . $idAluno);
         }
         else {
             header('Location: dashboard');

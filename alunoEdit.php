@@ -38,16 +38,25 @@
 
     $mesAtual = isset($_GET['mes']) ? $_GET['mes'] : date("m-Y");
 
-    //HORAS EM GRUPO
-    $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = $idAluno AND DATE_FORMAT(dia, '%m-%Y') = '$mesAtual'";
-    $result = $con->query($sql);
-    //Se houver um aluno com o id recebido, guarda as informações
-    if ($result->num_rows >= 0) {
-        $row = $result->fetch_assoc();
-        $horasRealizadas = $row['horasRealizadas'];
+    if ($mesAtual == date("m-Y")) {
+        $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = $idAluno AND DATE_FORMAT(dia, '%m-%Y') = '$mesAtual'";
+        $result = $con->query($sql);
+        //Se houver um aluno com o id recebido, guarda as informações
+        if ($result->num_rows >= 0) {
+            $row = $result->fetch_assoc();
+            $horasRealizadas = $row['horasRealizadas'];
+        }
+        else{
+            $horasRealizadas = 0;
+        }
     }
-    else{
-        $horasRealizadas = 0;
+    else {
+        $sql = "SELECT * FROM alunos_recibo WHERE idAluno = $idAluno AND DATE_FORMAT(data, '%m-%Y') = '$mesAtual'";
+        $result = $con->query($sql);
+        //Se houver um aluno com o id recebido, guarda as informações
+        if ($result->num_rows >= 0) {
+            $rowRecibo = $result->fetch_assoc();
+        }
     }
 ?>
     <title>4x1 | Editar Aluno</title>
@@ -532,8 +541,9 @@
                             <input type="hidden" style="display: none;" name="tab" value="1">
                             <label for="mes" class="select-label">Mês:</label>
                             <select name="mes" id="mes" onchange="this.form.submit()">
+                                <option value="<?php echo date("m-Y"); ?>" selected><?php echo date("m-Y"); ?></option>
                                 <?php
-                                    $sql = "SELECT DISTINCT DATE_FORMAT(dia, '%m-%Y') AS mes FROM alunos_presenca WHERE idAluno = $idAluno ORDER BY dia DESC;";
+                                    $sql = "SELECT DISTINCT DATE_FORMAT(data, '%m-%Y') AS mes FROM alunos_recibo WHERE idAluno = $idAluno ORDER BY data DESC;";
                                     $result = $con->query($sql);
                                     if ($result->num_rows > 0) {
                                         while ($row = $result->fetch_assoc()) {
@@ -563,7 +573,7 @@
                                         </div>
                                         <div class="campo" style="flex: 0 0 20%;">
                                             <label>Ano:</label>
-                                            <input type="text" name="pack" id="pack" readonly value="<?php echo $rowAluno['ano'] . "º"; ?>">
+                                            <input type="text" name="pack" id="pack" readonly value="<?php if ($mesAtual == date("m-Y")) {echo $rowAluno['ano'];} else {echo $rowRecibo['anoAluno'];} ?>º">
                                         </div>
                                     </div>
                                 </div>
@@ -571,11 +581,11 @@
                                     <div class="form-row">
                                         <div class="campo" style="flex: 0 0 32%;">
                                             <label>HORAS EM GRUPO:</label>
-                                            <input type="input" name="horasGrupo" value="<?php echo $rowAluno['horasGrupo']; ?>" readonly>
+                                            <input type="input" name="horasGrupo" value="<?php if ($mesAtual == date("m-Y")) {echo $rowAluno['horasGrupo'];} else {echo $rowRecibo['packGrupo'];} ?>" readonly>
                                         </div>
                                         <div class="campo" style="flex: 0 0 32%;">
                                             <label>HORAS REALIZADAS:</label>
-                                            <input type="input" name="horasRealizadas" value="<?php echo $horasRealizadas; ?>" readonly>
+                                            <input type="input" name="horasRealizadas" value="<?php if ($mesAtual == date("m-Y")) {echo $horasRealizadas;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
                                         </div>
                                         <div class="campo" style="flex: 0 0 32%;">
                                             <label>BALANÇO HORAS:</label>
@@ -583,7 +593,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <?php if ($rowAluno['horasIndividual'] == 1) { ?>
+                                <?php if ($rowAluno['horasIndividual'] > 0) { ?>
                                     <div class="form-section">
                                         <div class="form-row">
                                             <div class="campo" style="flex: 0 0 32%;">
@@ -615,30 +625,30 @@
                     
                     // Se um valor for selecionado (não vazio)
                     if(alunoId !== "") {
-                    // Realiza a requisição AJAX para obter os dados do aluno
-                    $.ajax({
-                        url: 'json.obterNome.php',
-                        type: 'GET',
-                        data: { idAluno: alunoId},
-                        success: function(response) {
-                        var data = JSON.parse(response);
-                        if (data == "erro") {
-                            document.getElementById("pack").value = "";
-                            document.getElementById("disciplinasContainer").style.display = "none";
-                        }
-                        else{
-                            document.getElementById("pack").value = data.pack + " horas";
-                            if (data.ciclo == 1) {
-                            document.getElementById("disciplinasContainer").style.display = "none";
-                            } else {
-                            document.getElementById("disciplinasContainer").style.display = "block";
+                        // Realiza a requisição AJAX para obter os dados do aluno
+                        $.ajax({
+                            url: 'json.obterNome.php',
+                            type: 'GET',
+                            data: { idAluno: alunoId},
+                            success: function(response) {
+                            var data = JSON.parse(response);
+                            if (data == "erro") {
+                                document.getElementById("pack").value = "";
+                                document.getElementById("disciplinasContainer").style.display = "none";
                             }
-                        }
-                        },
-                        error: function() {
-                        console.error('Erro ao buscar o nome.');
-                        }
-                    });
+                            else{
+                                document.getElementById("pack").value = data.pack + " horas";
+                                if (data.ciclo == 1) {
+                                document.getElementById("disciplinasContainer").style.display = "none";
+                                } else {
+                                document.getElementById("disciplinasContainer").style.display = "block";
+                                }
+                            }
+                            },
+                            error: function() {
+                            console.error('Erro ao buscar o nome.');
+                            }
+                        });
                     } else {
                     // Se não houver um ID válido, limpa o campo Pack
                     document.getElementById("pack").value = "";
