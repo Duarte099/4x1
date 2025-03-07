@@ -2,60 +2,61 @@
     include('./db/conexao.php');
 
     // Prepara a query com placeholder para evitar injeção e erros
-    $stmt = $con->prepare("SELECT * FROM alunos WHERE ativo = 1");
-    // Executa a query
-    $stmt->execute();
-    // Obtém o resultado
-    $result = $stmt->get_result();
-    while ($row = $result->fetch_assoc()) {
-        //Mês Atual
-        $mesAtual = date("m-Y");
+    $sql1 = "SELECT * FROM alunos WHERE ativo = 1";
+    $result1 = $con->query($sql1);
+    if ($result1->num_rows >= 0) {
+        while ($row1 = $result1->fetch_assoc()) {
+            //Mês Atual
+            $mesAtual = date("m-Y");
 
-        //Mês passado
-        $data = DateTime::createFromFormat("m-Y", $mesAtual);
-        $data->modify("-1 month");
-        $mesAnterior = $data->format("m-Y");
+            echo $mesAtual;
 
-        //Horas Grupo Realizadas
-        $horasRealizadasGrupo = 0;
-        $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = $row['id'] AND DATE_FORMAT(dia, '%m-%Y') = '$mesAnterior' AND individual = 0";
-        $result = $con->query($sql);
-        if ($result->num_rows >= 0) {
-            $row1 = $result->fetch_assoc();
-            $horasRealizadasGrupo = $row['horasRealizadas'];
+            //Mês passado
+            $mesAnterior = date("m-Y", strtotime("-1 month"));
+
+            echo $mesAnterior;
+
+            //Horas Grupo Realizadas
+            $horasRealizadasGrupo = 0;
+            $sql2 = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . (int) $row1['id'] . " AND DATE_FORMAT(dia, '%m-%Y') = '$mesAnterior' AND individual = 0";
+            $result2 = $con->query($sql2);
+            if ($result2->num_rows >= 0) {
+                $row2 = $result2->fetch_assoc();
+                $horasRealizadasGrupo = $row2['horasRealizadas'];
+            }
+
+            //Horas Individuais Realizadas
+            $horasRealizadasindividual = 0;
+            $sql3 = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . (int) $row1['id'] . " AND DATE_FORMAT(dia, '%m-%Y') = '$mesAnterior' AND individual = 1";
+            $result3 = $con->query($sql3);
+            if ($result3->num_rows >= 0) {
+                $row3 = $result3->fetch_assoc();
+                $horasRealizadasindividual = $row3['horasRealizadas'];
+            }
+
+            //Balanço Grupo
+            $balancoGrupo = $row1['balancoGrupo'] + ($row1['horasGrupo'] - $horasRealizadasGrupo);
+
+            //Balanço Individual
+            $balancoIndividual = $row1['balancoIndividual'] + ($row1['horasIndividual'] - $horasRealizadasindividual);
+
+            $mensalidade = 30;
+
+            //Inserir Recibo
+            $sql4 = "INSERT INTO alunos_recibo (idAluno, anoAluno, packGrupo, horasRealizadasGrupo, horasBalancoGrupo, packIndividual, horasRealizadasIndividual, horasBalancoIndividual, mensalidade, data) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $result4 = $con->prepare($sql4);
+            if ($result4) {
+                $result4->bind_param("iiiiiiiiis", $row1['id'], $row1['ano'], $row1['horasGrupo'], $horasRealizadasGrupo, $balancoGrupo, $row1['horasIndividual'], $horasRealizadasindividual, $balancoIndividual, $mensalidade, $mesAnterior);
+                $result4->execute();
+            }
+
+            //Atualizar balanço do aluno
+            $sql5 = "UPDATE alunos SET balancoGrupo = ?, balancoIndividual = ? WHERE id = ?";
+            $result5 = $con->prepare($sql5);
+            if ($result5) {
+                $result5->bind_param("ddi", $balancoGrupo, $balancoIndividual, $row1['id']);
+                $result5->execute();
+            }
         }
-
-        //Horas Individuais Realizadas
-        $horasRealizadasindividual = 0;
-        $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = $row['id'] AND DATE_FORMAT(dia, '%m-%Y') = '$mesAnterior' AND individual = 1";
-        $result = $con->query($sql);
-        if ($result->num_rows >= 0) {
-            $row1 = $result->fetch_assoc();
-            $horasRealizadasindividual = $row['horasRealizadas'];
-        }
-
-        //Balanço Grupo
-        $aux = $row['horasGrupo'] - $horasRealizadasGrupo;
-        $balancoGrupo = $row['balancoGrupo'] + $aux;
-
-        //Balanço Individual
-        $aux = $row['horasIndividual'] - $horasRealizadasindividual;
-        $balancoIndividual = $row['balancoIndividual'] + $aux;
-
-        //Inserir Recibo
-        $sql = "INSERT INTO alunos_recibo (idAluno, anoAluno, packGrupo, horasRealizadasGrupo, horasBalancoGrupo, packIndividual, horasRealizadasIndividual, horasBalancoIndividual, mensalidade, data) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $result = $con->prepare($sql);
-        if ($result) {
-            $result->bind_param("iiiiiiiiis", $row['id'], $row['ano'], $row['horasGrupo'], $horasRealizadasGrupo, $balancoGrupo, $row['horasIndividual'], $horasRealizadasindividual, $balancoIndividual, 30, $mesAtual);
-        }
-        $result->execute();
-
-        //Atualizar balanço do aluno
-        $sql = "UPDATE alunos SET balancoGrupo = ?, balancoIndividual = ? WHERE id = ?";
-        $result = $con->prepare($sql);
-        if ($result) {
-            $result->bind_param("ddi", $balancoGrupo, $balancoIndividual, $row['id']);
-        }
-        $result->execute();
     }
 ?>

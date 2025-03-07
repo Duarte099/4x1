@@ -35,19 +35,29 @@
         header('Location: dashboard');
         exit();
     }
-
+    $horasRealizadasGrupo = 0;
+    $horasRealizadasIndividual = 0;
     $mesAtual = isset($_GET['mes']) ? $_GET['mes'] : date("m-Y");
 
     if ($mesAtual == date("m-Y")) {
-        $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = $idAluno AND DATE_FORMAT(dia, '%m-%Y') = '$mesAtual'";
+        //Horas Grupo
+        $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . $idAluno . " AND DATE_FORMAT(dia, '%m-%Y') = '$mesAtual' AND individual = 0";
         $result = $con->query($sql);
-        //Se houver um aluno com o id recebido, guarda as informações
         if ($result->num_rows >= 0) {
             $row = $result->fetch_assoc();
-            $horasRealizadas = $row['horasRealizadas'];
+            $horasRealizadasGrupo = $row['horasRealizadas'];
+            //Balanço Grupo
+            $horasBalancoGrupo = $rowAluno['balancoGrupo'] + ($rowAluno['horasGrupo'] - $horasRealizadasGrupo);
         }
-        else{
-            $horasRealizadas = 0;
+
+        //Horas Individuais
+        $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . $idAluno . " AND DATE_FORMAT(dia, '%m-%Y') = '$mesAtual' AND individual = 1";
+        $result = $con->query($sql);
+        if ($result->num_rows >= 0) {
+            $row = $result->fetch_assoc();
+            $horasRealizadasIndividual = $row['horasRealizadas'];
+            //Balanço Individual
+            $horasBalancoIndividual = $rowAluno['balancoIndividual'] + ($rowAluno['horasIndividual'] - $horasRealizadasIndividual);
         }
     }
     else {
@@ -481,7 +491,7 @@
                         const results = [];
 
                         $.ajax({
-                            url: 'json.obterPresenca.php?idAluno='+idAluno,
+                            url: 'json.obterPresencaAluno.php?idAluno='+idAluno,
                             type: 'POST',
                             success: function(data) {
                                 results.push(...data);
@@ -534,6 +544,7 @@
                         });
                     });
                 </script>
+                
                 <div id="recibo" class="tabcontent">
                     <form action="" method="GET">
                         <div class="select-container">
@@ -543,7 +554,7 @@
                             <select name="mes" id="mes" onchange="this.form.submit()">
                                 <option value="<?php echo date("m-Y"); ?>" selected><?php echo date("m-Y"); ?></option>
                                 <?php
-                                    $sql = "SELECT DISTINCT DATE_FORMAT(data, '%m-%Y') AS mes FROM alunos_recibo WHERE idAluno = $idAluno ORDER BY data DESC;";
+                                    $sql = "SELECT DISTINCT data as mes FROM alunos_recibo WHERE idAluno = " . $idAluno . " ORDER BY data DESC;";
                                     $result = $con->query($sql);
                                     if ($result->num_rows > 0) {
                                         while ($row = $result->fetch_assoc()) {
@@ -585,11 +596,11 @@
                                         </div>
                                         <div class="campo" style="flex: 0 0 32%;">
                                             <label>HORAS REALIZADAS:</label>
-                                            <input type="input" name="horasRealizadas" value="<?php if ($mesAtual == date("m-Y")) {echo $horasRealizadas;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
+                                            <input type="input" name="horasRealizadas" value="<?php if ($mesAtual == date("m-Y")) {echo $horasRealizadasGrupo;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
                                         </div>
                                         <div class="campo" style="flex: 0 0 32%;">
                                             <label>BALANÇO HORAS:</label>
-                                            <input type="input" name="horasBalanco" value="<?php ; ?>" readonly>
+                                            <input type="input" name="horasBalanco" value="<?php if ($mesAtual == date("m-Y")) {echo $horasBalancoGrupo;} else {echo $rowRecibo['horasBalancoGrupo'];} ?>" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -602,11 +613,11 @@
                                             </div>
                                             <div class="campo" style="flex: 0 0 32%;">
                                                 <label>HORAS REALIZADAS:</label>
-                                                <input type="input" name="horasRealizadas" value="<?php ; ?>" readonly>
+                                                <input type="input" name="horasRealizadas" value="<?php if ($mesAtual == date("m-Y")) {echo $horasRealizadasIndividual;} else {echo $rowRecibo['horasRealizadasIndividual'];} ?>" readonly>
                                             </div>
                                             <div class="campo" style="flex: 0 0 32%;">
                                                 <label>BALANÇO HORAS:</label>
-                                                <input type="input" name="horasBalanco" value="<?php ; ?>" readonly>
+                                                <input type="input" name="horasBalanco" value="<?php if ($mesAtual == date("m-Y")) {echo $horasBalancoIndividual;} else {echo $rowRecibo['horasBalancoIndividual'];} ?>" readonly>
                                             </div>
                                         </div>
                                     </div>
