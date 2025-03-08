@@ -6,9 +6,9 @@
     $estouEm = 2;
     $estouEm2 = 3;
 
-    //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
+    //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard.php
     if (adminPermissions($con, "adm_001", "view") == 0) {
-        header('Location: dashboard');
+        header('Location: dashboard.php');
         exit();
     }
 
@@ -32,7 +32,7 @@
     }
     //Caso contrário volta para a dashboard para não dar erro
     else{
-        header('Location: dashboard');
+        header('Location: dashboard.php');
         exit();
     }
     $horasRealizadasGrupo = 0;
@@ -230,7 +230,7 @@
                     <button class="tablinks" onclick="openTab(event, 'recibo')" id="defaultOpen">Recibo</button>
                 </div>
                 <div id="editarAluno" class="tabcontent">
-                    <form action="alunoInserir?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
+                    <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
                         <div
                             class="modal fade"
                             id="addRowModal"
@@ -573,59 +573,57 @@
                             }
                         });
                     </script>
-                    <form action="alunoInserir?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
-                        <div class="page-inner">
-                            <div class="container2">
-                                <div class="form-section">
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 78%;">
-                                            <label>NOME:</label>
-                                            <input type="text" name="nome" list="datalistNomes" readonly value="<?php echo $rowAluno['nome']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 20%;">
-                                            <label>Ano:</label>
-                                            <input type="text" name="pack" id="pack" readonly value="<?php if ($mesAtual == date("m-Y")) {echo $rowAluno['ano'];} else {echo $rowRecibo['anoAluno'];} ?>º">
-                                        </div>
+                    <div class="page-inner">
+                        <div class="container2">
+                            <div class="form-section">
+                                <div class="form-row">
+                                    <div class="campo" style="flex: 0 0 78%;">
+                                        <label>NOME:</label>
+                                        <input type="text" name="nome" list="datalistNomes" readonly value="<?php echo $rowAluno['nome']; ?>">
+                                    </div>
+                                    <div class="campo" style="flex: 0 0 20%;">
+                                        <label>Ano:</label>
+                                        <input type="text" name="pack" id="pack" readonly value="<?php if ($mesAtual == date("m-Y")) {echo $rowAluno['ano'];} else {echo $rowRecibo['anoAluno'];} ?>º">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-section">
+                                <div class="form-row">
+                                    <div class="campo" style="flex: 0 0 32%;">
+                                        <label>HORAS EM GRUPO:</label>
+                                        <input type="input" name="horasGrupo" value="<?php if ($mesAtual == date("m-Y")) {echo $rowAluno['horasGrupo'];} else {echo $rowRecibo['packGrupo'];} ?>" readonly>
+                                    </div>
+                                    <div class="campo" style="flex: 0 0 32%;">
+                                        <label>HORAS REALIZADAS:</label>
+                                        <input type="input" name="horasRealizadas" value="<?php if ($mesAtual == date("m-Y")) {echo $horasRealizadasGrupo;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
+                                    </div>
+                                    <div class="campo" style="flex: 0 0 32%;">
+                                        <label>BALANÇO HORAS:</label>
+                                        <input type="input" name="horasBalanco" value="<?php if ($mesAtual == date("m-Y")) {echo $horasBalancoGrupo;} else {echo $rowRecibo['horasBalancoGrupo'];} ?>" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php if ($rowAluno['horasIndividual'] > 0) { ?>
                                 <div class="form-section">
                                     <div class="form-row">
                                         <div class="campo" style="flex: 0 0 32%;">
-                                            <label>HORAS EM GRUPO:</label>
-                                            <input type="input" name="horasGrupo" value="<?php if ($mesAtual == date("m-Y")) {echo $rowAluno['horasGrupo'];} else {echo $rowRecibo['packGrupo'];} ?>" readonly>
+                                            <label>HORAS INDIVIDUAIS:</label>
+                                            <input type="input" name="horasIndividuais" value="<?php echo $rowAluno['horasIndividual']; ?>" readonly >
                                         </div>
                                         <div class="campo" style="flex: 0 0 32%;">
                                             <label>HORAS REALIZADAS:</label>
-                                            <input type="input" name="horasRealizadas" value="<?php if ($mesAtual == date("m-Y")) {echo $horasRealizadasGrupo;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
+                                            <input type="input" name="horasRealizadas" value="<?php if ($mesAtual == date("m-Y")) {echo $horasRealizadasIndividual;} else {echo $rowRecibo['horasRealizadasIndividual'];} ?>" readonly>
                                         </div>
                                         <div class="campo" style="flex: 0 0 32%;">
                                             <label>BALANÇO HORAS:</label>
-                                            <input type="input" name="horasBalanco" value="<?php if ($mesAtual == date("m-Y")) {echo $horasBalancoGrupo;} else {echo $rowRecibo['horasBalancoGrupo'];} ?>" readonly>
+                                            <input type="input" name="horasBalanco" value="<?php if ($mesAtual == date("m-Y")) {echo $horasBalancoIndividual;} else {echo $rowRecibo['horasBalancoIndividual'];} ?>" readonly>
                                         </div>
                                     </div>
                                 </div>
-                                <?php if ($rowAluno['horasIndividual'] > 0) { ?>
-                                    <div class="form-section">
-                                        <div class="form-row">
-                                            <div class="campo" style="flex: 0 0 32%;">
-                                                <label>HORAS INDIVIDUAIS:</label>
-                                                <input type="input" name="horasIndividuais" value="<?php echo $rowAluno['horasIndividual']; ?>" readonly >
-                                            </div>
-                                            <div class="campo" style="flex: 0 0 32%;">
-                                                <label>HORAS REALIZADAS:</label>
-                                                <input type="input" name="horasRealizadas" value="<?php if ($mesAtual == date("m-Y")) {echo $horasRealizadasIndividual;} else {echo $rowRecibo['horasRealizadasIndividual'];} ?>" readonly>
-                                            </div>
-                                            <div class="campo" style="flex: 0 0 32%;">
-                                                <label>BALANÇO HORAS:</label>
-                                                <input type="input" name="horasBalanco" value="<?php if ($mesAtual == date("m-Y")) {echo $horasBalancoIndividual;} else {echo $rowRecibo['horasBalancoIndividual'];} ?>" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                <!-- <button type="submit" class="btn btn-primary">Registrar hora</button> -->
-                            </div>
+                            <?php } ?>
+                            <!-- <button type="submit" class="btn btn-primary">Registrar hora</button> -->
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
             <script>

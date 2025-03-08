@@ -6,7 +6,7 @@
     <div class="sidebar-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-            <a href="dashboard.html" class="logo">
+            <a href="dashboard.php" class="logo">
                 <img
                 src="assets/img/kaiadmin/logo_light.svg"
                 alt="navbar brand"
@@ -32,25 +32,25 @@
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
                 <li class="nav-item <?php echo ($estouEm == 1) ? 'active' : ''; ?>">
-                    <a href="dashboard">
+                    <a href="dashboard.php">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 2) ? 'active' : ''; ?>">
-                    <a href="aluno">
+                    <a href="aluno.php">
                         <i class="fas fa-home"></i>
                         <p>Alunos</p>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 3) ? 'active' : ''; ?>">
-                    <a href="professor">
+                    <a href="professor.php">
                         <i class="fas fa-home"></i>
                         <p>Professores</p>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 4) ? 'active' : ''; ?>">
-                    <a href="presenca">
+                    <a href="presenca.php">
                         <i class="fas fa-home"></i>
                         <p>Registro de presença</p>
                     </a>

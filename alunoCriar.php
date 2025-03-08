@@ -8,7 +8,7 @@
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if (adminPermissions($con, "adm_001", "insert") == 0) {
-        header('Location: dashboard');
+        header('Location: dashboard.php');
         exit();
     }
 ?>
@@ -139,7 +139,7 @@
             <?php 
                 include('./sideBar.php'); 
             ?>
-            <form action="alunoInserir?op=save" method="POST">
+            <form action="alunoInserir.php?op=save" method="POST">
                 <div
                     class="modal fade"
                     id="addRowModal"
@@ -246,7 +246,7 @@
                                 </div>
                                 <div class="campo" style="flex: 0 0 20%;">
                                     <label>ANO:</label>
-                                    <input type="number" name="ano" min="0" max="12" required>
+                                    <input type="number" name="ano" min="0" max="12" value="0" required>
                                 </div>
                             </div>
 

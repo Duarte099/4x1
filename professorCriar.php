@@ -8,7 +8,7 @@
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if (adminPermissions($con, "adm_002", "insert") == 0) {
-        header('Location: dashboard');
+        header('Location: dashboard.php');
         exit();
     }
 ?>

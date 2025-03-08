@@ -32,25 +32,25 @@
 
                         registrar_log("Administrador " . $nomeX . "(" . $id . ") entrou");
 
-                        header('Location: dashboard');
+                        header('Location: dashboard.php');
                         exit();
                     } else {
-                        header('Location: index?erro=Password ou user Incorreto!');
+                        header('Location: index.php?erro=Password ou user Incorreto!');
                         exit();
                     }
                 } else {
-                    header('Location: index?erro=Password ou user Incorreto!');
+                    header('Location: index.php?erro=Password ou user Incorreto!');
                     exit();
                 }
             } else {
-                header('Location: index?erro=Password ou user Incorreto!');
+                header('Location: index.php?erro=Password ou user Incorreto!');
                 exit();
             }
             $stmt->close();
         }
     }
     else {
-        header('Location: index');
+        header('Location: index.php');
         exit();
     }
 ?>

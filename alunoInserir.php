@@ -2,7 +2,7 @@
     //Inclui a conexão à base de dados na página
     include('./db/conexao.php'); 
 
-    //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
+    //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard.php
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         //Obtem o operação 
         $op = $_GET['op'];
@@ -37,9 +37,9 @@
         }
 
         if ($op == 'save') {
-            //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard
+            //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard.php
             if (adminPermissions($con, "adm_001", "insert") == 0) {
-                header('Location: dashboard');
+                header('Location: dashboard.php');
                 exit();
             }
 
@@ -84,13 +84,13 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: aluno');
+            header('Location: aluno.php');
         }
         //Se a operação for edit
         elseif ($op == 'edit') {
-            //Se o administrador não tiver permissões de editar um aluno então redireciona para a dashboard
+            //Se o administrador não tiver permissões de editar um aluno então redireciona para a dashboard.php
             if (adminPermissions($con, "adm_005", "update") == 0) {
-                header('Location: dashboard');
+                header('Location: dashboard.php');
                 exit();
             }
 
@@ -110,7 +110,7 @@
             $stmt->execute(); 
             $stmt->store_result();
             if ($stmt->num_rows <= 0) {
-                header('Location: dashboard');
+                header('Location: dashboard.php');
                 exit();
             }
 
@@ -185,15 +185,15 @@
                     }
                 }
             }
-            header('Location: alunoEdit?idAluno=' . $idAluno);
+            header('Location: alunoEdit.php?idAluno=' . $idAluno);
         }
         else {
-            header('Location: dashboard');
+            header('Location: dashboard.php');
             exit();
         }
     }
     else {
-        header('Location: dashboard');
+        header('Location: dashboard.php');
         exit();
     }
 ?>

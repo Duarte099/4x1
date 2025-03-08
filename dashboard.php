@@ -6,9 +6,9 @@
   $estouEm = 1;
   $estouEm2 = 0;
 
-  //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
+  //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard.php
   if (adminPermissions($con, "adm_001", "view") == 0) {
-      header('Location: dashboard');
+      header('Location: dashboard.php');
       exit();
   }
 ?>

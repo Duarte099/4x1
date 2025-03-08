@@ -25,7 +25,7 @@
 										<h3 class="mb-4">Sign In</h3>
 									</div>
 								</div>
-								<form action="indexLogin" class="signin-form" method="POST">
+								<form action="indexLogin.php" class="signin-form" method="POST">
 									<div class="form-group mt-3">
 										<input type="text" class="form-control" name="username" required>
 										<label class="form-control-placeholder" for="username">Username ou Email</label>

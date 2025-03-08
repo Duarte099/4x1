@@ -8,7 +8,7 @@
 
   //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
   if (adminPermissions($con, "adm_002", "view") == 0) {
-      header('Location: dashboard');
+      header('Location: dashboard.php');
       exit();
   }
 ?>
@@ -28,7 +28,7 @@
                 <h3 class="fw-bold mb-3">Professores</h3>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="professorCriar" class="btn btn-primary btn-round">Adicionar professor</a>
+                <a href="professorCriar.php" class="btn btn-primary btn-round">Adicionar professor</a>
               </div>
             </div>
             <div class="input-icon">
@@ -72,7 +72,7 @@
                                           <button
                                             type=\"button\"
                                             data-bs-toggle=\"tooltip\"
-                                            onclick=\"window.location.href='professorEdit?idProf=" . $row['id'] . "'\"
+                                            onclick=\"window.location.href='professorEdit.php?idProf=" . $row['id'] . "'\"
                                             class=\"btn btn-link btn-primary btn-lg\"
                                             data-original-title=\"Editar Professor\"
                                           >
