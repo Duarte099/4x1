@@ -4,12 +4,13 @@
 
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        //Obtem o operação 
+        //Obtem o operação
         $op = $_GET['op'];
 
         if ($op == 'save') {
             //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard
             if (adminPermissions($con, "adm_004", "insert") == 0) {
+                notificacao('warning', 'Não tens permissão para aceder a esta página.');
                 header('Location: dashboard.php');
                 exit();
             }
@@ -40,8 +41,18 @@
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("iiisssii", $idAluno, $idDisciplina, $idAdmin, $anoLetivo, $hora, $dia, $individual, $idAdmin);
+                if ($result->execute()) {
+                    notificacao('success', 'Presença registrada com sucesso!');
+                } 
+                else {
+                    notificacao('danger', 'Erro ao inserir presença: ' . $result->error);
+                }
+
+                $result->close();
             }
-            $result->execute();
+            else {
+                notificacao('danger', 'Erro ao inserir presença: ' . $result->error);
+            }
 
             $sql = "INSERT INTO professores_presenca (idProfessor, idAluno, idDisciplina, anoLetivo, hora, dia, criado_por) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
@@ -53,17 +64,8 @@
             //Após tudo ser concluido redireciona para a página dos alunos
             header('Location: presenca.php');
         }
-        //Se a operação for edit
-        elseif ($op == 'edit') {
-            //Se o administrador não tiver permissões de editar um aluno então redireciona para a dashboard.php
-            if (adminPermissions($con, "adm_004", "update") == 0) {
-                header('Location: dashboard.php');
-                exit();
-            }
-
-            header('Location: presenca.php');
-        }
         else {
+            notificacao('warning', 'Operação inválida.');
             header('Location: dashboard.php');
             exit();
         }

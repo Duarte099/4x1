@@ -7,6 +7,7 @@
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard.php
     if (adminPermissions($con, "adm_003", "view") == 0) {
+        notificacao('warning', 'Não tens permissão para aceder a esta página.');
         header('Location: dashboard.php');
         exit();
     }
@@ -150,7 +151,7 @@
           <?php 
               include('./sideBar.php'); 
           ?>
-          <form action="presencaInserir?op=save" method="POST">
+          <form action="presencaInserir.php?op=save" method="POST">
             <div class="page-inner">
               <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
                   <div>

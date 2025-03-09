@@ -17,6 +17,7 @@
         if ($op == 'save') {
             //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard
             if (adminPermissions($con, "adm_002", "insert") == 0) {
+                notificacao('warning', 'Não tens permissão para executar esta operação.');
                 header('Location: dashboard.php');
                 exit();
             }
@@ -26,8 +27,18 @@
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("ssi", $nome, $email, $contacto);
+                if ($result->execute()) {
+                    notificacao('success', 'Professor criado com sucesso!');
+                } 
+                else {
+                    notificacao('danger', 'Erro ao criar prefessor: ' . $result->error);
+                }
+
+                $result->close();
             }
-            $result->execute();
+            else {
+                notificacao('danger', 'Erro ao criar professor: ' . $result->error);
+            }
 
             //Obtem o id do novo professor inserido
             $idProfessor = $con->insert_id;
@@ -68,6 +79,7 @@
         elseif ($op == 'edit') {
             //Se o administrador não tiver permissões de editar um aluno então redireciona para a dashboard
             if (adminPermissions($con, "adm_005", "update") == 0) {
+                notificacao('warning', 'Não tens permissão para executar esta operação.');
                 header('Location: dashboard.php');
                 exit();
             }
@@ -96,8 +108,18 @@
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("ssidi", $nome, $email, $contacto, $estado, $idProfessor);
+                if ($result->execute()) {
+                    notificacao('success', 'Professor editado com sucesso!');
+                } 
+                else {
+                    notificacao('danger', 'Erro ao editar prefessor: ' . $result->error);
+                }
+
+                $result->close();
             }
-            $result->execute();
+            else {
+                notificacao('danger', 'Erro ao editar professor: ' . $result->error);
+            }
             
             
             foreach ($dias as $dia) {
@@ -165,6 +187,7 @@
             header('Location: professorEdit?idProf=' . $idProfessor);
         }
         else {
+            notificacao('warning', 'Operação inválida.');
             header('Location: dashboard.php');
             exit();
         }

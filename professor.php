@@ -4,10 +4,10 @@
 
   //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
   $estouEm = 3;
-  $estouEm2 = 1;
 
   //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
   if (adminPermissions($con, "adm_002", "view") == 0) {
+      notificacao('warning', 'Não tens permissão para aceder a esta página.');
       header('Location: dashboard.php');
       exit();
   }

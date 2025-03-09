@@ -39,6 +39,7 @@
         if ($op == 'save') {
             //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard.php
             if (adminPermissions($con, "adm_001", "insert") == 0) {
+                notificacao('warning', 'Não tens permissão para aceder a esta página.');
                 header('Location: dashboard.php');
                 exit();
             }
@@ -48,9 +49,18 @@
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("sssssisisissiiisisis", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade);
-            }
-            $result->execute();
+                if ($result->execute()) {
+                    notificacao('success', 'Aluno criado com sucesso!');
+                } 
+                else {
+                    notificacao('danger', 'Erro ao criar aluno: ' . $result->error);
+                }
 
+                $result->close();
+            }
+            else {
+                notificacao('danger', 'Erro ao crair aluno: ' . $result->error);
+            }
             //Obtem o id do novo aluno inserido
             $idAluno = $con->insert_id;
 
@@ -90,6 +100,7 @@
         elseif ($op == 'edit') {
             //Se o administrador não tiver permissões de editar um aluno então redireciona para a dashboard.php
             if (adminPermissions($con, "adm_005", "update") == 0) {
+                notificacao('warning', 'Não tens permissão para aceder a esta página.');
                 header('Location: dashboard.php');
                 exit();
             }
@@ -118,9 +129,19 @@
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("sssssisisissiiisisisii", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $estado, $idAluno);
+                
+                if ($result->execute()) {
+                    notificacao('success', 'Aluno editado com sucesso!');
+                } 
+                else {
+                    notificacao('danger', 'Erro ao editar aluno: ' . $result->error);
+                }
+
+                $result->close();
             }
-            $result->execute();
-            
+            else {
+                notificacao('danger', 'Erro ao editar aluno: ' . $result->error);
+            }
             
             foreach ($dias as $dia) {
                 foreach ($horas as $hora) {
@@ -188,6 +209,7 @@
             header('Location: alunoEdit.php?idAluno=' . $idAluno);
         }
         else {
+            notificacao('warning', 'Operação inválida.');
             header('Location: dashboard.php');
             exit();
         }

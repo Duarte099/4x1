@@ -8,6 +8,7 @@
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if (adminPermissions($con, "adm_002", "view") == 0) {
+        notificacao('warning', 'Não tens permissão para aceder a esta página.');
         header('Location: dashboard.php');
         exit();
     }
@@ -24,6 +25,7 @@
     }
     //Caso contrário volta para a dashboard para não dar erro
     else{
+        notificacao('warning', 'ID do professor inválido.');
         header('Location: dashboard.php');
         exit();
     }

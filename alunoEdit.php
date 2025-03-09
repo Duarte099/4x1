@@ -4,10 +4,10 @@
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 2;
-    $estouEm2 = 3;
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard.php
     if (adminPermissions($con, "adm_001", "view") == 0) {
+        notificacao('warning', 'Não tens permissão para aceder a esta página.');
         header('Location: dashboard.php');
         exit();
     }
@@ -32,16 +32,26 @@
     }
     //Caso contrário volta para a dashboard para não dar erro
     else{
+        notificacao('warning', 'ID do aluno inválido.');
         header('Location: dashboard.php');
         exit();
     }
     $horasRealizadasGrupo = 0;
     $horasRealizadasIndividual = 0;
-    $mesAtual = isset($_GET['mes']) ? $_GET['mes'] : date("m-Y");
 
-    if ($mesAtual == date("m-Y")) {
+    if (isset($_GET['mes'])) {
+        $partes = explode("-", $_GET['mes']);
+        $mes = $partes[0];
+        $ano = $partes[1];
+    }
+    else {
+        $mes = date("m");
+        $ano = date("Y");
+    }
+
+    if ($mes == date("n") && $ano == date("Y")) {
         //Horas Grupo
-        $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . $idAluno . " AND DATE_FORMAT(dia, '%m-%Y') = '$mesAtual' AND individual = 0";
+        $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . $idAluno . " AND MONTH(dia) = $mes AND YEAR(dia) = $ano AND individual = 0";
         $result = $con->query($sql);
         if ($result->num_rows >= 0) {
             $row = $result->fetch_assoc();
@@ -51,7 +61,7 @@
         }
 
         //Horas Individuais
-        $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . $idAluno . " AND DATE_FORMAT(dia, '%m-%Y') = '$mesAtual' AND individual = 1";
+        $sql = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . $idAluno . " AND MONTH(dia) = $mes AND YEAR(dia) = $ano AND individual = 1";
         $result = $con->query($sql);
         if ($result->num_rows >= 0) {
             $row = $result->fetch_assoc();
@@ -61,13 +71,14 @@
         }
     }
     else {
-        $sql = "SELECT * FROM alunos_recibo WHERE idAluno = $idAluno AND DATE_FORMAT(data, '%m-%Y') = '$mesAtual'";
+        $sql = "SELECT * FROM alunos_recibo WHERE idAluno = $idAluno AND ano = $ano AND mes = $mes";
         $result = $con->query($sql);
         //Se houver um aluno com o id recebido, guarda as informações
         if ($result->num_rows >= 0) {
             $rowRecibo = $result->fetch_assoc();
         }
     }
+
 ?>
     <title>4x1 | Editar Aluno</title>
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
@@ -211,12 +222,30 @@
         }
     </style>
     <script>
-        $(window).on('load', function() {
-            setTimeout(function() {
-                $('#calendar').fullCalendar('render');
-            }, 500); // Tempo suficiente para o carregamento da página
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            const urlParams = new URLSearchParams(window.location.search);
+
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            document.getElementById(tabName).style.display = "block";
+            if (!urlParams.has('tab')) {
+                evt.currentTarget.className += " active";
+            }
+        }
+
+        // Abre a aba padrão ao carregar a página
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("defaultOpen").click();
         });
-    </script>
+    </script>   
 </head>
     <body>
         <div class="wrapper">
@@ -226,8 +255,8 @@
             <div class="container">
                 <div class="tab">
                     <button class="tablinks" onclick="openTab(event, 'editarAluno')" id="defaultOpen">Ficha do Aluno</button>
-                    <button class="tablinks" onclick="openTab(event, 'registroPresenca')" id="defaultOpen">Calendário de presença</button>
-                    <button class="tablinks" onclick="openTab(event, 'recibo')" id="defaultOpen">Recibo</button>
+                    <button class="tablinks" onclick="openTab(event, 'registroPresenca')">Calendário de presença</button>
+                    <button class="tablinks" onclick="openTab(event, 'recibo')">Recibo</button>
                 </div>
                 <div id="editarAluno" class="tabcontent">
                     <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
@@ -552,13 +581,13 @@
                             <input type="hidden" style="display: none;" name="tab" value="1">
                             <label for="mes" class="select-label">Mês:</label>
                             <select name="mes" id="mes" onchange="this.form.submit()">
-                                <option value="<?php echo date("m-Y"); ?>" selected><?php echo date("m-Y"); ?></option>
+                            <option value="<?php echo date("n")."-".date("Y"); ?>" selected><?php echo date("n")."-".date("Y"); ?></option>
                                 <?php
-                                    $sql = "SELECT DISTINCT data as mes FROM alunos_recibo WHERE idAluno = " . $idAluno . " ORDER BY data DESC;";
+                                    $sql = "SELECT DISTINCT mes, ano FROM alunos_recibo WHERE idAluno = " . $idAluno . " ORDER BY ano DESC, mes DESC;";
                                     $result = $con->query($sql);
                                     if ($result->num_rows > 0) {
                                         while ($row = $result->fetch_assoc()) {
-                                            echo "<option value=\"{$row['mes']}\" " . ($row['mes'] == $mesAtual ? 'selected' : '') . ">{$row['mes']}</option>";
+                                            echo "<option value=" . $row['mes'] . "-" . $row['ano'] . " " . ($row['mes'] == $mes && $row['ano'] == $ano ? 'selected' : '') . ">" . $row['mes'] . "-" . $row['ano'] ."</option>";
                                         }
                                     }
                                 ?>
@@ -583,7 +612,7 @@
                                     </div>
                                     <div class="campo" style="flex: 0 0 20%;">
                                         <label>Ano:</label>
-                                        <input type="text" name="pack" id="pack" readonly value="<?php if ($mesAtual == date("m-Y")) {echo $rowAluno['ano'];} else {echo $rowRecibo['anoAluno'];} ?>º">
+                                        <input type="text" name="pack" id="pack" readonly value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $rowAluno['ano'];} else {echo $rowRecibo['anoAluno'];} ?>º">
                                     </div>
                                 </div>
                             </div>
@@ -591,15 +620,15 @@
                                 <div class="form-row">
                                     <div class="campo" style="flex: 0 0 32%;">
                                         <label>HORAS EM GRUPO:</label>
-                                        <input type="input" name="horasGrupo" value="<?php if ($mesAtual == date("m-Y")) {echo $rowAluno['horasGrupo'];} else {echo $rowRecibo['packGrupo'];} ?>" readonly>
+                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $rowAluno['horasGrupo'];} else {echo $rowRecibo['packGrupo'];} ?>" readonly>
                                     </div>
                                     <div class="campo" style="flex: 0 0 32%;">
                                         <label>HORAS REALIZADAS:</label>
-                                        <input type="input" name="horasRealizadas" value="<?php if ($mesAtual == date("m-Y")) {echo $horasRealizadasGrupo;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
+                                        <input type="input" name="horasRealizadas" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasRealizadasGrupo;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
                                     </div>
                                     <div class="campo" style="flex: 0 0 32%;">
                                         <label>BALANÇO HORAS:</label>
-                                        <input type="input" name="horasBalanco" value="<?php if ($mesAtual == date("m-Y")) {echo $horasBalancoGrupo;} else {echo $rowRecibo['horasBalancoGrupo'];} ?>" readonly>
+                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasBalancoGrupo;} else {echo $rowRecibo['horasBalancoGrupo'];} ?>" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -612,11 +641,11 @@
                                         </div>
                                         <div class="campo" style="flex: 0 0 32%;">
                                             <label>HORAS REALIZADAS:</label>
-                                            <input type="input" name="horasRealizadas" value="<?php if ($mesAtual == date("m-Y")) {echo $horasRealizadasIndividual;} else {echo $rowRecibo['horasRealizadasIndividual'];} ?>" readonly>
+                                            <input type="input" name="horasRealizadas" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasRealizadasIndividual;} else {echo $rowRecibo['horasRealizadasIndividual'];} ?>" readonly>
                                         </div>
                                         <div class="campo" style="flex: 0 0 32%;">
                                             <label>BALANÇO HORAS:</label>
-                                            <input type="input" name="horasBalanco" value="<?php if ($mesAtual == date("m-Y")) {echo $horasBalancoIndividual;} else {echo $rowRecibo['horasBalancoIndividual'];} ?>" readonly>
+                                            <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasBalancoIndividual;} else {echo $rowRecibo['horasBalancoIndividual'];} ?>" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -663,29 +692,6 @@
                     document.getElementById("pack").value = "";
                     document.getElementById("disciplinasContainer").style.display = "none";
                     }
-                }
-
-                function openTab(evt, tabName) {
-                    var i, tabcontent, tablinks;
-                    const urlParams = new URLSearchParams(window.location.search);
-                    
-                    tabcontent = document.getElementsByClassName("tabcontent");
-                    for (i = 0; i < tabcontent.length; i++) {
-                        tabcontent[i].style.display = "none";
-                    }
-                    tablinks = document.getElementsByClassName("tablinks");
-                    for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(" active", "");
-                    }
-                    
-                    document.getElementById(tabName).style.display = "block";
-                    if (!urlParams.has('tab')) {
-                        evt.currentTarget.className += " active";
-                    }
-                }
-                const urlParams = new URLSearchParams(window.location.search);
-                if (!urlParams.has('tab')) {
-                    document.getElementById("defaultOpen").click();
                 }
             </script>
         </div>

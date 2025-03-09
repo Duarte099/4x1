@@ -122,4 +122,11 @@
         //returnar true caso guardar, senao retorna false
         return $stmt->execute();
     }
+
+    function notificacao($tipo, $mensagem) {
+        $_SESSION['notificacao'] = [
+            'tipo' => $tipo,
+            'mensagem' => $mensagem
+        ];
+    }
 ?>

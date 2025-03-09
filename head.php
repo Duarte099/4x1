@@ -42,6 +42,27 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function () {
+            <?php if (isset($_SESSION['notificacao'])): ?>
+                $.notify({
+                    message: '<?php echo addslashes($_SESSION['notificacao']['mensagem']); ?>',
+                    title: 'Notificação',
+                    icon: 'fa fa-info-circle',
+                }, {
+                    type: '<?php echo $_SESSION['notificacao']['tipo']; ?>',
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    },
+                    delay: 2000
+                });
+
+                <?php unset($_SESSION['notificacao']); // Limpa a notificação após exibir ?>
+            <?php endif; ?>
+        });
+    </script>
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/plugins.min.css" />
