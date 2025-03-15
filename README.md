@@ -1,9 +1,10 @@
-Tabela de alunos atualmente serve para o seguro, a tabela de alunos deve ser diferente
+Como meter foto no email
 
-ver como fazer para atualizar o ano dos alunos
+Como fazer para ao entrar no sistema em setembro perguntar se vao continuar ou ficar
 
-ver como fazer para perguntar se o aluno irá continuar no proximo ano
+Como fazer para mostrar o estado dos pagamentos, se meto uma tabela com edição nela ou de outra forma
 
-Tabela com pagamento com opção de marcar como pago
+Se da para verificar pagamentos por MBWay   
+Como faço o calendario para marcar as aulas
 
-
+desatibar albunos lista dos alubno ativos check box para desativar

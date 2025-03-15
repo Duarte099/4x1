@@ -6,6 +6,10 @@
     $DATABASE_USER = 'root';
     $DATABASE_PASS = '';
     $DATABASE_NAME = '4x1';
+    // $DATABASE_HOST = '4x1.pt';
+    // $DATABASE_USER = 'xpt123_4x1';
+    // $DATABASE_PASS = 'nTgY}w0_fBj}';
+    // $DATABASE_NAME = 'xpt123_4x1';
     $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
     $con->set_charset("utf8mb4");
     // Verificação de erro de conexão (opcional)
@@ -20,7 +24,7 @@
         
         //Se não tiver logado não deixa entrar na página
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            header('Location: index');
+            header('Location: index.php');
             exit();
         }
 
@@ -28,7 +32,7 @@
         $sql = "SELECT * FROM professores WHERE id = " . $_SESSION['id'] . " AND pass = '" . $_SESSION['password'] . "';";
         $result = $con->query($sql);
         if ($result->num_rows <= 0) {
-            header('Location: index');
+            header('Location: index.php');
             exit();
         }
 
