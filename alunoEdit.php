@@ -222,30 +222,31 @@
         }
     </style>
     <script>
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
+        $(document).ready(function() {
+            // Obtém o parâmetro da URL
             const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab'); // Exemplo: ?tab=recibo
 
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            // Define qual aba abrir com base no parâmetro
+            let abaDesejada;
+            switch (tabParam) {
+                case 'recibo':
+                    abaDesejada = '#recibo-tab';
+                    break;
+                case 'presenca':
+                    abaDesejada = '#registro-presenca-tab';
+                    break;
+                case 'pagamento':
+                    abaDesejada = '#pagamento-tab';
+                    break;
+                default:
+                    abaDesejada = '#editar-aluno-tab'; // Aba padrão
             }
 
-            document.getElementById(tabName).style.display = "block";
-            if (!urlParams.has('tab')) {
-                evt.currentTarget.className += " active";
-            }
-        }
-
-        // Abre a aba padrão ao carregar a página
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("defaultOpen").click();
+            // Ativa a aba
+            $(abaDesejada).tab('show');
         });
-    </script>   
+    </script>
 </head>
     <body>
         <div class="wrapper">
@@ -253,404 +254,487 @@
                 include('./sideBar.php'); 
             ?>
             <div class="container">
-                <div class="tab">
-                    <button class="tablinks" onclick="openTab(event, 'editarAluno')" id="defaultOpen">Ficha do Aluno</button>
-                    <button class="tablinks" onclick="openTab(event, 'registroPresenca')">Calendário de presença</button>
-                    <button class="tablinks" onclick="openTab(event, 'recibo')">Recibo</button>
-                </div>
-                <div id="editarAluno" class="tabcontent">
-                    <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
-                        <div
-                            class="modal fade"
-                            id="addRowModal"
-                            tabindex="-1"
-                            role="dialog"
-                            aria-hidden="true"
-                        >
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <h1>DISPONIBILIDADE</h1>
-                                    <table>
-                                        <tr>
-                                            <th>Segunda</th>
-                                            <th>Terça</th>
-                                            <th>Quarta</th>
-                                            <th>Quinta</th>
-                                            <th>Sexta</th>
-                                            <th>Sábado</th>
-                                        </tr>
-                                        <?php 
-                                            $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
-                                            $horasFDS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
-                                            $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-                                        
-                                            for ($i = 1; $i <= 11; $i++) {
-                                                echo "<tr>";
-                                                foreach ($dias as $dia) {
-                                                    $hora = ($dia == 'Sábado') ? ($horasFDS[$i] ?? '') : ($horas[$i] ?? '');
-                                                    $disponibilidade = 0;
-                                                    $sql = "SELECT disponibilidade FROM alunos_disponibilidade WHERE idAluno = ? AND dia = ? AND hora = ?";
-                                                    $result = $con->prepare($sql);
-                                                    $result->bind_param('iss', $idAluno, $dia, $hora);
-                                                    $result->execute(); 
-                                                    $result->store_result();
-                                                    $result->bind_result($disponibilidade);
-                                                    $result->fetch();
-                                                    if ($disponibilidade == 1) {
-                                                        $estado = "checked=\"\"";
-                                                    }
-                                                    else{
-                                                        $estado = "";
-                                                    }
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="editar-aluno-tab" data-bs-toggle="pill" href="#editar-aluno" role="tab" aria-controls="editar-aluno" aria-selected="true">Ficha do Aluno</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="registro-presenca-tab" data-bs-toggle="pill" href="#registro-presenca" role="tab" aria-controls="registro-presenca" aria-selected="false">Calendário de presença</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="recibo-tab" data-bs-toggle="pill" href="#recibo" role="tab" aria-controls="recibo" aria-selected="false">Recibo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pagamento-tab" data-bs-toggle="pill" href="#pagamento" role="tab" aria-controls="pagamento" aria-selected="false">Pagamento</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="editar-aluno" role="tabpanel" aria-labelledby="editar-aluno-tab">
+                                <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
+                                    <div
+                                        class="modal fade"
+                                        id="addRowModal"
+                                        tabindex="-1"
+                                        role="dialog"
+                                        aria-hidden="true"
+                                    >
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <h1>DISPONIBILIDADE</h1>
+                                                <table>
+                                                    <tr>
+                                                        <th>Segunda</th>
+                                                        <th>Terça</th>
+                                                        <th>Quarta</th>
+                                                        <th>Quinta</th>
+                                                        <th>Sexta</th>
+                                                        <th>Sábado</th>
+                                                    </tr>
+                                                    <?php 
+                                                        $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+                                                        $horasFDS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
+                                                        $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+                                                    
+                                                        for ($i = 1; $i <= 11; $i++) {
+                                                            echo "<tr>";
+                                                            foreach ($dias as $dia) {
+                                                                $hora = ($dia == 'Sábado') ? ($horasFDS[$i] ?? '') : ($horas[$i] ?? '');
+                                                                $disponibilidade = 0;
+                                                                $sql = "SELECT disponibilidade FROM alunos_disponibilidade WHERE idAluno = ? AND dia = ? AND hora = ?";
+                                                                $result = $con->prepare($sql);
+                                                                $result->bind_param('iss', $idAluno, $dia, $hora);
+                                                                $result->execute(); 
+                                                                $result->store_result();
+                                                                $result->bind_result($disponibilidade);
+                                                                $result->fetch();
+                                                                if ($disponibilidade == 1) {
+                                                                    $estado = "checked=\"\"";
+                                                                }
+                                                                else{
+                                                                    $estado = "";
+                                                                }
 
-                                                    if ($hora) {
-                                                        echo "<td>
-                                                                <label class='selectgroup-item' id='selectgroup-item'>
-                                                                    <input type=\"checkbox\" name=\"disponibilidade_" . $dia . "_" . $hora . "\" class=\"selectgroup-input\" id=\"selectgroup-input\" " . $estado . "/>
-                                                                    <span class='selectgroup-button' id='selectgroup-button'>$hora</span>
-                                                                </label>
-                                                            </td>";
-                                                    } else {
-                                                        echo "<td></td>";
-                                                    }
-                                                }
-                                                echo "</tr>";
-                                            }
-                                        ?>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="page-inner">
-                            <div class="container2">
-                                <div class="form-section">
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 99.5%;">
-                                            <label>NOME:</label>
-                                            <input type="text" name="nome" value="<?php echo $rowAluno['nome']; ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 64%;">
-                                            <label>MORADA:</label>
-                                            <input type="text" name="morada" value="<?php echo $rowAluno['morada']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 34%;">
-                                            <label>LOCALIDADE:</label>
-                                            <input type="text" name="localidade" value="<?php echo $rowAluno['localidade']; ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 31%;">
-                                            <label>CÓDIGO POSTAL:</label>
-                                            <input type="text" name="codigoPostal" value="<?php echo $rowAluno['codigoPostal']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 32%;">
-                                            <label>NIF:</label>
-                                            <input type="number" name="NIF" value="<?php echo $rowAluno['nif']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 34%;">
-                                            <label>DATA DE NASCIMENTO:</label>
-                                            <input type="date" name="dataNascimento" value="<?php echo $rowAluno['dataNascimento']; ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 64%;">
-                                            <label>EMAIL:</label>
-                                            <input type="email" name="email" value="<?php echo $rowAluno['email']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 34%;">
-                                            <label>CONTACTO:</label>
-                                            <input type="number" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 78%;">
-                                            <label>ESCOLA:</label>
-                                            <input type="text" name="escola" value="<?php echo $rowAluno['escola']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 20%;">
-                                            <label>ANO:</label>
-                                            <input type="number" name="ano" value="<?php echo $rowAluno['ano']; ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 78%;">
-                                            <label>CURSO:</label>
-                                            <input type="text" name="curso" value="<?php echo $rowAluno['curso']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 20%;">
-                                            <label>TURMA:</label>
-                                            <input type="text" name="turma" value="<?php echo $rowAluno['turma']; ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 23%;">
-                                            <label>DISPONIBILIDADE:</label>
-                                            <button
-                                                type="button"
-                                                class="btn btn-primary"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#addRowModal"
-                                                style="padding: 3px;"
-                                            >
-                                                <!-- <i class="fa fa-up-right-from-square"> -->
-                                                DISPONIBILIDADE
-                                            </button>
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 23%;">
-                                            <label>HORAS GRUPO:</label>
-                                            <input type="number" name="horasGrupo" min="0" value="<?php echo $rowAluno['horasGrupo']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 23%;">
-                                            <label>HORAS INDIVIDUAL:</label>
-                                            <input type="number" name="horasIndividual" min="0" value="<?php echo $rowAluno['horasIndividual']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 10%;">
-                                            <label>TRANSPORTE:</label>
-                                            <input class="form-check-input" type="checkbox" name="transporte" style="width: 25px; height: 25px; padding: 5px; border: 1px solid #ccc;" id="flexCheckDefault" <?php echo $transporte; ?>>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Seção de pais -->
-                                <div class="form-section">
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 49%;">
-                                            <label>MÃE:</label>
-                                            <input type="text" name="mae" value="<?php echo $rowAluno['nomeMae']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 49%;">
-                                            <label>Tlm:</label>
-                                            <input type="number" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 49%;">
-                                            <label>PAI:</label>
-                                            <input type="text" name="pai" value="<?php echo $rowAluno['nomePai']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 49%;">
-                                            <label>Tlm:</label>
-                                            <input type="number" name="paiTlm" value="<?php echo $rowAluno['tlmPai']; ?>">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Modalidade e Disciplinas -->
-                                <div class="form-section">
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 78%;">
-                                            <label>MODALIDADE:</label>
-                                            <input type="text" name="modalidade" value="<?php echo $rowAluno['modalidade']; ?>">
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 20%;">
-                                            <label>ESTADO:</label>
-                                            <select name="estado" class="select-box">
-                                                <option <?php if ($rowAluno['ativo'] == 1) { echo "selected"; }?> value="Ativo">Ativo</option>
-                                                <option <?php if ($rowAluno['ativo'] == 0) { echo "selected"; }?> value="Desativado">Desativado</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 100%;">
-                                            <label>DISCIPLINAS:</label>
-                                            <div class="selectgroup selectgroup-pills">
-                                                <?php 
-                                                    $sql = "SELECT id, nome FROM disciplinas;";
-                                                    $result = $con->query($sql);
-                                                    if ($result->num_rows > 0) {
-                                                        while ($row = $result->fetch_assoc()) {
-                                                            $sql = "SELECT * FROM alunos_disciplinas WHERE idAluno = ? AND idDisciplina = ?";
-                                                            $result1 = $con->prepare($sql);
-                                                            $result1->bind_param('ii', $idAluno, $row['id']);
-                                                            $result1->execute(); 
-                                                            $result1->store_result();
-                                                            if ($result1->num_rows > 0) {
-                                                                $estado = "checked=\"\"";
+                                                                if ($hora) {
+                                                                    echo "<td>
+                                                                            <label class='selectgroup-item' id='selectgroup-item'>
+                                                                                <input type=\"checkbox\" name=\"disponibilidade_" . $dia . "_" . $hora . "\" class=\"selectgroup-input\" id=\"selectgroup-input\" " . $estado . "/>
+                                                                                <span class='selectgroup-button' id='selectgroup-button'>$hora</span>
+                                                                            </label>
+                                                                        </td>";
+                                                                } else {
+                                                                    echo "<td></td>";
+                                                                }
                                                             }
-                                                            else{
-                                                                $estado = "";
-                                                            }
-                                                            echo "<label class='selectgroup-item'>
-                                                                    <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
-                                                                    <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
-                                                                </label>";
+                                                            echo "</tr>";
                                                         }
-                                                    }
-                                                ?>
+                                                    ?>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="page-inner">
+                                        <div class="container2">
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 99.5%;">
+                                                        <label>NOME:</label>
+                                                        <input type="text" name="nome" value="<?php echo $rowAluno['nome']; ?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 64%;">
+                                                        <label>MORADA:</label>
+                                                        <input type="text" name="morada" value="<?php echo $rowAluno['morada']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 34%;">
+                                                        <label>LOCALIDADE:</label>
+                                                        <input type="text" name="localidade" value="<?php echo $rowAluno['localidade']; ?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 31%;">
+                                                        <label>CÓDIGO POSTAL:</label>
+                                                        <input type="text" name="codigoPostal" value="<?php echo $rowAluno['codigoPostal']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>NIF:</label>
+                                                        <input type="number" name="NIF" value="<?php echo $rowAluno['nif']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 34%;">
+                                                        <label>DATA DE NASCIMENTO:</label>
+                                                        <input type="date" name="dataNascimento" value="<?php echo $rowAluno['dataNascimento']; ?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 64%;">
+                                                        <label>EMAIL:</label>
+                                                        <input type="email" name="email" value="<?php echo $rowAluno['email']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 34%;">
+                                                        <label>CONTACTO:</label>
+                                                        <input type="number" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 78%;">
+                                                        <label>ESCOLA:</label>
+                                                        <input type="text" name="escola" value="<?php echo $rowAluno['escola']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 20%;">
+                                                        <label>ANO:</label>
+                                                        <input type="number" name="ano" value="<?php echo $rowAluno['ano']; ?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 78%;">
+                                                        <label>CURSO:</label>
+                                                        <input type="text" name="curso" value="<?php echo $rowAluno['curso']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 20%;">
+                                                        <label>TURMA:</label>
+                                                        <input type="text" name="turma" value="<?php echo $rowAluno['turma']; ?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 23%;">
+                                                        <label>DISPONIBILIDADE:</label>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-primary"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#addRowModal"
+                                                            style="padding: 3px;"
+                                                        >
+                                                            <!-- <i class="fa fa-up-right-from-square"> -->
+                                                            DISPONIBILIDADE
+                                                        </button>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 23%;">
+                                                        <label>HORAS GRUPO:</label>
+                                                        <input type="number" name="horasGrupo" min="0" value="<?php echo $rowAluno['horasGrupo']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 23%;">
+                                                        <label>HORAS INDIVIDUAL:</label>
+                                                        <input type="number" name="horasIndividual" min="0" value="<?php echo $rowAluno['horasIndividual']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 10%;">
+                                                        <label>TRANSPORTE:</label>
+                                                        <input class="form-check-input" type="checkbox" name="transporte" style="width: 25px; height: 25px; padding: 5px; border: 1px solid #ccc;" id="flexCheckDefault" <?php echo $transporte; ?>>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Seção de pais -->
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 49%;">
+                                                        <label>MÃE:</label>
+                                                        <input type="text" name="mae" value="<?php echo $rowAluno['nomeMae']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 49%;">
+                                                        <label>Tlm:</label>
+                                                        <input type="number" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 49%;">
+                                                        <label>PAI:</label>
+                                                        <input type="text" name="pai" value="<?php echo $rowAluno['nomePai']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 49%;">
+                                                        <label>Tlm:</label>
+                                                        <input type="number" name="paiTlm" value="<?php echo $rowAluno['tlmPai']; ?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Modalidade e Disciplinas -->
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 78%;">
+                                                        <label>MODALIDADE:</label>
+                                                        <input type="text" name="modalidade" value="<?php echo $rowAluno['modalidade']; ?>">
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 20%;">
+                                                        <label>ESTADO:</label>
+                                                        <select name="estado" class="select-box">
+                                                            <option <?php if ($rowAluno['ativo'] == 1) { echo "selected"; }?> value="Ativo">Ativo</option>
+                                                            <option <?php if ($rowAluno['ativo'] == 0) { echo "selected"; }?> value="Desativado">Desativado</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 100%;">
+                                                        <label>DISCIPLINAS:</label>
+                                                        <div class="selectgroup selectgroup-pills">
+                                                            <?php 
+                                                                $sql = "SELECT id, nome FROM disciplinas;";
+                                                                $result = $con->query($sql);
+                                                                if ($result->num_rows > 0) {
+                                                                    while ($row = $result->fetch_assoc()) {
+                                                                        $sql = "SELECT * FROM alunos_disciplinas WHERE idAluno = ? AND idDisciplina = ?";
+                                                                        $result1 = $con->prepare($sql);
+                                                                        $result1->bind_param('ii', $idAluno, $row['id']);
+                                                                        $result1->execute(); 
+                                                                        $result1->store_result();
+                                                                        if ($result1->num_rows > 0) {
+                                                                            $estado = "checked=\"\"";
+                                                                        }
+                                                                        else{
+                                                                            $estado = "";
+                                                                        }
+                                                                        echo "<label class='selectgroup-item'>
+                                                                                <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
+                                                                                <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
+                                                                            </label>";
+                                                                    }
+                                                                }
+                                                            ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Guardar alterações</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="registro-presenca" role="tabpanel" aria-labelledby="registro-presenca-tab">
+                                <div class="ui container">
+                                    <div class="ui grid">
+                                        <div class="ui sixteen column">
+                                            <div id="calendar"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Guardar alterações</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div id="registroPresenca" class="tabcontent">
-                    <div class="ui container">
-                        <div class="ui grid">
-                            <div class="ui sixteen column">
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                <!-- Carregar scripts na ordem correta -->
+                                <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
+                                <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+                                <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/pt.js'></script>
 
-                <!-- Carregar scripts na ordem correta -->
-                <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
-                <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
-                <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/pt.js'></script>
+                                <script>
+                                    $(document).ready(function() {
+                                        const urlParams = new URLSearchParams(window.location.search);
+                                        const idAluno = urlParams.get('idAluno');
 
-                <script>
-                    $(document).ready(function() {
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const idAluno = urlParams.get('idAluno');
+                                        const presenca = [];
+                                        const results = [];
 
-                        const presenca = [];
-                        const results = [];
+                                        $.ajax({
+                                            url: 'json.obterPresencaAluno.php?idAluno='+idAluno,
+                                            type: 'POST',
+                                            success: function(data) {
+                                                results.push(...data);
+                                                var eventos = [];
+                                                if (results.length > 0) {
+                                                    results.forEach((result) => {
+                                                        eventos.push({
+                                                            title: result.nomeDisc + ' | ' + result.nomeProf,
+                                                            start: result.dia + 'T' + result.horaInicio,
+                                                            end: result.dia + 'T' + result.horaFim,
+                                                        });
+                                                    });
+                                                }
+                                                $('#calendar').fullCalendar({
+                                                    header: {
+                                                        left: 'prev,next today',
+                                                        center: 'title',
+                                                        right: 'month,agendaWeek,agendaDay'
+                                                    },
+                                                    locale: 'pt', // Definir idioma para português
+                                                    firstDay: 1, // Iniciar a semana na segunda-feira
+                                                    hiddenDays: [0], // Esconder os domingos
+                                                    navLinks: true,
+                                                    editable: false,
+                                                    eventStartEditable: false,
+                                                    eventDurationEditable: false, 
+                                                    eventLimit: true,
+                                                    slotLabelFormat: 'HH:mm',
+                                                    events: eventos,
+                                                });
+                                            },
+                                            error: function(xhr, status, error) {
+                                                $('#calendar').fullCalendar({
+                                                    header: {
+                                                        left: 'prev,next today',
+                                                        center: 'title',
+                                                        right: 'month,agendaWeek,agendaDay'
+                                                    },
+                                                    locale: 'pt',
+                                                    firstDay: 1,
+                                                    hiddenDays: [0],
+                                                    navLinks: true,
+                                                    editable: false,
+                                                    eventStartEditable: false,
+                                                    eventDurationEditable: false, 
+                                                    eventLimit: true,
+                                                    slotLabelFormat: 'HH:mm',
+                                                });
+                                            }
+                                        });
 
-                        $.ajax({
-                            url: 'json.obterPresencaAluno.php?idAluno='+idAluno,
-                            type: 'POST',
-                            success: function(data) {
-                                results.push(...data);
-                                var eventos = [];
-                                if (results.length > 0) {
-                                    results.forEach((result) => {
-                                        eventos.push({
-                                            title: result.nomeDisc + ' | ' + result.nomeProf,
-                                            start: result.dia + 'T' + result.horaInicio,
-                                            end: result.dia + 'T' + result.horaFim,
+                                        $('a[data-bs-toggle="pill"]').on('shown.bs.tab', function(e) {
+                                            if (e.target.getAttribute('aria-controls') === 'registro-presenca') {
+                                                $('#calendar').fullCalendar('render'); // Ou 'updateSize'
+                                            }
                                         });
                                     });
-                                }
-                                $('#calendar').fullCalendar({
-                                    header: {
-                                        left: 'prev,next today',
-                                        center: 'title',
-                                        right: 'month,agendaWeek,agendaDay'
-                                    },
-                                    locale: 'pt', // Definir idioma para português
-                                    firstDay: 1, // Iniciar a semana na segunda-feira
-                                    hiddenDays: [0], // Esconder os domingos
-                                    navLinks: true,
-                                    editable: false,
-                                    eventStartEditable: false,
-                                    eventDurationEditable: false, 
-                                    eventLimit: true,
-                                    slotLabelFormat: 'HH:mm',
-                                    events: eventos,
-                                });
-                            },
-                            error: function(xhr, status, error) {
-                                $('#calendar').fullCalendar({
-                                    header: {
-                                        left: 'prev,next today',
-                                        center: 'title',
-                                        right: 'month,agendaWeek,agendaDay'
-                                    },
-                                    locale: 'pt',
-                                    firstDay: 1,
-                                    hiddenDays: [0],
-                                    navLinks: true,
-                                    editable: false,
-                                    eventStartEditable: false,
-                                    eventDurationEditable: false, 
-                                    eventLimit: true,
-                                    slotLabelFormat: 'HH:mm',
-                                });
-                            }
-                        });
-                    });
-                </script>
-                
-                <div id="recibo" class="tabcontent">
-                    <form action="" method="GET">
-                        <div class="select-container">
-                            <input type="hidden" style="display: none;" name="idAluno" value="<?= $idAluno ?>">
-                            <input type="hidden" style="display: none;" name="tab" value="1">
-                            <label for="mes" class="select-label">Mês:</label>
-                            <select name="mes" id="mes" onchange="this.form.submit()">
-                            <option value="<?php echo date("n")."-".date("Y"); ?>" selected><?php echo date("n")."-".date("Y"); ?></option>
-                                <?php
-                                    $sql = "SELECT DISTINCT mes, ano FROM alunos_recibo WHERE idAluno = " . $idAluno . " ORDER BY ano DESC, mes DESC;";
-                                    $result = $con->query($sql);
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo "<option value=" . $row['mes'] . "-" . $row['ano'] . " " . ($row['mes'] == $mes && $row['ano'] == $ano ? 'selected' : '') . ">" . $row['mes'] . "-" . $row['ano'] ."</option>";
-                                        }
-                                    }
-                                ?>
-                            </select>
-                        </div>
-                    </form>
-                    <script>
-                        $(document).ready(function() {
-                            const urlParams = new URLSearchParams(window.location.search);
-                            if (urlParams.has('tab')) {
-                                openTab(event, 'recibo');
-                            }
-                        });
-                    </script>
-                    <div class="page-inner">
-                        <div class="container2">
-                            <div class="form-section">
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 78%;">
-                                        <label>NOME:</label>
-                                        <input type="text" name="nome" list="datalistNomes" readonly value="<?php echo $rowAluno['nome']; ?>">
+                                </script>
+                            </div>
+                            <div class="tab-pane fade" id="recibo" role="tabpanel" aria-labelledby="recibo-tab">
+                                <form action="" method="GET">
+                                    <div class="select-container">
+                                        <input type="hidden" style="display: none;" name="idAluno" value="<?= $idAluno ?>">
+                                        <input type="hidden" style="display: none;" name="tab" value="recibo">
+                                        <label for="mes" class="select-label">Mês:</label>
+                                        <select name="mes" id="mes" onchange="this.form.submit()">
+                                        <option value="<?php echo date("n")."-".date("Y"); ?>" selected><?php echo date("n")."-".date("Y"); ?></option>
+                                            <?php
+                                                $sql = "SELECT DISTINCT mes, ano FROM alunos_recibo WHERE idAluno = " . $idAluno . " ORDER BY ano DESC, mes DESC;";
+                                                $result = $con->query($sql);
+                                                if ($result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        echo "<option value=" . $row['mes'] . "-" . $row['ano'] . " " . ($row['mes'] == $mes && $row['ano'] == $ano ? 'selected' : '') . ">" . $row['mes'] . "-" . $row['ano'] ."</option>";
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
                                     </div>
-                                    <div class="campo" style="flex: 0 0 20%;">
-                                        <label>Ano:</label>
-                                        <input type="text" name="pack" id="pack" readonly value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $rowAluno['ano'];} else {echo $rowRecibo['anoAluno'];} ?>º">
+                                </form>
+                                <div class="page-inner">
+                                    <div class="container2">
+                                        <div class="form-section">
+                                            <div class="form-row">
+                                                <div class="campo" style="flex: 0 0 78%;">
+                                                    <label>NOME:</label>
+                                                    <input type="text" name="nome" list="datalistNomes" readonly value="<?php echo $rowAluno['nome']; ?>">
+                                                </div>
+                                                <div class="campo" style="flex: 0 0 20%;">
+                                                    <label>Ano:</label>
+                                                    <input type="text" name="pack" id="pack" readonly value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $rowAluno['ano'];} else {echo $rowRecibo['anoAluno'];} ?>º">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-section">
+                                            <div class="form-row">
+                                                <div class="campo" style="flex: 0 0 32%;">
+                                                    <label>HORAS EM GRUPO:</label>
+                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $rowAluno['horasGrupo'];} else {echo $rowRecibo['packGrupo'];} ?>" readonly>
+                                                </div>
+                                                <div class="campo" style="flex: 0 0 32%;">
+                                                    <label>HORAS REALIZADAS:</label>
+                                                    <input type="input" name="horasRealizadas" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasRealizadasGrupo;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
+                                                </div>
+                                                <div class="campo" style="flex: 0 0 32%;">
+                                                    <label>BALANÇO HORAS:</label>
+                                                    <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasBalancoGrupo;} else {echo $rowRecibo['horasBalancoGrupo'];} ?>" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php if ($rowAluno['horasIndividual'] > 0) { ?>
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>HORAS INDIVIDUAIS:</label>
+                                                        <input type="input" name="horasIndividuais" value="<?php echo $rowAluno['horasIndividual']; ?>" readonly >
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>HORAS REALIZADAS:</label>
+                                                        <input type="input" name="horasRealizadas" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasRealizadasIndividual;} else {echo $rowRecibo['horasRealizadasIndividual'];} ?>" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>BALANÇO HORAS:</label>
+                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasBalancoIndividual;} else {echo $rowRecibo['horasBalancoIndividual'];} ?>" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                        <!-- <button type="submit" class="btn btn-primary">Registrar hora</button> -->
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-section">
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 32%;">
-                                        <label>HORAS EM GRUPO:</label>
-                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $rowAluno['horasGrupo'];} else {echo $rowRecibo['packGrupo'];} ?>" readonly>
+                            <div class="tab-pane fade" id="pagamento" role="tabpanel" aria-labelledby="pagamento-tab">
+                                <form action="" method="GET">
+                                    <div class="select-container">
+                                        <input type="hidden" style="display: none;" name="idAluno" value="<?= $idAluno ?>">
+                                        <input type="hidden" style="display: none;" name="tab" value="pagamento">
+                                        <label for="mes" class="select-label">Mês:</label>
+                                        <select name="mes" id="mes" onchange="this.form.submit()">
+                                        <option value="<?php echo date("n")."-".date("Y"); ?>" selected><?php echo date("n")."-".date("Y"); ?></option>
+                                            <?php
+                                                $sql = "SELECT DISTINCT mes, ano FROM alunos_recibo WHERE idAluno = " . $idAluno . " ORDER BY ano DESC, mes DESC;";
+                                                $result = $con->query($sql);
+                                                if ($result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        echo "<option value=" . $row['mes'] . "-" . $row['ano'] . " " . ($row['mes'] == $mes && $row['ano'] == $ano ? 'selected' : '') . ">" . $row['mes'] . "-" . $row['ano'] ."</option>";
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
                                     </div>
-                                    <div class="campo" style="flex: 0 0 32%;">
-                                        <label>HORAS REALIZADAS:</label>
-                                        <input type="input" name="horasRealizadas" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasRealizadasGrupo;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 32%;">
-                                        <label>BALANÇO HORAS:</label>
-                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasBalancoGrupo;} else {echo $rowRecibo['horasBalancoGrupo'];} ?>" readonly>
+                                </form>
+                                <div class="page-inner">
+                                    <div class="container2">
+                                        <div class="form-section">
+                                            <div class="form-row">
+                                                <div class="campo" style="flex: 0 0 78%;">
+                                                    <label>NOME:</label>
+                                                    <input type="text" name="nome" list="datalistNomes" readonly value="<?php echo $rowAluno['nome']; ?>">
+                                                </div>
+                                                <div class="campo" style="flex: 0 0 20%;">
+                                                    <label>Ano:</label>
+                                                    <input type="text" name="pack" id="pack" readonly value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $rowAluno['ano'];} else {echo $rowRecibo['anoAluno'];} ?>º">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-section">
+                                            <div class="form-row">
+                                                <div class="campo" style="flex: 0 0 32%;">
+                                                    <label>HORAS EM GRUPO:</label>
+                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $rowAluno['horasGrupo'];} else {echo $rowRecibo['packGrupo'];} ?>" readonly>
+                                                </div>
+                                                <div class="campo" style="flex: 0 0 32%;">
+                                                    <label>HORAS REALIZADAS:</label>
+                                                    <input type="input" name="horasRealizadas" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasRealizadasGrupo;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
+                                                </div>
+                                                <div class="campo" style="flex: 0 0 32%;">
+                                                    <label>BALANÇO HORAS:</label>
+                                                    <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasBalancoGrupo;} else {echo $rowRecibo['horasBalancoGrupo'];} ?>" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php if ($rowAluno['horasIndividual'] > 0) { ?>
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>HORAS INDIVIDUAIS:</label>
+                                                        <input type="input" name="horasIndividuais" value="<?php echo $rowAluno['horasIndividual']; ?>" readonly >
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>HORAS REALIZADAS:</label>
+                                                        <input type="input" name="horasRealizadas" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasRealizadasIndividual;} else {echo $rowRecibo['horasRealizadasIndividual'];} ?>" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>BALANÇO HORAS:</label>
+                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasBalancoIndividual;} else {echo $rowRecibo['horasBalancoIndividual'];} ?>" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                        <!-- <button type="submit" class="btn btn-primary">Registrar hora</button> -->
                                     </div>
                                 </div>
                             </div>
-                            <?php if ($rowAluno['horasIndividual'] > 0) { ?>
-                                <div class="form-section">
-                                    <div class="form-row">
-                                        <div class="campo" style="flex: 0 0 32%;">
-                                            <label>HORAS INDIVIDUAIS:</label>
-                                            <input type="input" name="horasIndividuais" value="<?php echo $rowAluno['horasIndividual']; ?>" readonly >
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 32%;">
-                                            <label>HORAS REALIZADAS:</label>
-                                            <input type="input" name="horasRealizadas" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasRealizadasIndividual;} else {echo $rowRecibo['horasRealizadasIndividual'];} ?>" readonly>
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 32%;">
-                                            <label>BALANÇO HORAS:</label>
-                                            <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasBalancoIndividual;} else {echo $rowRecibo['horasBalancoIndividual'];} ?>" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            <!-- <button type="submit" class="btn btn-primary">Registrar hora</button> -->
                         </div>
                     </div>
                 </div>

@@ -55,6 +55,12 @@
                         <p>Registro de presença</p>
                     </a>
                 </li>
+                <li class="nav-item <?php echo ($estouEm == 5) ? 'active' : ''; ?>">
+                    <a href="presenca.php">
+                        <i class="fas fa-home"></i>
+                        <p>Pagamentos</p>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

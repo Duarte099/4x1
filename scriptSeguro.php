@@ -46,7 +46,7 @@
      * Save the PDF file locally
      */
     $output = $dompdf->output();
-    file_put_contents(__DIR__ . "/images/uploads/listaAlunosSeguro_" . date("m-d-y") . ".pdf", $output);
+    file_put_contents(__DIR__ . "/images/uploads/listaAlunosSeguro_" . date("d-m-y") . ".pdf", $output);
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
@@ -78,7 +78,7 @@
             CENTRO DE ESTUDO 4x1 | Alameda Arnaldo Gama nº 161, 4765-001 Vila das Aves | email: geral@4x1.pt
             </body>";
 
-    $pdfPath = __DIR__ . "/images/uploads/listaAlunosSeguro_" . date("m-d-y") . ".pdf";
+    $pdfPath = __DIR__ . "/images/uploads/listaAlunosSeguro_" . date("d-m-y") . ".pdf";
     if (file_exists($pdfPath)) {
         $mail->addAttachment($pdfPath, "LISTA_ALUNOS_" . date("mdy") . "pdf");
     } else {
