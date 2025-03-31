@@ -1,13 +1,6 @@
-Como meter foto no email
-
-Como fazer para ao entrar no sistema em setembro perguntar se vao continuar ou ficar
-
-Como fazer para mostrar o estado dos pagamentos, se meto uma tabela com edição nela ou de outra forma
-
-Se da para verificar pagamentos por MBWay   
 Como faço o calendario para marcar as aulas
 
-desatibar albunos lista dos alubno ativos check box para desativar
+desativar alunos lista dos alunos ativos check box para desativar
 
 Calcular mensalidade ao inserir cliente, ao editar e no recibo
 
@@ -20,6 +13,17 @@ nessa página irá dar para ver os pagamentos anteriores
 fazer página para inserir pagamento
 
 fazer página com todos os alunos e com uma chekbox para selecionar os que pretende desativar
+
+tabela na  dashboard com os pagamentos 
+
+campo com o valor a receber todos os dias
+
+Cronjob vai criar o pagamento do mês anterior todos os meses no dia 1, ao pagar muda o estado para pago, caso nao pague em 1 semana outro cronJob irá mudar para Em atraso alem disso no sistema de ver pagamentos anteriores basta selecionar todos os pagamentos daquele aluno e meter a aparecer o do mes anterior e na select box todas as datas de pagamentos registrados
+
+Meter valor da inscrição
+
+verificar se data é valida
+
 
 
 

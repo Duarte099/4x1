@@ -3,16 +3,16 @@
   include('./head.php'); 
 
   //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-  $estouEm = 2;
+  $estouEm = 5;
 
   //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
-  if (adminPermissions($con, "adm_001", "view") == 0) {
+  if (adminPermissions($con, "adm_004", "view") == 0) {
       notificacao('warning', 'Não tens permissão para aceder a esta página.');
       header('Location: dashboard.php');
       exit();
   }
 ?>
-  <title>4x1 | Alunos</title>
+  <title>4x1 | Estado Pagamentos</title>
 </head>
   <body>
     <div class="wrapper">
@@ -25,10 +25,7 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h3 class="fw-bold mb-3">Alunos</h3>
-              </div>
-              <div class="ms-md-auto py-2 py-md-0">
-                <a href="alunoCriar.php" class="btn btn-primary btn-round">Adicionar aluno</a>
+                <h3 class="fw-bold mb-3">Estado Pagamentos</h3>
               </div>
             </div>
             <div class="col-md-12">
@@ -44,6 +41,7 @@
                             <th>Ensino</th>
                             <th>Nome</th>
                             <th>Data Nascimento</th>
+                            <th>Estado do pagamento</th>
                             <th style="width: 10%">Ação</th>
                           </tr>
                         </thead>
@@ -52,26 +50,67 @@
                             <th>Ensino</th>
                             <th>Nome</th>
                             <th>Data Nascimento</th>
+                            <th>Estado do pagamento</th>
                           </tr>
                         </tfoot>
                         <tbody>
                           <?php
+                            $mesAnterior = date('m') - 1;
+                            $anoAtual = date('Y');
+
+                            if ($mesAnterior == 0) {
+                              $mesAnterior = 12;
+                              $anoAtual -= 1;
+                            }
                             //query para selecionar todos os administradores
-                            $sql = "SELECT id, nome, ano, dataNascimento, IF(ano>=1 AND ano<=4, \"1º CICLO\", IF(ano>4 AND ano<7, \"2º CICLO\", IF(ano>6 AND ano<=9, \"3º CICLO\", \"SECUNDÁRIO e OUTROS\"))) as ensino FROM alunos ORDER BY ativo DESC,(ano = 0), ano ASC;";
+                            $sql = "SELECT id, nome, ano, dataNascimento,
+                                      CASE 
+                                          WHEN ano >= 1 AND ano <= 4 THEN '1º CICLO'
+                                          WHEN ano > 4 AND ano < 7 THEN '2º CICLO'
+                                          WHEN ano > 6 AND ano <= 9 THEN '3º CICLO'
+                                          WHEN ano > 9 THEN 'SECUNDÁRIO'
+                                          WHEN ano = 0 THEN 'UNIVERSIDADE'
+                                      END AS ensino
+                                    FROM alunos 
+                                    ORDER BY 
+                                      FIELD(ensino, '1º CICLO', '2º CICLO', '3º CICLO', 'SECUNDÁRIO', 'UNIVERSIDADE'), 
+                                      ano ASC;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                               while ($row = $result->fetch_assoc()) {
+                                $sql1 = "SELECT * FROM alunos_pagamentos WHERE idAluno = {$row['id']} AND MONTH(created) = {$mesAnterior} AND YEAR(created) = {$anoAtual}";
+                                $result1 = $con->query($sql1);
+                                if ($result1->num_rows > 0) {
+                                  $row1 = $result1->fetch_assoc();
+                                  if ($row1['estado'] == "Pago") {
+                                    $corStatus = "2ecc71";
+                                  }
+                                  elseif ($row1['estado'] == "Pendente") {
+                                    $corStatus = "f1c40f";
+                                  }
+                                  elseif ($row1['estado'] == "Em atraso") {
+                                    $corStatus = "ff0000";
+                                  }
+                                  else {
+                                    $corStatus = "";
+                                  }
+                                }
+                                else {
+                                  $corStatus = "";
+                                  $row1['estado'] = "Pendente";
+                                }
                                 //mostra os resultados todos 
                                 echo "<tr>
                                         <td>{$row['ensino']}</td>
                                         <td>{$row['nome']}</td>
                                         <td>{$row['dataNascimento']}</td>
+                                        <td style=\"color: #$corStatus;\">{$row1['estado']}</td>
                                         <td>
                                           <div class=\"form-button-action\">
                                             <button
                                               type=\"button\"
                                               data-bs-toggle=\"tooltip\"
-                                              onclick=\"window.location.href='alunoEdit.php?idAluno=" . $row['id'] . "'\"
+                                              onclick=\"window.location.href='alunoEdit.php?idAluno=" . $row['id'] . "&tab=pagamento'\"
                                               class=\"btn btn-link btn-primary btn-lg\"
                                               data-original-title=\"Editar Aluno\"
                                             >
@@ -93,7 +132,7 @@
         </div>
       </div>
     </div>
-    <?php   
+    <?php
       include('./endPage.php'); 
     ?>
   </body>

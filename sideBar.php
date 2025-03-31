@@ -56,9 +56,15 @@
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 5) ? 'active' : ''; ?>">
-                    <a href="presenca.php">
+                    <a href="pagamentoEstado.php">
                         <i class="fas fa-home"></i>
-                        <p>Pagamentos</p>
+                        <p>Estado Pagamentos</p>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo ($estouEm == 6) ? 'active' : ''; ?>">
+                    <a href="estadoAlunos.php">
+                        <i class="fas fa-home"></i>
+                        <p>Estado Alunos</p>
                     </a>
                 </li>
             </ul>

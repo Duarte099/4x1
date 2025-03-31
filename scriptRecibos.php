@@ -9,6 +9,7 @@
             $mes = date("n");
             $ano = date("Y");
             $mes = $mes - 1;
+            $mensalidade = 0;
 
             //Horas Grupo Realizadas
             $horasRealizadasGrupo = 0;
@@ -20,27 +21,57 @@
             }
 
             //Horas Individuais Realizadas
-            $horasRealizadasindividual = 0;
+            $horasRealizadasIndividual = 0;
             $sql3 = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . (int) $row1['id'] . " AND MONTH(dia) = $mes AND YEAR(dia) = $ano AND individual = 1";
             $result3 = $con->query($sql3);
             if ($result3->num_rows >= 0) {
                 $row3 = $result3->fetch_assoc();
-                $horasRealizadasindividual = $row3['horasRealizadas'];
+                $horasRealizadasIndividual = $row3['horasRealizadas'];
             }
 
             //Balanço Grupo
             $balancoGrupo = $row1['balancoGrupo'] + ($row1['horasGrupo'] - $horasRealizadasGrupo);
 
             //Balanço Individual
-            $balancoIndividual = $row1['balancoIndividual'] + ($row1['horasIndividual'] - $horasRealizadasindividual);
+            $balancoIndividual = $row1['balancoIndividual'] + ($row1['horasIndividual'] - $horasRealizadasIndividual);
 
-            $mensalidade = 30;
+            //Valor do transporte
+            $result = $con->prepare('SELECT transporte FROM alunos WHERE id = ?');
+            $result->bind_param("i", $row1['id']);
+            $result->execute();
+            $result = $result->get_result();
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                if ($row['transporte'] == 1) {
+                    $mensalidade = $mensalidade + 20;
+                }
+            }
+
+            ///Mensalidade Grupo
+            $result = $con->prepare('SELECT mensalidadeHorasGrupo FROM mensalidade INNER JOIN alunos ON alunos.idMensalidadeGrupo  = mensalidade.id WHERE alunos.id = ?');
+            $result->bind_param("i", $row1['id']);
+            $result->execute();
+            $result = $result->get_result();
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $mensalidade = $mensalidade + $row['mensalidadeHorasGrupo'];
+            }
+
+            //Mensalidade Individual
+            $result = $con->prepare('SELECT mensalidadeHorasIndividual FROM mensalidade INNER JOIN alunos ON alunos.idMensalidadeIndividual = mensalidade.id WHERE alunos.id = ?');
+            $result->bind_param("i", $row1['id']);
+            $result->execute(); 
+            $result = $result->get_result();
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $mensalidade = $mensalidade + $row['mensalidadeHorasGrupo'];
+            }
 
             //Inserir Recibo
             $sql4 = "INSERT INTO alunos_recibo (idAluno, anoAluno, packGrupo, horasRealizadasGrupo, horasBalancoGrupo, packIndividual, horasRealizadasIndividual, horasBalancoIndividual, mensalidade, ano, mes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $result4 = $con->prepare($sql4);
             if ($result4) {
-                $result4->bind_param("iiiiiiiiiii", $row1['id'], $row1['ano'], $row1['horasGrupo'], $horasRealizadasGrupo, $balancoGrupo, $row1['horasIndividual'], $horasRealizadasindividual, $balancoIndividual, $mensalidade, $ano, $mes);
+                $result4->bind_param("iiiiiiiiiii", $row1['id'], $row1['ano'], $row1['horasGrupo'], $horasRealizadasGrupo, $balancoGrupo, $row1['horasIndividual'], $horasRealizadasIndividual, $balancoIndividual, $mensalidade, $ano, $mes);
                 $result4->execute();
             }
 

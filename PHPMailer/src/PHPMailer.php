@@ -2728,8 +2728,8 @@ class PHPMailer
         if ('' === $this->XMailer) {
             //Empty string for default X-Mailer header
             $result .= $this->headerLine(
-                'X-Mailer',
-                'PHPMailer ' . self::VERSION . ' (https://github.com/PHPMailer/PHPMailer)'
+                ' ',
+                ' '
             );
         } elseif (is_string($this->XMailer) && trim($this->XMailer) !== '') {
             //Some string

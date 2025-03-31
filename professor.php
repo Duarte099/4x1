@@ -31,20 +31,12 @@
                 <a href="professorCriar.php" class="btn btn-primary btn-round">Adicionar professor</a>
               </div>
             </div>
-            <div class="input-icon">
-              <input
-                style="width: 20%;"
-                type="text"
-                class="form-control"
-                placeholder="Pesquisar por..."
-              />
-            </div>
             <div class="col-md-12">
               <div class="card">
                 <div class="card-body">
                   <div class="table-responsive">
                     <table
-                      id="add-row"
+                      id="multi-filter-select"
                       class="display table table-striped table-hover"
                     >
                       <thead>
@@ -55,6 +47,13 @@
                           <th style="width: 10%">Ação</th>
                         </tr>
                       </thead>
+                      <tfoot>
+                        <tr>
+                          <th>Nome</th>
+                          <th>Ensino</th>
+                          <th>Data Nascimento</th>
+                        </tr>
+                      </tfoot>
                       <tbody>
                         <?php
                           //query para selecionar todos os administradores

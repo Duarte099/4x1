@@ -17,6 +17,10 @@
 
     $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
 
+    if ($tab == "pagamento") {
+        $estouEm = 5;
+    }
+
     //Obtem todas as informações do aluno que está a ser editado
     $sql = "SELECT * FROM alunos WHERE alunos.id = '$idAluno'";
     $result = $con->query($sql);
@@ -38,6 +42,7 @@
     }
     $horasRealizadasGrupo = 0;
     $horasRealizadasIndividual = 0;
+    $mensalidade = 0;
 
     if (isset($_GET['mes'])) {
         $partes = explode("-", $_GET['mes']);
@@ -47,6 +52,32 @@
     else {
         $mes = date("m");
         $ano = date("Y");
+    }
+
+    if (isset($_GET['data'])) {
+        $data = $_GET['data'];
+    }
+    else {
+        $mesAnterior = date('m') - 1;
+        $anoAtual = date('Y');
+        
+        if ($mesAnterior == 0) {
+            $mesAnterior = 12;
+            $anoAtual -= 1;
+        }
+
+        // Garante que $mesAnterior tem dois dígitos
+        $mesAnterior = str_pad($mesAnterior, 2, "0", STR_PAD_LEFT);
+        
+        $data = $mesAnterior . "-" . $anoAtual;
+    }
+
+    //Pagamento
+    $sql = "SELECT *, alunos_pagamentos.id as idPagamento FROM alunos_pagamentos LEFT JOIN metodos_pagamento as m ON idMetodo = m.id WHERE idAluno = $idAluno AND DATE_FORMAT(created, '%m-%Y') = '$data';";
+    $result = $con->query($sql);
+    //Se houver um aluno com o id recebido, guarda as informações
+    if ($result->num_rows > 0) {
+        $rowPagamento = $result->fetch_assoc();
     }
 
     if ($mes == date("n") && $ano == date("Y")) {
@@ -68,6 +99,38 @@
             $horasRealizadasIndividual = $row['horasRealizadas'];
             //Balanço Individual
             $horasBalancoIndividual = $rowAluno['balancoIndividual'] + ($rowAluno['horasIndividual'] - $horasRealizadasIndividual);
+        }
+
+        //Valor do transporte
+        $result5 = $con->prepare('SELECT transporte FROM alunos WHERE id = ?');
+        $result5->bind_param("i", $idAluno);
+        $result5->execute();
+        $result5 = $result5->get_result();
+        if ($result5->num_rows > 0) {
+            $row5 = $result5->fetch_assoc();
+            if ($row5['transporte'] == 1) {
+                $mensalidade = 20;
+            }
+        }
+
+        //Mensalidade Grupo
+        $result = $con->prepare('SELECT mensalidadeHorasGrupo FROM mensalidade INNER JOIN alunos ON alunos.idMensalidadeGrupo  = mensalidade.id WHERE alunos.id = ?');
+        $result->bind_param("i", $idAluno);
+        $result->execute();
+        $result = $result->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $mensalidade = $mensalidade + $row['mensalidadeHorasGrupo'];
+        }
+
+        //Mensalidade Individual
+        $result = $con->prepare('SELECT mensalidadeHorasIndividual FROM mensalidade INNER JOIN alunos ON alunos.idMensalidadeIndividual = mensalidade.id WHERE alunos.id = ?');
+        $result->bind_param("i", $idAluno);
+        $result->execute(); 
+        $result = $result->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $mensalidade = $mensalidade + $row['mensalidadeHorasGrupo'];
         }
     }
     else {
@@ -617,7 +680,7 @@
                                             <div class="form-row">
                                                 <div class="campo" style="flex: 0 0 78%;">
                                                     <label>NOME:</label>
-                                                    <input type="text" name="nome" list="datalistNomes" readonly value="<?php echo $rowAluno['nome']; ?>">
+                                                    <input type="text" name="nome" readonly value="<?php echo $rowAluno['nome']; ?>">
                                                 </div>
                                                 <div class="campo" style="flex: 0 0 20%;">
                                                     <label>Ano:</label>
@@ -659,6 +722,14 @@
                                                 </div>
                                             </div>
                                         <?php } ?>
+                                        <div class="form-section">
+                                            <div class="form-row">
+                                                <div class="campo" style="flex: 0 0 32%;">
+                                                    <label>MENSALIDADE:</label>
+                                                    <input type="input" name="mensalidade" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $mensalidade;} else {echo $rowRecibo['mensalidade'];} ?>€" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- <button type="submit" class="btn btn-primary">Registrar hora</button> -->
                                     </div>
                                 </div>
@@ -668,72 +739,72 @@
                                     <div class="select-container">
                                         <input type="hidden" style="display: none;" name="idAluno" value="<?= $idAluno ?>">
                                         <input type="hidden" style="display: none;" name="tab" value="pagamento">
-                                        <label for="mes" class="select-label">Mês:</label>
-                                        <select name="mes" id="mes" onchange="this.form.submit()">
-                                        <option value="<?php echo date("n")."-".date("Y"); ?>" selected><?php echo date("n")."-".date("Y"); ?></option>
+                                        <label for="data" class="select-label">Data:</label>
+                                        <select name="data" id="mes" onchange="this.form.submit()">
                                             <?php
-                                                $sql = "SELECT DISTINCT mes, ano FROM alunos_recibo WHERE idAluno = " . $idAluno . " ORDER BY ano DESC, mes DESC;";
+                                                $sql = "SELECT DISTINCT DATE_FORMAT(created, '%m-%Y') AS data_formatada, 
+                                                                MONTH(created) AS mes, 
+                                                                YEAR(created) AS ano 
+                                                        FROM alunos_pagamentos 
+                                                        WHERE idAluno = " . $idAluno . " 
+                                                        ORDER BY created DESC;";
                                                 $result = $con->query($sql);
                                                 if ($result->num_rows > 0) {
                                                     while ($row = $result->fetch_assoc()) {
-                                                        echo "<option value=" . $row['mes'] . "-" . $row['ano'] . " " . ($row['mes'] == $mes && $row['ano'] == $ano ? 'selected' : '') . ">" . $row['mes'] . "-" . $row['ano'] ."</option>";
+                                                        echo $row['data_formatada'];
+                                                        echo $data;
+                                                        echo "<option value=" . $row['data_formatada'] . " " . ($row['data_formatada'] == $data ? 'selected' : '') . " >" . $row['data_formatada'] ."</option>";
                                                     }
                                                 }
                                             ?>
                                         </select>
                                     </div>
                                 </form>
-                                <div class="page-inner">
-                                    <div class="container2">
-                                        <div class="form-section">
-                                            <div class="form-row">
-                                                <div class="campo" style="flex: 0 0 78%;">
-                                                    <label>NOME:</label>
-                                                    <input type="text" name="nome" list="datalistNomes" readonly value="<?php echo $rowAluno['nome']; ?>">
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 20%;">
-                                                    <label>Ano:</label>
-                                                    <input type="text" name="pack" id="pack" readonly value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $rowAluno['ano'];} else {echo $rowRecibo['anoAluno'];} ?>º">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-section">
-                                            <div class="form-row">
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>HORAS EM GRUPO:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $rowAluno['horasGrupo'];} else {echo $rowRecibo['packGrupo'];} ?>" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>HORAS REALIZADAS:</label>
-                                                    <input type="input" name="horasRealizadas" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasRealizadasGrupo;} else {echo $rowRecibo['horasRealizadasGrupo'];} ?>" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>BALANÇO HORAS:</label>
-                                                    <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasBalancoGrupo;} else {echo $rowRecibo['horasBalancoGrupo'];} ?>" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php if ($rowAluno['horasIndividual'] > 0) { ?>
+                                <form action="pagamentoInserir.php?id=<?php echo $rowPagamento['idPagamento'] ?>&op=save" method="POST">
+                                    <div class="page-inner">
+                                        <div class="container2">
                                             <div class="form-section">
                                                 <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS INDIVIDUAIS:</label>
-                                                        <input type="input" name="horasIndividuais" value="<?php echo $rowAluno['horasIndividual']; ?>" readonly >
+                                                    <div class="campo" style="flex: 0 0 56%;">
+                                                        <label>NOME:</label>
+                                                        <input type="text" name="nome" readonly value="<?php echo $rowAluno['nome']; ?>">
                                                     </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS REALIZADAS:</label>
-                                                        <input type="input" name="horasRealizadas" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasRealizadasIndividual;} else {echo $rowRecibo['horasRealizadasIndividual'];} ?>" readonly>
+                                                    <div class="campo" style="flex: 0 0 19%;">
+                                                        <label>ESTADO:</label>
+                                                        <input type="input" name="estado" value="<?php echo $rowPagamento['estado']; ?>" readonly>
                                                     </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>BALANÇO HORAS:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasBalancoIndividual;} else {echo $rowRecibo['horasBalancoIndividual'];} ?>" readonly>
+                                                    <div class="campo" style="flex: 0 0 19%;">
+                                                        <label>MENSALIDADE:</label>
+                                                        <input type="text" name="mensalidade" readonly value="<?php echo $mensalidade; ?>€">
                                                     </div>
                                                 </div>
                                             </div>
-                                        <?php } ?>
-                                        <!-- <button type="submit" class="btn btn-primary">Registrar hora</button> -->
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 49%;">
+                                                        <label>MÉTODO:</label>
+                                                        <?php
+                                                            if ($rowPagamento['estado'] == "Pago") { ?>
+                                                                <input type="input" name="observacao" value="<?php echo $rowPagamento['estado']; ?>" readonly>
+                                                        <?php } else { ?>
+                                                            <select name="metodo" class="select-box">
+                                                                <option selected value="1">Dinheiro</option>
+                                                                <option value="2">MBWay</option>
+                                                            </select>
+                                                        <?php } ?>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 49%;">
+                                                        <label>OBSERVAÇÃO:</label>
+                                                        <input type="input" name="observacao" value="<?php if ($rowPagamento['estado'] == "Pago") {echo $rowPagamento['observacao'];} ?>" <?php if ($rowPagamento['estado'] == "Pago") { echo "readonly"; } ?>>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?php if ($rowPagamento['estado'] != "Pago") { ?>
+                                                <button type="submit" class="btn btn-primary">Registrar pagamento</button>
+                                            <?php } ?>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>

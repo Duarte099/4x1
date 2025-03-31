@@ -7,35 +7,6 @@
         //Obtem o operação 
         $op = $_GET['op'];
 
-        $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
-        $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-
-        $nome = $_POST['nome'];
-        $localidade = $_POST['localidade'];
-        $morada = $_POST['morada'];
-        $dataNascimento = $_POST['dataNascimento'];
-        $codigoPostal = $_POST['codigoPostal'];
-        $NIF = $_POST['NIF'];
-        $email = $_POST['email'];
-        $contacto = $_POST['contacto'];
-        $escola = $_POST['escola'];
-        $ano = $_POST['ano'];
-        $curso = $_POST['curso'];
-        $turma = $_POST['turma'];
-        $horasGrupo = $_POST['horasGrupo'];
-        $horasIndividual = $_POST['horasIndividual'];
-        $nomeMae = $_POST['mae'];
-        $tlmMae = $_POST['maeTlm'];
-        $nomePai = $_POST['pai'];
-        $tlmPai = $_POST['paiTlm'];
-        $modalidade = $_POST['modalidade'];
-
-        if (isset($_POST['transporte']) && $_POST['transporte'] == "on") {
-            $transporte = 1;
-        } else {
-            $transporte = 0;
-        }
-
         if ($op == 'save') {
             //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard.php
             if (adminPermissions($con, "adm_001", "insert") == 0) {
@@ -44,11 +15,68 @@
                 exit();
             }
 
+            $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+            $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+
+            $nome = $_POST['nome'];
+            $localidade = $_POST['localidade'];
+            $morada = $_POST['morada'];
+            $dataNascimento = $_POST['dataNascimento'];
+            $codigoPostal = $_POST['codigoPostal'];
+            $NIF = $_POST['NIF'];
+            $email = $_POST['email'];
+            $contacto = $_POST['contacto'];
+            $escola = $_POST['escola'];
+            $ano = $_POST['ano'];
+            $curso = $_POST['curso'];
+            $turma = $_POST['turma'];
+            $horasGrupo = $_POST['horasGrupo'];
+            $horasIndividual = $_POST['horasIndividual'];
+            $nomeMae = $_POST['mae'];
+            $tlmMae = $_POST['maeTlm'];
+            $nomePai = $_POST['pai'];
+            $tlmPai = $_POST['paiTlm'];
+            $modalidade = $_POST['modalidade'];
+
+            if (isset($_POST['transporte']) && $_POST['transporte'] == "on") {
+                $transporte = 1;
+            } else {
+                $transporte = 0;
+            }
+
+            if ($_POST['horasGrupo'] > 0) {
+                $result6 = $con->prepare('SELECT id FROM mensalidade WHERE ano = ? AND horasGrupo = ?');
+                $result6->bind_param('ii', $ano, $_POST['horasGrupo']);
+                $result6->execute();
+                $result6 = $result6->get_result();
+                if ($result6->num_rows > 0) {
+                    $row6 = $result6->fetch_assoc();
+                    $idMensalidadeGrupo = $row6['id'];
+                }
+            } elseif ($_POST['horasIndividual'] > 0) { // Adicionei uma verificação > 0 para consistência
+                $result6 = $con->prepare('SELECT id FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
+                $result6->bind_param('ii', $ano, $_POST['horasIndividual']);
+                $result6->execute();
+                $result6 = $result6->get_result(); 
+                if ($result6->num_rows > 0) {
+                    $row6 = $result6->fetch_assoc();
+                    $idMensalidadeIndividual = $row6['id'];
+                }
+            }
+
+            if (empty($idMensalidadeIndividual)) {
+                $idMensalidadeIndividual = NULL;
+            }
+
+            if (empty($idMensalidadeGrupo)) {
+                $idMensalidadeGrupo = NULL;
+            }
+
             //query sql para inserir os dados do aluno
-            $sql = "INSERT INTO alunos (nome, localidade, morada, dataNascimento, codigoPostal, NIF, email, contacto, escola, ano, curso, turma, horasGrupo, horasIndividual, transporte, nomeMae, tlmMae, nomePai, tlmPai, modalidade) VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO alunos (nome, localidade, morada, dataNascimento, codigoPostal, NIF, email, contacto, escola, ano, curso, turma, horasGrupo, horasIndividual, transporte, idMensalidadeGrupo, idMensalidadeIndiviudal, nomeMae, tlmMae, nomePai, tlmPai, modalidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("sssssisisissiiisisis", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade);
+                $result->bind_param("sssssisisissiiiiisisis", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $idMensalidadeGrupo, $idMensalidadeIndividual , $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade);
                 if ($result->execute()) {
                     notificacao('success', 'Aluno criado com sucesso!');
                 } 
@@ -59,7 +87,7 @@
                 $result->close();
             }
             else {
-                notificacao('danger', 'Erro ao crair aluno: ' . $result->error);
+                notificacao('danger', 'Erro ao criar aluno: ' . $result->error);
             }
             //Obtem o id do novo aluno inserido
             $idAluno = $con->insert_id;
@@ -105,6 +133,63 @@
                 exit();
             }
 
+            $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+            $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+
+            $nome = $_POST['nome'];
+            $localidade = $_POST['localidade'];
+            $morada = $_POST['morada'];
+            $dataNascimento = $_POST['dataNascimento'];
+            $codigoPostal = $_POST['codigoPostal'];
+            $NIF = $_POST['NIF'];
+            $email = $_POST['email'];
+            $contacto = $_POST['contacto'];
+            $escola = $_POST['escola'];
+            $ano = $_POST['ano'];
+            $curso = $_POST['curso'];
+            $turma = $_POST['turma'];
+            $horasGrupo = $_POST['horasGrupo'];
+            $horasIndividual = $_POST['horasIndividual'];
+            $nomeMae = $_POST['mae'];
+            $tlmMae = $_POST['maeTlm'];
+            $nomePai = $_POST['pai'];
+            $tlmPai = $_POST['paiTlm'];
+            $modalidade = $_POST['modalidade'];
+
+            if (isset($_POST['transporte']) && $_POST['transporte'] == "on") {
+                $transporte = 1;
+            } else {
+                $transporte = 0;
+            }
+
+            if ($_POST['horasGrupo'] > 0) {
+                $result6 = $con->prepare('SELECT id FROM mensalidade WHERE ano = ? AND horasGrupo = ?');
+                $result6->bind_param('ii', $ano, $_POST['horasGrupo']);
+                $result6->execute();
+                $result6 = $result6->get_result();
+                if ($result6->num_rows > 0) {
+                    $row6 = $result6->fetch_assoc();
+                    $idMensalidadeGrupo = $row6['id'];
+                }
+            } elseif ($_POST['horasIndividual'] > 0) { // Adicionei uma verificação > 0 para consistência
+                $result6 = $con->prepare('SELECT id FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
+                $result6->bind_param('ii', $ano, $_POST['horasIndividual']);
+                $result6->execute();
+                $result6 = $result6->get_result(); 
+                if ($result6->num_rows > 0) {
+                    $row6 = $result6->fetch_assoc();
+                    $idMensalidadeIndividual = $row6['id'];
+                }
+            }
+
+            if (empty($idMensalidadeIndividual)) {
+                $idMensalidadeIndividual = NULL;
+            }
+
+            if (empty($idMensalidadeGrupo)) {
+                $idMensalidadeGrupo = NULL;
+            }
+
             $idAluno = $_GET['idAluno'];
 
             $estado = $_POST['estado'];
@@ -125,10 +210,10 @@
                 exit();
             }
 
-            $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, horasGrupo = ?, horasIndividual = ?, transporte = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ?, ativo = ? WHERE id = ?";
+            $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, horasGrupo = ?, horasIndividual = ?, transporte = ?, idMensalidadeGrupo = ?, idMensalidadeIndividual = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ?, ativo = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("sssssisisissiiisisisii", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $estado, $idAluno);
+                $result->bind_param("sssssisisissiiiiisisisii", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $idMensalidadeGrupo, $idMensalidadeIndividual, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $estado, $idAluno);
                 
                 if ($result->execute()) {
                     notificacao('success', 'Aluno editado com sucesso!');

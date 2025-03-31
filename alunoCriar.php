@@ -261,17 +261,30 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="campo" style="flex: 0 0 100%;">
+                                <div class="campo" style="flex: 0 0 23%;">
                                     <label>DISPONIBILIDADE:</label>
                                     <button
                                         type="button"
                                         class="btn btn-primary"
                                         data-bs-toggle="modal"
                                         data-bs-target="#addRowModal"
+                                        style="padding: 3px;"
                                     >
                                         <!-- <i class="fa fa-up-right-from-square"> -->
                                         DISPONIBILIDADE
                                     </button>
+                                </div>
+                                <div class="campo" style="flex: 0 0 23%;">
+                                    <label>HORAS GRUPO:</label>
+                                    <input type="number" name="horasGrupo" min="0">
+                                </div>
+                                <div class="campo" style="flex: 0 0 23%;">
+                                    <label>HORAS INDIVIDUAL:</label>
+                                    <input type="number" name="horasIndividual" min="0">
+                                </div>
+                                <div class="campo" style="flex: 0 0 10%;">
+                                    <label>TRANSPORTE:</label>
+                                    <input class="form-check-input" type="checkbox" name="transporte" style="width: 25px; height: 25px; padding: 5px; border: 1px solid #ccc;" id="flexCheckDefault">
                                 </div>
                             </div>      
                         </div>
@@ -330,25 +343,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="horario">
-                            <div class="dia-horario">
-                                <label>2ªF - <input type="number" name="2F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                            </div>
-                            <div class="dia-horario">
-                                <label>3ªF - <input type="number" name="3F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                            </div>
-                            <div class="dia-horario">
-                                <label>4ªF - <input type="number" name="4F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                            </div>
-                            <div class="dia-horario">
-                                <label>5ªF - <input type="number" name="5F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                            </div>
-                            <div class="dia-horario">
-                                <label>6ªF - <input type="number" name="6F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                            </div>
-                            <div class="dia-horario">
-                                <label>Sab - <input type="number" name="7F" min="0" max="24" value="0" style="width: 50px;">h</label>
-                        </div> -->
                         <button type="submit" class="btn btn-primary">Guardar alterações</button>
                     </div>
                 </div>
