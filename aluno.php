@@ -57,7 +57,7 @@
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT id, nome, ano, dataNascimento, IF(ano>=1 AND ano<=4, \"1º CICLO\", IF(ano>4 AND ano<7, \"2º CICLO\", IF(ano>6 AND ano<=9, \"3º CICLO\", \"SECUNDÁRIO e OUTROS\"))) as ensino FROM alunos ORDER BY ativo DESC,(ano = 0), ano ASC;";
+                            $sql = "SELECT id, nome, ano, dataNascimento, IF(ano>=1 AND ano<=4, \"1º CICLO\", IF(ano>4 AND ano<7, \"2º CICLO\", IF(ano>6 AND ano<=9, \"3º CICLO\", IF(ano>9 AND ano<=12, \"3º CICLO\", \"UNIVERSIDADE\")))) as ensino FROM alunos WHERE ativo = 1 ORDER BY (ano = 0), ano ASC;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                               while ($row = $result->fetch_assoc()) {

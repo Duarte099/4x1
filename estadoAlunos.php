@@ -67,7 +67,7 @@
                                       <button
                                         type="button"
                                         data-bs-toggle="tooltip"
-                                        onclick=""
+                                        onclick="estadoAluno(<?php echo $row['id']; ?>)"
                                         class="btn btn-link btn-primary btn-lg"
                                         data-original-title="Editar Aluno"
                                       >
@@ -90,6 +90,16 @@
         </div>
       </div>
     </div>
+    <script>
+      function estadoAluno(id) {
+        fetch('alunoEstado.php?idAluno=' + id)
+          .then(response => response.text())
+          .then(data => {
+              location.reload(); // Recarrega a página para atualizar o estado
+          })
+          .catch(error => console.error('Erro:', error));
+      }
+    </script>
     <?php   
       include('./endPage.php'); 
     ?>
