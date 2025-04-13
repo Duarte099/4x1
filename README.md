@@ -24,6 +24,10 @@ Meter valor da inscrição
 
 verificar se data é valida
 
+verificar se o nome do aluno a ser criado ja existe no sistema, se sim, perguntar se deseja colocar como ativo
+
+
+
 
 
 

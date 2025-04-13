@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Importar Ficha Excel</title>
+</head>
+<body>
+    <h2>Importar Ficha de Aluno (.xlsx)</h2>
+    <form action="excelToMySQLScript.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="ficha_excel[]" accept=".xlsx,.xls" required multiple>
+        <br><br>
+        <button type="submit">Importar</button>
+    </form>
+</body>
+</html>
