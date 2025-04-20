@@ -8,7 +8,7 @@
         
         <div class="logo-header" data-background-color="dark">
             <a href="dashboard.php" class="logo">
-                <img src="./images/logoBranco4.png" alt="navbar brand" class="navbar-brand" height="45">
+                <img src="./images/LogoBranco4x1.png" alt="navbar brand" class="navbar-brand" height="45">
                 <!-- <img src="./images/logoBranco.png" alt="navbar brand" class="navbar-brand" height="20"> -->
                 <!-- <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20"> -->
             </a>
@@ -160,7 +160,7 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Definições</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="indexLogout">Logout</a>
+                    <a class="dropdown-item" href="indexLogout.php">Logout</a>
                     </li>
                 </div>
                 </ul>

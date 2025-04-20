@@ -1,55 +1,84 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Login 05</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>4x1 | Login</title>
 
-		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="./assets/fonts/material-icon/css/material-design-iconic-font.min.css">
 
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		
-		<link rel="stylesheet" href="./css/login.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+    <style>
+        .logo-img {
+            width: 500px; /* ou o tamanho que quiser */
+            display: block;
+        }
 
-	</head>
-	<body>
-		<section class="ftco-section">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-md-7 col-lg-5">
-						<div class="wrap">
-							<div class="img" style="background-image: url(images/bg-1.jpg);"></div>
-							<div class="login-wrap p-4 p-md-5">
-								<div class="d-flex">
-									<div class="w-100">
-										<h3 class="mb-4">Sign In</h3>
-									</div>
-								</div>
-								<form action="indexLogin.php" class="signin-form" method="POST">
-									<div class="form-group mt-3">
-										<input type="text" class="form-control" name="username" required>
-										<label class="form-control-placeholder" for="username">Username ou Email</label>
-									</div>
-									<div class="form-group">
-										<input id="password-field" type="password" class="form-control" name="password" required>
-										<label class="form-control-placeholder" for="password">Password</label>
-										<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-									</div>
-									<div class="form-group">
-										<button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+        .field-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
 
-		<script src="./js/jquery.min.js"></script>
-		<script src="./js/popper.js"></script>
-		<script src="./js/bootstrap.min.js"></script>
-		<script src="./js/main.js"></script>
-	</body>
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Login</h2>
+                        <form action="indexLogin.php" method="POST" class="register-form" id="register-form">
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Email" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="pass" placeholder="Password" required/>
+                                <span toggle="#pass" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Login"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="./images/LogoPreto4x1.png" class="logo-img"></figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(".toggle-password").click(function () {
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") === "password") {
+            input.attr("type", "text");
+            $(this).removeClass("zmdi-eye").addClass("zmdi-eye-off");
+            } else {
+            input.attr("type", "password");
+            $(this).removeClass("zmdi-eye-off").addClass("zmdi-eye");
+            }
+        });
+    </script>
+    <?php 
+        include('./endPage.php'); 
+    ?>
+</body>
 </html>
-

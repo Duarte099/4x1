@@ -7,7 +7,7 @@
         // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
         if ($stmt = $con->prepare('SELECT id, pass, nome as nomeX, email, img, active FROM administrador WHERE email = ?')) {
             // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-            $stmt->bind_param('s', $_POST['username']);
+            $stmt->bind_param('s', $_POST['email']);
             $stmt->execute();
             // Store the result so we can check if the account exists in the database.
             $stmt->store_result();
@@ -35,17 +35,17 @@
                         header('Location: dashboard.php');
                         exit();
                     } else {
-                        header('Location: index.php?erro=Password ou user Incorreto!');
+                        header('Location: index.php?erro=true');
                         exit();
                     }
                 } else {
-                    header('Location: index.php?erro=Password ou user Incorreto!');
+                    header('Location: index.php?erro=true');
                     exit();
                 }
             } else {
                 if ($stmt = $con->prepare('SELECT id, pass, nome as nomeX, email, img, ativo FROM professores WHERE email = ?')) {
                     // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-                    $stmt->bind_param('s', $_POST['username']);
+                    $stmt->bind_param('s', $_POST['email']);
                     $stmt->execute();
                     // Store the result so we can check if the account exists in the database.
                     $stmt->store_result();
@@ -72,15 +72,15 @@
                                 header('Location: dashboard.php');
                                 exit();
                             } else {
-                                header('Location: index.php?erro=Password ou user Incorreto!');
+                                header('Location: index.php?erro=true');
                                 exit();
                             }
                         } else {
-                            header('Location: index.php?erro=Password ou user Incorreto!');
+                            header('Location: index.php?erro=true');
                             exit();
                         }
                     } else {
-                        header('Location: index.php?erro=Password ou user Incorreto!');
+                        header('Location: index.php?erro=true');
                         exit();
                     }
                     $stmt->close();

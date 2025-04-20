@@ -3,11 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 20-Abr-2025 às 01:16
+-- Tempo de geração: 20-Abr-2025 às 14:01
 -- Versão do servidor: 9.1.0
 -- versão do PHP: 8.3.14
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -105,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `alunos` (
   `morada` text NOT NULL,
   `localidade` text NOT NULL,
   `codigoPostal` varchar(8) NOT NULL,
-  `nif` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `nif` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `dataNascimento` date NOT NULL,
   `email` text NOT NULL,
   `contacto` varchar(20) NOT NULL,
@@ -119,13 +118,13 @@ CREATE TABLE IF NOT EXISTS `alunos` (
   `idMensalidadeGrupo` int DEFAULT NULL,
   `idMensalidadeIndividual` int DEFAULT NULL,
   `nomeMae` text,
-  `tlmMae` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tlmMae` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nomePai` text,
-  `tlmPai` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tlmPai` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `modalidade` text NOT NULL,
   `ativo` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `alunos`
@@ -256,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `alunos_disciplinas` (
   `idAluno` int NOT NULL,
   `idDisciplina` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -272,7 +271,7 @@ CREATE TABLE IF NOT EXISTS `alunos_disponibilidade` (
   `hora` time NOT NULL,
   `disponibilidade` tinyint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -294,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `alunos_pagamentos` (
   PRIMARY KEY (`id`),
   KEY `idAluno` (`idAluno`,`idProfessor`),
   KEY `idMetodo` (`idMetodo`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `alunos_pagamentos`
@@ -403,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `alunos_presenca` (
   KEY `idDisciplina` (`idDisciplina`),
   KEY `criado_por` (`criado_por`),
   KEY `idProfessor` (`idProfessor`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -426,7 +425,7 @@ CREATE TABLE IF NOT EXISTS `alunos_recibo` (
   `ano` int NOT NULL,
   `mes` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `alunos_recibo`
@@ -470,7 +469,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   `nome` text NOT NULL,
   `tipo` enum('receita','despesa') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -484,7 +483,7 @@ CREATE TABLE IF NOT EXISTS `despesas` (
   `despesa` text NOT NULL,
   `valor` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -497,7 +496,7 @@ CREATE TABLE IF NOT EXISTS `disciplinas` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `disciplinas`
@@ -528,7 +527,7 @@ CREATE TABLE IF NOT EXISTS `ensino` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `ensino`
@@ -557,7 +556,7 @@ CREATE TABLE IF NOT EXISTS `mensalidade` (
   `mensalidadeHorasIndividual` int NOT NULL,
   `transporte` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=330 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=330 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `mensalidade`
@@ -906,7 +905,7 @@ CREATE TABLE IF NOT EXISTS `metodos_pagamento` (
   `cod` varchar(50) NOT NULL,
   `metodo` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `metodos_pagamento`
@@ -956,10 +955,10 @@ CREATE TABLE IF NOT EXISTS `professores` (
   `email` text NOT NULL,
   `contacto` int NOT NULL,
   `pass` text NOT NULL,
-  `img` text NOT NULL,
+  `img` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fuser-icon&psig=AOvVaw3d95dQ6o0U0qDmh29NZRCh&ust=1738437993975000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNDnnqnYoIsDFQAAAAAdAAAAABAJ',
   `ativo` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `professores`
@@ -991,7 +990,7 @@ CREATE TABLE IF NOT EXISTS `professores_disciplinas` (
   `idProfessor` int NOT NULL,
   `idDisciplina` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `professores_disciplinas`
@@ -1035,7 +1034,7 @@ CREATE TABLE IF NOT EXISTS `professores_disponibilidade` (
   `hora` time NOT NULL,
   `disponibilidade` tinyint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1049,7 +1048,7 @@ CREATE TABLE IF NOT EXISTS `professores_ensino` (
   `idProfessor` int NOT NULL,
   `idEnsino` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `professores_ensino`
@@ -1166,7 +1165,7 @@ CREATE TABLE IF NOT EXISTS `professores_presenca` (
   KEY `idDisciplina` (`idDisciplina`),
   KEY `criado_por` (`criado_por`),
   KEY `idAluno` (`idAluno`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1198,7 +1197,7 @@ CREATE TABLE IF NOT EXISTS `professores_recibo` (
   `mes` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idProfessor` (`idProfessor`)
-) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `professores_recibo`
@@ -1272,7 +1271,7 @@ CREATE TABLE IF NOT EXISTS `professores_valores` (
   `cod` varchar(25) NOT NULL,
   `valor` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `professores_valores`
@@ -1300,7 +1299,7 @@ CREATE TABLE IF NOT EXISTS `transacoes` (
   `valor` decimal(10,2) NOT NULL,
   `data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Restrições para despejos de tabelas

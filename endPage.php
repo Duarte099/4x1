@@ -91,5 +91,23 @@
               });
           },
         });
-      });
+    });
+    $(document).ready(function () {
+        <?php if (isset($_GET['erro']) && $_GET['erro'] == "true"): ?>
+            $.notify({
+                message: 'Password ou user Incorreto!',
+                title: 'Notificação',
+                icon: 'fa fa-info-circle',
+            }, {
+                type: 'danger',
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                },
+                delay: 2000
+            });
+            const cleanUrl = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, cleanUrl);
+        <?php endif; ?>
+    });
 </script>

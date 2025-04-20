@@ -15,7 +15,7 @@
     />
     <link
         rel="icon"
-        href="assets/img/kaiadmin/favicon.ico"
+        href="./images/Icon4x1.png"
         type="image/x-icon"
     />
     
@@ -67,7 +67,4 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/plugins.min.css" />
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
-
-    <!-- CSS alterado por mim -->
-    <link rel="stylesheet" href="./css/style.css" />
 </head>
