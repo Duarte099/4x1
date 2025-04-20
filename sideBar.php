@@ -5,14 +5,12 @@
 <div class="sidebar sidebar-style-2" data-background-color="dark">
     <div class="sidebar-logo">
         <!-- Logo Header -->
-        <!-- src="./images/logo4x1BrancoSemFundo.png" -->
+        
         <div class="logo-header" data-background-color="dark">
             <a href="dashboard.php" class="logo">
-                <img
-                alt="navbar brand"
-                class="navbar-brand"
-                height="20"
-                />
+                <img src="./images/logoBranco4.png" alt="navbar brand" class="navbar-brand" height="45">
+                <!-- <img src="./images/logoBranco.png" alt="navbar brand" class="navbar-brand" height="20"> -->
+                <!-- <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20"> -->
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -30,44 +28,66 @@
     </div>
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
-            <ul class="nav nav-secondary">
-                <li class="nav-item <?php echo ($estouEm == 1) ? 'active' : ''; ?>">
-                    <a href="dashboard.php">
-                        <i class="fas fa-home"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <li class="nav-item <?php echo ($estouEm == 2) ? 'active' : ''; ?>">
-                    <a href="aluno.php">
-                        <i class="fas fa-home"></i>
-                        <p>Alunos</p>
-                    </a>
-                </li>
+        <ul class="nav nav-secondary">
+            <li class="nav-item <?php echo ($estouEm == 1) ? 'active' : ''; ?>">
+                <a href="dashboard.php">
+                    <i class="fas fa-home"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+            <li class="nav-item <?php echo ($estouEm == 2) ? 'active' : ''; ?>">
+                <a href="aluno.php">
+                    <i class="fas fa-user-graduate"></i>
+                    <p>Alunos</p>
+                </a>
+            </li>
+            <?php if ($_SESSION["tipo"] == "administrador") { ?>
                 <li class="nav-item <?php echo ($estouEm == 3) ? 'active' : ''; ?>">
                     <a href="professor.php">
-                        <i class="fas fa-home"></i>
+                        <i class="fas fa-chalkboard-teacher"></i>
                         <p>Professores</p>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 4) ? 'active' : ''; ?>">
-                    <a href="presenca.php">
-                        <i class="fas fa-home"></i>
-                        <p>Registro de presença</p>
+                    <a href="professorLogs.php">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>Logs Professores</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 5) ? 'active' : ''; ?>">
-                    <a href="pagamentoEstado.php">
-                        <i class="fas fa-home"></i>
-                        <p>Estado Pagamentos</p>
+            <?php } ?>
+            <li class="nav-item <?php echo ($estouEm == 5) ? 'active' : ''; ?>">
+                <a href="presenca.php">
+                    <i class="fas fa-calendar-check"></i>
+                    <p>Registro de presença</p>
+                </a>
+            </li>
+            <li class="nav-item <?php echo ($estouEm == 6) ? 'active' : ''; ?>">
+                <a href="pagamentoEstado.php">
+                    <i class="fas fa-euro-sign"></i>
+                    <p>Estado Pagamentos</p>
+                </a>
+            </li>
+            <li class="nav-item <?php echo ($estouEm == 7) ? 'active' : ''; ?>">
+                <a href="estadoAlunos.php">
+                    <i class="fas fa-user-check"></i>
+                    <p>Estado Alunos</p>
+                </a>
+            </li>
+            <?php if ($_SESSION["tipo"] == "administrador") { ?>
+                <li class="nav-item <?php echo ($estouEm == 8) ? 'active' : ''; ?>">
+                    <a href="admin.php">
+                        <i class="fas fa-user-shield"></i>
+                        <p>Administradores</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 6) ? 'active' : ''; ?>">
-                    <a href="estadoAlunos.php">
-                        <i class="fas fa-home"></i>
-                        <p>Estado Alunos</p>
+                <li class="nav-item <?php echo ($estouEm == 9) ? 'active' : ''; ?>">
+                    <a href="adminLogs.php">
+                        <i class="fas fa-file-alt"></i>
+                        <p>Logs Administradores</p>
                     </a>
                 </li>
-            </ul>
+            <?php } ?>
+        </ul>
         </div>
     </div>
     </div>

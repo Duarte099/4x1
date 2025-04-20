@@ -1,16 +1,16 @@
 <?php
-  //inclui o head que inclui as páginas de js necessárias, a base de dados e segurança da página
-  include('./head.php'); 
+    //inclui o head que inclui as páginas de js necessárias, a base de dados e segurança da página
+    include('./head.php'); 
 
-  //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-  $estouEm = 3;
+    //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
+    $estouEm = 3;
 
-  //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
-  if (adminPermissions($con, "adm_002", "view") == 0) {
-      notificacao('warning', 'Não tens permissão para aceder a esta página.');
-      header('Location: dashboard.php');
-      exit();
-  }
+    //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
+    if ($_SESSION["tipo"] == "professor") {
+        notificacao('warning', 'Não tens permissão para aceder a esta página.');
+        header('Location: dashboard.php');
+        exit();
+    }
 ?>
   <title>4x1 | Professores</title>
 </head>
@@ -47,13 +47,6 @@
                           <th style="width: 10%">Ação</th>
                         </tr>
                       </thead>
-                      <tfoot>
-                        <tr>
-                          <th>Nome</th>
-                          <th>Ensino</th>
-                          <th>Data Nascimento</th>
-                        </tr>
-                      </tfoot>
                       <tbody>
                         <?php
                           //query para selecionar todos os administradores

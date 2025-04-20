@@ -8,13 +8,6 @@
         $op = $_GET['op'];
 
         if ($op == 'save') {
-            //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard
-            if (adminPermissions($con, "adm_004", "insert") == 0) {
-                notificacao('warning', 'Não tens permissão para aceder a esta página.');
-                header('Location: dashboard.php');
-                exit();
-            }
-
             $partes = explode(" | ", $_POST['nome']);
             $idAluno = $partes[0];
 
@@ -26,6 +19,14 @@
                         $idDisciplina = $row['id'];
                     }
                 }
+            }
+
+            $stmt = $con->prepare('SELECT nome FROM alunos WHERE id = ?');
+            $stmt->bind_param('i', $idAluno);
+            $stmt->execute();
+            $stmt->store_result();
+            if ($stmt->num_rows > 0) {
+                $row = $stmt->fetch_assoc();
             }
 
             $anoLetivo = $_POST['anoLetivo'];
@@ -43,6 +44,12 @@
                 $result->bind_param("iiisssii", $idAluno, $idDisciplina, $idAdmin, $anoLetivo, $hora, $dia, $individual, $idAdmin);
                 if ($result->execute()) {
                     notificacao('success', 'Presença registrada com sucesso!');
+                    if ($_SESSION["tipo"] == "professor") {
+                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou a presença do aluno [" . $idAluno . "]" . $row["nome"] . ".");
+                    }
+                    else {
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou a presença do aluno [" . $idAluno . "]" . $row["nome"] . ".");
+                    }
                 } 
                 else {
                     notificacao('danger', 'Erro ao inserir presença: ' . $result->error);

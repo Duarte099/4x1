@@ -6,7 +6,7 @@
     $estouEm = 3;
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
-    if (adminPermissions($con, "adm_002", "insert") == 0) {
+    if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
         header('Location: dashboard.php');
         exit();
@@ -210,38 +210,49 @@
                             <div class="form-row">
                                 <div class="campo" style="flex: 0 0 99.5%;">
                                     <label>NOME:</label>
-                                    <input type="text" name="nome">
+                                    <input type="text" name="nome" required>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="campo" style="flex: 0 0 64%;">
                                     <label>EMAIL:</label>
-                                    <input type="text" name="email">
+                                    <input type="text" name="email" required>
                                 </div>
                                 <div class="campo" style="flex: 0 0 34%;">
                                     <label>CONTACTO:</label>
                                     <input type="text" name="contacto">
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-section">
                             <div class="form-row">
-                                <div class="campo" style="flex: 0 0 98%;">
-                                    <label>DISPONIBILIDADE:</label>
-                                    <button
-                                        type="button"
-                                        class="btn btn-primary"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#addRowModal"
-                                    >
-                                        <!-- <i class="fa fa-up-right-from-square"> -->
-                                        DISPONIBILIDADE
-                                    </button>
+                                <div class="campo" style="flex: 0 0 31%;">
+                                    <label>PASSWORD:</label>
+                                    <input type="text" name="password" id="password" required>
+                                </div>
+                                <div class="campo" style="flex: 0 0 31%;">
+                                    <label>CONFIRMAR PASSWORD:</label>
+                                    <input type="text" name="passwordConfirm" id="passwordConfirm" required>
                                 </div>
                             </div>     
                         </div>
+
+                        <div class="form-section">
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 64%;">
+                                            <label>DISPONIBILIDADE:</label>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#addRowModal"
+                                            >
+                                                <!-- <i class="fa fa-up-right-from-square"> -->
+                                                DISPONIBILIDADE
+                                            </button>
+                                        </div>
+                                    </div>     
+                                </div>
 
                         <!-- Disciplinas -->
                         <div class="form-section">
@@ -265,10 +276,58 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Ensino -->
+                        <div class="form-section">
+                            <div class="form-row">
+                                <div class="campo" style="flex: 0 0 100%;">
+                                    <label>ENSINO:</label>
+                                    <div class="selectgroup selectgroup-pills">
+                                        <?php 
+                                            $sql = "SELECT id, nome FROM ensino;";
+                                            $result = $con->query($sql);
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    echo "<label class='selectgroup-item'>
+                                                            <input type='checkbox' name='ensino_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' />
+                                                            <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
+                                                        </label>";
+                                                }
+                                            }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-primary">Criar Professor</button>
                     </div>
                 </div>
             </form>
+            <script>
+                function verificarPasswords() {
+                    const password = document.getElementById("password").value;
+                    const confirm = document.getElementById("passwordConfirm").value;
+
+                    if (password === confirm) {
+                        return true;
+                    } else {
+                        $.notify({
+                            message: 'As palavras passes não coincidem!',
+                            title: 'Notificação',
+                            icon: 'fa fa-info-circle',
+                        }, {
+                            type: 'danger',
+                            placement: {
+                                from: 'top',
+                                align: 'right'
+                            },
+                            delay: 2000
+                        });
+
+                        return false;
+                    }
+                }
+            </script>
         </div>
         <?php 
             include('./endPage.php'); 

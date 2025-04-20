@@ -28,12 +28,23 @@
             exit();
         }
 
-        // Verificação da password para segurança das paginas
-        $sql = "SELECT * FROM professores WHERE id = " . $_SESSION['id'] . " AND pass = '" . $_SESSION['password'] . "';";
-        $result = $con->query($sql);
-        if ($result->num_rows <= 0) {
-            header('Location: index.php');
-            exit();
+        if ($_SESSION["tipo"] == "administrador") {
+            //Verificação da password para segurança das paginas
+            $sql = "SELECT * FROM administrador WHERE id = " . $_SESSION['id'] . " AND pass = '" . $_SESSION['password'] . "';";
+            $result = $con->query($sql);
+            if ($result->num_rows <= 0) {
+                header('Location: index.php');
+                exit();
+            }
+        }
+        elseif ($_SESSION["tipo"] == "professor") {
+            //Verificação da password para segurança das paginas
+            $sql = "SELECT * FROM professores WHERE id = " . $_SESSION['id'] . " AND pass = '" . $_SESSION['password'] . "';";
+            $result = $con->query($sql);
+            if ($result->num_rows <= 0) {
+                header('Location: index.php');
+                exit();
+            }
         }
 
         $idAdmin = $_SESSION['id'];

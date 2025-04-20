@@ -9,14 +9,19 @@
 
         $id = $_GET['id'];
 
-        if ($op == 'save') {
-            //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard.php
-            if (adminPermissions($con, "adm_004", "insert") == 0) {
-                notificacao('warning', 'Não tens permissão para aceder a esta página.');
-                header('Location: dashboard.php');
-                exit();
-            }
+        $stmt = $con->prepare('SELECT nome FROM alunos WHERE id = ?');
+        $stmt->bind_param('i', $id);
+        $stmt->execute(); 
+        $stmt->store_result();
+        if ($stmt->num_rows <= 0) {
+            header('Location: dashboard.php');
+            exit();
+        }
+        else {
+            $row = $stmt->fetch_assoc();
+        }
 
+        if ($op == 'save') {
             $mesAnterior = date('m');
             $anoAtual = date('Y');
 
@@ -37,6 +42,12 @@
                 $result->bind_param("iiissi", $mensalidade, $idMetodo, $idAdmin, $estado, $pagoEm, $id);
                 if ($result->execute()) {
                     notificacao('success', 'Pagamento registrado com sucesso!');
+                    if ($_SESSION["tipo"] == "professor") {
+                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $id . "]" . $row["nome"] . ".");
+                    }
+                    else {
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $id . "]" . $row["nome"] . ".");
+                    }
                 } 
                 else {
                     notificacao('danger', 'Erro ao registrar pagamento: ' . $result->error);

@@ -8,12 +8,6 @@
         $op = $_GET['op'];
 
         if ($op == 'save') {
-            //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard.php
-            if (adminPermissions($con, "adm_001", "insert") == 0) {
-                notificacao('warning', 'Não tens permissão para aceder a esta página.');
-                header('Location: dashboard.php');
-                exit();
-            }
 
             $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
             $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -73,13 +67,21 @@
             }
 
             //query sql para inserir os dados do aluno
-            $sql = "INSERT INTO alunos (nome, localidade, morada, dataNascimento, codigoPostal, NIF, email, contacto, escola, ano, curso, turma, horasGrupo, horasIndividual, transporte, idMensalidadeGrupo, idMensalidadeIndiviudal, nomeMae, tlmMae, nomePai, tlmPai, modalidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO alunos (nome, localidade, morada, dataNascimento, codigoPostal, NIF, email, contacto, escola, ano, curso, turma, horasGrupo, horasIndividual, transporte, idMensalidadeGrupo, idMensalidadeIndividual, nomeMae, tlmMae, nomePai, tlmPai, modalidade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("sssssisisissiiiiisisis", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $idMensalidadeGrupo, $idMensalidadeIndividual , $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade);
                 if ($result->execute()) {
+                    //Obtem o id do novo aluno inserido
+                    $idAluno = $con->insert_id;
                     notificacao('success', 'Aluno criado com sucesso!');
-                } 
+                    if ($_SESSION["tipo"] == "professor") {
+                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou o aluno [" . $idAluno . "]" . $nome . ".");
+                    }
+                    else {
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou o aluno [" . $idAluno . "]" . $nome . ".");
+                    }
+                }
                 else {
                     notificacao('danger', 'Erro ao criar aluno: ' . $result->error);
                 }
@@ -89,8 +91,6 @@
             else {
                 notificacao('danger', 'Erro ao criar aluno: ' . $result->error);
             }
-            //Obtem o id do novo aluno inserido
-            $idAluno = $con->insert_id;
 
             $sql = "SELECT id FROM disciplinas;";
             $result1 = $con->query($sql);
@@ -126,12 +126,6 @@
         }
         //Se a operação for edit
         elseif ($op == 'edit') {
-            //Se o administrador não tiver permissões de editar um aluno então redireciona para a dashboard.php
-            if (adminPermissions($con, "adm_005", "update") == 0) {
-                notificacao('warning', 'Não tens permissão para aceder a esta página.');
-                header('Location: dashboard.php');
-                exit();
-            }
 
             $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
             $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -217,6 +211,12 @@
                 
                 if ($result->execute()) {
                     notificacao('success', 'Aluno editado com sucesso!');
+                    if ($_SESSION["tipo"] == "professor") {
+                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o aluno [" . $idAluno . "]" . $nome . ".");
+                    }
+                    else {
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o aluno [" . $idAluno . "]" . $nome . ".");
+                    }
                 } 
                 else {
                     notificacao('danger', 'Erro ao editar aluno: ' . $result->error);
@@ -291,7 +291,8 @@
                     }
                 }
             }
-            header('Location: alunoEdit.php?idAluno=' . $idAluno);
+            //header('Location: alunoEdit.php?idAluno=' . $idAluno);
+            header('Location: aluno.php');
         }
         else {
             notificacao('warning', 'Operação inválida.');

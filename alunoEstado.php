@@ -4,7 +4,7 @@
 
     $id = $_GET['idAluno'];
 
-    $sql = "SELECT ativo FROM alunos WHERE id = $id;";
+    $sql = "SELECT ativo, nome FROM alunos WHERE id = $id;";
     $result = $con->query($sql);
     //Se houver um aluno com o id recebido, guarda as informações
     if ($result->num_rows > 0) {
@@ -18,6 +18,12 @@
 
                 if ($result1->execute()) {
                     notificacao('success', 'Aluno atualizado com sucesso!');
+                    if ($_SESSION["tipo"] == "professor") {
+                        registrar_log("prof", "O professor " . $_SESSION["nome"] . " atualizou o estado do aluno [" . $id . "]" . $row['nome'] . " de inativo para ativo");
+                    }
+                    else {
+                        registrar_log("admin", "O administrador " . $_SESSION["nome"] . " atualizou o estado do aluno [" . $id . "]" . $row['nome'] . " de inativo para ativo");
+                    }
                 } 
                 else {
                     notificacao('danger', 'Erro ao editar aluno: ' . $result->error);
@@ -38,7 +44,13 @@
 
                 if ($result1->execute()) {
                     notificacao('success', 'Aluno atualizado com sucesso!');
-                } 
+                    if ($_SESSION["tipo"] == "professor") {
+                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o estado do aluno [" . $id . "]" . $row['nome'] . " de ativo para inativo");
+                    }
+                    else {
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o estado do aluno [" . $id . "]" . $row['nome'] . " de ativo para inativo");
+                    }
+                }
                 else {
                     notificacao('danger', 'Erro ao editar aluno: ' . $result->error);
                 }

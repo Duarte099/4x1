@@ -1,18 +1,6 @@
 Como faço o calendario para marcar as aulas
 
-desativar alunos lista dos alunos ativos check box para desativar
-
 Calcular mensalidade ao inserir cliente, ao editar e no recibo
-
-criar tabela para ver os pagamentos e o status
-
-ao clicar dá para ver na ficha do aluno o pagamento, por onde pagou e quando, quem recebeu o dinheiro, etc
-
-nessa página irá dar para ver os pagamentos anteriores
-
-fazer página para inserir pagamento
-
-fazer página com todos os alunos e com uma chekbox para selecionar os que pretende desativar
 
 tabela na  dashboard com os pagamentos 
 
@@ -26,8 +14,11 @@ verificar se data é valida
 
 verificar se o nome do aluno a ser criado ja existe no sistema, se sim, perguntar se deseja colocar como ativo
 
+Colocar tabs do template na pagina dos professores
 
+mudar tudo para prepare statements
 
+bloquear emails iguais para administradores e professores
 
 
 

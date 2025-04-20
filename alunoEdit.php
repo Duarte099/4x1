@@ -5,13 +5,6 @@
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 2;
 
-    //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard.php
-    if (adminPermissions($con, "adm_001", "view") == 0) {
-        notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
-        exit();
-    }
-
     //Obtem o id do admin via GET
     $idAluno = $_GET['idAluno'];
 
@@ -320,16 +313,16 @@
                 <div class="card">
                     <div class="card-body">
                         <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
-                            <li class="nav-item">
+                            <li class="nav-item1">
                                 <a class="nav-link active" id="editar-aluno-tab" data-bs-toggle="pill" href="#editar-aluno" role="tab" aria-controls="editar-aluno" aria-selected="true">Ficha do Aluno</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item1">
                                 <a class="nav-link" id="registro-presenca-tab" data-bs-toggle="pill" href="#registro-presenca" role="tab" aria-controls="registro-presenca" aria-selected="false">Calendário de presença</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item1">
                                 <a class="nav-link" id="recibo-tab" data-bs-toggle="pill" href="#recibo" role="tab" aria-controls="recibo" aria-selected="false">Recibo</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item1">
                                 <a class="nav-link" id="pagamento-tab" data-bs-toggle="pill" href="#pagamento" role="tab" aria-controls="pagamento" aria-selected="false">Pagamento</a>
                             </li>
                         </ul>
@@ -440,7 +433,7 @@
                                                     </div>
                                                     <div class="campo" style="flex: 0 0 34%;">
                                                         <label>CONTACTO:</label>
-                                                        <input type="number" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
+                                                        <input type="text" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
                                                     </div>
                                                 </div>
 

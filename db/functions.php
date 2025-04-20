@@ -76,7 +76,7 @@
 
         switch ($perm) {
             case "view":
-                $sql = "SELECT pView, cod FROM modulos INNER JOIN professores_modulos ON modulos.id = professores_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
+                $sql = "SELECT pView, cod FROM modulos INNER JOIN administrador_modulos ON modulos.id = administrador_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
                 $result = $con->query($sql);
                 if ($result->num_rows > 0) { 
                     $row = $result->fetch_assoc();
@@ -84,7 +84,7 @@
                 }
                 break;
             case "insert":
-                $sql = "SELECT pInsert, cod FROM modulos INNER JOIN professores_modulos ON modulos.id = professores_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
+                $sql = "SELECT pInsert, cod FROM modulos INNER JOIN administrador_modulos ON modulos.id = administrador_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
                 $result = $con->query($sql);
                 if ($result->num_rows > 0) { 
                     $row = $result->fetch_assoc();
@@ -92,7 +92,7 @@
                 }
                 break;
             case "update":
-                $sql = "SELECT pUpdate, cod FROM modulos INNER JOIN professores_modulos ON modulos.id = professores_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
+                $sql = "SELECT pUpdate, cod FROM modulos INNER JOIN administrador_modulos ON modulos.id = administrador_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
                 $result = $con->query($sql);
                 if ($result->num_rows > 0) {    
                     $row = $result->fetch_assoc();
@@ -100,7 +100,7 @@
                 }
                 break;
             case "delete":
-                $sql = "SELECT pDelete, cod FROM modulos INNER JOIN professores_modulos ON modulos.id = professores_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
+                $sql = "SELECT pDelete, cod FROM modulos INNER JOIN administrador_modulos ON modulos.id = administrador_modulos.idModule WHERE cod = '$codModule' AND idprofessor = $idAdminPerms;";
                 $result = $con->query($sql);
                 if ($result->num_rows > 0) {    
                     $row = $result->fetch_assoc();
@@ -110,17 +110,22 @@
         }
     }
 
-    function registrar_log($mensagem) {
+    function registrar_log($user, $mensagem) {
         include('./db/conexao.php');
 
-        // Inserir na tabela de logs
-        $query = "INSERT INTO professores_logs (idProfessor, logFile) VALUES (?, ?)";
+        if ($user == "admin") {
+            // Inserir na tabela de logs
+            $query = "INSERT INTO administrador_logs (idAdmin, logFile) VALUES (?, ?)";
+        }
+        elseif ($user == "prof") {
+            $query = "INSERT INTO professores_logs (idProfessor, logFile) VALUES (?, ?)";
+        }
 
         $stmt = $con->prepare($query);
         $stmt->bind_param('is', $_SESSION['id'], $mensagem);
 
         //returnar true caso guardar, senao retorna false
-        return $stmt->execute();
+        $stmt->execute();
     }
 
     function notificacao($tipo, $mensagem) {

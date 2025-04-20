@@ -7,7 +7,7 @@
     $estouEm2 = 3;
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
-    if (adminPermissions($con, "adm_002", "view") == 0) {
+    if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
         header('Location: dashboard.php');
         exit();
@@ -425,13 +425,33 @@
                                     <div class="form-row">
                                         <div class="campo" style="flex: 0 0 64%;">
                                             <label>EMAIL:</label>
-                                            <input type="text" name="email" value="<?php echo $rowProfessor['email']; ?>">
+                                            <input type="email" name="email" value="<?php echo $rowProfessor['email']; ?>">
                                         </div>
                                         <div class="campo" style="flex: 0 0 34%;">
                                             <label>CONTACTO:</label>
                                             <input type="text" name="contacto" value="<?php echo $rowProfessor['contacto']; ?>">
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="form-section">
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 31%;">
+                                            <label>PASSWORD:</label>
+                                            <input type="text" name="password" id="password">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 31%;">
+                                            <label>CONFIRMAR PASSWORD:</label>
+                                            <input type="text" name="passwordConfirm" id="passwordConfirm">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 34%;">
+                                            <label>ESTADO:</label>
+                                            <select name="estado" class="select-box">
+                                                <option <?php if ($rowProfessor['ativo'] == 1) { echo "selected"; }?> value="Ativo">Ativo</option>
+                                                <option <?php if ($rowProfessor['ativo'] == 0) { echo "selected"; }?> value="Desativado">Desativado</option>
+                                            </select>
+                                        </div>
+                                    </div>     
                                 </div>
 
                                 <div class="form-section">
@@ -447,13 +467,6 @@
                                                 <!-- <i class="fa fa-up-right-from-square"> -->
                                                 DISPONIBILIDADE
                                             </button>
-                                        </div>
-                                        <div class="campo" style="flex: 0 0 34%;">
-                                            <label>ESTADO:</label>
-                                            <select name="estado" class="select-box">
-                                                <option <?php if ($rowProfessor['ativo'] == 1) { echo "selected"; }?> value="Ativo">Ativo</option>
-                                                <option <?php if ($rowProfessor['ativo'] == 0) { echo "selected"; }?> value="Desativado">Desativado</option>
-                                            </select>
                                         </div>
                                     </div>     
                                 </div>
@@ -482,6 +495,40 @@
                                                             }
                                                             echo "<label class='selectgroup-item'>
                                                                     <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
+                                                                    <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
+                                                                </label>";
+                                                        }
+                                                    }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Ensino -->
+                                <div class="form-section">
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 100%;">
+                                            <label>ENSINO:</label>
+                                            <div class="selectgroup selectgroup-pills">
+                                                <?php 
+                                                    $sql = "SELECT id, nome FROM ensino;";
+                                                    $result = $con->query($sql);
+                                                    if ($result->num_rows > 0) {
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            $sql = "SELECT * FROM professores_ensino WHERE idProfessor = ? AND idEnsino = ?";
+                                                            $result1 = $con->prepare($sql);
+                                                            $result1->bind_param('ii', $idProfessor, $row['id']);
+                                                            $result1->execute(); 
+                                                            $result1->store_result();
+                                                            if ($result1->num_rows > 0) {
+                                                                $estado = "checked=\"\"";
+                                                            }
+                                                            else{
+                                                                $estado = "";
+                                                            }
+                                                            echo "<label class='selectgroup-item'>
+                                                                    <input type='checkbox' name='ensino_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
                                                                     <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
                                                                 </label>";
                                                         }
@@ -719,6 +766,30 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 if (!urlParams.has('tab')) {
                     document.getElementById("defaultOpen").click();
+                }
+
+                function verificarPasswords() {
+                    const password = document.getElementById("password").value;
+                    const confirm = document.getElementById("passwordConfirm").value;
+
+                    if (password === confirm) {
+                        return true;
+                    } else {
+                        $.notify({
+                            message: 'As palavras passes não coincidem!',
+                            title: 'Notificação',
+                            icon: 'fa fa-info-circle',
+                        }, {
+                            type: 'danger',
+                            placement: {
+                                from: 'top',
+                                align: 'right'
+                            },
+                            delay: 2000
+                        });
+
+                        return false;
+                    }
                 }
             </script>
         </div>

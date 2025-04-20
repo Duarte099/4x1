@@ -2,6 +2,12 @@
     //Inclui a conexão à base de dados na página
     include('./db/conexao.php'); 
 
+    if ($_SESSION["tipo"] == "professor") {
+        notificacao('warning', 'Não tens permissão para aceder a esta página.');
+        header('Location: dashboard.php');
+        exit();
+    }
+
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         //Obtem o operação 
@@ -15,20 +21,17 @@
         $contacto = $_POST['contacto'];
 
         if ($op == 'save') {
-            //Se o administrador não tiver permissão para criar novos alunos redireciona para a dashboard
-            if (adminPermissions($con, "adm_002", "insert") == 0) {
-                notificacao('warning', 'Não tens permissão para executar esta operação.');
-                header('Location: dashboard.php');
-                exit();
-            }
-
+            $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
             //query sql para inserir os dados do aluno
-            $sql = "INSERT INTO professores (nome, email, contacto) VALUES (?, ?, ?)";
+            $sql = "INSERT INTO professores (nome, email, contacto, pass) VALUES (?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("ssi", $nome, $email, $contacto);
+                $result->bind_param("ssis", $nome, $email, $contacto, $passwordHash);
                 if ($result->execute()) {
+                    //Obtem o id do novo professor inserido
+                    $idProfessor = $con->insert_id;
                     notificacao('success', 'Professor criado com sucesso!');
+                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou o professor [" . $idProfessor . "]" . $nome . ".");
                 } 
                 else {
                     notificacao('danger', 'Erro ao criar prefessor: ' . $result->error);
@@ -40,15 +43,27 @@
                 notificacao('danger', 'Erro ao criar professor: ' . $result->error);
             }
 
-            //Obtem o id do novo professor inserido
-            $idProfessor = $con->insert_id;
-
             $sql = "SELECT id FROM disciplinas;";
             $result1 = $con->query($sql);
             if ($result1->num_rows > 0) {
                 while ($row = $result1->fetch_assoc()) {
                     if (isset($_POST['disciplina_'. $row['id']]) && !empty($_POST['disciplina_'. $row['id']])) {
                         $sql = "INSERT INTO professores_disciplinas (idProfessor, idDisciplina) VALUES (?, ?)";
+                        $result = $con->prepare($sql);
+                        if ($result) {
+                            $result->bind_param("ii", $idProfessor, $row['id']);
+                        }
+                        $result->execute();
+                    }
+                }
+            }
+
+            $sql = "SELECT id FROM ensino;";
+            $result1 = $con->query($sql);
+            if ($result1->num_rows > 0) {
+                while ($row = $result1->fetch_assoc()) {
+                    if (isset($_POST['ensino_'. $row['id']]) && !empty($_POST['ensino_'. $row['id']])) {
+                        $sql = "INSERT INTO professores_ensino (idProfessor, idEnsino) VALUES (?, ?)";
                         $result = $con->prepare($sql);
                         if ($result) {
                             $result->bind_param("ii", $idProfessor, $row['id']);
@@ -77,13 +92,6 @@
         }
         //Se a operação for edit
         elseif ($op == 'edit') {
-            //Se o administrador não tiver permissões de editar um aluno então redireciona para a dashboard
-            if (adminPermissions($con, "adm_005", "update") == 0) {
-                notificacao('warning', 'Não tens permissão para executar esta operação.');
-                header('Location: dashboard.php');
-                exit();
-            }
-
             $idProfessor = $_GET['idProf'];
 
             $estado = $_POST['estado'];
@@ -104,21 +112,44 @@
                 exit();
             }
 
-            $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, ativo = ? WHERE id = ?";
-            $result = $con->prepare($sql);
-            if ($result) {
-                $result->bind_param("ssidi", $nome, $email, $contacto, $estado, $idProfessor);
-                if ($result->execute()) {
-                    notificacao('success', 'Professor editado com sucesso!');
-                } 
-                else {
-                    notificacao('danger', 'Erro ao editar prefessor: ' . $result->error);
-                }
+            if (!empty($_POST['password'])) {
+                $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, pass = ?, ativo = ? WHERE id = ?";
+                $result = $con->prepare($sql);
+                if ($result) {
+                    $result->bind_param("ssisdi", $nome, $email, $contacto, $passwordHash, $estado, $idProfessor);
+                    if ($result->execute()) {
+                        notificacao('success', 'Professor editado com sucesso!');
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o professor [" . $idProfessor . "]" . $nome . ".");
+                    } 
+                    else {
+                        notificacao('danger', 'Erro ao editar prefessor: ' . $result->error);
+                    }
 
-                $result->close();
+                    $result->close();
+                }
+                else {
+                    notificacao('danger', 'Erro ao editar professor: ' . $result->error);
+                }
             }
             else {
-                notificacao('danger', 'Erro ao editar professor: ' . $result->error);
+                $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, ativo = ? WHERE id = ?";
+                $result = $con->prepare($sql);
+                if ($result) {
+                    $result->bind_param("ssidi", $nome, $email, $contacto, $estado, $idProfessor);
+                    if ($result->execute()) {
+                        notificacao('success', 'Professor editado com sucesso!');
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o professor [" . $idProfessor . "]" . $nome . ".");
+                    } 
+                    else {
+                        notificacao('danger', 'Erro ao editar prefessor: ' . $result->error);
+                    }
+
+                    $result->close();
+                }
+                else {
+                    notificacao('danger', 'Erro ao editar professor: ' . $result->error);
+                }
             }
             
             
@@ -184,7 +215,35 @@
                     }
                 }
             }
-            header('Location: professorEdit?idProf=' . $idProfessor);
+
+            $sql1 = "SELECT id FROM ensino;";
+            $result1 = $con->query($sql1);
+            if ($result1->num_rows > 0) {
+                while ($row1 = $result1->fetch_assoc()) {
+                    $result4 = $con->prepare('SELECT id FROM professores_ensino WHERE idProfessor = ? AND idEnsino = ?');
+                    $result4->bind_param('ii', $idProfessor, $row1['id']);
+                    $result4->execute();
+                    $result4->store_result();
+                    $result4->bind_result($idProfessorEnsino);
+                    $result4->fetch();
+                    if ($result4->num_rows <= 0) {
+                        if (isset($_POST['ensino_'. $row1['id']]) && !empty($_POST['ensino_'. $row1['id']])) {
+                            $sql = "INSERT INTO professores_ensino (idProfessor, idEnsino) VALUES (?, ?)";
+                            $result3 = $con->prepare($sql);
+                            if ($result3) {
+                                $result3->bind_param("ii", $idProfessor, $row1['id']);
+                            }
+                            $result3->execute();
+                        }
+                    }
+                    else if (!isset($_POST['ensino_'. $row1['id']]) && empty($_POST['ensino_'. $row1['id']])) {
+                        $result5 = $con->prepare('DELETE FROM professores_ensino WHERE id = ?');
+                        $result5->bind_param("i", $idProfessorEnsino);
+                        $result5->execute();
+                    }
+                }
+            }
+            header('Location: professor.php');
         }
         else {
             notificacao('warning', 'Operação inválida.');

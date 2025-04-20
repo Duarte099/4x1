@@ -3,14 +3,7 @@
     include('./head.php'); 
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-    $estouEm = 4;
-
-    //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard.php
-    if (adminPermissions($con, "adm_003", "view") == 0) {
-        notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
-        exit();
-    }
+    $estouEm = 5;
 ?>
     <title>4x1 | Resgistrar presença</title>
     <style>
@@ -204,11 +197,17 @@
                             name="disciplina"
                           >
                             <?php 
-                              $sql = "SELECT d.nome, d.id
-                                FROM disciplinas AS d 
-                                INNER JOIN professores_disciplinas AS pd ON d.id = pd.idDisciplina 
-                                INNER JOIN professores AS p ON pd.idProfessor = p.id 
-                                WHERE p.id = $idAdmin;";
+                              if ($_SESSION['tipo'] == "professor") {
+                                $sql = "SELECT d.nome, d.id
+                                  FROM disciplinas AS d 
+                                  INNER JOIN professores_disciplinas AS pd ON d.id = pd.idDisciplina 
+                                  INNER JOIN professores AS p ON pd.idProfessor = p.id 
+                                  WHERE p.id = $idAdmin;";
+                              }
+                              elseif ($_SESSION['tipo'] == "administrador") {
+                                $sql = "SELECT d.nome, d.id FROM disciplinas AS d;";
+                              }
+                              
                               $result = $con->query($sql);
                               if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) { 
@@ -229,22 +228,18 @@
                                 style="border: 1px solid #ccc;"
                                 name="hora"
                               >
-                                <option>09:30 - 10:30</option>
-                                <option>10:00 - 11:00</option>
-                                <option>10:30 - 11:30</option>
-                                <option>11:00 - 12:00</option>
-                                <option>11:30 - 12:30</option>
-                                <option>12:00 - 13:00</option>
-                                <option>14:30 - 15:30</option>
-                                <option>15:00 - 16:00</option>
-                                <option>15:30 - 16:30</option>
-                                <option>16:00 - 17:00</option>
-                                <option>16:30 - 17:30</option>
-                                <option>17:00 - 18:00</option>
-                                <option>17:30 - 18:30</option>
-                                <option>18:00 - 19:00</option>
-                                <option>18:30 - 19:30</option>
-                                <option>19:00 - 20:00</option>
+                                <option value="15">15 min</option>
+                                <option value="30">30 min</option>
+                                <option value="45">45 min</option>
+                                <option value="60">60 min</option>
+                                <option value="75">75 min</option>
+                                <option value="90">90 min</option>
+                                <option value="105">105 min</option>
+                                <option value="120">120 min</option>
+                                <option value="150">150 min</option>
+                                <option value="180">180 min</option>
+                                <option value="210">210 min</option>
+                                <option value="240">240 min</option>  
                               </select>
                           </div>
                           <div class="campo" style="flex: 0 0 38%;">

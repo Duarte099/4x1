@@ -4,13 +4,6 @@
 
   //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
   $estouEm = 2;
-
-  //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
-  if (adminPermissions($con, "adm_001", "view") == 0) {
-      notificacao('warning', 'Não tens permissão para aceder a esta página.');
-      header('Location: dashboard.php');
-      exit();
-  }
 ?>
   <title>4x1 | Alunos</title>
 </head>
@@ -57,7 +50,7 @@
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT id, nome, ano, dataNascimento, IF(ano>=1 AND ano<=4, \"1º CICLO\", IF(ano>4 AND ano<7, \"2º CICLO\", IF(ano>6 AND ano<=9, \"3º CICLO\", IF(ano>9 AND ano<=12, \"3º CICLO\", \"UNIVERSIDADE\")))) as ensino FROM alunos WHERE ativo = 1 ORDER BY (ano = 0), ano ASC;";
+                            $sql = "SELECT id, nome, ano, dataNascimento, horasGrupo, horasIndividual, IF(ano>=1 AND ano<=4, \"1º CICLO\", IF(ano>4 AND ano<7, \"2º CICLO\", IF(ano>6 AND ano<=9, \"3º CICLO\", IF(ano>9 AND ano<=12, \"SECUNDÁRIO\", IF(ano=0, \"UNIVERSIDADE\", \"ERRO\"))))) as ensino FROM alunos WHERE ativo = 1 ORDER BY (ano = 0), ano ASC;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                               while ($row = $result->fetch_assoc()) {
