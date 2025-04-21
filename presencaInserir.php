@@ -21,6 +21,7 @@
                 }
             }
 
+<<<<<<< HEAD
                 $stmt = $con->prepare('SELECT nome FROM alunos WHERE id = ?');
                 $stmt->bind_param('i', $idAluno);
                 $stmt->execute();
@@ -28,6 +29,20 @@
                 if ($result->num_rows > 0) {
                     $row = $result->fetch_assoc();
                 }
+=======
+            $stmt = $con->prepare('SELECT nome FROM alunos WHERE id = ?');
+            $stmt->bind_param('i', $idAluno);
+            $stmt->execute();
+            $stmt->store_result();
+            if ($stmt->num_rows > 0) {
+                $row = $stmt->fetch_assoc();
+            }
+            else {
+                notificacao('warning', 'ID do aluno inválido.');
+                header('Location: presenca.php');
+                exit();
+            }
+>>>>>>> 4ada4ec6c01c7620ab138b403210d9a57ba73942
 
             $anoLetivo = $_POST['anoLetivo'];
             $hora = $_POST['hora'];

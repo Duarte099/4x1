@@ -30,27 +30,27 @@
 
         if ($_SESSION["tipo"] == "administrador") {
             //Verificação da password para segurança das paginas
-            $sql = "SELECT * FROM administrador WHERE id = " . $_SESSION['id'] . " AND pass = '" . $_SESSION['password'] . "';";
-            $result = $con->query($sql);
-            if ($result->num_rows <= 0) {
-                header('Location: index.php');
-                exit();
-            }
+            $stmt = $con->prepare("SELECT * FROM administrador WHERE id = ? AND pass = ?");
         }
         elseif ($_SESSION["tipo"] == "professor") {
             //Verificação da password para segurança das paginas
-            $sql = "SELECT * FROM professores WHERE id = " . $_SESSION['id'] . " AND pass = '" . $_SESSION['password'] . "';";
-            $result = $con->query($sql);
-            if ($result->num_rows <= 0) {
-                header('Location: index.php');
-                exit();
-            }
+            $stmt = $con->prepare("SELECT * FROM professores WHERE id = ? AND pass = ?");
         }
+        $stmt->bind_param("is", $_SESSION['id'], $_SESSION['password']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows <= 0) {
+            header('Location: index.php');
+            exit();
+        }
+<<<<<<< HEAD
 
         $idAdmin = $_SESSION['id'];
         $nomeAdmin = $_SESSION['nome'];
         $emailAdmin = $_SESSION['email'];
         $imgAdmin = $_SESSION['img'];
+=======
+>>>>>>> 4ada4ec6c01c7620ab138b403210d9a57ba73942
     }
 
     //Chama as funções para serem usadas em todas as paginas

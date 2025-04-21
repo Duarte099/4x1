@@ -165,7 +165,7 @@
                     $row6 = $result6->fetch_assoc();
                     $idMensalidadeGrupo = $row6['id'];
                 }
-            } elseif ($_POST['horasIndividual'] > 0) { // Adicionei uma verificação > 0 para consistência
+            } elseif ($_POST['horasIndividual'] > 0) {
                 $result6 = $con->prepare('SELECT id FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
                 $result6->bind_param('ii', $ano, $_POST['horasIndividual']);
                 $result6->execute();
