@@ -239,7 +239,7 @@
                                 <option value="150">150 min</option>
                                 <option value="180">180 min</option>
                                 <option value="210">210 min</option>
-                                <option value="240">240 min</option>  
+                                <option value="240">240 min</option>
                               </select>
                           </div>
                           <div class="campo" style="flex: 0 0 38%;">

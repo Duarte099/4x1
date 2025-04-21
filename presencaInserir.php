@@ -21,13 +21,13 @@
                 }
             }
 
-            $stmt = $con->prepare('SELECT nome FROM alunos WHERE id = ?');
-            $stmt->bind_param('i', $idAluno);
-            $stmt->execute();
-            $stmt->store_result();
-            if ($stmt->num_rows > 0) {
-                $row = $stmt->fetch_assoc();
-            }
+                $stmt = $con->prepare('SELECT nome FROM alunos WHERE id = ?');
+                $stmt->bind_param('i', $idAluno);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                }
 
             $anoLetivo = $_POST['anoLetivo'];
             $hora = $_POST['hora'];
@@ -38,7 +38,7 @@
                 $individual = 0;
             }
 
-            $sql = "INSERT INTO alunos_presenca (idAluno, idDisciplina, idProfessor, anoLetivo, hora, dia, individual, criado_por) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO alunos_presenca (idAluno, idDisciplina, idProfessor, anoLetivo, duracao, dia, individual, criado_por) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("iiisssii", $idAluno, $idDisciplina, $idAdmin, $anoLetivo, $hora, $dia, $individual, $idAdmin);
@@ -61,7 +61,7 @@
                 notificacao('danger', 'Erro ao inserir presença: ' . $result->error);
             }
 
-            $sql = "INSERT INTO professores_presenca (idProfessor, idAluno, idDisciplina, anoLetivo, hora, dia, criado_por) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO professores_presenca (idProfessor, idAluno, idDisciplina, anoLetivo, duracao, dia, criado_por) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("iiisssi", $idAdmin, $idAluno, $idDisciplina, $anoLetivo, $hora, $dia, $idAdmin);

@@ -48,7 +48,7 @@
         }
 
         $idAdmin = $_SESSION['id'];
-        $nomeAdmin = $_SESSION['name'];
+        $nomeAdmin = $_SESSION['nome'];
         $emailAdmin = $_SESSION['email'];
         $imgAdmin = $_SESSION['img'];
     }

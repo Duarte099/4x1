@@ -20,6 +20,10 @@ mudar tudo para prepare statements
 
 bloquear emails iguais para administradores e professores
 
+refazer horas dadas pelos professores no professor edit
+
+Fazer perfil e se for professor conseguever quanto vai receber ao fim do mês
+
 
 
 
