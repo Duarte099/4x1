@@ -9,7 +9,7 @@
         $id = (int) $_GET['idAluno'];
         
         // Prepara a query com placeholder para evitar injeção e erros
-        $stmt = $con->prepare("SELECT pack, IF(ano>=1 AND ano<=4, 1, IF(ano>4 AND ano<7, 2, IF(ano>6 AND ano<=9, 3, 4))) as ciclo FROM alunos WHERE id = ?");
+        $stmt = $con->prepare("SELECT horasGrupo, horasIndividual, IF(ano>=1 AND ano<=4, 1, IF(ano>4 AND ano<7, 2, IF(ano>6 AND ano<=9, 3, 4))) as ciclo FROM alunos WHERE id = ?");
         
         // Faz o bind do parâmetro
         $stmt->bind_param("i", $id);
@@ -21,7 +21,8 @@
             // Retorna o valor do pack (número de horas) usando a chave correta "horas"
             
             $dados = [
-                "pack"  => $row['pack'],
+                "horasGrupo"  => $row['horasGrupo'],
+                "horasIndividual"  => $row['horasIndividual'],
                 "ciclo" => $row['ciclo'],
             ];
 

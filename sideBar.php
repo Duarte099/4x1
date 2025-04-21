@@ -141,32 +141,28 @@
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
                 <div class="dropdown-user-scroll scrollbar-outer">
                     <li>
-                    <div class="user-box">
-                        <div class="avatar-lg">
-                        <img
-                            src="<?php echo $_SESSION['img']; ?>"
-                            alt="image profile"
-                            class="avatar-img rounded"
-                        />
+                        <div class="user-box">
+                            <div class="avatar-lg">
+                            <img
+                                src="<?php echo $_SESSION['img']; ?>"
+                                alt="image profile"
+                                class="avatar-img rounded"
+                            />
+                            </div>
+                            <div class="u-text">
+                            <h4><?php echo $_SESSION['nome']; ?></h4>
+                            <p class="text-muted"><?php echo $_SESSION['email']; ?></p>
+                            <a
+                                href="perfil.php"
+                                class="btn btn-xs btn-secondary btn-sm"
+                                >Ver Perfil</a
+                            >
+                            </div>
                         </div>
-                        <div class="u-text">
-                        <h4><?php echo $_SESSION['nome']; ?></h4>
-                        <p class="text-muted"><?php echo $_SESSION['email']; ?></p>
-                        <a
-                            href="profile.html"
-                            class="btn btn-xs btn-secondary btn-sm"
-                            >Ver Perfil</a
-                        >
-                        </div>
-                    </div>
                     </li>
                     <li>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Perfil</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Definições</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="indexLogout.php">Logout</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="indexLogout.php">Logout</a>
                     </li>
                 </div>
                 </ul>

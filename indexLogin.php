@@ -43,7 +43,7 @@
                     exit();
                 }
             } else {
-                if ($stmt = $con->prepare('SELECT id, pass, nome as nomeX, email, img, ativo FROM professores WHERE email = ?')) {
+                if ($stmt = $con->prepare('SELECT id, pass, nome as nomeX, email, contacto, img, ativo FROM professores WHERE email = ?')) {
                     // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
                     $stmt->bind_param('s', $_POST['email']);
                     $stmt->execute();
@@ -51,7 +51,7 @@
                     $stmt->store_result();
         
                     if ($stmt->num_rows > 0) {
-                        $stmt->bind_result($id, $password, $nomeX, $email, $img, $active);
+                        $stmt->bind_result($id, $password, $nomeX, $email, $contacto, $img, $active);
                         $stmt->fetch();
                         if ($active == 1) {
                             // Account exists, now we verify the password.
@@ -65,6 +65,7 @@
                                 $_SESSION['id'] = $id;
                                 $_SESSION['nome'] = $nomeX;
                                 $_SESSION['email'] = $email;
+                                $_SESSION['contacto'] = $contacto;
                                 $_SESSION['img'] = $img;
                                 $_SESSION['password'] = $password;
                                 $_SESSION['passX'] = password_hash($_POST['password'], PASSWORD_DEFAULT);

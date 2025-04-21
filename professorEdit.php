@@ -37,7 +37,7 @@
         return $minutos / 60;
     }
 
-    $sql = "SELECT valor FROM professores_valores;";
+    $sql = "SELECT valor FROM valores_pagamento;";
     $result = $con->query($sql);
     $valores = [];
     if ($result->num_rows > 0) {
@@ -57,119 +57,13 @@
     }
 
     if ((int)$mes === (int)date("m") && (int)$ano === (int)date("Y")) {
-<<<<<<< HEAD
-        // //Horas dadas 1 Ciclo
-        // $sql = "SELECT
-        //             SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(
-        //                 SUBSTRING_INDEX(p.hora, ' - ', -1), 
-        //                 SUBSTRING_INDEX(p.hora, ' - ', 1)
-        //             )))) AS total_horas
-        //         FROM professores_presenca AS p
-        //         INNER JOIN alunos AS a ON a.id = p.idAluno
-        //         WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4;";
-        // $result = $con->query($sql);
-        // if ($result->num_rows >= 0) {
-        //     $row = $result->fetch_assoc();
-        //     if (!empty($row['total_horas'])) {
-        //         $partes = explode(":", $row['total_horas']);
-        //         $horasDadas1Ciclo = $partes[0];
-        //     } else {
-        //         $horasDadas1Ciclo = 0;
-        //     }
-        //     $valorParcial1Ciclo = ((int) $horasDadas1Ciclo) * 2;
-        // }
-
-        // //Horas dadas 2 Ciclo
-        // $sql = "SELECT
-        //             SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(
-        //                 SUBSTRING_INDEX(p.hora, ' - ', -1), 
-        //                 SUBSTRING_INDEX(p.hora, ' - ', 1)
-        //             )))) AS total_horas
-        //         FROM professores_presenca AS p
-        //         INNER JOIN alunos AS a ON a.id = p.idAluno
-        //         WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7;";
-        // $result = $con->query($sql);
-        // if ($result->num_rows >= 0) {
-        //     $row = $result->fetch_assoc();
-        //     if (!empty($row['total_horas'])) {
-        //         $partes = explode(":", $row['total_horas']);
-        //         $horasDadas2Ciclo = $partes[0];
-        //     } else {
-        //         $horasDadas2Ciclo = 0;
-        //     }
-        //     $valorParcial2Ciclo = ((int) $horasDadas2Ciclo) * 2;
-        // }
-
-        // //Horas dadas 3 Ciclo
-        // $sql = "SELECT
-        //             SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(
-        //                 SUBSTRING_INDEX(p.hora, ' - ', -1), 
-        //                 SUBSTRING_INDEX(p.hora, ' - ', 1)
-        //             )))) AS total_horas
-        //         FROM professores_presenca AS p
-        //         INNER JOIN alunos AS a ON a.id = p.idAluno
-        //         WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9;";
-        // $result = $con->query($sql);
-        // if ($result->num_rows >= 0) {
-        //     $row = $result->fetch_assoc();
-        //     if (!empty($row['total_horas'])) {
-        //         $partes = explode(":", $row['total_horas']);
-        //         $horasDadas3Ciclo = $partes[0];
-        //     } else {
-        //         $horasDadas3Ciclo = 0;
-        //     }
-        //     $valorParcial3Ciclo = ((int) $horasDadas3Ciclo) * 2;
-        // }
-
-        // //Horas dadas secundario
-        // $sql = "SELECT
-        //             SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(
-        //                 SUBSTRING_INDEX(p.hora, ' - ', -1), 
-        //                 SUBSTRING_INDEX(p.hora, ' - ', 1)
-        //             )))) AS total_horas
-        //         FROM professores_presenca AS p
-        //         INNER JOIN alunos AS a ON a.id = p.idAluno
-        //         WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9;";
-        // $result = $con->query($sql);
-        // if ($result->num_rows >= 0) {
-        //     $row = $result->fetch_assoc();
-        //     if (!empty($row['total_horas'])) {
-        //         $partes = explode(":", $row['total_horas']);
-        //         $horasDadasSecundario = $partes[0];
-        //     } else {
-        //         $horasDadasSecundario = 0;
-        //     }
-        //     $valorParcialSecundario = ((int) $horasDadasSecundario) * 2;
-        // }
-
-        // //Horas dadas Universidade
-        // $sql = "SELECT
-        //             SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(
-        //                 SUBSTRING_INDEX(p.hora, ' - ', -1), 
-        //                 SUBSTRING_INDEX(p.hora, ' - ', 1)
-        //             )))) AS total_horas
-        //         FROM professores_presenca AS p
-        //         INNER JOIN alunos AS a ON a.id = p.idAluno
-        //         WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0;";
-        // $result = $con->query($sql);
-        // if ($result->num_rows >= 0) {
-        //     $row = $result->fetch_assoc();
-        //     if (!empty($row['total_horas'])) {
-        //         $partes = explode(":", $row['total_horas']);
-        //         $horasDadasUniversidade = $partes[0];
-        //     } else {
-        //         $horasDadasUniversidade = 0;
-        //     }
-        //     $valorParcialUniversidade = ((int) $horasDadasUniversidade) * 2;
-        // }
-=======
         //Horas dadas 1 Ciclo
         $valorParcial1Ciclo = 0;
         $horasDadas1Ciclo = 0;
         $sql = "SELECT duracao
                 FROM professores_presenca AS p
                 INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4;";
+                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4 AND idProfessor = $idProfessor;";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -185,7 +79,7 @@
         $sql = "SELECT duracao
                 FROM professores_presenca AS p
                 INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7;";
+                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7 AND idProfessor = $idProfessor;";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -201,7 +95,7 @@
         $sql = "SELECT duracao
                 FROM professores_presenca AS p
                 INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9;";
+                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9 AND idProfessor = $idProfessor;";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -217,7 +111,7 @@
         $sql = "SELECT duracao
                 FROM professores_presenca AS p
                 INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9;";
+                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9 AND idProfessor = $idProfessor;";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -233,7 +127,7 @@
         $sql = "SELECT duracao
                 FROM professores_presenca AS p
                 INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0;";
+                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0 AND idProfessor = $idProfessor;";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -242,9 +136,8 @@
             $horasDadasUniversidade = minutosToValor($horasDadasUniversidade);
             $valorParcialUniversidade = $horasDadasUniversidade * $valores[4];
         }
->>>>>>> 4ada4ec6c01c7620ab138b403210d9a57ba73942
 
-        // $total = $valorParcial1Ciclo + $valorParcial2Ciclo + $valorParcial3Ciclo + $valorParcialSecundario + $valorParcialUniversidade; 
+        $total = $valorParcial1Ciclo + $valorParcial2Ciclo + $valorParcial3Ciclo + $valorParcialSecundario + $valorParcialUniversidade; 
     }
     else {
         $sql = "SELECT * FROM professores_recibo WHERE idProfessor = $idProfessor AND mes = $mes AND ano = $ano";
@@ -396,38 +289,6 @@
             }
         }
     </style>
-    <script>
-<<<<<<< HEAD
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            const urlParams = new URLSearchParams(window.location.search);
-
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-
-            document.getElementById(tabName).style.display = "block";
-            if (!urlParams.has('tab')) {
-                evt.currentTarget.className += " active";
-            }
-        }
-
-        $('a[data-bs-toggle="pill"]').on('shown.bs.tab', function(e) {
-            if (e.target.getAttribute('aria-controls') === 'registro-presenca') {
-                $('#calendar').fullCalendar('render'); // Ou 'updateSize'
-            }
-=======
-        // Abre a aba padrão ao carregar a página
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("defaultOpen").click();
->>>>>>> 4ada4ec6c01c7620ab138b403210d9a57ba73942
-        });
-    </script>
 </head>
     <body>
         <div class="wrapper">
@@ -767,7 +628,7 @@
                                             <div class="form-row">
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>HORAS 1º CICLO:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo (int) $horasDadas1Ciclo;} else {echo $rowRecibo['horasDadas1Ciclo'];} ?>" readonly>
+                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo $rowRecibo['horasDadas1Ciclo'];} ?>" readonly>
                                                 </div>
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>VALOR UNITÁRIO:</label>
@@ -783,7 +644,7 @@
                                             <div class="form-row">
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>HORAS 2º CICLO:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo (int) $horasDadas2Ciclo;} else {echo $rowRecibo['horasDadas2Ciclo'];} ?>" readonly>
+                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo $rowRecibo['horasDadas2Ciclo'];} ?>" readonly>
                                                 </div>
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>VALOR UNITÁRIO:</label>
@@ -799,7 +660,7 @@
                                             <div class="form-row">
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>HORAS 3º CICLO:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo (int) $horasDadas3Ciclo;} else {echo $rowRecibo['horasDadas3Ciclo'];} ?>" readonly>
+                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo $rowRecibo['horasDadas3Ciclo'];} ?>" readonly>
                                                 </div>
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>VALOR UNITÁRIO:</label>
@@ -815,7 +676,7 @@
                                             <div class="form-row">
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>HORAS SECUNDÁRIO:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo (int) $horasDadasSecundario;} else {echo $rowRecibo['horasDadasSecundario'];} ?>" readonly>
+                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo $rowRecibo['horasDadasSecundario'];} ?>" readonly>
                                                 </div>
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>VALOR UNITÁRIO:</label>
@@ -831,7 +692,7 @@
                                             <div class="form-row">
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>HORAS UNIVERSIDADE:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo (int) $horasDadasUniversidade;} else {echo $rowRecibo['horasDadasUniversidade'];} ?>" readonly>
+                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo $rowRecibo['horasDadasUniversidade'];} ?>" readonly>
                                                 </div>
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>VALOR UNITÁRIO:</label>
@@ -847,7 +708,7 @@
                                             <div class="form-row">
                                                 <div class="campo" style="flex: 0 0 32%;">
                                                     <label>TOTAL:</label>
-                                                    <input type="input" name="total" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo (int) $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
+                                                    <input type="input" name="total" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
                                                 </div>
                                             </div>
                                         </div>

@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 20-Abr-2025 às 14:01
+-- Tempo de geração: 21-Abr-2025 às 22:03
 -- Versão do servidor: 9.1.0
 -- versão do PHP: 8.3.14
 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -39,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `administrador` (
 --
 
 INSERT INTO `administrador` (`id`, `nome`, `email`, `pass`, `img`, `adminMor`, `created`, `updated`, `active`) VALUES
-(1, 'Geral 4x1', 'geral@4x1.pt', '$2y$10$0yaLAc4f1IhwPgPOVYAoQeKbbvFbAUOJPrY6cDhI1CubjU5mPb3DK', '', 1, '2025-04-17 15:51:15', '2025-04-17 15:51:15', 1);
+(1, 'Geral 4x1', 'geral@4x1.pt', '$2y$10$0yaLAc4f1IhwPgPOVYAoQeKbbvFbAUOJPrY6cDhI1CubjU5mPb3DK', 'https://admin.4x1.pt/images/IconUser.png', 1, '2025-04-17 15:51:15', '2025-04-17 15:51:15', 1);
 
 -- --------------------------------------------------------
 
@@ -54,6 +55,24 @@ CREATE TABLE IF NOT EXISTS `administrador_logs` (
   `logFile` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   KEY `idAdministrator` (`idAdministrador`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `administrador_logs`
+--
+
+INSERT INTO `administrador_logs` (`idAdministrador`, `dataLog`, `logFile`) VALUES
+(1, '2025-04-20 20:59:59', 'O administrador [1]Geral 4x1 atualizou o aluno [15]MATILDE GONÇALVES ARAÚJO.'),
+(1, '2025-04-20 21:11:33', 'O administrador [1]Geral 4x1 registrou a presença do aluno [22]DINIS MANUEL SOUSA PACHECO.'),
+(8, '2025-04-21 16:19:48', 'O administrador [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:26:45', 'O administrador [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:38:16', 'O administrador [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:38:58', 'O administrador [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:42:42', 'O administrador [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:43:44', 'O administrador [8]Natália Luciano atualizou o seu perfil'),
+(1, '2025-04-21 20:40:03', 'O administrador [1]Geral 4x1 criou a mensalidade [330].'),
+(1, '2025-04-21 20:40:12', 'O administrador [1]Geral 4x1 eliminou a mensalidade [330].'),
+(1, '2025-04-21 20:40:53', 'O administrador [1]Geral 4x1 criou a mensalidade [331].'),
+(1, '2025-04-21 20:41:06', 'O administrador [1]Geral 4x1 eliminou a mensalidade [331].');
 
 -- --------------------------------------------------------
 
@@ -104,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `alunos` (
   `morada` text NOT NULL,
   `localidade` text NOT NULL,
   `codigoPostal` varchar(8) NOT NULL,
-  `nif` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nif` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `dataNascimento` date NOT NULL,
   `email` text NOT NULL,
   `contacto` varchar(20) NOT NULL,
@@ -118,13 +137,13 @@ CREATE TABLE IF NOT EXISTS `alunos` (
   `idMensalidadeGrupo` int DEFAULT NULL,
   `idMensalidadeIndividual` int DEFAULT NULL,
   `nomeMae` text,
-  `tlmMae` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tlmMae` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `nomePai` text,
-  `tlmPai` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tlmPai` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `modalidade` text NOT NULL,
   `ativo` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `alunos`
@@ -255,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `alunos_disciplinas` (
   `idAluno` int NOT NULL,
   `idDisciplina` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -271,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `alunos_disponibilidade` (
   `hora` time NOT NULL,
   `disponibilidade` tinyint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -293,7 +312,7 @@ CREATE TABLE IF NOT EXISTS `alunos_pagamentos` (
   PRIMARY KEY (`id`),
   KEY `idAluno` (`idAluno`,`idProfessor`),
   KEY `idMetodo` (`idMetodo`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `alunos_pagamentos`
@@ -402,7 +421,14 @@ CREATE TABLE IF NOT EXISTS `alunos_presenca` (
   KEY `idDisciplina` (`idDisciplina`),
   KEY `criado_por` (`criado_por`),
   KEY `idProfessor` (`idProfessor`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Extraindo dados da tabela `alunos_presenca`
+--
+
+INSERT INTO `alunos_presenca` (`id`, `idAluno`, `idProfessor`, `idDisciplina`, `individual`, `anoLetivo`, `duracao`, `dia`, `criado_em`, `criado_por`) VALUES
+(1, 22, 1, 4, 0, '2024/2025', 45, '2025-04-20', '2025-04-20 21:11:33', 1);
 
 -- --------------------------------------------------------
 
@@ -425,7 +451,7 @@ CREATE TABLE IF NOT EXISTS `alunos_recibo` (
   `ano` int NOT NULL,
   `mes` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `alunos_recibo`
@@ -469,7 +495,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   `nome` text NOT NULL,
   `tipo` enum('receita','despesa') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -483,7 +509,7 @@ CREATE TABLE IF NOT EXISTS `despesas` (
   `despesa` text NOT NULL,
   `valor` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -496,7 +522,7 @@ CREATE TABLE IF NOT EXISTS `disciplinas` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `disciplinas`
@@ -527,7 +553,7 @@ CREATE TABLE IF NOT EXISTS `ensino` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `ensino`
@@ -538,7 +564,9 @@ INSERT INTO `ensino` (`id`, `nome`) VALUES
 (2, '2º Ciclo'),
 (3, '3º Ciclo'),
 (4, 'Secundário'),
-(5, 'Universidade');
+(5, 'Universidade'),
+(7, 'Inscrição'),
+(9, 'Transporte');
 
 -- --------------------------------------------------------
 
@@ -554,344 +582,116 @@ CREATE TABLE IF NOT EXISTS `mensalidade` (
   `mensalidadeHorasGrupo` int NOT NULL,
   `horasIndividual` int NOT NULL,
   `mensalidadeHorasIndividual` int NOT NULL,
-  `transporte` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=330 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `mensalidade`
 --
 
-INSERT INTO `mensalidade` (`id`, `ano`, `horasGrupo`, `mensalidadeHorasGrupo`, `horasIndividual`, `mensalidadeHorasIndividual`, `transporte`) VALUES
-(1, 1, 1, 0, 0, 0, 0),
-(2, 1, 1, 0, 0, 0, 0),
-(3, 1, 2, 0, 0, 0, 0),
-(4, 1, 3, 0, 0, 0, 0),
-(5, 1, 4, 20, 0, 0, 0),
-(6, 1, 5, 0, 0, 0, 0),
-(7, 1, 6, 0, 0, 0, 0),
-(8, 1, 7, 0, 0, 0, 0),
-(9, 1, 8, 40, 0, 0, 0),
-(10, 1, 9, 0, 0, 0, 0),
-(11, 1, 10, 0, 0, 0, 0),
-(12, 1, 11, 0, 0, 0, 0),
-(13, 1, 12, 50, 0, 0, 0),
-(14, 1, 13, 0, 0, 0, 0),
-(15, 1, 14, 0, 0, 0, 0),
-(16, 1, 15, 0, 0, 0, 0),
-(17, 1, 16, 60, 0, 0, 0),
-(18, 1, 17, 65, 0, 0, 0),
-(19, 1, 18, 70, 0, 0, 0),
-(20, 1, 19, 0, 0, 0, 0),
-(21, 1, 20, 0, 0, 0, 0),
-(22, 1, 21, 0, 0, 0, 0),
-(23, 1, 22, 0, 0, 0, 0),
-(24, 1, 23, 0, 0, 0, 0),
-(25, 1, 24, 0, 0, 0, 0),
-(26, 1, 25, 0, 0, 0, 0),
-(27, 1, 26, 0, 0, 0, 0),
-(28, 1, 27, 0, 0, 0, 0),
-(29, 1, 28, 0, 0, 0, 0),
-(30, 1, 29, 0, 0, 0, 0),
-(31, 1, 30, 0, 0, 0, 0),
-(32, 1, 31, 0, 0, 0, 0),
-(33, 1, 32, 100, 0, 0, 0),
-(34, 1, 0, 0, 1, 0, 0),
-(35, 1, 0, 0, 2, 0, 0),
-(36, 1, 0, 0, 3, 0, 0),
-(37, 1, 0, 0, 4, 60, 0),
-(38, 1, 0, 0, 5, 0, 0),
-(39, 1, 0, 0, 6, 0, 0),
-(40, 1, 0, 0, 7, 0, 0),
-(41, 1, 0, 0, 8, 120, 0),
-(42, 2, 1, 0, 0, 0, 0),
-(43, 2, 2, 0, 0, 0, 0),
-(44, 2, 3, 0, 0, 0, 0),
-(45, 2, 4, 20, 0, 0, 0),
-(46, 2, 5, 0, 0, 0, 0),
-(47, 2, 6, 0, 0, 0, 0),
-(48, 2, 7, 0, 0, 0, 0),
-(49, 2, 8, 40, 0, 0, 0),
-(50, 2, 9, 0, 0, 0, 0),
-(51, 2, 10, 0, 0, 0, 0),
-(52, 2, 11, 0, 0, 0, 0),
-(53, 2, 12, 50, 0, 0, 0),
-(54, 2, 13, 0, 0, 0, 0),
-(55, 2, 14, 0, 0, 0, 0),
-(56, 2, 15, 0, 0, 0, 0),
-(57, 2, 16, 60, 0, 0, 0),
-(58, 2, 17, 65, 0, 0, 0),
-(59, 2, 18, 70, 0, 0, 0),
-(60, 2, 19, 0, 0, 0, 0),
-(61, 2, 20, 0, 0, 0, 0),
-(62, 2, 21, 0, 0, 0, 0),
-(63, 2, 22, 0, 0, 0, 0),
-(64, 2, 23, 0, 0, 0, 0),
-(65, 2, 24, 0, 0, 0, 0),
-(66, 2, 25, 0, 0, 0, 0),
-(67, 2, 26, 0, 0, 0, 0),
-(68, 2, 27, 0, 0, 0, 0),
-(69, 2, 28, 0, 0, 0, 0),
-(70, 2, 29, 0, 0, 0, 0),
-(71, 2, 30, 0, 0, 0, 0),
-(72, 2, 31, 0, 0, 0, 0),
-(73, 2, 32, 100, 0, 0, 0),
-(74, 2, 0, 0, 1, 0, 0),
-(75, 2, 0, 0, 2, 0, 0),
-(76, 2, 0, 0, 3, 0, 0),
-(77, 2, 0, 0, 4, 60, 0),
-(78, 2, 0, 0, 5, 0, 0),
-(79, 2, 0, 0, 6, 0, 0),
-(80, 2, 0, 0, 7, 0, 0),
-(81, 2, 0, 0, 8, 120, 0),
-(82, 3, 1, 0, 0, 0, 0),
-(83, 3, 2, 0, 0, 0, 0),
-(84, 3, 3, 0, 0, 0, 0),
-(85, 3, 4, 20, 0, 0, 0),
-(86, 3, 5, 0, 0, 0, 0),
-(87, 3, 6, 0, 0, 0, 0),
-(88, 3, 7, 0, 0, 0, 0),
-(89, 3, 8, 40, 0, 0, 0),
-(90, 3, 9, 0, 0, 0, 0),
-(91, 3, 10, 0, 0, 0, 0),
-(92, 3, 11, 0, 0, 0, 0),
-(93, 3, 12, 50, 0, 0, 0),
-(94, 3, 13, 0, 0, 0, 0),
-(95, 3, 14, 0, 0, 0, 0),
-(96, 3, 15, 0, 0, 0, 0),
-(97, 3, 16, 60, 0, 0, 0),
-(98, 3, 17, 65, 0, 0, 0),
-(99, 3, 18, 70, 0, 0, 0),
-(100, 3, 19, 0, 0, 0, 0),
-(101, 3, 20, 0, 0, 0, 0),
-(102, 3, 21, 0, 0, 0, 0),
-(103, 3, 22, 0, 0, 0, 0),
-(104, 3, 23, 0, 0, 0, 0),
-(105, 3, 24, 0, 0, 0, 0),
-(106, 3, 25, 0, 0, 0, 0),
-(107, 3, 26, 0, 0, 0, 0),
-(108, 3, 27, 0, 0, 0, 0),
-(109, 3, 28, 0, 0, 0, 0),
-(110, 3, 29, 0, 0, 0, 0),
-(111, 3, 30, 0, 0, 0, 0),
-(112, 3, 31, 0, 0, 0, 0),
-(113, 3, 32, 100, 0, 0, 0),
-(114, 3, 0, 0, 1, 0, 0),
-(115, 3, 0, 0, 2, 0, 0),
-(116, 3, 0, 0, 3, 0, 0),
-(117, 1, 0, 0, 4, 60, 0),
-(118, 3, 0, 0, 5, 0, 0),
-(119, 3, 0, 0, 6, 0, 0),
-(120, 3, 0, 0, 7, 0, 0),
-(121, 3, 0, 0, 8, 120, 0),
-(122, 4, 1, 0, 0, 0, 0),
-(123, 4, 2, 0, 0, 0, 0),
-(124, 4, 3, 0, 0, 0, 0),
-(125, 4, 4, 20, 0, 0, 0),
-(126, 4, 5, 0, 0, 0, 0),
-(127, 4, 6, 0, 0, 0, 0),
-(128, 4, 7, 0, 0, 0, 0),
-(129, 4, 8, 40, 0, 0, 0),
-(130, 4, 9, 0, 0, 0, 0),
-(131, 4, 10, 0, 0, 0, 0),
-(132, 4, 11, 0, 0, 0, 0),
-(133, 4, 12, 50, 0, 0, 0),
-(134, 4, 13, 0, 0, 0, 0),
-(135, 4, 14, 0, 0, 0, 0),
-(136, 4, 15, 0, 0, 0, 0),
-(137, 4, 16, 60, 0, 0, 0),
-(138, 4, 17, 65, 0, 0, 0),
-(139, 4, 18, 70, 0, 0, 0),
-(140, 4, 19, 0, 0, 0, 0),
-(141, 4, 20, 0, 0, 0, 0),
-(142, 4, 21, 0, 0, 0, 0),
-(143, 4, 22, 0, 0, 0, 0),
-(144, 4, 23, 0, 0, 0, 0),
-(145, 4, 24, 0, 0, 0, 0),
-(146, 4, 25, 0, 0, 0, 0),
-(147, 4, 26, 0, 0, 0, 0),
-(148, 4, 27, 0, 0, 0, 0),
-(149, 4, 28, 0, 0, 0, 0),
-(150, 4, 29, 0, 0, 0, 0),
-(151, 4, 30, 0, 0, 0, 0),
-(152, 4, 31, 0, 0, 0, 0),
-(153, 4, 32, 100, 0, 0, 0),
-(154, 4, 0, 0, 1, 0, 0),
-(155, 4, 0, 0, 2, 0, 0),
-(156, 4, 0, 0, 3, 0, 0),
-(157, 4, 0, 0, 4, 60, 0),
-(158, 4, 0, 0, 5, 0, 0),
-(159, 4, 0, 0, 6, 0, 0),
-(160, 4, 0, 0, 7, 0, 0),
-(161, 4, 0, 0, 8, 120, 0),
-(162, 5, 1, 0, 0, 0, 20),
-(163, 5, 2, 0, 0, 0, 20),
-(164, 5, 3, 0, 0, 0, 20),
-(165, 5, 4, 30, 0, 0, 20),
-(166, 5, 5, 0, 0, 0, 20),
-(167, 5, 6, 0, 0, 0, 20),
-(168, 5, 7, 0, 0, 0, 20),
-(169, 5, 8, 50, 0, 0, 20),
-(170, 5, 9, 0, 0, 0, 20),
-(171, 5, 10, 0, 0, 0, 20),
-(172, 5, 11, 0, 0, 0, 20),
-(173, 5, 12, 60, 0, 0, 20),
-(174, 5, 0, 0, 1, 15, 20),
-(175, 5, 0, 0, 2, 15, 20),
-(176, 5, 0, 0, 3, 15, 20),
-(177, 5, 0, 0, 4, 15, 20),
-(178, 5, 0, 0, 5, 15, 20),
-(179, 5, 0, 0, 6, 15, 20),
-(180, 5, 0, 0, 7, 15, 20),
-(181, 5, 0, 0, 8, 15, 20),
-(182, 6, 1, 0, 0, 0, 20),
-(183, 6, 2, 0, 0, 0, 20),
-(184, 6, 3, 0, 0, 0, 20),
-(185, 6, 4, 35, 0, 0, 20),
-(186, 6, 5, 0, 0, 0, 20),
-(187, 6, 6, 0, 0, 0, 20),
-(188, 6, 7, 0, 0, 0, 20),
-(189, 6, 8, 55, 0, 0, 20),
-(190, 6, 9, 0, 0, 0, 20),
-(191, 6, 10, 0, 0, 0, 20),
-(192, 6, 11, 0, 0, 0, 20),
-(193, 6, 12, 65, 0, 0, 20),
-(194, 7, 1, 0, 0, 0, 0),
-(195, 7, 2, 0, 0, 0, 0),
-(196, 7, 3, 0, 0, 0, 0),
-(197, 7, 4, 35, 0, 0, 0),
-(198, 7, 5, 0, 0, 0, 0),
-(199, 7, 6, 0, 0, 0, 0),
-(200, 7, 7, 0, 0, 0, 0),
-(201, 7, 8, 65, 0, 0, 0),
-(202, 7, 9, 0, 0, 0, 0),
-(203, 7, 10, 0, 0, 0, 0),
-(204, 7, 11, 0, 0, 0, 0),
-(205, 7, 12, 80, 0, 0, 0),
-(206, 7, 13, 0, 0, 0, 0),
-(207, 7, 14, 0, 0, 0, 0),
-(208, 7, 15, 0, 0, 0, 0),
-(209, 7, 16, 100, 0, 0, 0),
-(210, 7, 17, 0, 0, 0, 0),
-(211, 7, 18, 0, 0, 0, 0),
-(212, 7, 19, 0, 0, 0, 0),
-(213, 7, 20, 120, 0, 0, 0),
-(214, 7, 0, 0, 1, 15, 0),
-(215, 7, 0, 0, 2, 15, 0),
-(216, 7, 0, 0, 3, 15, 0),
-(217, 7, 0, 0, 4, 15, 0),
-(218, 7, 0, 0, 5, 15, 0),
-(219, 7, 0, 0, 6, 15, 0),
-(220, 7, 0, 0, 7, 15, 0),
-(221, 7, 0, 0, 8, 15, 0),
-(222, 8, 1, 0, 0, 0, 0),
-(223, 8, 2, 0, 0, 0, 0),
-(224, 8, 3, 0, 0, 0, 0),
-(225, 8, 4, 35, 0, 0, 0),
-(226, 8, 5, 0, 0, 0, 0),
-(227, 8, 6, 0, 0, 0, 0),
-(228, 8, 7, 0, 0, 0, 0),
-(229, 8, 8, 65, 0, 0, 0),
-(230, 8, 9, 0, 0, 0, 0),
-(231, 8, 10, 0, 0, 0, 0),
-(232, 8, 11, 0, 0, 0, 0),
-(233, 8, 12, 80, 0, 0, 0),
-(234, 8, 13, 0, 0, 0, 0),
-(235, 8, 14, 0, 0, 0, 0),
-(236, 8, 15, 0, 0, 0, 0),
-(237, 8, 16, 100, 0, 0, 0),
-(238, 8, 17, 0, 0, 0, 0),
-(239, 8, 18, 0, 0, 0, 0),
-(240, 8, 19, 0, 0, 0, 0),
-(241, 8, 20, 120, 0, 0, 0),
-(242, 8, 0, 0, 1, 15, 0),
-(243, 8, 0, 0, 2, 15, 0),
-(244, 8, 0, 0, 3, 15, 0),
-(245, 8, 0, 0, 4, 15, 0),
-(246, 8, 0, 0, 5, 15, 0),
-(247, 8, 0, 0, 6, 15, 0),
-(248, 8, 0, 0, 7, 15, 0),
-(249, 8, 0, 0, 8, 15, 0),
-(250, 9, 1, 0, 0, 0, 0),
-(251, 9, 2, 0, 0, 0, 0),
-(252, 9, 3, 0, 0, 0, 0),
-(253, 9, 4, 35, 0, 0, 0),
-(254, 9, 5, 0, 0, 0, 0),
-(255, 9, 6, 0, 0, 0, 0),
-(256, 9, 7, 0, 0, 0, 0),
-(257, 9, 8, 65, 0, 0, 0),
-(258, 9, 9, 0, 0, 0, 0),
-(259, 9, 10, 0, 0, 0, 0),
-(260, 9, 11, 0, 0, 0, 0),
-(261, 9, 12, 80, 0, 0, 0),
-(262, 9, 13, 0, 0, 0, 0),
-(263, 9, 14, 0, 0, 0, 0),
-(264, 9, 15, 0, 0, 0, 0),
-(265, 9, 16, 100, 0, 0, 0),
-(266, 9, 17, 0, 0, 0, 0),
-(267, 9, 18, 0, 0, 0, 0),
-(268, 9, 19, 0, 0, 0, 0),
-(269, 9, 20, 120, 0, 0, 0),
-(270, 9, 0, 0, 1, 15, 0),
-(271, 9, 0, 0, 2, 15, 0),
-(272, 9, 0, 0, 3, 15, 0),
-(273, 9, 0, 0, 4, 15, 0),
-(274, 9, 0, 0, 5, 15, 0),
-(275, 9, 0, 0, 6, 15, 0),
-(276, 9, 0, 0, 7, 15, 0),
-(277, 9, 0, 0, 8, 15, 0),
-(278, 10, 1, 0, 0, 0, 0),
-(279, 10, 2, 0, 0, 0, 0),
-(280, 10, 3, 0, 0, 0, 0),
-(281, 10, 4, 40, 0, 0, 0),
-(282, 10, 5, 0, 0, 0, 0),
-(283, 10, 6, 0, 0, 0, 0),
-(284, 10, 7, 0, 0, 0, 0),
-(285, 10, 8, 80, 0, 0, 0),
-(286, 10, 9, 0, 0, 0, 0),
-(287, 10, 10, 0, 0, 0, 0),
-(288, 10, 11, 0, 0, 0, 0),
-(289, 10, 12, 120, 0, 0, 0),
-(290, 10, 13, 0, 0, 0, 0),
-(291, 10, 14, 0, 0, 0, 0),
-(292, 10, 15, 0, 0, 0, 0),
-(293, 10, 16, 160, 0, 0, 0),
-(294, 10, 0, 0, 1, 0, 0),
-(295, 10, 0, 0, 2, 0, 0),
-(296, 10, 0, 0, 3, 0, 0),
-(297, 10, 0, 0, 4, 72, 0),
-(298, 11, 1, 0, 0, 0, 0),
-(299, 11, 2, 0, 0, 0, 0),
-(300, 11, 3, 0, 0, 0, 0),
-(301, 11, 4, 45, 0, 0, 0),
-(302, 11, 5, 0, 0, 0, 0),
-(303, 11, 6, 0, 0, 0, 0),
-(304, 11, 7, 0, 0, 0, 0),
-(305, 11, 8, 90, 0, 0, 0),
-(306, 11, 9, 0, 0, 0, 0),
-(307, 11, 10, 0, 0, 0, 0),
-(308, 11, 11, 0, 0, 0, 0),
-(309, 11, 12, 120, 0, 0, 0),
-(310, 11, 0, 0, 1, 0, 0),
-(311, 11, 0, 0, 2, 0, 0),
-(312, 11, 0, 0, 3, 0, 0),
-(313, 11, 0, 0, 4, 72, 0),
-(314, 12, 1, 0, 0, 0, 0),
-(315, 12, 2, 0, 0, 0, 0),
-(316, 12, 3, 0, 0, 0, 0),
-(317, 12, 4, 50, 0, 0, 0),
-(318, 12, 5, 0, 0, 0, 0),
-(319, 12, 6, 0, 0, 0, 0),
-(320, 12, 7, 0, 0, 0, 0),
-(321, 12, 8, 100, 0, 0, 0),
-(322, 12, 9, 0, 0, 0, 0),
-(323, 12, 10, 0, 0, 0, 0),
-(324, 12, 11, 0, 0, 0, 0),
-(325, 12, 12, 150, 0, 0, 0),
-(326, 11, 0, 0, 1, 0, 0),
-(327, 11, 0, 0, 2, 0, 0),
-(328, 11, 0, 0, 3, 0, 0),
-(329, 11, 0, 0, 4, 80, 0);
+INSERT INTO `mensalidade` (`id`, `ano`, `horasGrupo`, `mensalidadeHorasGrupo`, `horasIndividual`, `mensalidadeHorasIndividual`) VALUES
+(5, 1, 4, 20, 0, 0),
+(9, 1, 8, 40, 0, 0),
+(13, 1, 12, 50, 0, 0),
+(17, 1, 16, 60, 0, 0),
+(18, 1, 17, 65, 0, 0),
+(19, 1, 18, 70, 0, 0),
+(33, 1, 32, 100, 0, 0),
+(37, 1, 0, 0, 4, 60),
+(41, 1, 0, 0, 8, 120),
+(45, 2, 4, 20, 0, 0),
+(49, 2, 8, 40, 0, 0),
+(53, 2, 12, 50, 0, 0),
+(57, 2, 16, 60, 0, 0),
+(58, 2, 17, 65, 0, 0),
+(59, 2, 18, 70, 0, 0),
+(73, 2, 32, 100, 0, 0),
+(77, 2, 0, 0, 4, 60),
+(81, 2, 0, 0, 8, 120),
+(85, 3, 4, 20, 0, 0),
+(89, 3, 8, 40, 0, 0),
+(93, 3, 12, 50, 0, 0),
+(97, 3, 16, 60, 0, 0),
+(98, 3, 17, 65, 0, 0),
+(99, 3, 18, 70, 0, 0),
+(113, 3, 32, 100, 0, 0),
+(117, 1, 0, 0, 4, 60),
+(121, 3, 0, 0, 8, 120),
+(125, 4, 4, 20, 0, 0),
+(129, 4, 8, 40, 0, 0),
+(133, 4, 12, 50, 0, 0),
+(137, 4, 16, 60, 0, 0),
+(138, 4, 17, 65, 0, 0),
+(139, 4, 18, 70, 0, 0),
+(153, 4, 32, 100, 0, 0),
+(157, 4, 0, 0, 4, 60),
+(161, 4, 0, 0, 8, 120),
+(165, 5, 4, 30, 0, 0),
+(169, 5, 8, 50, 0, 0),
+(173, 5, 12, 60, 0, 0),
+(174, 5, 0, 0, 1, 15),
+(175, 5, 0, 0, 2, 15),
+(176, 5, 0, 0, 3, 15),
+(177, 5, 0, 0, 4, 15),
+(178, 5, 0, 0, 5, 15),
+(179, 5, 0, 0, 6, 15),
+(180, 5, 0, 0, 7, 15),
+(181, 5, 0, 0, 8, 15),
+(185, 6, 4, 35, 0, 0),
+(189, 6, 8, 55, 0, 0),
+(193, 6, 12, 65, 0, 0),
+(197, 7, 4, 35, 0, 0),
+(201, 7, 8, 65, 0, 0),
+(205, 7, 12, 80, 0, 0),
+(209, 7, 16, 100, 0, 0),
+(213, 7, 20, 120, 0, 0),
+(214, 7, 0, 0, 1, 15),
+(215, 7, 0, 0, 2, 15),
+(216, 7, 0, 0, 3, 15),
+(217, 7, 0, 0, 4, 15),
+(218, 7, 0, 0, 5, 15),
+(219, 7, 0, 0, 6, 15),
+(220, 7, 0, 0, 7, 15),
+(221, 7, 0, 0, 8, 15),
+(225, 8, 4, 35, 0, 0),
+(229, 8, 8, 65, 0, 0),
+(233, 8, 12, 80, 0, 0),
+(237, 8, 16, 100, 0, 0),
+(241, 8, 20, 120, 0, 0),
+(242, 8, 0, 0, 1, 15),
+(243, 8, 0, 0, 2, 15),
+(244, 8, 0, 0, 3, 15),
+(245, 8, 0, 0, 4, 15),
+(246, 8, 0, 0, 5, 15),
+(247, 8, 0, 0, 6, 15),
+(248, 8, 0, 0, 7, 15),
+(249, 8, 0, 0, 8, 15),
+(253, 9, 4, 35, 0, 0),
+(257, 9, 8, 65, 0, 0),
+(261, 9, 12, 80, 0, 0),
+(265, 9, 16, 100, 0, 0),
+(269, 9, 20, 120, 0, 0),
+(270, 9, 0, 0, 1, 15),
+(271, 9, 0, 0, 2, 15),
+(272, 9, 0, 0, 3, 15),
+(273, 9, 0, 0, 4, 15),
+(274, 9, 0, 0, 5, 15),
+(275, 9, 0, 0, 6, 15),
+(276, 9, 0, 0, 7, 15),
+(277, 9, 0, 0, 8, 15),
+(281, 10, 4, 40, 0, 0),
+(285, 10, 8, 80, 0, 0),
+(289, 10, 12, 120, 0, 0),
+(293, 10, 16, 160, 0, 0),
+(297, 10, 0, 0, 4, 72),
+(301, 11, 4, 45, 0, 0),
+(305, 11, 8, 90, 0, 0),
+(309, 11, 12, 120, 0, 0),
+(313, 11, 0, 0, 4, 72),
+(317, 12, 4, 50, 0, 0),
+(321, 12, 8, 100, 0, 0),
+(325, 12, 12, 150, 0, 0),
+(329, 11, 0, 0, 4, 80);
 
 -- --------------------------------------------------------
 
@@ -905,7 +705,7 @@ CREATE TABLE IF NOT EXISTS `metodos_pagamento` (
   `cod` varchar(50) NOT NULL,
   `metodo` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `metodos_pagamento`
@@ -955,10 +755,10 @@ CREATE TABLE IF NOT EXISTS `professores` (
   `email` text NOT NULL,
   `contacto` int NOT NULL,
   `pass` text NOT NULL,
-  `img` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fuser-icon&psig=AOvVaw3d95dQ6o0U0qDmh29NZRCh&ust=1738437993975000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNDnnqnYoIsDFQAAAAAdAAAAABAJ',
+  `img` text NOT NULL,
   `ativo` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `professores`
@@ -972,7 +772,7 @@ INSERT INTO `professores` (`id`, `nome`, `email`, `contacto`, `pass`, `img`, `at
 (5, 'Cristiana Neto', 'cristiananeto@sapo.pt', 919549960, '$2y$10$286pT6v26k0eTNpgSFv2/OxgqTpKwU0De9tbXcz7T/JlS6nVNXSse', '', 1),
 (6, 'Paula Borralho', 'anapaula.borralho@sapo.pt', 917402807, '$2y$10$/hWJGFLBJvEJy5f5Sny8G..iOsjBute9HlBZXNXUlezQbeRxHG7LC', '', 1),
 (7, 'Ana Paula Fonseca', 'anapaulaferreirafonseca92@gmail.com', 915403775, '$2y$10$Pz.juomtG4TiuNzt6l6pf.Jn6uSYFNLhZBScV3LRUz4.NLRRInsim', '', 1),
-(8, 'Natália Luciano', 'natalialuci@gmail.com', 966539965, '$2y$10$S8ructuKPxPHWza0RRRUtuMqQOcYNJx7aCH3yxY4eQAQnWarP2EVW', '', 1),
+(8, 'Natália Luciano', 'natalialuci@gmail.com', 966539965, '$2y$10$S8ructuKPxPHWza0RRRUtuMqQOcYNJx7aCH3yxY4eQAQnWarP2EVW', './images/uploads/foto_6806ab92e89773.16181461.png', 1),
 (9, 'Arcélio Sampaio', 'arceliosampaio@gmail.com', 912220109, '$2y$10$EW8dOJTRJAlbnVzKjdy3zeo6izfPpG8Bq517a2APJTuP2HUW/GJRm', '', 1),
 (10, 'Margarida Oliveira', 'margaridaisabeloliveira6@gmail.com', 918118126, '$2y$10$kV0OnCsrVemrQM.lMbZNHuXhkoJFJr0K8qC7M/hRC42R/ivveNNlm', '', 1),
 (11, 'Marta Santos', '', 964391685, '', '', 1),
@@ -990,7 +790,7 @@ CREATE TABLE IF NOT EXISTS `professores_disciplinas` (
   `idProfessor` int NOT NULL,
   `idDisciplina` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `professores_disciplinas`
@@ -1034,7 +834,7 @@ CREATE TABLE IF NOT EXISTS `professores_disponibilidade` (
   `hora` time NOT NULL,
   `disponibilidade` tinyint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1048,7 +848,7 @@ CREATE TABLE IF NOT EXISTS `professores_ensino` (
   `idProfessor` int NOT NULL,
   `idEnsino` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `professores_ensino`
@@ -1140,7 +940,28 @@ CREATE TABLE IF NOT EXISTS `professores_logs` (
 
 INSERT INTO `professores_logs` (`idProfessor`, `dataLog`, `logFile`) VALUES
 (1, '2025-04-18 15:59:22', 'Administrador Geral 4x1(1) Saiu.'),
-(8, '2025-04-18 16:06:25', 'Administrador Natália Luciano(8) Saiu.');
+(8, '2025-04-18 16:06:25', 'Administrador Natália Luciano(8) Saiu.'),
+(8, '2025-04-21 16:09:52', 'O professor [8]Natália Luciano atualizou o seu perfil.'),
+(8, '2025-04-21 16:09:57', 'O professor [8]Natália Luciano atualizou o seu perfil.'),
+(8, '2025-04-21 16:10:34', 'O professor [8]Natália Luciano atualizou o seu perfil.'),
+(8, '2025-04-21 16:11:15', 'O professor [8]Natália Luciano atualizou o seu perfil.'),
+(8, '2025-04-21 16:12:12', 'O professor [8]Natália Luciano atualizou o seu perfil.'),
+(8, '2025-04-21 16:12:14', 'O professor [8]Natália Luciano atualizou o seu perfil.'),
+(8, '2025-04-21 16:44:18', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:44:24', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:44:30', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:52:11', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:52:15', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:52:19', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:56:27', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:56:35', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 16:58:15', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 17:05:10', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 17:06:03', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 17:17:28', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 17:17:42', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 17:22:57', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-04-21 20:33:22', 'O professor [8]Natália Luciano atualizou o seu perfil');
 
 -- --------------------------------------------------------
 
@@ -1156,7 +977,7 @@ CREATE TABLE IF NOT EXISTS `professores_presenca` (
   `idDisciplina` int NOT NULL,
   `individual` tinyint NOT NULL,
   `anoLetivo` varchar(25) NOT NULL,
-  `hora` varchar(25) NOT NULL,
+  `duracao` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `dia` date NOT NULL,
   `criado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `criado_por` int NOT NULL,
@@ -1165,7 +986,14 @@ CREATE TABLE IF NOT EXISTS `professores_presenca` (
   KEY `idDisciplina` (`idDisciplina`),
   KEY `criado_por` (`criado_por`),
   KEY `idAluno` (`idAluno`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Extraindo dados da tabela `professores_presenca`
+--
+
+INSERT INTO `professores_presenca` (`id`, `idProfessor`, `idAluno`, `idDisciplina`, `individual`, `anoLetivo`, `duracao`, `dia`, `criado_em`, `criado_por`) VALUES
+(1, 1, 22, 4, 0, '2024/2025', '45', '2025-04-20', '2025-04-20 21:11:33', 1);
 
 -- --------------------------------------------------------
 
@@ -1197,7 +1025,7 @@ CREATE TABLE IF NOT EXISTS `professores_recibo` (
   `mes` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idProfessor` (`idProfessor`)
-) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `professores_recibo`
@@ -1262,32 +1090,6 @@ INSERT INTO `professores_recibo` (`id`, `idProfessor`, `horasDadas1Ciclo`, `valo
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores_valores`
---
-
-DROP TABLE IF EXISTS `professores_valores`;
-CREATE TABLE IF NOT EXISTS `professores_valores` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `cod` varchar(25) NOT NULL,
-  `valor` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `professores_valores`
---
-
-INSERT INTO `professores_valores` (`id`, `cod`, `valor`) VALUES
-(1, 'vlr_001', 2.00),
-(2, 'vlr_001', 2.00),
-(3, 'vlr_002', 3.00),
-(4, 'vlr_003', 4.00),
-(5, 'vlr_004', 6.00),
-(6, 'vlr_005', 18.00);
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `transacoes`
 --
 
@@ -1299,7 +1101,34 @@ CREATE TABLE IF NOT EXISTS `transacoes` (
   `valor` decimal(10,2) NOT NULL,
   `data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `valores_pagamento`
+--
+
+DROP TABLE IF EXISTS `valores_pagamento`;
+CREATE TABLE IF NOT EXISTS `valores_pagamento` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idEnsino` int NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Extraindo dados da tabela `valores_pagamento`
+--
+
+INSERT INTO `valores_pagamento` (`id`, `idEnsino`, `valor`) VALUES
+(2, 1, 2.00),
+(3, 2, 3.00),
+(4, 3, 4.00),
+(5, 4, 6.00),
+(6, 5, 18.00),
+(7, 7, 10.00),
+(9, 9, 10.00);
 
 --
 -- Restrições para despejos de tabelas

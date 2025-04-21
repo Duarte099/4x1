@@ -195,7 +195,7 @@
                 $valorParcialUniversidade = ((int) $horasDadasUniversidade) * 2;
             }
 
-            $sql = "SELECT valor FROM professores_valores;";
+            $sql = "SELECT valor FROM valores_pagamento;";
             $result = $con->query($sql);
             $valores = [];
             if ($result->num_rows > 0) {

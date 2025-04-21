@@ -5,6 +5,7 @@
   //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
   $estouEm = 1;
 ?>
+<title>4x1 | Dashboard</title>
 </head>
   <body>
     <div class="wrapper">
@@ -215,7 +216,7 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="row">
+            <div class="row">
 						<div class="col-md-4">
 							<div class="card">
 								<div class="card-body pb-0">
@@ -252,8 +253,8 @@
 								</div>
 							</div>
 						</div>
-					</div> -->
-            <!-- <div class="row">
+					</div>
+             <div class="row">
 						<div class="col-md-4">
 							<div class="card">
 								<div class="card-header">

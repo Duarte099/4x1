@@ -88,10 +88,10 @@
             //Se a password e a imagem não tiverem vazios então insere altera tudo 
             if (!empty($_POST['password'])) {
                 $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                $sql = "UPDATE administrador SET nome = '{$_POST['nome']}', email = '{$_POST['email']}', pass = '$passwordHash', active = {$_POST['estado']} WHERE id = $idAdmin;";
+                $sql = "UPDATE administrador SET nome = ?, email = ?, pass = ?, active = ? WHERE id = $idAdmin;";
                 $result = $con->prepare($sql);
                 if ($result) {
-                    $result->bind_param("sss", $_POST['nome'], $_POST['email'], $passwordHash);
+                    $result->bind_param("sssii", $_POST['nome'], $_POST['email'], $passwordHash, $_POST['estado'], $idAdmin);
                     if ($result->execute()) {
                         notificacao('success', 'Administrador editado com sucesso!');
                         registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o administrador [" . $idAdmin . "]" . $_POST['nome'] . ".");
@@ -108,10 +108,10 @@
             }
             //senão altera tudo menos a password e a imagem
             else {
-                $sql = "UPDATE administrador SET nome = {$_POST['nome']}, email = {$_POST['email']}, active = {$_POST['status']} WHERE id = $idAdmin;";
+                $sql = "UPDATE administrador SET nome = ?, email = ?, active = ? WHERE id = ?;";
                 $result = $con->prepare($sql);
                 if ($result) {
-                    $result->bind_param("sss", $_POST['nome'], $_POST['email'], $passwordHash);
+                    $result->bind_param("ssii", $_POST['nome'], $_POST['email'], $_POST['estado'], $idAdmin);
                     if ($result->execute()) {
                         notificacao('success', 'Administrador editado com sucesso!');
                         registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o administrador [" . $idAdmin . "]" . $_POST['nome'] . ".");

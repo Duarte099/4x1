@@ -154,8 +154,8 @@
               <div class="container2">
                   <div class="form-section">
                       <div class="form-row">
-                          <div class="campo" style="flex: 0 0 56%;">
-                            <label>NOME:</label>
+                          <div class="campo" style="flex: 0 0 33%;">
+                            <label>ALUNO:</label>
                             <input type="text" name="nome" list="datalistNomes" oninput="atualizarCampos(this)">
                             <datalist id='datalistNomes'>
                               <?php
@@ -172,8 +172,12 @@
                             </datalist>
                           </div>
                           <div class="campo" style="flex: 0 0 20%;">
-                            <label>Pack:</label>
-                            <input type="text" name="pack" id="pack" readonly>
+                            <label>Horas Grupo:</label>
+                            <input type="text" name="horasGrupo" id="horasGrupo" readonly>
+                          </div>
+                          <div class="campo" style="flex: 0 0 20%;">
+                            <label>Horas Individuais:</label>
+                            <input type="text" name="horasIndividual" id="horasIndividual" readonly>
                           </div>
                           <div class="campo" style="flex: 0 0 20%;">
                             <label>Ano Letivo:</label>
@@ -202,7 +206,7 @@
                                   FROM disciplinas AS d 
                                   INNER JOIN professores_disciplinas AS pd ON d.id = pd.idDisciplina 
                                   INNER JOIN professores AS p ON pd.idProfessor = p.id 
-                                  WHERE p.id = $idAdmin;";
+                                  WHERE p.id = {$_SESSION['id']};";
                               }
                               elseif ($_SESSION['tipo'] == "administrador") {
                                 $sql = "SELECT d.nome, d.id FROM disciplinas AS d;";
@@ -221,7 +225,7 @@
 
                       <div class="form-row">
                           <div class="campo" style="flex: 0 0 38%;">
-                              <label>HORA:</label>
+                              <label>DURAÇÃO:</label> 
                               <select
                                 class="form-select form-control"
                                 id="defaultSelect"
@@ -256,43 +260,47 @@
               </div>
             </div>
             <script>
-              function atualizarCampos(input) {
-                // O valor do input é o ID do aluno, conforme definido nas opções do datalist
-                var partes = input.value.split(" | ");
-                var alunoId = partes[0];
-                
-                // Se um valor for selecionado (não vazio)
-                if(alunoId !== "") {
-                  // Realiza a requisição AJAX para obter os dados do aluno
-                  $.ajax({
-                    url: 'json.obterNome.php',
-                    type: 'GET',
-                    data: { idAluno: alunoId},
-                    success: function(response) {
-                      var data = JSON.parse(response);
-                      if (data == "erro") {
-                        document.getElementById("pack").value = "";
+                function atualizarCampos(input) {
+                    // O valor do input é o ID do aluno, conforme definido nas opções do datalist
+                    var partes = input.value.split(" | ");
+                    var alunoId = partes[0];
+                    
+                    // Se um valor for selecionado (não vazio)
+                    if(alunoId !== "") {
+                        // Realiza a requisição AJAX para obter os dados do aluno
+                        $.ajax({
+                            url: 'json.obterNome.php',
+                            type: 'GET',
+                            data: { idAluno: alunoId},
+                            success: function(response) 
+                            {
+                                var data = JSON.parse(response);
+                                if (data == "erro") {
+                                    document.getElementById("horasGrupo").value = "";
+                                    document.getElementById("horasIndividual").value = "";
+                                    document.getElementById("disciplinasContainer").style.display = "none";
+                                }
+                                else{
+                                    document.getElementById("horasGrupo").value = data.horasGrupo;
+                                    document.getElementById("horasIndividual").value = data.horasIndividual;
+                                    if (data.ciclo == 1) {
+                                        document.getElementById("disciplinasContainer").style.display = "none";
+                                    } else {
+                                        document.getElementById("disciplinasContainer").style.display = "block";
+                                    }
+                                }
+                            },
+                            error: function() {
+                                console.error('Erro ao buscar o nome.');
+                            }
+                        });
+                    } else {
+                        // Se não houver um ID válido, limpa o campo Pack
+                        document.getElementById("horasGrupo").value = "";
+                        document.getElementById("horasIndividual").value = "";
                         document.getElementById("disciplinasContainer").style.display = "none";
-                      }
-                      else{
-                        document.getElementById("pack").value = data.pack;
-                        if (data.ciclo == 1) {
-                          document.getElementById("disciplinasContainer").style.display = "none";
-                        } else {
-                          document.getElementById("disciplinasContainer").style.display = "block";
-                        }
-                      }
-                    },
-                    error: function() {
-                      console.error('Erro ao buscar o nome.');
                     }
-                  });
-                } else {
-                  // Se não houver um ID válido, limpa o campo Pack
-                  document.getElementById("pack").value = "";
-                  document.getElementById("disciplinasContainer").style.display = "none";
                 }
-              }
             </script>
           </form>
         </div>

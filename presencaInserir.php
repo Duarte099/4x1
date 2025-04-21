@@ -21,15 +21,6 @@
                 }
             }
 
-<<<<<<< HEAD
-                $stmt = $con->prepare('SELECT nome FROM alunos WHERE id = ?');
-                $stmt->bind_param('i', $idAluno);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
-                }
-=======
             $stmt = $con->prepare('SELECT nome FROM alunos WHERE id = ?');
             $stmt->bind_param('i', $idAluno);
             $stmt->execute();
@@ -42,7 +33,6 @@
                 header('Location: presenca.php');
                 exit();
             }
->>>>>>> 4ada4ec6c01c7620ab138b403210d9a57ba73942
 
             $anoLetivo = $_POST['anoLetivo'];
             $hora = $_POST['hora'];

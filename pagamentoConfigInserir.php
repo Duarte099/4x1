@@ -8,6 +8,38 @@
         exit();
     }
 
+    if (isset($_GET['op']) && $_GET['op'] == 'deleteMensalidade' && isset($_GET['idMensalidade'])) {
+        $idMensalidade = $_GET['idMensalidade'];
+        $stmt = $con->prepare('SELECT * FROM mensalidade WHERE id = ?');
+        $stmt->bind_param('i', $idMensalidade);
+        $stmt->execute(); 
+        $result = $stmt->get_result();
+        if ($result->num_rows <= 0) {
+            notificacao('warning', 'ID de mensalidade inválido.');
+            header('Location: dashboard.php');
+            exit();
+        }
+
+        $sql = "DELETE FROM mensalidade WHERE id = ?";
+        $result = $con->prepare($sql);
+        if ($result) {
+            $result->bind_param("i", $idMensalidade);
+            if ($result->execute()) {
+                notificacao('success', 'Mensalidade eliminada com sucesso!');
+                registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " eliminou a mensalidade [" . $idMensalidade . "].");
+            } 
+            else {
+                notificacao('danger', 'Erro ao eliminar mensalidade: ' . $result->error);
+            }
+            $result->close();
+        }
+        else {
+            notificacao('danger', 'Erro ao eliminar mensalidade: ' . $result->error);
+        }
+        header('Location: pagamentoConfig.php');
+        exit();
+    }
+
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard.php
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         //Obtem o operação 
@@ -24,10 +56,10 @@
                 exit();
             }
             else {
-                $sql = "INSERT INTO mensalidade (ano, horasGrupo, horasIndividual, mensalidadeHorasGrupo, mensalidadeHorasIndividual, transporte) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO mensalidade (ano, horasGrupo, horasIndividual, mensalidadeHorasGrupo, mensalidadeHorasIndividual) VALUES (?, ?, ?, ?, ?)";
                 $result = $con->prepare($sql);
                 if ($result) {
-                    $result->bind_param("iiiiii", $_POST['ano'], $_POST['horasGrupo'], $_POST['horasInd'], $_POST['mensGrupo'], $_POST['mensInd'], $_POST['transporte']);
+                    $result->bind_param("iiiii", $_POST['ano'], $_POST['horasGrupo'], $_POST['horasInd'], $_POST['mensGrupo'], $_POST['mensInd']);
                     if ($result->execute()) {
                         $idMensalidade = $con->insert_id;
                         notificacao('success', 'Mensalidade inserida com sucesso!');
@@ -59,10 +91,10 @@
                 exit();
             }
 
-            $sql = "UPDATE mensalidade SET ano = ?, horasGrupo = ?, horasIndividual = ?, mensalidadeHorasGrupo = ?, mensalidadeHorasIndividual = ?, transporte = ? WHERE id = ?";
+            $sql = "UPDATE mensalidade SET ano = ?, horasGrupo = ?, horasIndividual = ?, mensalidadeHorasGrupo = ?, mensalidadeHorasIndividual = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("iiiiiii", $_POST['ano'], $_POST['horasGrupo'], $_POST['horasInd'], $_POST['mensGrupo'], $_POST['mensInd'], $_POST['transporte'], $idMensalidade);
+                $result->bind_param("iiiiii", $_POST['ano'], $_POST['horasGrupo'], $_POST['horasInd'], $_POST['mensGrupo'], $_POST['mensInd'], $idMensalidade);
                 if ($result->execute()) {
                     notificacao('success', 'Mensalidade alterada com sucesso!');
                     registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " alterou a mensalidade [" . $idMensalidade . "].");
@@ -80,7 +112,7 @@
         elseif ($op == 'editPagamento') {
             $idPagamento = $_GET['idPagamento'];
 
-            $stmt = $con->prepare('SELECT pv.id, nome, valor FROM professores_valores as pv INNER JOIN ensino ON idEnsino = ensino.id WHERE pv.id = ?');
+            $stmt = $con->prepare('SELECT pv.id, nome, valor FROM valores_pagamento as pv INNER JOIN ensino ON idEnsino = ensino.id WHERE pv.id = ?');
             $stmt->bind_param('i', $idPagamento);
             $stmt->execute(); 
             $result = $stmt->get_result();
@@ -93,7 +125,7 @@
                 $row = $result->fetch_assoc();
             }
 
-            $sql = "UPDATE professores_valores SET valor = ? WHERE id = ?";
+            $sql = "UPDATE valores_pagamento SET valor = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("di", $_POST['valor'], $idPagamento);
@@ -111,36 +143,6 @@
             }
             header('Location: pagamentoConfig.php');
         }
-        elseif ($op == 'deleteMensalidade') {
-            $idMensalidade = $_GET['idMensalidade'];
-            $stmt = $con->prepare('SELECT * FROM mensalidade WHERE id = ?');
-            $stmt->bind_param('i', $idMensalidade);
-            $stmt->execute(); 
-            $result = $stmt->get_result();
-            if ($result->num_rows <= 0) {
-                notificacao('warning', 'ID de mensalidade inválido.');
-                header('Location: dashboard.php');
-                exit();
-            }
-
-            $sql = "DELETE FROM mensalidade WHERE id = ?";
-            $result = $con->prepare($sql);
-            if ($result) {
-                $result->bind_param("i", $idMensalidade);
-                if ($result->execute()) {
-                    notificacao('success', 'Mensalidade eliminada com sucesso!');
-                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " eliminou a mensalidade [" . $idMensalidade . "].");
-                } 
-                else {
-                    notificacao('danger', 'Erro ao eliminar mensalidade: ' . $result->error);
-                }
-                $result->close();
-            }
-            else {
-                notificacao('danger', 'Erro ao eliminar mensalidade: ' . $result->error);
-            }
-            header('Location: pagamentoConfig.php');
-        }
         else {
             notificacao('warning', 'Operação inválida.');
             header('Location: dashboard.php');
@@ -148,7 +150,7 @@
         }
     }
     else {
-        //header('Location: dashboard.php');
+        header('Location: dashboard.php');
         exit();
     }
 ?>

@@ -45,16 +45,10 @@
 											<div class="modal-body">
 												<form action="pagamentoConfigInserir.php?op=save" method="POST">
 													<div class="row">
-														<div class="col-md-6 pe-0">
+														<div class="col-md-12 pe-0">
 															<div class="form-group form-group-default">
 																<label>Ano</label>
 																<input type="number" name="ano" class="form-control" value="0" required>
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group form-group-default">
-																<label>Transporte</label>
-																<input type="number" name="transporte" value="0" class="form-control" required>
 															</div>
 														</div>
 														<div class="col-md-6 pe-0">
@@ -104,7 +98,6 @@
 												<th>Mensalidade Grupo</th>
 												<th>Horas Individuais</th>
 												<th>Mensalidade Individual</th>
-												<th>Transporte</th>
 												<th style="width: 10%">Ação</th>
 											</tr>
 										</thead>
@@ -115,13 +108,12 @@
 												<th>Mensalidade Grupo</th>
 												<th>Horas Individuais</th>
 												<th>Mensalidade Individual</th>
-												<th>Transporte</th>
 											</tr>
 										</tfoot>
 										<tbody>
 											<?php
 												//query para selecionar todos os administradores
-												$sql = "SELECT id, ano, horasGrupo, horasIndividual, mensalidadeHorasGrupo, mensalidadeHorasIndividual, transporte FROM mensalidade;";
+												$sql = "SELECT id, ano, horasGrupo, horasIndividual, mensalidadeHorasGrupo, mensalidadeHorasIndividual FROM mensalidade;";
 												$result = $con->query($sql);
 												if ($result->num_rows > 0) {
 													while ($row = $result->fetch_assoc()) { ?>
@@ -131,7 +123,6 @@
 															<td><?php echo $row['mensalidadeHorasGrupo'] ?></td>
 															<td><?php echo $row['horasIndividual'] ?></td>
 															<td><?php echo $row['mensalidadeHorasIndividual'] ?></td>
-															<td><?php echo $row['transporte'] ?></td>
 															<td>
 																<div class="form-button-action">
 																	<button
@@ -143,7 +134,6 @@
 																	onclick="preencherMensalidade(
 																		<?php echo $row['id'] ?>, 
 																		<?php echo $row['ano'] ?>, 
-																		<?php echo $row['transporte'] ?>, 
 																		<?php echo $row['horasGrupo'] ?>, 
 																		<?php echo $row['mensalidadeHorasGrupo'] ?>, 
 																		<?php echo $row['horasIndividual'] ?>, 
@@ -182,16 +172,10 @@
 											<div class="modal-body">
 												<form action="pagamentoConfigInserir.php?op=editMensalidade" method="POST">
 													<div class="row">
-														<div class="col-md-6 pe-0">
+														<div class="col-md-12 pe-0">
 															<div class="form-group form-group-default">
 																<label>Ano</label>
 																<input type="number" name="ano" class="form-control" required>
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group form-group-default">
-																<label>Transporte</label>
-																<input type="number" name="transporte" class="form-control">
 															</div>
 														</div>
 														<div class="col-md-6 pe-0">
@@ -235,7 +219,7 @@
 					<div class="col-md-4">
 						<div class="card">
 							<div class="card-header">
-								<h4 class="card-title">Configuração pagamentos professores</h4>					
+								<h4 class="card-title">Configuração pagamentos</h4>
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
@@ -245,7 +229,7 @@
 									>
 										<thead>
 											<tr>
-												<th>Ensino</th>
+												<th>Tipo</th>
 												<th>Valor</th>
 												<th style="width: 10%">Ação</th>
 											</tr>
@@ -253,7 +237,7 @@
 										<tbody>
 											<?php
 												//query para selecionar todos os administradores
-												$sql = "SELECT pv.id, nome, valor FROM professores_valores as pv INNER JOIN ensino ON idEnsino = ensino.id;";
+												$sql = "SELECT pv.id, nome, valor FROM valores_pagamento as pv LEFT JOIN ensino ON idEnsino = ensino.id;";
 												$result = $con->query($sql);
 												if ($result->num_rows > 0) {
 													while ($row = $result->fetch_assoc()) { ?>
@@ -328,10 +312,9 @@
       	</div>
     </div>
 	<script>
-		function preencherMensalidade(id, ano, transporte, horasGrupo, mensalidadeGrupo, horasIndividuais, mensalidadeInd) {
+		function preencherMensalidade(id, ano, horasGrupo, mensalidadeGrupo, horasIndividuais, mensalidadeInd) {
 			// Preencher os campos do formulário
 			document.querySelector('#editarMensalidade input[name="ano"]').value = ano;
-			document.querySelector('#editarMensalidade input[name="transporte"]').value = transporte;
 			document.querySelector('#editarMensalidade input[name="horasGrupo"]').value = horasGrupo;
 			document.querySelector('#editarMensalidade input[name="mensGrupo"]').value = mensalidadeGrupo;
 			document.querySelector('#editarMensalidade input[name="horasInd"]').value = horasIndividuais;
