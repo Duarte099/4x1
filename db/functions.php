@@ -115,7 +115,7 @@
 
         if ($user == "admin") {
             // Inserir na tabela de logs
-            $query = "INSERT INTO administrador_logs (idAdmin, logFile) VALUES (?, ?)";
+            $query = "INSERT INTO administrador_logs (idAdministrador, logFile) VALUES (?, ?)";
         }
         elseif ($user == "prof") {
             $query = "INSERT INTO professores_logs (idProfessor, logFile) VALUES (?, ?)";

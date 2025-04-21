@@ -28,6 +28,11 @@
             if ($stmt->num_rows > 0) {
                 $row = $stmt->fetch_assoc();
             }
+            else {
+                notificacao('warning', 'ID do aluno inválido.');
+                header('Location: presenca.php');
+                exit();
+            }
 
             $anoLetivo = $_POST['anoLetivo'];
             $hora = $_POST['hora'];

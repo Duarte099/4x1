@@ -86,6 +86,12 @@
                         <p>Logs Administradores</p>
                     </a>
                 </li>
+                <li class="nav-item <?php echo ($estouEm == 10) ? 'active' : ''; ?>">
+                    <a href="pagamentoConfig.php">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <p>Configurações Pagamento</p>
+                    </a>
+                </li>
             <?php } ?>
         </ul>
         </div>
@@ -123,13 +129,13 @@
                 >
                 <div class="avatar-sm">
                     <img
-                    src="<?php echo $imgAdmin; ?>"
+                    src="<?php echo $_SESSION['img']; ?>"
                     alt="..."
                     class="avatar-img rounded-circle"
                     />
                 </div>
                 <span class="profile-username">
-                    <span class="fw-bold"><?php echo $nomeAdmin; ?></span>
+                    <span class="fw-bold"><?php echo $_SESSION['nome']; ?></span>
                 </span>
                 </a>
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -138,14 +144,14 @@
                     <div class="user-box">
                         <div class="avatar-lg">
                         <img
-                            src="<?php echo $imgAdmin; ?>"
+                            src="<?php echo $_SESSION['img']; ?>"
                             alt="image profile"
                             class="avatar-img rounded"
                         />
                         </div>
                         <div class="u-text">
-                        <h4><?php echo $nomeAdmin; ?></h4>
-                        <p class="text-muted"><?php echo $emailAdmin; ?></p>
+                        <h4><?php echo $_SESSION['nome']; ?></h4>
+                        <p class="text-muted"><?php echo $_SESSION['email']; ?></p>
                         <a
                             href="profile.html"
                             class="btn btn-xs btn-secondary btn-sm"

@@ -15,17 +15,15 @@
     //Obtem o id do admin via GET
     $idAdmin = $_GET['idAdmin'];
 
-    //Obtem todas as informações do aluno que está a ser editado
-    $sql = "SELECT * FROM administrador WHERE id = '$idAdmin'";
-    $result = $con->query($sql);
-    //Se houver um aluno com o id recebido, guarda as informações
+    $stmt = $con->prepare("SELECT * FROM administrador WHERE id = ?");
+    $stmt->bind_param("i", $idAdmin);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $rowAdmin = $result->fetch_assoc();
-    }
-    //Caso contrário volta para a dashboard para não dar erro
-    else{
-        notificacao('warning', 'ID do professor inválido.');
-        header('Location: dashboard.php');
+    } else {
+        notificacao('warning', 'ID do administrador inválido.');
+        header('Location: admin.php');
         exit();
     }
 ?>

@@ -14,6 +14,32 @@
         $op = $_GET['op'];
 
         if ($op == 'save') {
+            $stmt = $con->prepare("SELECT email FROM professores");
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    if ($row["email"] == $_POST['email']) {
+                        notificacao('warning', 'Esse email já existe no sistema.');
+                        header('Location: adminCriar.php');
+                        exit();
+                    }
+                    else {
+                        $stmt1 = $con->prepare("SELECT email FROM administrador");
+                        $stmt1->execute();
+                        $result1 = $stmt1->get_result();
+                        if ($result1->num_rows > 0) {
+                            while ($row1 = $result1->fetch_assoc()) {
+                                if ($row1["email"] == $_POST['email']) {
+                                    notificacao('warning', 'Esse email já existe no sistema.');
+                                    header('Location: adminCriar.php');
+                                    exit();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
             //query sql para inserir os dados do aluno
             $sql = "INSERT INTO administrador (nome, email, pass) VALUES (?, ?, ?)";
@@ -21,8 +47,9 @@
             if ($result) {
                 $result->bind_param("sss", $_POST['nome'], $_POST['email'], $passwordHash);
                 if ($result->execute()) {
+                    $idAdmin = $con->insert_id;
                     notificacao('success', 'Administrador criado com sucesso!');
-                    registrar_log("O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou o administrador [" . $idAdmin . "]" . $_POST['nome'] . ".");
+                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou o administrador [" . $idAdmin . "]" . $_POST['nome'] . ".");
                 } 
                 else {
                     notificacao('danger', 'Erro ao criar administrador: ' . $result->error);
@@ -41,6 +68,16 @@
         elseif ($op == 'edit') {
             $idAdmin = $_GET['idAdmin'];
 
+            $stmt = $con->prepare("SELECT * FROM administrador WHERE id = ?");
+            $stmt->bind_param("i", $idAdmin);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows <= 0) {
+                notificacao('warning', 'ID do administrador inválido.');
+                header('Location: dashboard.php');
+                exit();
+            }
+
             if ($_POST['estado'] == "Ativo") {
                 $_POST['estado'] = 1;
             }
@@ -57,6 +94,7 @@
                     $result->bind_param("sss", $_POST['nome'], $_POST['email'], $passwordHash);
                     if ($result->execute()) {
                         notificacao('success', 'Administrador editado com sucesso!');
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o administrador [" . $idAdmin . "]" . $_POST['nome'] . ".");
                     } 
                     else {
                         notificacao('danger', 'Erro ao editar administrador: ' . $result->error);

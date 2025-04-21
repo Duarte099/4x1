@@ -12,13 +12,9 @@ Meter valor da inscrição
 
 verificar se data é valida
 
-verificar se o nome do aluno a ser criado ja existe no sistema, se sim, perguntar se deseja colocar como ativo
+Colocar tabela para alterar valores por ensino que sao pagos aos professores
 
-Colocar tabs do template na pagina dos professores
-
-mudar tudo para prepare statements
-
-bloquear emails iguais para administradores e professores
+fazer animação para autoload
 
 
 

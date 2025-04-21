@@ -26,7 +26,7 @@
                         $_SESSION['loggedin'] = TRUE;
                         $_SESSION['tipo'] = "administrador";
                         $_SESSION['id'] = $id;
-                        $_SESSION['name'] = $nomeX;
+                        $_SESSION['nome'] = $nomeX;
                         $_SESSION['email'] = $email;
                         $_SESSION['img'] = $img;
                         $_SESSION['password'] = $password;

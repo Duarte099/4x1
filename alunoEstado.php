@@ -3,10 +3,11 @@
     include('./db/conexao.php'); 
 
     $id = $_GET['idAluno'];
-
-    $sql = "SELECT ativo, nome FROM alunos WHERE id = $id;";
-    $result = $con->query($sql);
-    //Se houver um aluno com o id recebido, guarda as informações
+    
+    $stmt = $con->prepare("SELECT ativo, nome FROM alunos WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if ($row['ativo'] == 1) {

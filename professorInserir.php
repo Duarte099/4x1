@@ -18,6 +18,32 @@
 
         $nome = $_POST['nome'];
         $email = $_POST['email'];
+        $stmt = $con->prepare("SELECT email FROM professores");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                if ($row["email"] == $email) {
+                    notificacao('warning', 'Esse email j´< existe no sistema.');
+                    header('Location: professorCriar.php');
+                    exit();
+                }
+                else {
+                    $stmt1 = $con->prepare("SELECT email FROM administrador");
+                    $stmt1->execute();
+                    $result1 = $stmt1->get_result();
+                    if ($result1->num_rows > 0) {
+                        while ($row1 = $result1->fetch_assoc()) {
+                            if ($row1["email"] == $email) {
+                                notificacao('warning', 'Esse email j´< existe no sistema.');
+                                header('Location: professorCriar.php');
+                                exit();
+                            }
+                        }
+                    }
+                }
+            }
+        }
         $contacto = $_POST['contacto'];
 
         if ($op == 'save') {
@@ -34,7 +60,7 @@
                     registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou o professor [" . $idProfessor . "]" . $nome . ".");
                 } 
                 else {
-                    notificacao('danger', 'Erro ao criar prefessor: ' . $result->error);
+                    notificacao('danger', 'Erro ao criar professor: ' . $result->error);
                 }
 
                 $result->close();

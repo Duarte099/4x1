@@ -12,13 +12,13 @@
         $stmt = $con->prepare('SELECT nome FROM alunos WHERE id = ?');
         $stmt->bind_param('i', $id);
         $stmt->execute(); 
-        $stmt->store_result();
+        $result = $stmt->get_result();
         if ($stmt->num_rows <= 0) {
             header('Location: dashboard.php');
             exit();
         }
         else {
-            $row = $stmt->fetch_assoc();
+            $row = $result->fetch_assoc();
         }
 
         if ($op == 'save') {

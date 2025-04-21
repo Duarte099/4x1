@@ -14,10 +14,10 @@
         $estouEm = 5;
     }
 
-    //Obtem todas as informações do aluno que está a ser editado
-    $sql = "SELECT * FROM alunos WHERE alunos.id = '$idAluno'";
-    $result = $con->query($sql);
-    //Se houver um aluno com o id recebido, guarda as informações
+    $stmt = $con->prepare("SELECT * FROM alunos WHERE id = ?");
+    $stmt->bind_param("i", $idAluno);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $rowAluno = $result->fetch_assoc();
         if (isset($row['transporte']) && $row['transporte'] == 1) {
@@ -26,13 +26,12 @@
         else {
             $transporte = "";
         }
-    }
-    //Caso contrário volta para a dashboard para não dar erro
-    else{
+    } else {
         notificacao('warning', 'ID do aluno inválido.');
-        header('Location: dashboard.php');
+        header('Location: aluno.php');
         exit();
     }
+
     $horasRealizadasGrupo = 0;
     $horasRealizadasIndividual = 0;
     $mensalidade = 0;
