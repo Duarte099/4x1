@@ -11,6 +11,24 @@
             $mes = $mes - 1;
             $mensalidade = 0;
 
+            //Valores pagamento transporte
+            $sql = "SELECT * FROM valores_pagamento WHERE id = 7;";
+            $result = $con->query($sql);
+            //Se houver um aluno com o id recebido, guarda as informações
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $valorTransporte = $row["valor"];
+            }
+
+            //Valores pagamento
+            $sql = "SELECT * FROM valores_pagamento WHERE id = 9;";
+            $result = $con->query($sql);
+            //Se houver um aluno com o id recebido, guarda as informações
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $valorInscricao = $row["valor"];
+            }
+
             //Horas Grupo Realizadas
             $horasRealizadasGrupo = 0;
             $sql2 = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . (int) $row1['id'] . " AND MONTH(dia) = $mes AND YEAR(dia) = $ano AND individual = 0";
@@ -36,14 +54,15 @@
             $balancoIndividual = $row1['balancoIndividual'] + ($row1['horasIndividual'] - $horasRealizadasIndividual);
 
             //Valor do transporte
-            $result = $con->prepare('SELECT transporte FROM alunos WHERE id = ?');
-            $result->bind_param("i", $row1['id']);
-            $result->execute();
-            $result = $result->get_result();
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                if ($row['transporte'] == 1) {
-                    $mensalidade = $mensalidade + 20;
+            if ($row1['transporte'] == 1) {
+                $mensalidade = $mensalidade + $valorTransporte;
+            }
+
+            //Valor da inscrição
+            if(!empty($row1['dataInscricao'])){
+                $mesInscricao = date('Y-m', strtotime($row1['dataInscricao']));
+                if ($mesInscricao == date('Y-m')) {
+                    $mensalidade += $valorInscricao;
                 }
             }
 
@@ -64,7 +83,7 @@
             $result = $result->get_result();
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
-                $mensalidade = $mensalidade + $row['mensalidadeHorasGrupo'];
+                $mensalidade = $mensalidade + $row['mensalidadeHorasIndividual'];
             }
 
             //Inserir Recibo
@@ -85,125 +104,110 @@
         }
     }
 
+    $sql = "SELECT valor FROM valores_pagamento;";
+    $result = $con->query($sql);
+    $valores = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $valores[] = $row['valor'];
+        }
+    }
+
+    function minutosToValor($minutos){
+        // Conversão para horas e minutos
+        $horas = intdiv($minutos, 60);
+
+        $minutosRestantes = $minutos % 60;
+
+        // Conversão para horas decimais
+        return $minutos / 60;
+    }
+
     //RECIBO PROFESSORES
     $sql1 = "SELECT * FROM professores WHERE ativo = 1";
     $result1 = $con->query($sql1);
     if ($result1->num_rows >= 0) {
         while ($row1 = $result1->fetch_assoc()) {
             //Horas dadas 1 Ciclo
-            $sql = "SELECT
-                    SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(
-                        SUBSTRING_INDEX(p.hora, ' - ', -1), 
-                        SUBSTRING_INDEX(p.hora, ' - ', 1)
-                    )))) AS total_horas
-                FROM professores_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4;";
+            $valorParcial1Ciclo = 0;
+            $horasDadas1Ciclo = 0;
+            $sql = "SELECT duracao
+                    FROM professores_presenca AS p
+                    INNER JOIN alunos AS a ON a.id = p.idAluno
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4 AND idProfessor = {$row1['id']};";
             $result = $con->query($sql);
-            if ($result->num_rows >= 0) {
-                $row = $result->fetch_assoc();
-                if (!empty($row['total_horas'])) {
-                    $partes = explode(":", $row['total_horas']);
-                    $horasDadas1Ciclo = $partes[0];
-                } else {
-                    $horasDadas1Ciclo = 0;
-                }
-                $valorParcial1Ciclo = ((int) $horasDadas1Ciclo) * 2;
-            }
-
-            //Horas dadas 2 Ciclo
-            $sql = "SELECT
-                    SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(
-                        SUBSTRING_INDEX(p.hora, ' - ', -1), 
-                        SUBSTRING_INDEX(p.hora, ' - ', 1)
-                    )))) AS total_horas
-                FROM professores_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7;";
-            $result = $con->query($sql);
-            if ($result->num_rows >= 0) {
-                $row = $result->fetch_assoc();
-                if (!empty($row['total_horas'])) {
-                    $partes = explode(":", $row['total_horas']);
-                    $horasDadas2Ciclo = $partes[0];
-                } else {
-                    $horasDadas2Ciclo = 0;
-                }
-                $valorParcial2Ciclo = ((int) $horasDadas2Ciclo) * 2;
-            }
-
-            //Horas dadas 3 Ciclo
-            $sql = "SELECT
-                    SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(
-                        SUBSTRING_INDEX(p.hora, ' - ', -1), 
-                        SUBSTRING_INDEX(p.hora, ' - ', 1)
-                    )))) AS total_horas
-                FROM professores_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9;";
-            $result = $con->query($sql);
-            if ($result->num_rows >= 0) {
-                $row = $result->fetch_assoc();
-                if (!empty($row['total_horas'])) {
-                    $partes = explode(":", $row['total_horas']);
-                    $horasDadas3Ciclo = $partes[0];
-                } else {
-                    $horasDadas3Ciclo = 0;
-                }
-                $valorParcial3Ciclo = ((int) $horasDadas3Ciclo) * 2;
-            }
-
-            //Horas dadas secundario
-            $sql = "SELECT
-                    SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(
-                        SUBSTRING_INDEX(p.hora, ' - ', -1), 
-                        SUBSTRING_INDEX(p.hora, ' - ', 1)
-                    )))) AS total_horas
-                FROM professores_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9;";
-            $result = $con->query($sql);
-            if ($result->num_rows >= 0) {
-                $row = $result->fetch_assoc();
-                if (!empty($row['total_horas'])) {
-                    $partes = explode(":", $row['total_horas']);
-                    $horasDadasSecundario = $partes[0];
-                } else {
-                    $horasDadasSecundario = 0;
-                }
-                $valorParcialSecundario = ((int) $horasDadasSecundario) * 2;
-            }
-
-            //Horas dadas Universidade
-            $sql = "SELECT
-                    SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(
-                        SUBSTRING_INDEX(p.hora, ' - ', -1), 
-                        SUBSTRING_INDEX(p.hora, ' - ', 1)
-                    )))) AS total_horas
-                FROM professores_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0;";
-            $result = $con->query($sql);
-            if ($result->num_rows >= 0) {
-                $row = $result->fetch_assoc();
-                if (!empty($row['total_horas'])) {
-                    $partes = explode(":", $row['total_horas']);
-                    $horasDadasUniversidade = $partes[0];
-                } else {
-                    $horasDadasUniversidade = 0;
-                }
-                $valorParcialUniversidade = ((int) $horasDadasUniversidade) * 2;
-            }
-
-            $sql = "SELECT valor FROM valores_pagamento;";
-            $result = $con->query($sql);
-            $valores = [];
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    $valores[] = $row['valor'];
+                    $horasDadas1Ciclo = $horasDadas1Ciclo + $row["duracao"];
                 }
+                $horasDadas1Ciclo = minutosToValor($horasDadas1Ciclo);
+                $valorParcial1Ciclo = $horasDadas1Ciclo * $valores[0];
             }
-
+    
+            //Horas dadas 2 Ciclo
+            $valorParcial2Ciclo = 0;
+            $horasDadas2Ciclo = 0;
+            $sql = "SELECT duracao
+                    FROM professores_presenca AS p
+                    INNER JOIN alunos AS a ON a.id = p.idAluno
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7 AND idProfessor = {$row1["id"]};";
+            $result = $con->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $horasDadas2Ciclo = $horasDadas2Ciclo + $row["duracao"];
+                }
+                $horasDadas2Ciclo = minutosToValor($horasDadas2Ciclo);
+                $valorParcial2Ciclo = $horasDadas2Ciclo * $valores[1];
+            }
+    
+            //Horas dadas 3 Ciclo
+            $valorParcial3Ciclo = 0;
+            $horasDadas3Ciclo = 0;
+            $sql = "SELECT duracao
+                    FROM professores_presenca AS p
+                    INNER JOIN alunos AS a ON a.id = p.idAluno
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9 AND idProfessor = {$row1["id"]};";
+            $result = $con->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $horasDadas3Ciclo = $horasDadas3Ciclo + $row["duracao"];
+                }
+                $horasDadas3Ciclo = minutosToValor($horasDadas3Ciclo);
+                $valorParcial3Ciclo = $horasDadas3Ciclo * $valores[2];
+            }
+    
+            //Horas dadas secundario
+            $valorParcialSecundario = 0;
+            $horasDadasSecundario = 0;
+            $sql = "SELECT duracao
+                    FROM professores_presenca AS p
+                    INNER JOIN alunos AS a ON a.id = p.idAluno
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9 AND idProfessor = {$row1["id"]};";
+            $result = $con->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $horasDadasSecundario = $horasDadasSecundario + $row["duracao"];
+                }
+                $horasDadasSecundario = minutosToValor($horasDadasSecundario);
+                $valorParcialSecundario = $horasDadasSecundario * $valores[3];
+            }
+    
+            //Horas dadas Universidade
+            $valorParcialUniversidade = 0;
+            $horasDadasUniversidade = 0;
+            $sql = "SELECT duracao
+                    FROM professores_presenca AS p
+                    INNER JOIN alunos AS a ON a.id = p.idAluno
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0 AND idProfessor = {$row1["id"]};";
+            $result = $con->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $horasDadasUniversidade = $horasDadasUniversidade + $row["duracao"];
+                }
+                $horasDadasUniversidade = minutosToValor($horasDadasUniversidade);
+                $valorParcialUniversidade = $horasDadasUniversidade * $valores[4];
+            }
+    
             $total = $valorParcial1Ciclo + $valorParcial2Ciclo + $valorParcial3Ciclo + $valorParcialSecundario + $valorParcialUniversidade; 
             
             //Inserir Recibo

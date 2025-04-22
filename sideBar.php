@@ -92,6 +92,24 @@
                         <p>Configurações Pagamento</p>
                     </a>
                 </li>
+                <li class="nav-item <?php echo ($estouEm == 11) ? 'active' : ''; ?>">
+                    <a href="transacoes.php">
+                        <i class="fas fa-exchange-alt"></i>
+                        <p>Transações</p>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo ($estouEm == 12) ? 'active' : ''; ?>">
+                    <a href="despesas.php">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <p>Despesas e Categorias</p>
+                    </a>
+                </li>
+                <li class="nav-item <?php echo ($estouEm == 13) ? 'active' : ''; ?>">
+                    <a href="balancoGeral.php">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Balanço geral</p>
+                    </a>
+                </li>
             <?php } ?>
         </ul>
         </div>

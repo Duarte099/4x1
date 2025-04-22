@@ -48,7 +48,8 @@
                     else {
                         registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $id . "]" . $row["nome"] . ".");
                     }
-                } 
+                    transacao(1, "Pagamento do aluno {$row["nome"]}", $mensalidade);
+                }
                 else {
                     notificacao('danger', 'Erro ao registrar pagamento: ' . $result->error);
                 }

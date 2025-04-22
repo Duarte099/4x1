@@ -149,7 +149,7 @@
                         registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o professor [" . $idProfessor . "]" . $nome . ".");
                     } 
                     else {
-                        notificacao('danger', 'Erro ao editar prefessor: ' . $result->error);
+                        notificacao('danger', 'Erro ao editar professor: ' . $result->error);
                     }
 
                     $result->close();

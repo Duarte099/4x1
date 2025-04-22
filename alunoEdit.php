@@ -64,6 +64,31 @@
         $data = $mesAnterior . "-" . $anoAtual;
     }
 
+    //Valores pagamento transporte
+    $sql = "SELECT * FROM valores_pagamento WHERE id = 7;";
+    $result = $con->query($sql);
+    //Se houver um aluno com o id recebido, guarda as informações
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $valorTransporte = $row["valor"];
+    }
+
+    //Valores pagamento
+    $sql = "SELECT * FROM valores_pagamento WHERE id = 9;";
+    $result = $con->query($sql);
+    //Se houver um aluno com o id recebido, guarda as informações
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $valorInscricao = $row["valor"];
+    }
+
+    if(!empty($rowAluno['dataInscricao'])){
+        $mesInscricao = date('Y-m', strtotime($rowAluno['dataInscricao']));
+        if ($mesInscricao == date('Y-m')) {
+            $mensalidade = $mensalidade + $valorInscricao;
+        }
+    }
+
     //Pagamento
     $sql = "SELECT *, alunos_pagamentos.id as idPagamento FROM alunos_pagamentos LEFT JOIN metodos_pagamento as m ON idMetodo = m.id WHERE idAluno = $idAluno AND DATE_FORMAT(created, '%m-%Y') = '$data';";
     $result = $con->query($sql);
@@ -101,7 +126,7 @@
         if ($result5->num_rows > 0) {
             $row5 = $result5->fetch_assoc();
             if ($row5['transporte'] == 1) {
-                $mensalidade = 20;
+                $mensalidade = $mensalidade + $valorTransporte;
             }
         }
 
@@ -122,7 +147,7 @@
         $result = $result->get_result();
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $mensalidade = $mensalidade + $row['mensalidadeHorasGrupo'];
+            $mensalidade = $mensalidade + $row['mensalidadeHorasIndividual'];
         }
     }
     else {

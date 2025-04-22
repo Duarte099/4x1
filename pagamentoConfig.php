@@ -147,7 +147,7 @@
 																		title="" 
 																		class="btn btn-link btn-danger" 
 																		data-original-title="Remove"
-																		onclick="window.location.href='pagamentoConfigInserir.php?idMensalidade=<?php echo $row['id']; ?>&op=deleteMensalidade'"
+																		onclick="mensalidadeDelete(<?php echo $row['id']; ?>)"
 																	>
 																		<i class="fa fa-times"></i>
 																	</button>
@@ -160,6 +160,17 @@
 										</tbody>
 									</table>
 								</div>
+								<script>
+									function mensalidadeDelete(id) {
+										//Faz uma pergunta e guarda o resultado em result
+										const result = confirm("Tem a certeza que deseja eliminar esta mensalidade?");
+										//Se tiver respondido que sim
+										if (result) {
+											//redireciona para a pagina fichaTrabalhoDelete e manda o id da ficha a ser deletada por GET
+											window.location.href = "pagamentoConfigInserir.php?op=deleteMensalidade&idMensalidade=" + id;
+										}
+									}
+								</script>
 								<div class="modal fade" id="editarMensalidade" tabindex="-1" role="dialog" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">

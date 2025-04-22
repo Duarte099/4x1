@@ -57,6 +57,7 @@
 
     $mail = new PHPMailer(true);
 
+    $mail->isSMTP();
     $mail->SMTPDebug  = 2;                     // enables SMTP debug information 
     $mail->SMTPAuth   = true;                  // enable SMTP authentication
     $mail->Port       = 587;
