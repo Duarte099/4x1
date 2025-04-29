@@ -1,68 +1,195 @@
 <?php
-    include('./db/conexao.php');
+    include("./db/conexao.php");
+    require __DIR__ . "/vendor/autoload.php";
 
-    $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND notHorario = 1";
+    use Dompdf\Dompdf;
+    use Dompdf\Options;
+
+    $url = 'http://localhost:3000/enviarMensagem';
+    $mensagem = "";
+    $notificacao = 0;
+
+    $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND notHorario = 1;";
     $result1 = $con->query($sql1);
     if ($result1->num_rows > 0) {
         while ($row1 = $result1->fetch_assoc()) {
-            $sql2 = "SELECT * FROM horario_alunos WHERE idAluno = {$row1['id']}";
-            $result2 = $con->query($sql2);
-            if ($result2->num_rows > 0) {
-                while ($row2 = $result2->fetch_assoc()) {
-                    $sql3 = "SELECT * FROM horario WHERE id = {$row2['idHorario']}";
-                    $result3 = $con->query($sql3);
-                    if ($result3->num_rows > 0) {
-                        while ($row3 = $result3->fetch_assoc()) {
-                            
+            if (!empty($row1['contacto'])) {
+                $contacto = $row1['contacto'];
+                $mensagem = "*Olá!* 👋\n\nO teu horário foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacta a diretora pedagógica:\n📞 *961 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+            }
+            else if (!empty($row1['tlmMae'])){
+                $contacto = $row1['tlmMae'];
+                $mensagem = "*Olá!* 👋\n\nO horário do aluno *" . $row1['nome'] . "* foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacta a diretora pedagógica:\n📞 *961 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+            }
+            elseif (!empty($row1['tlmPai'])) {
+                $contacto = $row1['tlmPai'];
+                $mensagem = "*Olá!* 👋\n\nO horário do aluno *" . $row1['nome'] . "* foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacta a diretora pedagógica:\n📞 *961 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+            }
+            $contacto = str_replace("+", "", $contacto);
+
+            // Configurações do Dompdf
+            $options = new Options;
+            $options->setChroot(__DIR__);
+            $options->setIsRemoteEnabled(true);
+            $dompdf = new Dompdf($options);
+            $dompdf->setPaper("A4", "landscape");
+
+            // Definir os dias e horas
+            $dias = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
+            $salas = ['azul', 'branca', 'rosa', 'verde', 'bancada', 'biblioteca'];
+            $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30'];
+
+            // Gerar o conteúdo HTML do PDF
+            $html = '
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body {
+                        font-family: DejaVu Sans, sans-serif;
+                        font-size: 12px;
+                    }
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                    }
+                    th, td {
+                        border: 1px solid black;
+                        text-align: center;
+                        padding: 8px;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                    td {
+                        height: 40px;
+                    }
+                </style>
+            </head>
+            <body>
+
+            <h2 style="text-align: center;">Horário Semanal</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Segunda</th>
+                        <th>Terça</th>
+                        <th>Quarta</th>
+                        <th>Quinta</th>
+                        <th>Sexta</th>
+                        <th>Sábado</th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+                $diasSemana = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
+                $horas = [
+                    '14:00', '14:30',
+                    '15:00', '15:30',
+                    '16:00', '16:30',
+                    '17:00', '17:30',
+                    '18:00', '18:30',
+                    '19:00', '19:30'
+                ];
+                
+                foreach ($horas as $hora) {
+                    $html .= "<tr>";
+                    $html .= "<td><strong>$hora</strong></td>";
+                
+                    foreach ($diasSemana as $dia) {
+                        $stmt = $con->prepare("SELECT h.id, h.sala, p.nome as professor
+                            FROM horario h
+                            INNER JOIN professores p ON h.idProfessor = p.id
+                            INNER JOIN horario_alunos ha ON ha.idHorario = h.id
+                            WHERE ha.idAluno = ? AND h.dia = ? AND h.hora = ?");
+                        $stmt->bind_param("iss", $row1['id'], $dia, $hora);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                
+                        if ($result->num_rows > 0) {
+                            $rowHorario = $result->fetch_assoc();
+                            $sala = htmlspecialchars($rowHorario['sala']);
+                            $professor = htmlspecialchars($rowHorario['professor']);
+                
+                            $html .= "<td style='background-color: #e8f5e9;'><strong>Matematica</strong><br>$professor<br><em>Sala: $sala</em></td>";
+                        } else {
+                            $html .= "<td></td>";
                         }
+                
+                        $stmt->close();
+                    }
+                
+                    $html .= "</tr>";
+                }
+
+            $html .= '
+                </tbody>
+            </table>
+
+            </body>
+            </html>';
+
+            // Carregar o HTML no Dompdf
+            $dompdf->loadHtml($html);
+
+            // Renderizar o PDF
+            $dompdf->render();
+
+            // Adicionar título ao PDF
+            $dompdf->addInfo("Title", "Horário " . $row1['nome']);
+
+            // Opcional: guardar o ficheiro no servidor
+            $output = $dompdf->output();
+
+            $filename = "horario_{$row1['nome']}_". date("d-m-y_H-i-s") . ".pdf";
+            $filepath = __DIR__ . "/images/uploads/" . $filename;
+            file_put_contents($filepath, $output);
+
+            $fileData = new CURLFile($filepath);
+
+            $data = [
+                'number' => $contacto,
+                'message' => $mensagem,
+                'apiKey' => '5e_Z.4y5Zo$$',
+                'file' => $fileData
+            ];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($ch);
+            if ($response === false) {
+                // Se ocorreu erro na cURL
+                notificacao('danger', 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . curl_error($ch));
+                $notificacao++;
+            } else {
+                // Se a requisição foi bem-sucedida, verificar código de status HTTP
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                
+                if ($httpCode == 200) {
+                    $sql3 = "UPDATE alunos SET notHorario = ? WHERE id = ?;";
+                    $result3 = $con->prepare($sql3);
+                    if ($result3) {
+                        $notHorario = 0;
+                        $result3->bind_param("di", $notHorario, $row1['id']);
+                        $result3->execute();
+                        $result3->close();
                     }
                 }
+                else {
+                    $notificacao++;
+                    notificacao('danger', 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . $httpCode);
+                }
             }
+            
+            curl_close($ch);
+        }
+        if ($notificacao == 0) {
+            notificacao('success', 'Alunos notificados com sucesso!');
         }
     }
-    
-    $url = 'http://teu-servidor.com:3000/send';
-
-    // Caminho para o ficheiro PDF
-    $filePath = 'caminho/para/teu/fichiero.pdf';
-    $fileData = new CURLFile($filePath);
-
-    // Dados a enviar
-    $data = [
-        'number' => '351911234567', // Número de destino
-        'message' => 'Aqui está o PDF que combinámos!',
-        'apiKey' => 'a-tua-chave-secreta',
-        'file' => $fileData
-    ];
-
-    // Iniciar cURL
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    // Executar a requisição
-    $response = curl_exec($ch);
-
-    // Verificar se houve erro na requisição
-    if ($response === false) {
-        // Se ocorreu erro na cURL
-        echo 'Erro cURL: ' . curl_error($ch);
-    } else {
-        // Se a requisição foi bem-sucedida, verificar código de status HTTP
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        
-        if ($httpCode == 200) {
-            // Se a resposta for OK (200)
-            echo 'Mensagem enviada com sucesso!';
-        } else {
-            // Se não for OK, exibe o erro
-            echo 'Erro ao enviar mensagem. Código HTTP: ' . $httpCode;
-            echo ' Resposta: ' . $response; // Mensagem de erro do servidor
-        }
-    }
-
-    // Fechar a cURL
-    curl_close($ch);
 ?>

@@ -64,7 +64,7 @@
         ];
     }
 
-    function transacao($idCategoria, $descricao, $valor) {
+    function transacao($con, $idCategoria, $descricao, $valor) {
         $query = "INSERT INTO transacoes (idCategoria, descricao, valor) VALUES (?, ?, ?)";
         $stmt = $con->prepare($query);
         $stmt->bind_param('isd', $idCategoria, $descricao, $valor);

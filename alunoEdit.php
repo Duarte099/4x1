@@ -352,7 +352,7 @@
                         </ul>
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="editar-aluno" role="tabpanel" aria-labelledby="editar-aluno-tab">
-                                <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST">
+                                <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST" id="formEdit" class="formEdit">
                                     <div
                                         class="modal fade"
                                         id="addRowModal"
@@ -457,7 +457,8 @@
                                                     </div>
                                                     <div class="campo" style="flex: 0 0 34%;">
                                                         <label>CONTACTO:</label>
-                                                        <input type="text" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
+                                                        <input type="tel" id="contacto" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
+                                                        <input type="hidden" name="contacto" id="contactoHidden">
                                                     </div>
                                                 </div>
 
@@ -521,8 +522,9 @@
                                                     </div>
                                                     <div class="campo" style="flex: 0 0 49%;">
                                                         <label>Tlm:</label>
-                                                        <input type="number" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
-                                                    </div>
+                                                        <input type="tel" id="maeTlm" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
+                                                        <input type="hidden" name="maeTlm" id="maeTlmHidden">
+                                                    </div>     
                                                 </div>
 
                                                 <div class="form-row">
@@ -532,7 +534,8 @@
                                                     </div>
                                                     <div class="campo" style="flex: 0 0 49%;">
                                                         <label>Tlm:</label>
-                                                        <input type="number" name="paiTlm" value="<?php echo $rowAluno['tlmPai']; ?>">
+                                                        <input type="tel" id="paiTlm" name="paiTlm" value="<?php echo $rowAluno['tlmPai']; ?>">
+                                                        <input type="hidden" name="paiTlm" id="paiTlmHidden">
                                                     </div>
                                                 </div>
                                             </div>
@@ -827,7 +830,38 @@
                     </div>
                 </div>
             </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
             <script>
+                const input1 = document.querySelector("#contacto");
+                const hiddenInput1 = document.querySelector("#contactoHidden");
+                const iti1 = window.intlTelInput(input1, {
+                    initialCountry: "pt",
+                    preferredCountries: ["pt", "br", "fr", "gb"],
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+                });
+                const input2 = document.querySelector("#maeTlm");
+                const hiddenInput2 = document.querySelector("#maeTlmHidden");
+                const iti2 = window.intlTelInput(input2, {
+                    initialCountry: "pt",
+                    preferredCountries: ["pt", "br", "fr", "gb"],
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+                });
+                const input3 = document.querySelector("#paiTlm");
+                const hiddenInput3 = document.querySelector("#paiTlmHidden");
+                const iti3 = window.intlTelInput(input3, {
+                    initialCountry: "pt",
+                    preferredCountries: ["pt", "br", "fr", "gb"],
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+                });
+
+                // Ao submeter o formulário, atualiza o campo hidden
+                document.querySelector("#formEdit").addEventListener("submit", function () {
+                    hiddenInput1.value = iti1.getNumber();
+                    hiddenInput2.value = iti2.getNumber();
+                    hiddenInput3.value = iti3.getNumber();
+                });
+
                 function atualizarCampos(input) {
                     // O valor do input é o ID do aluno, conforme definido nas opções do datalist
                     var partes = input.value.split(" | ");

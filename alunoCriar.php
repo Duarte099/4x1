@@ -132,7 +132,7 @@
             <?php 
                 include('./sideBar.php'); 
             ?>
-            <form action="alunoInserir.php?op=save" method="POST">
+            <form action="alunoInserir.php?op=save" method="POST" id="formEdit" class="formEdit">
                 <div
                     class="modal fade"
                     id="addRowModal"
@@ -228,7 +228,8 @@
                                 </div>
                                 <div class="campo" style="flex: 0 0 34%;">
                                     <label>CONTATO:</label>
-                                    <input type="number" name="contacto" required>
+                                    <input type="tel" id="contacto" name="contacto">
+                                    <input type="hidden" name="contacto" id="contactoHidden">
                                 </div>
                             </div>
 
@@ -291,7 +292,8 @@
                                 </div>
                                 <div class="campo" style="flex: 0 0 49%;">
                                     <label>Tlm:</label>
-                                    <input type="number" name="maeTlm">
+                                    <input type="tel" id="maeTlm" name="maeTlm">
+                                    <input type="hidden" name="maeTlm" id="maeTlmHidden">
                                 </div>
                             </div>
 
@@ -302,7 +304,8 @@
                                 </div>
                                 <div class="campo" style="flex: 0 0 49%;">
                                     <label>Tlm:</label>
-                                    <input type="number" name="paiTlm">
+                                    <input type="tel" id="paiTlm" name="paiTlm">
+                                    <input type="hidden" name="paiTlm" id="paiTlmHidden">
                                 </div>
                             </div>
                         </div>
@@ -341,6 +344,38 @@
                 </div>
             </form>
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+        <script>
+            const input1 = document.querySelector("#contacto");
+            const hiddenInput1 = document.querySelector("#contactoHidden");
+            const iti1 = window.intlTelInput(input1, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            const input2 = document.querySelector("#maeTlm");
+            const hiddenInput2 = document.querySelector("#maeTlmHidden");
+            const iti2 = window.intlTelInput(input2, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            const input3 = document.querySelector("#paiTlm");
+            const hiddenInput3 = document.querySelector("#paiTlmHidden");
+            const iti3 = window.intlTelInput(input3, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            // Ao submeter o formulário, atualiza o campo hidden
+            document.querySelector("#formEdit").addEventListener("submit", function () {
+                hiddenInput1.value = iti1.getNumber();
+                hiddenInput2.value = iti2.getNumber();
+                hiddenInput3.value = iti3.getNumber();
+            });
+        </script>
         <?php include('./endPage.php'); ?>
     </body>
     </html>

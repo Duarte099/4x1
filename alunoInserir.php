@@ -19,7 +19,7 @@
             $codigoPostal = $_POST['codigoPostal'];
             $NIF = $_POST['NIF'];
             $email = $_POST['email'];
-            $contacto = $_POST['contacto'];
+            $contacto = "+" . $_POST['contacto'];
             $escola = $_POST['escola'];
             $ano = $_POST['ano'];
             $curso = $_POST['curso'];
@@ -27,9 +27,9 @@
             $horasGrupo = $_POST['horasGrupo'];
             $horasIndividual = $_POST['horasIndividual'];
             $nomeMae = $_POST['mae'];
-            $tlmMae = $_POST['maeTlm'];
+            $tlmMae = "+" . $_POST['maeTlm'];
             $nomePai = $_POST['pai'];
-            $tlmPai = $_POST['paiTlm'];
+            $tlmPai = "+" . $_POST['paiTlm'];
             $modalidade = $_POST['modalidade'];
             $dataInscricao = date('Y-m-d');
 
@@ -71,7 +71,7 @@
             $sql = "INSERT INTO alunos (nome, localidade, morada, dataNascimento, codigoPostal, NIF, email, contacto, escola, ano, curso, turma, horasGrupo, horasIndividual, transporte, idMensalidadeGrupo, idMensalidadeIndividual, nomeMae, tlmMae, nomePai, tlmPai, modalidade, dataInscricao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("sssssisisissiiiiisisiss", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $idMensalidadeGrupo, $idMensalidadeIndividual , $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $dataInscricao);
+                $result->bind_param("sssssisssissiiiiissssss", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $idMensalidadeGrupo, $idMensalidadeIndividual , $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $dataInscricao);
                 if ($result->execute()) {
                     //Obtem o id do novo aluno inserido
                     $idAluno = $con->insert_id;
@@ -138,7 +138,7 @@
             $codigoPostal = $_POST['codigoPostal'];
             $NIF = $_POST['NIF'];
             $email = $_POST['email'];
-            $contacto = $_POST['contacto'];
+            $contacto = "+" . $_POST['contacto'];
             $escola = $_POST['escola'];
             $ano = $_POST['ano'];
             $curso = $_POST['curso'];
@@ -146,9 +146,9 @@
             $horasGrupo = $_POST['horasGrupo'];
             $horasIndividual = $_POST['horasIndividual'];
             $nomeMae = $_POST['mae'];
-            $tlmMae = $_POST['maeTlm'];
+            $tlmMae = "+" . $_POST['maeTlm'];
             $nomePai = $_POST['pai'];
-            $tlmPai = $_POST['paiTlm'];
+            $tlmPai = "+" . $_POST['paiTlm'];
             $modalidade = $_POST['modalidade'];
             $dataInscricao = date('Y-m-d');
 
@@ -209,7 +209,7 @@
             $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, horasGrupo = ?, horasIndividual = ?, transporte = ?, idMensalidadeGrupo = ?, idMensalidadeIndividual = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ?, ativo = ?, dataInscricao = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("sssssisisissiiiiisisisiis", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $idMensalidadeGrupo, $idMensalidadeIndividual, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $estado, $dataInscricao, $idAluno);
+                $result->bind_param("sssssisssissiiiiisssssiis", $nome, $localidade, $morada, $dataNascimento, $codigoPostal, $NIF, $email, $contacto, $escola, $ano, $curso, $turma, $horasGrupo, $horasIndividual, $transporte, $idMensalidadeGrupo, $idMensalidadeIndividual, $nomeMae, $tlmMae, $nomePai, $tlmPai, $modalidade, $estado, $dataInscricao, $idAluno);
                 
                 if ($result->execute()) {
                     notificacao('success', 'Aluno editado com sucesso!');

@@ -16,3 +16,14 @@ internet - 21,73€
 renda - 310€
 
 alterar sistema de ver mês antigo de pagamento ou recibos
+
+meter disciplina no horario
+
+atualizar side bar
+
+testar se ao adicionar um aluno ao horario coloca os outros para notificar
+
+no dia 1 enviar o recibo por whatsapp para os pais
+
+enviar horario dos alunso do 1 ciclo para os pais
+
