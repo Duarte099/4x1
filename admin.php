@@ -3,7 +3,7 @@
     include('./head.php'); 
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-    $estouEm = 8;
+    $estouEm = 10;
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
@@ -78,7 +78,7 @@
                                                         <button
                                                         type="button"
                                                         data-bs-toggle="tooltip"
-                                                        onclick="window.location.href='adminEdit.php?idAdmin=<?$row['id']?>'"
+                                                        onclick="window.location.href='adminEdit.php?idAdmin=<?php echo $row['id']; ?>'"
                                                         class="btn btn-link btn-primary btn-lg"
                                                         data-original-title="Editar Administrador"
                                                         >

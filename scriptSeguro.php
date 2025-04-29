@@ -30,7 +30,7 @@
      * Render the PHP template before passing it to Dompdf
      */
     ob_start();
-    include "template.php";
+    include "scriptSeguroPdf.php";
     $html = ob_get_clean();
 
     $dompdf->loadHtml($html);

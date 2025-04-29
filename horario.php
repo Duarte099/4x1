@@ -1,0 +1,518 @@
+<?php
+    //inclui o head que inclui as páginas de js necessárias, a base de dados e segurança da página
+    include('./head.php'); 
+
+    //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
+    $estouEm = 9;
+
+    $disabled = "";
+    $sql = "SELECT COUNT(*) AS alunos FROM alunos WHERE ativo = 1 AND notHorario = 1";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if ($row['alunos'] == 0) {
+            $disabled = "disabled";
+        }
+        if ($row['alunos'] == 1) {
+            $alunos = $row['alunos'] . " aluno";
+        }
+        else {
+            $alunos = $row['alunos'] . " alunos";
+        }
+    }
+?>
+  <title>4x1 | Horário</title>
+  <style>
+    .professor {
+        text-align: center;
+        font-weight: bold;
+        font-size: 0.95rem;
+        margin-bottom: 5px;
+        color: #2c3e50;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 2px;
+    }
+
+    .alunos {
+        list-style-type: disc;
+        padding-left: 15px;
+        margin: 0;
+        font-size: 1rem;
+        color: #555;
+    }
+
+    .alunos li {
+        line-height: 1.2em;
+    }
+
+    .table>tbody>tr>td,
+    .table>tbody>tr>th {
+        padding:5px 5px!important 
+    }
+
+    .modal {
+        --bs-modal-width:600px!important;
+    }
+  </style>
+</head>
+  <body>
+    <div class="wrapper">
+      <?php  
+        include('./sideBar.php'); 
+      ?>
+        <div class="container">
+            <div class="page-inner">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
+                                    <li class="nav-item1">
+                                        <a class="nav-link active" id="segunda-tab" data-bs-toggle="pill" href="#segunda" role="tab" aria-controls="segunda" aria-selected="true">Segunda</a>
+                                    </li>
+                                    <li class="nav-item1">
+                                        <a class="nav-link" id="terca-tab" data-bs-toggle="pill" href="#terca" role="tab" aria-controls="terca" aria-selected="false">Terça</a>
+                                    </li>
+                                    <li class="nav-item1">
+                                        <a class="nav-link" id="quarta-tab" data-bs-toggle="pill" href="#quarta" role="tab" aria-controls="quarta" aria-selected="false">Quarta</a>
+                                    </li>
+                                    <li class="nav-item1">
+                                        <a class="nav-link" id="quinta-tab" data-bs-toggle="pill" href="#quinta" role="tab" aria-controls="quinta" aria-selected="false">Quinta</a>
+                                    </li>
+                                    <li class="nav-item1">
+                                        <a class="nav-link" id="sexta-tab" data-bs-toggle="pill" href="#sexta" role="tab" aria-controls="sexta" aria-selected="false">Sexta</a>
+                                    </li>
+                                    <li class="nav-item1">
+                                        <a class="nav-link" id="sabado-tab" data-bs-toggle="pill" href="#sabado" role="tab" aria-controls="sabado" aria-selected="false">Sábado</a>
+                                    </li>
+                                </ul>
+                                <button type="button" class="btn btn-primary" id="meuBotao" <?php echo $disabled; ?> onclick="window.location.href='horarioNotificacao.php'">
+                                    Notificar <?php echo $alunos; ?>.
+                                </button>
+                            </div>
+                            <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+                                <?php 
+                                    $dias = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
+                                    foreach ($dias as $dia) { 
+                                        $aux = "";
+                                        if ($dia == "segunda") {
+                                            $aux = " show active";
+                                        }?>
+                                        <div class="tab-pane fade<?php echo $aux;?>" id="<?php echo $dia; ?>" role="tabpanel" aria-labelledby="<?php echo $dia; ?>-tab">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>14:00</th>
+                                                            <th>14:30</th>
+                                                            <th>15:00</th>
+                                                            <th>15:30</th>
+                                                            <th>16:00</th>
+                                                            <th>16:30</th>
+                                                            <th>17:00</th>
+                                                            <th>17:30</th>
+                                                            <th>18:00</th>
+                                                            <th>18:30</th>
+                                                            <th>19:00</th>
+                                                            <th>19:30</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php 
+                                                            $salas = ['azul', 'branca', 'rosa', 'verde', 'bancada', 'biblioteca'];
+                                                            foreach ($salas as $sala) { ?>
+                                                                <tr>
+                                                                    <?php 
+                                                                        $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30'];
+                                                                        foreach ($horas as $hora) { 
+                                                                            $stmt = $con->prepare("SELECT h.id, p.nome, p.id as idProfessor FROM horario as h INNER JOIN professores as p ON h.idProfessor = p.id WHERE h.dia = ? AND h.sala = ? AND hora = ?");
+                                                                            $stmt->bind_param("sss", $dia, $sala, $hora);
+                                                                            $stmt->execute();
+                                                                            $result = $stmt->get_result();
+                                                                            if ($result->num_rows > 0) {
+                                                                                while ($row = $result->fetch_assoc()) {
+                                                                                    $stmt1 = $con->prepare("SELECT a.nome, a.id FROM horario_alunos as ha INNER JOIN alunos as a ON ha.idAluno = a.id WHERE idHorario = ?");
+                                                                                    $stmt1->bind_param("i", $row['id']);
+                                                                                    $stmt1->execute();
+                                                                                    $result1 = $stmt1->get_result();
+                                                                                    $alunosId = [];
+                                                                                    $alunos = [];
+                                                                                    while ($row1 = $result1->fetch_assoc()) {
+                                                                                        $alunos[] = $row1["nome"];
+                                                                                        $alunosId[] = $row1["id"];
+                                                                                    }?>
+                                                                                
+                                                                                    <td 
+                                                                                        class="celula-horario"
+                                                                                        style="cursor: pointer;" 
+                                                                                        data-bs-toggle="modal" 
+                                                                                        data-bs-target="#editarCelulaAluno"
+                                                                                        data-id="<?php echo htmlspecialchars($row['id']) ?>"
+                                                                                        data-dia="<?php echo htmlspecialchars($dia) ?>"
+                                                                                        data-sala="<?php echo htmlspecialchars($sala) ?>"
+                                                                                        data-hora="<?php echo htmlspecialchars($hora) ?>"
+                                                                                        data-idprofessor="<?php echo htmlspecialchars($row['idProfessor']) ?>"
+                                                                                        data-nome="<?php echo htmlspecialchars($row['nome'], ENT_QUOTES) ?>"
+                                                                                        data-alunos='<?php echo json_encode($alunos) ?>'
+                                                                                        data-alunosid='<?php echo json_encode($alunosId) ?>'
+                                                                                    >
+                                                                                        <div class="professor"><?php echo $row["nome"]?></div>
+                                                                                        <ul class="alunos">
+                                                                                            <?php foreach ($alunos as $aluno): ?>
+                                                                                                <li><?php echo $aluno; ?></li>
+                                                                                            <?php endforeach; ?>
+                                                                                        </ul>
+                                                                                    </td>
+                                                                                <?php }
+                                                                            }
+                                                                            else {?>
+                                                                                <td 
+                                                                                    class="celula-horario"
+                                                                                    style="cursor: pointer;" 
+                                                                                    data-bs-toggle="modal" 
+                                                                                    data-bs-target="#editarCelulaAluno"
+                                                                                    data-id="0"
+                                                                                    data-dia="<?php echo htmlspecialchars($dia) ?>"
+                                                                                    data-sala="<?php echo htmlspecialchars($sala) ?>"
+                                                                                    data-hora="<?php echo htmlspecialchars($hora) ?>"
+                                                                                    data-idprofessor=""
+                                                                                    data-nome=""
+                                                                                    data-alunos='[]'
+                                                                                    data-alunosid='[]'
+                                                                                >   
+                                                                                    <div class="professor"></div>
+                                                                                    <ul class="alunos">
+                                                                                        <li></li>
+                                                                                    </ul>
+                                                                            <?php }
+                                                                        }
+                                                                    ?>
+                                                                </tr>
+                                                            <?php }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    <?php }
+                                ?>
+                                <div class="tab-pane fade" id="sabado" role="tabpanel" aria-labelledby="sabado-tab">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>09:00</th>
+                                                    <th>09:30</th>
+                                                    <th>10:00</th>
+                                                    <th>10:30</th>
+                                                    <th>11:00</th>
+                                                    <th>11:30</th>
+                                                    <th>12:00</th>
+                                                    <th>12:30</th>
+                                                    <th>13:00</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php 
+                                                    $dia = "sabado";
+                                                    $salas = ['azul', 'branca', 'rosa', 'verde', 'bancada', 'biblioteca'];
+                                                    foreach ($salas as $sala) { ?>
+                                                        <tr>
+                                                            <?php 
+                                                                $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00'];
+                                                                foreach ($horas as $hora) { 
+                                                                    $stmt = $con->prepare("SELECT h.id, p.nome, p.id as idProfessor FROM horario as h INNER JOIN professores as p ON h.idProfessor = p.id WHERE h.dia = ? AND h.sala = ? AND hora = ?");
+                                                                    $stmt->bind_param("sss", $dia, $sala, $hora);
+                                                                    $stmt->execute();
+                                                                    $result = $stmt->get_result();
+                                                                    if ($result->num_rows > 0) {
+                                                                        $row = [];
+                                                                        while ($row = $result->fetch_assoc()) {
+                                                                            $stmt1 = $con->prepare("SELECT a.nome, a.id FROM horario_alunos as ha INNER JOIN alunos as a ON ha.idAluno = a.id WHERE idHorario = ?");
+                                                                            $stmt1->bind_param("i", $row['id']);
+                                                                            $stmt1->execute();
+                                                                            $result1 = $stmt1->get_result();
+
+                                                                            $alunos = [];
+                                                                            $row1 = [];
+                                                                            while ($row1 = $result1->fetch_assoc()) {
+                                                                                $alunos[] = $row1["nome"];
+                                                                                $alunosId[] = $row1["id"];
+                                                                            }?>
+                                                                        
+                                                                            <td 
+                                                                                class="celula-horario"
+                                                                                style="cursor: pointer;" 
+                                                                                data-bs-toggle="modal" 
+                                                                                data-bs-target="#editarCelulaAluno"
+                                                                                data-id="<?php echo htmlspecialchars($row['id']) ?>"
+                                                                                data-dia="<?php echo htmlspecialchars($dia) ?>"
+                                                                                data-sala="<?php echo htmlspecialchars($sala) ?>"
+                                                                                data-hora="<?php echo htmlspecialchars($hora) ?>"
+                                                                                data-idprofessor="<?php echo htmlspecialchars($row['idProfessor']) ?>"
+                                                                                data-nome="<?php echo htmlspecialchars($row['nome'], ENT_QUOTES) ?>"
+                                                                                data-alunos='<?php echo json_encode($alunos) ?>'
+                                                                                data-alunosid='<?php echo json_encode($alunosId) ?>'
+                                                                            >
+                                                                                <div class="professor"><?php echo $row["nome"]?></div>
+                                                                                <ul class="alunos">
+                                                                                    <?php foreach ($alunos as $aluno): ?>
+                                                                                        <li><?php echo $aluno; ?></li>
+                                                                                    <?php endforeach; ?>
+                                                                                </ul>
+                                                                            </td>
+                                                                        <?php }
+                                                                    }
+                                                                    else {?>
+                                                                        <td 
+                                                                            class="celula-horario"
+                                                                            style="cursor: pointer;" 
+                                                                            data-bs-toggle="modal" 
+                                                                            data-bs-target="#editarCelulaAluno"
+                                                                            data-id="0"
+                                                                            data-dia="<?php echo htmlspecialchars($dia) ?>"
+                                                                            data-sala="<?php echo htmlspecialchars($sala) ?>"
+                                                                            data-hora="<?php echo htmlspecialchars($hora) ?>"
+                                                                            data-idprofessor=""
+                                                                            data-nome=""
+                                                                            data-alunos='[]'
+                                                                            data-alunosid='[]'
+                                                                        >   
+                                                                            <div class="professor"></div>
+                                                                            <ul class="alunos">
+                                                                                <li></li>
+                                                                            </ul>
+                                                                    <?php }
+                                                                }
+                                                            ?>
+                                                        </tr>
+                                                    <?php }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>    
+                                </div>
+                            </div>
+                            <div class="modal fade" id="editarCelulaAluno" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <form action="pagamentoConfigInserir.php?op=editMensalidade" method="POST" >
+                                            <div class="modal-header border-0">
+                                                <h5 class="modal-title">
+                                                    <input type="text" name="dia" class="fw-mediumbold">
+                                                    <input type="text" name="hora" class="fw-light">
+                                                </h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group form-group-default">
+                                                            <label>Sala</label>
+                                                            <input type="input" name="sala" class="form-control" required readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group form-group-default">
+                                                            <label>Professor</label>
+                                                            <input type="text" name="prof" list="datalistProfs" class="form-control" required>
+                                                            <datalist id='datalistProfs'>
+                                                                <?php
+                                                                    //Obtem todas as referencias dos produtos que estao ativos
+                                                                    $sql = "SELECT id, nome FROM professores;";
+                                                                    $result = $con->query($sql);
+                                                                    if ($result->num_rows > 0) {
+                                                                        //Percorre todos os produtos e adiciona-os como opção na dataList
+                                                                        while ($row = $result->fetch_assoc()) {
+                                                                            echo "<option>$row[id] | $row[nome]</option>";
+                                                                        }
+                                                                    }
+                                                                ?>
+                                                            </datalist>
+                                                        </div>
+                                                    </div>
+                                                    <?php 
+                                                        for ($i=1; $i < 11; $i++) { 
+                                                            if ($i == 1) {
+                                                                $required = "required";
+                                                            }
+                                                            else {
+                                                                $required = "";
+                                                            }
+                                                            if ($i <= 4) { ?>
+                                                                <div class="col-md-6" id="aluno_<?php echo $i; ?>">
+                                                                    <div class="form-group form-group-default">
+                                                                        <label>Aluno <?php echo $i; ?></label>
+                                                                        <input type="input" name="aluno_<?php echo $i; ?>" list="datalistAlunos" class="form-control" <?php echo $required; ?>>
+                                                                        <datalist id='datalistAlunos'>
+                                                                            <?php
+                                                                                //Obtem todas as referencias dos produtos que estao ativos
+                                                                                $sql = "SELECT id, nome FROM alunos;";
+                                                                                $result = $con->query($sql);
+                                                                                if ($result->num_rows > 0) {
+                                                                                    //Percorre todos os produtos e adiciona-os como opção na dataList
+                                                                                    while ($row = $result->fetch_assoc()) {
+                                                                                        echo "<option>$row[id] | $row[nome]</option>";
+                                                                                    }
+                                                                                }
+                                                                            ?>
+                                                                        </datalist>
+                                                                    </div>
+                                                                </div>
+                                                            <?php } else { ?>
+                                                                <div class="col-md-6" id="aluno_<?php echo $i; ?>" style="display: none;">
+                                                                    <div class="form-group form-group-default">
+                                                                        <label>Aluno <?php echo $i; ?></label>
+                                                                        <input type="input" name="aluno_<?php echo $i; ?>" list="datalistAlunos" class="form-control">
+                                                                        <datalist id='datalistAlunos'>
+                                                                            <?php
+                                                                                //Obtem todas as referencias dos produtos que estao ativos
+                                                                                $sql = "SELECT id, nome FROM alunos;";
+                                                                                $result = $con->query($sql);
+                                                                                if ($result->num_rows > 0) {
+                                                                                    //Percorre todos os produtos e adiciona-os como opção na dataList
+                                                                                    while ($row = $result->fetch_assoc()) {
+                                                                                        echo "<option>$row[id] | $row[nome]</option>";
+                                                                                    }
+                                                                                }
+                                                                            ?>
+                                                                        </datalist>
+                                                                    </div>
+                                                                </div>
+                                                            <?php }
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="modal-footer border-0">
+                                                            <button type="button" class="btn btn-primary" onclick="adicionarAluno()">
+                                                                Adicionar aluno
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="modal-footer border-0">
+                                                            <button type="submit" class="btn btn-primary">
+                                                                Guardar Alterações
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            //Função para tornar visivel a proxima secção ao clicar no botão
+            function adicionarAluno() {
+                // Seleciona a seção com base no índice fornecido
+                for (let j = 1; j < 10; j++) {
+                    const aluno = document.getElementById("aluno_" + j);
+                    if (aluno.style.display === "none") {
+                        aluno.style.display = ""; // Torna visível 
+                        return; // Encerra a função após exibir o próximo produto
+                    }
+                }
+                alert("Atingiu o máximo de alunos."); // Mensagem caso todos os produtos já estejam visíveis
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                // Seleciona todas as células com dados
+                const celulas = document.querySelectorAll(".celula-horario");
+
+                celulas.forEach(td => {
+                    td.addEventListener("click", () => {
+                        const id = td.dataset.id;
+                        const dia = td.dataset.dia;
+                        const sala = td.dataset.sala;
+                        const hora = td.dataset.hora;
+                        const idProfessor = td.dataset.idprofessor;
+                        const nome = td.dataset.nome;
+                        const alunos = JSON.parse(td.dataset.alunos);
+                        const alunosId = JSON.parse(td.dataset.alunosid);
+
+                        // Chama a função com os dados
+                        preencherHorario(id, dia, sala, hora, idProfessor, nome, alunos, alunosId);
+                    });
+                });
+            });
+
+            function preencherHorario(id, dia, sala, hora, idProfessor, nome, alunos, alunosId) {
+                aux = 0;
+                document.querySelector('.fw-mediumbold').value = dia;   
+                document.querySelector('.fw-light').value = hora;
+                document.querySelector('#editarCelulaAluno input[name="sala"]').value = sala;
+                if (idProfessor) {
+                    document.querySelector('#editarCelulaAluno input[name="prof"]').value = idProfessor + " | " + nome;
+                }
+                else{
+                    document.querySelector('#editarCelulaAluno input[name="prof"]').value = "";
+                }
+                for (let i = 1; i <= 10; i++) {
+                    document.querySelector(`#editarCelulaAluno input[name="aluno_${i}"]`).value = "";
+                }
+                alunos.forEach(aluno => {
+                    idAluno = alunosId[aux];
+                    aux++;
+                    const alunoQuery = document.querySelector(`#editarCelulaAluno input[name="aluno_${aux}"]`);
+                    if (alunoQuery.style.display === "none") {
+                        alunoQuery.style.display = "";
+                    }
+                    alunoQuery.value = idAluno + " | " + aluno
+                });
+                for (let i = aux+2; i < 11; i++) {
+                    const alunoQuery = document.getElementById("aluno_" + i);
+                    alunoQuery.style.display = "none";
+                }
+                const form = document.querySelector('#editarCelulaAluno form');
+			    form.action = `horarioInserir.php?op=save&idHorario=${id}`;
+            }
+
+            $(document).ready(function() {
+                // Obtém o parâmetro da URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const dia = urlParams.get('dia'); // Exemplo: ?tab=recibo
+
+                // Define qual aba abrir com base no parâmetro
+                let diaDeseajado;
+                switch (dia) {
+                    case 'segunda':
+                        diaDeseajado = '#segunda-tab';
+                        break;
+                    case 'terca':
+                        diaDeseajado = '#terca-tab';
+                        break;
+                    case 'quarta':
+                        diaDeseajado = '#quarta-tab';
+                        break;
+                    case 'quinta':
+                        diaDeseajado = '#quinta-tab';
+                        break;
+                    case 'sexta':
+                        diaDeseajado = '#sexta-tab';
+                        break;
+                    case 'sabado':
+                        diaDeseajado = '#sabado-tab';
+                        break;
+                    default:
+                        diaDeseajado = '#segunda-tab';
+                }
+
+                // Ativa a aba
+                $(diaDeseajado).tab('show');
+                const novaUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                window.history.replaceState({}, document.title, novaUrl);
+            });
+        </script>
+    </div>
+    <?php   
+      include('./endPage.php'); 
+    ?>
+  </body>
+</html>

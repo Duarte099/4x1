@@ -202,7 +202,7 @@
                                 </div>
                                 <div class="campo" style="flex: 0 0 34%;">
                                     <label>LOCALIDADE:</label>
-                                    <input type="text" name="localidade" required>
+                                    <input type="text" name="localidade">
                                 </div>
                             </div>
 

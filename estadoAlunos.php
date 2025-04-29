@@ -3,7 +3,7 @@
   include('./head.php'); 
 
   //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-  $estouEm = 7;
+  $estouEm = 8;
 ?>
   <title>4x1 | Estado Alunos</title>
 </head>
