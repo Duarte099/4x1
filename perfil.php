@@ -19,6 +19,16 @@
             }
         }
 
+        function minutosToValor($minutos){
+            // Conversão para horas e minutos
+            $horas = intdiv($minutos, 60);
+    
+            $minutosRestantes = $minutos % 60;
+    
+            // Conversão para horas decimais
+            return $minutos / 60;
+        }
+
         //Horas dadas 1 Ciclo
         $valorParcial1Ciclo = 0;
         $horasDadas1Ciclo = 0;
@@ -387,7 +397,7 @@
                             <div class="tab-pane fade show active" id="perfil" role="tabpanel" aria-labelledby="perfil-tab">
                                 <form action="perfilInserir?op=edit" method="POST" onsubmit="return verificarPasswords()" enctype="multipart/form-data">
                                     <div class="profile-photo">
-                                        <img id="preview" src="<?php echo $_SESSION["img"] ?>" alt="Foto de perfil">
+                                        <img id="preview" src="<?php echo $_SESSION["img"] ?>">
                                         <input type="file" name="foto" accept="image/*" onchange="previewImage(event)">
                                     </div>
                                     <div class="profile-form">

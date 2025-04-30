@@ -221,7 +221,8 @@
                                 </div>
                                 <div class="campo" style="flex: 0 0 34%;">
                                     <label>CONTACTO:</label>
-                                    <input type="text" name="contacto">
+                                    <input type="tel" id="contacto" name="contacto">
+                                    <input type="hidden" name="contacto" id="contactoHidden">
                                 </div>
                             </div>
 
@@ -284,7 +285,7 @@
                                     <label>ENSINO:</label>
                                     <div class="selectgroup selectgroup-pills">
                                         <?php 
-                                            $sql = "SELECT id, nome FROM ensino;";
+                                            $sql = "SELECT id, nome FROM ensino WHERE id < 6;";
                                             $result = $con->query($sql);
                                             if ($result->num_rows > 0) {
                                                 while ($row = $result->fetch_assoc()) {
@@ -303,7 +304,21 @@
                     </div>
                 </div>
             </form>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
             <script>
+                const input = document.querySelector("#contacto");
+                const hiddenInput = document.querySelector("#contactoHidden");
+                const iti = window.intlTelInput(input, {
+                    initialCountry: "pt",
+                    preferredCountries: ["pt", "br", "fr", "gb"],
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+                });
+                // Ao submeter o formulário, atualiza o campo hidden
+                document.querySelector("#formEdit").addEventListener("submit", function () {
+                    hiddenInput.value = iti.getNumber();
+                });
+                
                 function verificarPasswords() {
                     const password = document.getElementById("password").value;
                     const confirm = document.getElementById("passwordConfirm").value;

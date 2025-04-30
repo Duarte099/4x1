@@ -32,8 +32,13 @@
                         $_SESSION['password'] = $password;
                         $_SESSION['passX'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-                        header('Location: dashboard.php');
-                        exit();
+                        if (isset($_SESSION['redirect_after_login'])) {
+                            $urlDestino = $_SESSION['redirect_after_login'];
+                            unset($_SESSION['redirect_after_login']);
+                            header("Location: $urlDestino");
+                        } else {
+                            header('Location: dashboard.php');
+                        }
                     } else {
                         header('Location: index.php?erro=true');
                         exit();
@@ -69,8 +74,14 @@
                                 $_SESSION['img'] = $img;
                                 $_SESSION['password'] = $password;
                                 $_SESSION['passX'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        
-                                header('Location: dashboard.php');
+                                
+                                if (isset($_SESSION['redirect_after_login'])) {
+                                    $urlDestino = $_SESSION['redirect_after_login'];
+                                    unset($_SESSION['redirect_after_login']);
+                                    header("Location: $urlDestino");
+                                } else {
+                                    header('Location: dashboard.php');
+                                }
                                 exit();
                             } else {
                                 header('Location: index.php?erro=true');

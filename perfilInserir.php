@@ -11,7 +11,7 @@
         //Se a operação for edit
         if ($op == 'edit') {
             // Caminho para a pasta de uploads
-            $uploadDir = './images/uploads/';
+            $uploadDir = './uploads/imagens/';
 
             $foto = $_FILES['foto'];
             $caminhoFinal = "";

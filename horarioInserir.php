@@ -22,10 +22,10 @@
                     exit();
                 }
 
-                $sql = "INSERT INTO horario (idProfessor, dia, sala, hora) VALUES (?, ?, ?, ?)";
+                $sql = "INSERT INTO horario (idProfessor, idDisciplina, dia, sala, hora) VALUES (?, ?, ?, ?, ?)";
                 $result = $con->prepare($sql);
                 if ($result) {
-                    $result->bind_param("isss", $idProfessor, $_POST['dia'], $_POST['sala'], $_POST['hora']);
+                    $result->bind_param("iisss", $idProfessor, $_POST['disciplina'], $_POST['dia'], $_POST['sala'], $_POST['hora']);
                     if ($result->execute()) {
                         notificacao('success', 'Hora alterada com sucesso!');
                         $idHorario = $con->insert_id;
@@ -107,10 +107,10 @@
                 $stmt->close();
 
                 // 2. Atualizar o horário (o teu código normal)
-                $sql = "UPDATE horario SET idProfessor = ?, dia = ?, sala = ?, hora = ? WHERE id = ?;";
+                $sql = "UPDATE horario SET idProfessor = ?, idDisciplina = ?, dia = ?, sala = ?, hora = ? WHERE id = ?;";
                 $result = $con->prepare($sql);
                 if ($result) {
-                    $result->bind_param("isssi", $idProfessor, $_POST['dia'], $_POST['sala'], $_POST['hora'], $id);
+                    $result->bind_param("iisssi", $idProfessor, $_POST['disciplina'], $_POST['dia'], $_POST['sala'], $_POST['hora'], $id);
                     if ($result->execute()) {
                         notificacao('success', 'Horário editado com sucesso!');
                         

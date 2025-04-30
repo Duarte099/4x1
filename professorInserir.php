@@ -52,7 +52,7 @@
             $sql = "INSERT INTO professores (nome, email, contacto, pass) VALUES (?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("ssis", $nome, $email, $contacto, $passwordHash);
+                $result->bind_param("ssss", $nome, $email, $contacto, $passwordHash);
                 if ($result->execute()) {
                     //Obtem o id do novo professor inserido
                     $idProfessor = $con->insert_id;
@@ -143,7 +143,7 @@
                 $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, pass = ?, ativo = ? WHERE id = ?";
                 $result = $con->prepare($sql);
                 if ($result) {
-                    $result->bind_param("ssisdi", $nome, $email, $contacto, $passwordHash, $estado, $idProfessor);
+                    $result->bind_param("ssssdi", $nome, $email, $contacto, $passwordHash, $estado, $idProfessor);
                     if ($result->execute()) {
                         notificacao('success', 'Professor editado com sucesso!');
                         registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o professor [" . $idProfessor . "]" . $nome . ".");
@@ -162,7 +162,7 @@
                 $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, ativo = ? WHERE id = ?";
                 $result = $con->prepare($sql);
                 if ($result) {
-                    $result->bind_param("ssidi", $nome, $email, $contacto, $estado, $idProfessor);
+                    $result->bind_param("sssdi", $nome, $email, $contacto, $estado, $idProfessor);
                     if ($result->execute()) {
                         notificacao('success', 'Professor editado com sucesso!');
                         registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o professor [" . $idProfessor . "]" . $nome . ".");

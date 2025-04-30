@@ -10,15 +10,37 @@
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        if ($row['alunos'] == 0) {
-            $disabled = "disabled";
-        }
         if ($row['alunos'] == 1) {
             $alunos = $row['alunos'] . " aluno";
         }
         else {
             $alunos = $row['alunos'] . " alunos";
         }
+        $numAlunos = $row['alunos'];
+    }
+
+    $sql = "SELECT COUNT(*) AS professores FROM professores WHERE ativo = 1 AND notHorario = 1";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if ($row['professores'] == 1) {
+            $professores = " e " . $row['professores'] . " professor";
+        }
+        else {
+            $professores = " e " . $row['professores'] . " professores";
+        }
+        $numProfessores = $row['professores'];
+    }
+
+    if ($numAlunos + $numProfessores == 0) {
+        $disabled = "disabled";
+    }
+
+    if ($_SESSION['tipo'] == "administrador") {
+        $readonly = "";
+    }
+    else if ($_SESSION['tipo'] == "professor"){
+        $readonly = "readonly";
     }
 ?>
   <title>4x1 | Horário</title>
@@ -86,9 +108,13 @@
                                         <a class="nav-link" id="sabado-tab" data-bs-toggle="pill" href="#sabado" role="tab" aria-controls="sabado" aria-selected="false">Sábado</a>
                                     </li>
                                 </ul>
-                                <button type="button" class="btn btn-primary" id="meuBotao" <?php echo $disabled; ?> onclick="window.location.href='horarioNotificacao.php'">
-                                    Notificar <?php echo $alunos; ?>.
-                                </button>
+                                <?php 
+                                    if ($_SESSION['tipo'] == "administrador") { ?>
+                                        <button type="button" class="btn btn-primary" id="meuBotao" <?php echo $disabled; ?> onclick="window.location.href='horarioNotificacao.php'">
+                                            Notificar <?php echo $alunos; ?> <?php echo $professores; ?>.
+                                        </button>
+                                    <?php }
+                                ?>
                             </div>
                             <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                                 <?php 
@@ -125,8 +151,16 @@
                                                                     <?php 
                                                                         $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30'];
                                                                         foreach ($horas as $hora) { 
-                                                                            $stmt = $con->prepare("SELECT h.id, p.nome, p.id as idProfessor FROM horario as h INNER JOIN professores as p ON h.idProfessor = p.id WHERE h.dia = ? AND h.sala = ? AND hora = ?");
-                                                                            $stmt->bind_param("sss", $dia, $sala, $hora);
+                                                                            if ($_SESSION['tipo'] == "administrador") {
+                                                                                $sql = "SELECT h.id, p.nome, p.id as idProfessor, h.idDisciplina, d.nome as nomeDisciplina FROM horario as h INNER JOIN professores as p ON h.idProfessor = p.id INNER JOIN disciplinas as d ON d.id = h.idDisciplina WHERE h.dia = ? AND h.sala = ? AND hora = ?";
+                                                                                $stmt = $con->prepare($sql);
+                                                                                $stmt->bind_param("sss", $dia, $sala, $hora);
+                                                                            }
+                                                                            else if ($_SESSION['tipo'] == "professor"){
+                                                                                $sql = "SELECT h.id, p.nome, p.id as idProfessor, h.idDisciplina, d.nome as nomeDisciplina FROM horario as h INNER JOIN professores as p ON h.idProfessor = p.id INNER JOIN disciplinas as d ON d.id = h.idDisciplina WHERE h.dia = ? AND h.sala = ? AND hora = ? AND idProfessor = ?";
+                                                                                $stmt = $con->prepare($sql);
+                                                                                $stmt->bind_param("sssi", $dia, $sala, $hora, $_SESSION['id']);
+                                                                            }
                                                                             $stmt->execute();
                                                                             $result = $stmt->get_result();
                                                                             if ($result->num_rows > 0) {
@@ -151,6 +185,8 @@
                                                                                         data-dia="<?php echo htmlspecialchars($dia) ?>"
                                                                                         data-sala="<?php echo htmlspecialchars($sala) ?>"
                                                                                         data-hora="<?php echo htmlspecialchars($hora) ?>"
+                                                                                        data-idDisciplina="<?php echo htmlspecialchars($row['idDisciplina']) ?>"
+                                                                                        data-nomeDisciplina="<?php echo htmlspecialchars($row['nomeDisciplina']) ?>"
                                                                                         data-idprofessor="<?php echo htmlspecialchars($row['idProfessor']) ?>"
                                                                                         data-nome="<?php echo htmlspecialchars($row['nome'], ENT_QUOTES) ?>"
                                                                                         data-alunos='<?php echo json_encode($alunos) ?>'
@@ -175,6 +211,8 @@
                                                                                     data-dia="<?php echo htmlspecialchars($dia) ?>"
                                                                                     data-sala="<?php echo htmlspecialchars($sala) ?>"
                                                                                     data-hora="<?php echo htmlspecialchars($hora) ?>"
+                                                                                    data-idDisciplina=""
+                                                                                    data-nomeDisciplina=""
                                                                                     data-idprofessor=""
                                                                                     data-nome=""
                                                                                     data-alunos='[]'
@@ -221,8 +259,16 @@
                                                             <?php 
                                                                 $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00'];
                                                                 foreach ($horas as $hora) { 
-                                                                    $stmt = $con->prepare("SELECT h.id, p.nome, p.id as idProfessor FROM horario as h INNER JOIN professores as p ON h.idProfessor = p.id WHERE h.dia = ? AND h.sala = ? AND hora = ?");
-                                                                    $stmt->bind_param("sss", $dia, $sala, $hora);
+                                                                    if ($_SESSION['tipo'] == "administrador") {
+                                                                        $sql = "SELECT h.id, p.nome, p.id as idProfessor, h.idDisciplina, d.nome as nomeDisciplina FROM horario as h INNER JOIN professores as p ON h.idProfessor = p.id INNER JOIN disciplinas as d ON d.id = h.idDisciplina WHERE h.dia = ? AND h.sala = ? AND hora = ?";
+                                                                        $stmt = $con->prepare($sql);
+                                                                        $stmt->bind_param("sss", $dia, $sala, $hora);
+                                                                    }
+                                                                    else if ($_SESSION['tipo'] == "professor"){
+                                                                        $sql = "SELECT h.id, p.nome, p.id as idProfessor, h.idDisciplina, d.nome as nomeDisciplina FROM horario as h INNER JOIN professores as p ON h.idProfessor = p.id INNER JOIN disciplinas as d ON d.id = h.idDisciplina WHERE h.dia = ? AND h.sala = ? AND hora = ? AND idProfessor = ?";
+                                                                        $stmt = $con->prepare($sql);
+                                                                        $stmt->bind_param("sssi", $dia, $sala, $hora, $_SESSION['id']);
+                                                                    }
                                                                     $stmt->execute();
                                                                     $result = $stmt->get_result();
                                                                     if ($result->num_rows > 0) {
@@ -239,7 +285,6 @@
                                                                                 $alunos[] = $row1["nome"];
                                                                                 $alunosId[] = $row1["id"];
                                                                             }?>
-                                                                        
                                                                             <td 
                                                                                 class="celula-horario"
                                                                                 style="cursor: pointer;" 
@@ -249,6 +294,8 @@
                                                                                 data-dia="<?php echo htmlspecialchars($dia) ?>"
                                                                                 data-sala="<?php echo htmlspecialchars($sala) ?>"
                                                                                 data-hora="<?php echo htmlspecialchars($hora) ?>"
+                                                                                data-idDisciplina="<?php echo htmlspecialchars($row['idDisciplina']) ?>"
+                                                                                data-nomeDisciplina="<?php echo htmlspecialchars($row['nomeDisciplina']) ?>"
                                                                                 data-idprofessor="<?php echo htmlspecialchars($row['idProfessor']) ?>"
                                                                                 data-nome="<?php echo htmlspecialchars($row['nome'], ENT_QUOTES) ?>"
                                                                                 data-alunos='<?php echo json_encode($alunos) ?>'
@@ -273,6 +320,8 @@
                                                                             data-dia="<?php echo htmlspecialchars($dia) ?>"
                                                                             data-sala="<?php echo htmlspecialchars($sala) ?>"
                                                                             data-hora="<?php echo htmlspecialchars($hora) ?>"
+                                                                            data-idDisciplina=""
+                                                                            data-nomeDisciplina=""
                                                                             data-idprofessor=""
                                                                             data-nome=""
                                                                             data-alunos='[]'
@@ -299,8 +348,8 @@
                                         <form action="pagamentoConfigInserir.php?op=editMensalidade" method="POST" >
                                             <div class="modal-header border-0">
                                                 <h5 class="modal-title">
-                                                    <input type="text" name="dia" class="fw-mediumbold">
-                                                    <input type="text" name="hora" class="fw-light">
+                                                    <input type="text" name="dia" class="fw-mediumbold" readonly>
+                                                    <input type="text" name="hora" class="fw-light" readonly>
                                                 </h5>
                                             </div>
                                             <div class="modal-body">
@@ -314,7 +363,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group form-group-default">
                                                             <label>Professor</label>
-                                                            <input type="text" name="prof" list="datalistProfs" class="form-control" required>
+                                                            <input type="text" name="prof" list="datalistProfs" class="form-control" required <?php echo $readonly; ?>>
                                                             <datalist id='datalistProfs'>
                                                                 <?php
                                                                     //Obtem todas as referencias dos produtos que estao ativos
@@ -330,6 +379,31 @@
                                                             </datalist>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <?php if ($_SESSION['tipo'] == "administrador") { ?>
+                                                            <div class="form-group form-group-default">
+                                                                <label>Disciplina</label>
+                                                                <select name="disciplina" class="select-box">
+                                                                    <?php
+                                                                        //Obtem todas as referencias dos produtos que estao ativos
+                                                                        $sql = "SELECT id, nome FROM disciplinas;";
+                                                                        $result = $con->query($sql);
+                                                                        if ($result->num_rows > 0) {
+                                                                            //Percorre todos os produtos e adiciona-os como opção na dataList
+                                                                            while ($row = $result->fetch_assoc()) {
+                                                                                echo "<option value=\"{$row['id']}\">{$row['nome']}</option>";
+                                                                            }
+                                                                        }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        <?php } else { ?>
+                                                            <div class="form-group form-group-default">
+                                                                <label>Disciplina</label>
+                                                                <input type="input" name="disciplina" class="form-control" readonly>
+                                                            </div>
+                                                        <?php } ?>
+                                                    </div>
                                                     <?php 
                                                         for ($i=1; $i < 11; $i++) { 
                                                             if ($i == 1) {
@@ -342,7 +416,7 @@
                                                                 <div class="col-md-6" id="aluno_<?php echo $i; ?>">
                                                                     <div class="form-group form-group-default">
                                                                         <label>Aluno <?php echo $i; ?></label>
-                                                                        <input type="input" name="aluno_<?php echo $i; ?>" list="datalistAlunos" class="form-control" <?php echo $required; ?>>
+                                                                        <input type="input" name="aluno_<?php echo $i; ?>" list="datalistAlunos" class="form-control" <?php echo $required; ?> <?php echo $readonly; ?>>
                                                                         <datalist id='datalistAlunos'>
                                                                             <?php
                                                                                 //Obtem todas as referencias dos produtos que estao ativos
@@ -382,22 +456,24 @@
                                                         }
                                                     ?>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="modal-footer border-0">
-                                                            <button type="button" class="btn btn-primary" onclick="adicionarAluno()">
-                                                                Adicionar aluno
-                                                            </button>
+                                                <?php if ($_SESSION['tipo'] == "administrador") { ?>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="modal-footer border-0">
+                                                                <button type="button" class="btn btn-primary" onclick="adicionarAluno()" disab>
+                                                                    Adicionar aluno
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="modal-footer border-0">
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    Guardar Alterações
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="modal-footer border-0">
-                                                            <button type="submit" class="btn btn-primary">
-                                                                Guardar Alterações
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <?php } ?>
                                             </div>
                                         </form>
                                     </div>
@@ -409,19 +485,6 @@
             </div>
         </div>
         <script>
-            //Função para tornar visivel a proxima secção ao clicar no botão
-            function adicionarAluno() {
-                // Seleciona a seção com base no índice fornecido
-                for (let j = 1; j < 10; j++) {
-                    const aluno = document.getElementById("aluno_" + j);
-                    if (aluno.style.display === "none") {
-                        aluno.style.display = ""; // Torna visível 
-                        return; // Encerra a função após exibir o próximo produto
-                    }
-                }
-                alert("Atingiu o máximo de alunos."); // Mensagem caso todos os produtos já estejam visíveis
-            }
-
             document.addEventListener("DOMContentLoaded", function () {
                 // Seleciona todas as células com dados
                 const celulas = document.querySelectorAll(".celula-horario");
@@ -432,84 +495,140 @@
                         const dia = td.dataset.dia;
                         const sala = td.dataset.sala;
                         const hora = td.dataset.hora;
+                        const idDisciplina = td.dataset.iddisciplina;
+                        const nomeDisciplina = td.dataset.nomedisciplina;
                         const idProfessor = td.dataset.idprofessor;
                         const nome = td.dataset.nome;
                         const alunos = JSON.parse(td.dataset.alunos);
                         const alunosId = JSON.parse(td.dataset.alunosid);
 
                         // Chama a função com os dados
-                        preencherHorario(id, dia, sala, hora, idProfessor, nome, alunos, alunosId);
+                        preencherHorario(id, dia, sala, hora, idDisciplina, nomeDisciplina, idProfessor, nome, alunos, alunosId);
                     });
                 });
             });
-
-            function preencherHorario(id, dia, sala, hora, idProfessor, nome, alunos, alunosId) {
-                aux = 0;
-                document.querySelector('.fw-mediumbold').value = dia;   
-                document.querySelector('.fw-light').value = hora;
-                document.querySelector('#editarCelulaAluno input[name="sala"]').value = sala;
-                if (idProfessor) {
-                    document.querySelector('#editarCelulaAluno input[name="prof"]').value = idProfessor + " | " + nome;
-                }
-                else{
-                    document.querySelector('#editarCelulaAluno input[name="prof"]').value = "";
-                }
-                for (let i = 1; i <= 10; i++) {
-                    document.querySelector(`#editarCelulaAluno input[name="aluno_${i}"]`).value = "";
-                }
-                alunos.forEach(aluno => {
-                    idAluno = alunosId[aux];
-                    aux++;
-                    const alunoQuery = document.querySelector(`#editarCelulaAluno input[name="aluno_${aux}"]`);
-                    if (alunoQuery.style.display === "none") {
-                        alunoQuery.style.display = "";
-                    }
-                    alunoQuery.value = idAluno + " | " + aluno
-                });
-                for (let i = aux+2; i < 11; i++) {
-                    const alunoQuery = document.getElementById("aluno_" + i);
-                    alunoQuery.style.display = "none";
-                }
-                const form = document.querySelector('#editarCelulaAluno form');
-			    form.action = `horarioInserir.php?op=save&idHorario=${id}`;
-            }
-
-            $(document).ready(function() {
-                // Obtém o parâmetro da URL
-                const urlParams = new URLSearchParams(window.location.search);
-                const dia = urlParams.get('dia'); // Exemplo: ?tab=recibo
-
-                // Define qual aba abrir com base no parâmetro
-                let diaDeseajado;
-                switch (dia) {
-                    case 'segunda':
-                        diaDeseajado = '#segunda-tab';
-                        break;
-                    case 'terca':
-                        diaDeseajado = '#terca-tab';
-                        break;
-                    case 'quarta':
-                        diaDeseajado = '#quarta-tab';
-                        break;
-                    case 'quinta':
-                        diaDeseajado = '#quinta-tab';
-                        break;
-                    case 'sexta':
-                        diaDeseajado = '#sexta-tab';
-                        break;
-                    case 'sabado':
-                        diaDeseajado = '#sabado-tab';
-                        break;
-                    default:
-                        diaDeseajado = '#segunda-tab';
-                }
-
-                // Ativa a aba
-                $(diaDeseajado).tab('show');
-                const novaUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-                window.history.replaceState({}, document.title, novaUrl);
-            });
         </script>
+        <?php if ($_SESSION['tipo'] == "administrador") { ?>
+            <script>
+                //Função para tornar visivel a proxima secção ao clicar no botão
+                function adicionarAluno() {
+                    // Seleciona a seção com base no índice fornecido
+                    for (let j = 1; j < 10; j++) {
+                        const aluno = document.getElementById("aluno_" + j);
+                        if (aluno.style.display === "none") {
+                            aluno.style.display = ""; // Torna visível 
+                            return; // Encerra a função após exibir o próximo produto
+                        }
+                    }
+                    alert("Atingiu o máximo de alunos."); // Mensagem caso todos os produtos já estejam visíveis
+                }
+                function preencherHorario(id, dia, sala, hora, idDisciplina, nomeDisciplina, idProfessor, nome, alunos, alunosId) {
+                    aux = 0;
+                    document.querySelector('.fw-mediumbold').value = dia;   
+                    document.querySelector('.fw-light').value = hora;
+                    document.querySelector('#editarCelulaAluno input[name="sala"]').value = sala;
+                    select = document.querySelector('#editarCelulaAluno select[name="disciplina"]');
+                    select.value = idDisciplina;
+                    if ([...select.options].some(option => option.value === idDisciplina)) {
+                        select.value = idDisciplina;
+                    }
+                    if (idProfessor) {
+                        document.querySelector('#editarCelulaAluno input[name="prof"]').value = idProfessor + " | " + nome;
+                    }
+                    else{
+                        document.querySelector('#editarCelulaAluno input[name="prof"]').value = "";
+                    }
+                    for (let i = 1; i <= 10; i++) {
+                        document.querySelector(`#editarCelulaAluno input[name="aluno_${i}"]`).value = "";
+                    }
+                    alunos.forEach(aluno => {
+                        idAluno = alunosId[aux];
+                        aux++;
+                        const alunoQuery = document.querySelector(`#editarCelulaAluno input[name="aluno_${aux}"]`);
+                        if (alunoQuery.style.display === "none") {
+                            alunoQuery.style.display = "";
+                        }
+                        alunoQuery.value = idAluno + " | " + aluno
+                    });
+                    for (let i = aux+2; i < 11; i++) {
+                        const alunoQuery = document.getElementById("aluno_" + i);
+                        alunoQuery.style.display = "none";
+                    }
+                    const form = document.querySelector('#editarCelulaAluno form');
+                    form.action = `horarioInserir.php?op=save&idHorario=${id}`;
+                }
+            </script>
+        <?php } else if ($_SESSION['tipo'] == "professor") { ?>
+            <script> 
+                function preencherHorario(id, dia, sala, hora, idDisciplina, nomeDisciplina, idProfessor, nome, alunos, alunosId) {
+                    aux = 0;
+                    document.querySelector('.fw-mediumbold').value = dia;   
+                    document.querySelector('.fw-light').value = hora;
+                    document.querySelector('#editarCelulaAluno input[name="sala"]').value = sala;
+                    document.querySelector('#editarCelulaAluno input[name="disciplina"]').value = nomeDisciplina;
+                    if (idProfessor) {
+                        document.querySelector('#editarCelulaAluno input[name="prof"]').value = idProfessor + " | " + nome;
+                    }
+                    else{
+                        document.querySelector('#editarCelulaAluno input[name="prof"]').value = "";
+                    }
+                    for (let i = 1; i <= 10; i++) {
+                        document.querySelector(`#editarCelulaAluno input[name="aluno_${i}"]`).value = "";
+                    }
+                    alunos.forEach(aluno => {
+                        idAluno = alunosId[aux];
+                        aux++;
+                        const alunoQuery = document.querySelector(`#editarCelulaAluno input[name="aluno_${aux}"]`);
+                        if (alunoQuery.style.display === "none") {
+                            alunoQuery.style.display = "";
+                        }
+                        alunoQuery.value = idAluno + " | " + aluno
+                    });
+                    for (let i = aux+1; i < 11; i++) {
+                        const alunoQuery = document.getElementById("aluno_" + i);
+                        alunoQuery.style.display = "none";
+                    }
+                    const form = document.querySelector('#editarCelulaAluno form');
+                    form.action = `horarioInserir.php?op=save&idHorario=${id}`;
+                }
+            
+                $(document).ready(function() {
+                    const hoje = new Date();
+                    const diaSemana = hoje.getDay(); 
+
+                    switch (diaSemana) {
+                        case 0:
+                            diaDeseajado = '#segunda-tab';
+                            break;
+                        case 1:
+                            diaDeseajado = '#segunda-tab';
+                            break;
+                        case 2:
+                            diaDeseajado = '#terca-tab';
+                            break;
+                        case 3:
+                            diaDeseajado = '#quarta-tab';
+                            break;
+                        case 4:
+                            diaDeseajado = '#quinta-tab';
+                            break;
+                        case 5:
+                            diaDeseajado = '#sexta-tab';
+                            break;
+                        case 6:
+                            diaDeseajado = '#sabado-tab';
+                            break;
+                        default:
+                            diaDeseajado = '#segunda-tab';
+                    }
+
+                    // Ativa a aba
+                    $(diaDeseajado).tab('show');
+                    const novaUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                    window.history.replaceState({}, document.title, novaUrl);
+                });
+            </script>
+        <?php } ?>
     </div>
     <?php   
       include('./endPage.php'); 

@@ -62,49 +62,61 @@
                 </a>
             </li>
             <li class="nav-item <?php echo ($estouEm == 6) ? 'active' : ''; ?>">
+                <a href="testes.php">
+                    <i class="fas fa-euro-sign"></i>
+                    <p>Registro de testes</p>
+                </a>
+            </li>
+            <li class="nav-item <?php echo ($estouEm == 7) ? 'active' : ''; ?>">
                 <a href="pagamentoEstado.php">
                     <i class="fas fa-euro-sign"></i>
                     <p>Estado Pagamentos</p>
                 </a>
             </li>
-            <li class="nav-item <?php echo ($estouEm == 7) ? 'active' : ''; ?>">
+            <li class="nav-item <?php echo ($estouEm == 8) ? 'active' : ''; ?>">
                 <a href="estadoAlunos.php">
                     <i class="fas fa-user-check"></i>
                     <p>Estado Alunos</p>
                 </a>
             </li>
+            <li class="nav-item <?php echo ($estouEm == 9) ? 'active' : ''; ?>">
+                <a href="horario.php">
+                    <i class="fas fa-user-shield"></i>
+                    <p>Horário</p>
+                </a>
+            </li>
             <?php if ($_SESSION["tipo"] == "administrador") { ?>
-                <li class="nav-item <?php echo ($estouEm == 8) ? 'active' : ''; ?>">
+                <li class="nav-item <?php echo ($estouEm == 10) ? 'active' : ''; ?>">
                     <a href="admin.php">
                         <i class="fas fa-user-shield"></i>
                         <p>Administradores</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 9) ? 'active' : ''; ?>">
+                <li class="nav-item <?php echo ($estouEm == 11) ? 'active' : ''; ?>">
                     <a href="adminLogs.php">
                         <i class="fas fa-file-alt"></i>
                         <p>Logs Administradores</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 10) ? 'active' : ''; ?>">
+                <li class="nav-item <?php echo ($estouEm == 12) ? 'active' : ''; ?>">
                     <a href="pagamentoConfig.php">
                         <i class="fas fa-hand-holding-usd"></i>
                         <p>Configurações Pagamento</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 11) ? 'active' : ''; ?>">
+                <li class="nav-item <?php echo ($estouEm == 13) ? 'active' : ''; ?>">
                     <a href="transacoes.php">
                         <i class="fas fa-exchange-alt"></i>
                         <p>Transações</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 12) ? 'active' : ''; ?>">
+                <li class="nav-item <?php echo ($estouEm == 14) ? 'active' : ''; ?>">
                     <a href="despesas.php">
                         <i class="fas fa-money-bill-wave"></i>
                         <p>Despesas e Categorias</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 13) ? 'active' : ''; ?>">
+                <li class="nav-item <?php echo ($estouEm == 15) ? 'active' : ''; ?>">
                     <a href="balancoGeral.php">
                         <i class="fas fa-chart-line"></i>
                         <p>Balanço geral</p>

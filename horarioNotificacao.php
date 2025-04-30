@@ -8,22 +8,23 @@
     $url = 'http://localhost:3000/enviarMensagem';
     $mensagem = "";
     $notificacao = 0;
+    $contacto = "";
 
     $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND notHorario = 1;";
     $result1 = $con->query($sql1);
     if ($result1->num_rows > 0) {
         while ($row1 = $result1->fetch_assoc()) {
-            if (!empty($row1['contacto'])) {
+            if (!empty($row1['contacto']) && ($row1['ano'] > 4 || $row1['ano'] == 0)) {
                 $contacto = $row1['contacto'];
-                $mensagem = "*Olá!* 👋\n\nO teu horário foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacta a diretora pedagógica:\n📞 *961 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+                $mensagem = "*Olá!* 👋\n\nO teu horário foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacta a diretora pedagógica:\n📞 *966 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
             }
             else if (!empty($row1['tlmMae'])){
                 $contacto = $row1['tlmMae'];
-                $mensagem = "*Olá!* 👋\n\nO horário do aluno *" . $row1['nome'] . "* foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacta a diretora pedagógica:\n📞 *961 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+                $mensagem = "*Olá!* 👋\n\nO horário do aluno *" . $row1['nome'] . "* foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
             }
             elseif (!empty($row1['tlmPai'])) {
                 $contacto = $row1['tlmPai'];
-                $mensagem = "*Olá!* 👋\n\nO horário do aluno *" . $row1['nome'] . "* foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacta a diretora pedagógica:\n📞 *961 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+                $mensagem = "*Olá!* 👋\n\nO horário do aluno *" . $row1['nome'] . "* foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
             }
             $contacto = str_replace("+", "", $contacto);
 
@@ -143,7 +144,7 @@
             $output = $dompdf->output();
 
             $filename = "horario_{$row1['nome']}_". date("d-m-y_H-i-s") . ".pdf";
-            $filepath = __DIR__ . "/images/uploads/" . $filename;
+            $filepath = __DIR__ . "/uploads/horarios/" . $filename;
             file_put_contents($filepath, $output);
 
             $fileData = new CURLFile($filepath);
@@ -191,5 +192,53 @@
         if ($notificacao == 0) {
             notificacao('success', 'Alunos notificados com sucesso!');
         }
+        header('horario.php');
+    }
+    $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND notHorario = 1;";
+    $result1 = $con->query($sql1);
+    if ($result1->num_rows > 0) {
+        while ($row1 = $result1->fetch_assoc()) {
+            $contacto = str_replace("+", "", $row1['contacto']);
+            $mensagem = "*Olá!* 👋\n\nO seu horário foi atualizado - https://admin.4x1.pt/horario.php .\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+            
+            $data = [
+                'number' => $contacto,
+                'message' => $mensagem,
+                'apiKey' => '5e_Z.4y5Zo$$'
+            ];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($ch);
+            if ($response === false) {
+                // Se ocorreu erro na cURL
+                notificacao('danger', 'Erro a enviar mensagem ao professor ' . $row1['nome'] . ': ' . curl_error($ch));
+                $notificacao++;
+            } else {
+                // Se a requisição foi bem-sucedida, verificar código de status HTTP
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                
+                if ($httpCode == 200) {
+                    $sql3 = "UPDATE professores SET notHorario = ? WHERE id = ?;";
+                    $result3 = $con->prepare($sql3);
+                    if ($result3) {
+                        $notHorario = 0;
+                        $result3->bind_param("di", $notHorario, $row1['id']);
+                        $result3->execute();
+                        $result3->close();
+                    }
+                }
+                else {
+                    $notificacao++;
+                    notificacao('danger', 'Erro a enviar mensagem ao professor ' . $row1['nome'] . ': ' . $httpCode);
+                }
+            }
+            curl_close($ch);
+        }
+        header('horario.php');
     }
 ?>

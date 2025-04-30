@@ -39,34 +39,6 @@
                 $transporte = 0;
             }
 
-            if ($_POST['horasGrupo'] > 0) {
-                $result6 = $con->prepare('SELECT id FROM mensalidade WHERE ano = ? AND horasGrupo = ?');
-                $result6->bind_param('ii', $ano, $_POST['horasGrupo']);
-                $result6->execute();
-                $result6 = $result6->get_result();
-                if ($result6->num_rows > 0) {
-                    $row6 = $result6->fetch_assoc();
-                    $idMensalidadeGrupo = $row6['id'];
-                }
-            } elseif ($_POST['horasIndividual'] > 0) {
-                $result6 = $con->prepare('SELECT id FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
-                $result6->bind_param('ii', $ano, $_POST['horasIndividual']);
-                $result6->execute();
-                $result6 = $result6->get_result(); 
-                if ($result6->num_rows > 0) {
-                    $row6 = $result6->fetch_assoc();
-                    $idMensalidadeIndividual = $row6['id'];
-                }
-            }
-
-            if (empty($idMensalidadeIndividual)) {
-                $idMensalidadeIndividual = NULL;
-            }
-
-            if (empty($idMensalidadeGrupo)) {
-                $idMensalidadeGrupo = NULL;
-            }
-
             //query sql para inserir os dados do aluno
             $sql = "INSERT INTO alunos (nome, localidade, morada, dataNascimento, codigoPostal, NIF, email, contacto, escola, ano, curso, turma, horasGrupo, horasIndividual, transporte, idMensalidadeGrupo, idMensalidadeIndividual, nomeMae, tlmMae, nomePai, tlmPai, modalidade, dataInscricao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
@@ -158,36 +130,7 @@
                 $transporte = 0;
             }
 
-            if ($_POST['horasGrupo'] > 0) {
-                $result6 = $con->prepare('SELECT id FROM mensalidade WHERE ano = ? AND horasGrupo = ?');
-                $result6->bind_param('ii', $ano, $_POST['horasGrupo']);
-                $result6->execute();
-                $result6 = $result6->get_result();
-                if ($result6->num_rows > 0) {
-                    $row6 = $result6->fetch_assoc();
-                    $idMensalidadeGrupo = $row6['id'];
-                }
-            } elseif ($_POST['horasIndividual'] > 0) {
-                $result6 = $con->prepare('SELECT id FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
-                $result6->bind_param('ii', $ano, $_POST['horasIndividual']);
-                $result6->execute();
-                $result6 = $result6->get_result(); 
-                if ($result6->num_rows > 0) {
-                    $row6 = $result6->fetch_assoc();
-                    $idMensalidadeIndividual = $row6['id'];
-                }
-            }
-
-            if (empty($idMensalidadeIndividual)) {
-                $idMensalidadeIndividual = NULL;
-            }
-
-            if (empty($idMensalidadeGrupo)) {
-                $idMensalidadeGrupo = NULL;
-            }
-
             $idAluno = $_GET['idAluno'];
-
             $estado = $_POST['estado'];
 
             if ($estado == "Ativo") {

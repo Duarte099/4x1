@@ -308,9 +308,6 @@
                             <li class="nav-item1">
                                 <a class="nav-link" id="recibo-tab" data-bs-toggle="pill" href="#recibo" role="tab" aria-controls="recibo" aria-selected="false">Recibo</a>
                             </li>
-                            <li class="nav-item1">
-                                <a class="nav-link" id="pagamento-tab" data-bs-toggle="pill" href="#pagamento" role="tab" aria-controls="pagamento" aria-selected="false">Pagamento</a>
-                            </li>
                         </ul>
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="editar-prof" role="tabpanel" aria-labelledby="editar-prof-tab">
@@ -398,7 +395,8 @@
                                                     </div>
                                                     <div class="campo" style="flex: 0 0 34%;">
                                                         <label>CONTACTO:</label>
-                                                        <input type="text" name="contacto" value="<?php echo $rowProfessor['contacto']; ?>">
+                                                        <input type="tel" id="contacto" name="contacto" value="<?php echo $rowProfessor['contacto']; ?>">
+                                                        <input type="hidden" name="contacto" id="contactoHidden">
                                                     </div>
                                                 </div>
                                             </div>
@@ -481,7 +479,7 @@
                                                         <label>ENSINO:</label>
                                                         <div class="selectgroup selectgroup-pills">
                                                             <?php 
-                                                                $sql = "SELECT id, nome FROM ensino;";
+                                                                $sql = "SELECT id, nome FROM ensino WHERE id < 6;";
                                                                 $result = $con->query($sql);
                                                                 if ($result->num_rows > 0) {
                                                                     while ($row = $result->fetch_assoc()) {
@@ -720,7 +718,21 @@
                     </div>
                 </div>
             </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
             <script>
+                const input = document.querySelector("#contacto");
+                const hiddenInput = document.querySelector("#contactoHidden");
+                const iti = window.intlTelInput(input, {
+                    initialCountry: "pt",
+                    preferredCountries: ["pt", "br", "fr", "gb"],
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+                });
+                // Ao submeter o formulário, atualiza o campo hidden
+                document.querySelector("#formEdit").addEventListener("submit", function () {
+                    hiddenInput.value = iti.getNumber();
+                });
+
                 function verificarPasswords() {
                     const password = document.getElementById("password").value;
                     const confirm = document.getElementById("passwordConfirm").value;

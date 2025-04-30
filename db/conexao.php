@@ -24,6 +24,7 @@
         
         //Se não tiver logado não deixa entrar na página
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+            $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
             header('Location: index.php');
             exit();
         }
