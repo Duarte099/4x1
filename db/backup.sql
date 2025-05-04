@@ -2,23 +2,23 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 30-04-2025 a las 12:55:17
--- Versión del servidor: 9.1.0
--- Versión de PHP: 8.3.14
+-- Host: 127.0.0.1:3306
+-- Tempo de geração: 04-Maio-2025 às 22:00
+-- Versão do servidor: 9.1.0
+-- versão do PHP: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Base de datos: `4x1`
+-- Banco de dados: `4x1`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `administrador`
+-- Estrutura da tabela `administrador`
 --
 
 DROP TABLE IF EXISTS `administrador`;
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `administrador` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `administrador`
+-- Extraindo dados da tabela `administrador`
 --
 
 INSERT INTO `administrador` (`id`, `nome`, `email`, `pass`, `img`, `adminMor`, `created`, `updated`, `active`) VALUES
@@ -45,7 +45,7 @@ INSERT INTO `administrador` (`id`, `nome`, `email`, `pass`, `img`, `adminMor`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `administrador_logs`
+-- Estrutura da tabela `administrador_logs`
 --
 
 DROP TABLE IF EXISTS `administrador_logs`;
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `administrador_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `administrador_logs`
+-- Extraindo dados da tabela `administrador_logs`
 --
 
 INSERT INTO `administrador_logs` (`idAdministrador`, `dataLog`, `logFile`) VALUES
@@ -94,7 +94,7 @@ INSERT INTO `administrador_logs` (`idAdministrador`, `dataLog`, `logFile`) VALUE
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `administrador_modulos`
+-- Estrutura da tabela `administrador_modulos`
 --
 
 DROP TABLE IF EXISTS `administrador_modulos`;
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `administrador_modulos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `administrador_modulos`
+-- Extraindo dados da tabela `administrador_modulos`
 --
 
 INSERT INTO `administrador_modulos` (`idProfessor`, `idModule`, `pView`, `pInsert`, `pUpdate`, `pDelete`, `updated`, `created`) VALUES
@@ -127,7 +127,7 @@ INSERT INTO `administrador_modulos` (`idProfessor`, `idModule`, `pView`, `pInser
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos`
+-- Estrutura da tabela `alunos`
 --
 
 DROP TABLE IF EXISTS `alunos`;
@@ -162,20 +162,20 @@ CREATE TABLE IF NOT EXISTS `alunos` (
 ) ENGINE=MyISAM AUTO_INCREMENT=156 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `alunos`
+-- Extraindo dados da tabela `alunos`
 --
 
 INSERT INTO `alunos` (`id`, `balancoGrupo`, `balancoIndividual`, `nome`, `morada`, `localidade`, `codigoPostal`, `nif`, `dataNascimento`, `email`, `contacto`, `escola`, `ano`, `curso`, `turma`, `horasGrupo`, `horasIndividual`, `transporte`, `nomeMae`, `tlmMae`, `nomePai`, `tlmPai`, `modalidade`, `notHorario`, `ativo`, `dataInscricao`) VALUES
-(1, 40.00, 0.00, 'LEONARDO LOPES GOMES', 'Rua de Valinhas, 272', 'Regilde', '4815-621', '0', '2006-07-07', '', '+351956575995', '', 12, '', '', 8, 0, 0, 'Vera Marciana Teixeira Lopes', '+351916985740', '', '', '', 0, 1, NULL),
+(1, 40.00, 0.00, 'LEONARDO LOPES GOMES', 'Rua de Valinhas, 272', 'Regilde', '4815-621', '0', '2006-07-07', '', '+351916985740', '', 12, '', '', 8, 0, 0, 'Vera Marciana Teixeira Lopes', '+351916985740', '', '', '', 1, 1, NULL),
 (4, 80.00, 0.00, 'ANTÓNIO MONTEIRO COSTA', 'Calçada Jaime Gomes Guimarães, n111', 'Vila Nova do Campo', '4795-516', '0', '2015-04-11', '', '', '', 4, '', '', 16, 0, 0, 'Daniela Monteiro', '+351918177233', '', '', '', 0, 1, NULL),
-(5, 80.00, 0.00, 'CARLA ISABEL SILVA RIBEIRO', 'Rua José Moreira Araújo', 'Vila das Aves', '4795-081', '0', '2016-12-05', '', '', 'Bom Nome', 3, '', '', 16, 0, 0, 'Carla Cristina Abreu Silva', '+351912308573', '', '', '1 x por semana', 0, 1, NULL),
+(5, 80.00, 0.00, 'CARLA ISABEL SILVA RIBEIRO', 'Rua José Moreira Araújo', 'Vila das Aves', '4795-081', '0', '2016-12-05', '', '', 'Bom Nome', 3, '', '', 16, 0, 0, 'Carla Cristina Abreu Silva', '+351912308573', '', '', '1 x por semana', 1, 1, NULL),
 (6, 80.00, 20.00, 'DIOGO MARTINS GONÇALVES', 'Rua Sra do Rosário, n24', 'São Tomé de Negrelos', '4795-701', '0', '2014-12-01', '', '', '', 4, '', '', 16, 4, 0, 'Rui Miguel Santos Gonçalves', '+351914089305', '', '', '', 0, 1, NULL),
 (7, 80.00, 0.00, 'FRANCISCO GUIMARÃES MONTEIRO', 'Rua do Mourigo, n22 R/ch', 'Vila Nova do Campo', '4795-516', '0', '2015-05-29', '', '', '', 4, '', '', 16, 0, 0, 'Ariana Monteiro', '+351919124722', '', '', '', 0, 1, NULL),
 (8, 80.00, 0.00, 'ÍRIS MARIA PIMENTA ABREU MACHADO', 'R. António Aberu Machado, n499', 'Vila das Aves', '4795-034', '0', '2016-01-09', '', '', 'Escola do Bom Nome', 3, '', '', 16, 0, 0, 'Cassilda Isabel Pimenta Abreu', '+351916504199', 'Rui Jorge Ribeiro Machado', '+351917683550', '', 0, 1, NULL),
 (9, 80.00, 0.00, 'ÍRIS SANTOS FERREIRA', 'Rua St. André, n354', 'Vila das Aves', '4795-113', '288027680', '2016-01-08', '', '', 'Bom Nome', 3, '', 'E', 16, 0, 0, 'Laura da Conceição Canellhas Santos', '+351965540489', '', '+351967828379', '4 x por semana', 0, 1, NULL),
 (10, 80.00, 0.00, 'LEONOR GUIMARÃES MONTEIRO', 'Rua do Mourigo, n22 R/ch', 'Vila Nova do Campo', '4795-516', '0', '2016-12-21', '', '', '', 2, '', '', 16, 0, 0, 'Ariana Monteiro', '+351919124722', '', '', '', 0, 1, NULL),
-(11, 60.00, 0.00, 'LUNA FIGUEIRAS FREITAS', 'Estrada nacional 105, n728', 'Lordelo - GMR', '4785-025', '0', '2016-02-20', '', '', 'Carreiro', 3, '', '', 12, 0, 0, 'Mónica Alexandra da Silva Figueiras', '+351968610806', '', '', '2 x por semana', 0, 1, NULL),
-(12, 80.00, 0.00, 'MARGARIDA MENDES DA COSTA', 'Praceta das Fontainhas, n3 3Dt', 'Vila das Aves', '4795-021', '0', '2016-08-07', '', '+351912860138', 'Escola do Bom Nome', 3, '', '', 16, 0, 0, 'Sara Cristina Mendes Pedrosa', '+351916710987', '', '', '', 0, 1, NULL),
+(11, 60.00, 0.00, 'LUNA FIGUEIRAS FREITAS', 'Estrada nacional 105, n728', 'Lordelo - GMR', '4785-025', '0', '2016-02-20', '', '', 'Carreiro', 3, '', '', 12, 0, 0, 'Mónica Alexandra da Silva Figueiras', '+351968610806', '', '', '2 x por semana', 1, 1, NULL),
+(12, 80.00, 0.00, 'MARGARIDA MENDES DA COSTA', 'Praceta das Fontainhas, n3 3Dt', 'Vila das Aves', '4795-021', '0', '2016-08-07', '', '+351912860138', 'Escola do Bom Nome', 3, '', '', 16, 0, 0, 'Sara Cristina Mendes Pedrosa', '+351916710987', '', '', '', 1, 1, NULL),
 (13, 0.00, 0.00, 'MARIA DA SILVA COSTA', 'Rua da Indústria n375', 'Rebordões', '4795-207', '0', '2017-03-16', '', '', 'Escola da Ponte', 2, '', '', 0, 0, 0, 'Patrícia do Rosário Fernandes da Silva', '+351918308602', '', '', '', 0, 0, NULL),
 (14, 40.00, 0.00, 'MARIANA GONÇALVES COSTA', 'Rua Antero de Quental n143', 'Vila das Aves', '4795-033', '0', '2016-11-08', '', '', 'Bairro', 3, '', 'G3A', 8, 0, 0, 'Ana Gonçalves', '+351915764995', '', '', '2 x por semana', 0, 1, NULL),
 (15, 30.00, 0.00, 'MATILDE GONÇALVES ARAÚJO', 'Rua dos Aves n15', 'Vila das Aves', '4795-057', '0', '2018-01-04', '', '', '', 1, '', '', 6, 0, 0, 'Sónia Sofia Martins Gonçalves', '+351918141603', '', '', '', 0, 1, NULL),
@@ -183,14 +183,14 @@ INSERT INTO `alunos` (`id`, `balancoGrupo`, `balancoIndividual`, `nome`, `morada
 (17, 20.00, 20.00, 'SANTIAGO FREITAS MARTINS CARNEIRO', 'Rua do Brejo, n178', 'Santo Tirso', '4825-254', '0', '2017-08-16', '', '', 'Escla Básica de Quinchães', 1, '', '', 4, 4, 0, 'Sylvie Freitas Fernandes', '+351932735468', '', '', '', 0, 1, NULL),
 (18, 40.00, 0.00, 'SANTIAGO LEITE MARQUES', 'Rua Monte de Cima 195 B', 'Guardizela - GMR', '4785-025', '0', '2018-10-22', '', '', 'Bom Nome', 1, '', 'B', 8, 0, 0, 'Elisabete Castro Leite', '+351912491531', '', '', '', 0, 1, NULL),
 (19, 0.00, 0.00, 'TOMÁS LOPES COSTA', 'Praça do Bom Nome, Ent 6 - 3Esq', 'São Tomé Negrelos', '4795-662', '0', '2015-05-12', 'patriciaclopes23@gmail.com', '', 'Escola de Bairro', 4, '', 'GB', 0, 0, 0, 'Patrícia Carneiro Lopes', '+351910447006', '', '', '', 0, 0, NULL),
-(20, 60.00, 0.00, 'ALESSIA CHIARA CIFELLI', 'Travessa da Carreira, n133', 'Vila das Aves', '4795-', '0', '2014-05-06', '', '', 'Escola de Ave', 5, '', '', 12, 0, 0, 'Vanessa Andreia Gomes Lemos', '+351913198140', '', '', '', 0, 1, NULL),
+(20, 60.00, 0.00, 'ALESSIA CHIARA CIFELLI', 'Travessa da Carreira, n133', 'Vila das Aves', '4795-', '0', '2014-05-06', '', '', 'Escola de Ave', 5, '', '', 12, 0, 0, 'Vanessa Andreia Gomes Lemos', '+351913198140', '', '', '', 1, 1, NULL),
 (21, 60.00, 0.00, 'ANA FRANCISCA OLIVEIRA MENDES DA SILVA', 'Rua das Escolas, n4361', 'Guardizela - GMR', '4765-496', '0', '2013-10-21', '', '', '', 6, '', '', 12, 0, 1, 'Maia Goreti Gonçalves Oliveira da Silva', '+351991550683', 'Pedro Silva', '', '3 x por semana', 0, 1, NULL),
 (22, 60.00, 0.00, 'DINIS MANUEL SOUSA PACHECO', 'Rua São José, n280 1andar', 'Vila das Aves', '4785-000', '0', '2013-09-22', '', '', 'EB 2, 3 de Vila das Aves', 6, '', 'A', 12, 0, 0, '', '', 'Alexandre Manuel Ferreira Pacheco', '+351914576368', '', 0, 1, NULL),
 (23, 60.00, 0.00, 'FRANCISCO DUARTE PINTO GOMES', 'Rua José Pacheco n63', 'S. Tomé de Negrelos', '4795-641', '0', '2013-10-12', '', '', '', 6, '', '', 12, 0, 0, 'Natália de Jesus Ferreira Pinto', '+351916093982', '', '', '', 0, 1, NULL),
 (24, 60.00, 0.00, 'ÍRIS FERREIRA COELHO', 'Rua Santa Clara n 138', 'Vila das Aves', '4795-112', '271666838', '2014-08-19', '', '', '', 5, '', '', 12, 0, 0, 'Helena Isabel Pereira Gomes Ferreira', '+351939330876', '', '', '', 0, 1, NULL),
-(25, 60.00, 0.00, 'LUÍS JÚNIOR MACHADO FERREIRA', 'Rua 25 de Abril, 2 Dt', 'Vila das Aves', '4795-023', '0', '2014-02-14', '', '+351913294202', 'Escola Básica do Ave', 5, '', 'C', 12, 0, 0, 'Joana Machado', '+351918419650', '', '', '3 x por semana', 0, 1, NULL),
+(25, 60.00, 0.00, 'LUÍS JÚNIOR MACHADO FERREIRA', 'Rua 25 de Abril, 2 Dt', 'Vila das Aves', '4795-023', '0', '2014-02-14', '', '+351913294202', 'Escola Básica do Ave', 5, '', 'C', 12, 0, 0, 'Joana Machado', '+351918419650', '', '', '3 x por semana', 1, 1, NULL),
 (74, 40.00, 0.00, 'JOSÉ PEDRO SIMÕES ALVES', 'Rua Alto Sobrado, n203', 'Vila das Aves', '4795-031', '0', '2010-12-09', '', '+351963873310', '', 9, '', '', 8, 0, 0, 'Filipa Alves', '+351961399848', '', '', '2 x por semana', 0, 1, NULL),
-(73, 0.00, 0.00, 'JOÃO CARLOS DA SILVA COSTA', 'Rua da Indústria n375', 'Rebordões', '4795-207', '0', '2009-06-27', '', '+351930681390', 'D. Dinis', 10, 'Curso Desporto', '', 0, 0, 0, 'Patrícia do Rosário Fernandes da Silva', '+351918308602', '', '', '', 0, 1, NULL),
+(73, 0.00, 0.00, 'JOÃO CARLOS DA SILVA COSTA', 'Rua da Indústria n375', 'Rebordões', '4795-207', '0', '2009-06-27', '', '+351930681390', 'D. Dinis', 10, 'Curso Desporto', '', 0, 0, 0, 'Patrícia do Rosário Fernandes da Silva', '+351918308602', '', '', '', 1, 1, NULL),
 (72, 60.00, 0.00, 'IRIS FONSECA CALÇADA', 'Largo Francisco M. Guimarães, Ent 80 2 E T', 'Vila das Aves', '4795-016', '0', '2012-02-18', '', '', '', 7, '', '', 12, 0, 0, 'Carla Cristina Carneiro Fonseca', '+351919083515', '', '', '', 0, 1, NULL),
 (71, 60.00, 0.00, 'HENRIQUE CARDOSO VIEIRA', 'Estrada Nacional 105, n2', 'Lordelo- GMR', '4815-135', '0', '2012-01-02', '', '+351927293387', '', 7, '', '', 12, 0, 0, 'Sandra Filipa Gomes Cardoso', '+351918980555', '', '', '', 0, 1, NULL),
 (70, 40.00, 0.00, 'AFONSO RODRIGUES SALGADO', 'Av. Monte dos Saltos, n45', 'Sequeirô - St. Tirso', '4780-641', '275127109', '2008-02-25', '', '', 'Escola Báica de Ave', 11, '', 'F', 8, 0, 0, 'Paula Francisca Couto Rodrigues', '+351932902925', '', '', '1 x por semana', 0, 1, NULL),
@@ -202,7 +202,7 @@ INSERT INTO `alunos` (`id`, `balancoGrupo`, `balancoIndividual`, `nome`, `morada
 (64, 0.00, 40.00, 'BRUNA MARIA NICOLAU ALMEIDA', 'Urb. Vila Verde Lote 11', 'Bairro - VNF', '4765-065', '0', '2010-11-02', '', '+351932575153', '', 9, '', 'C', 0, 8, 0, 'Elsa Maria Almeida paiva', '+351932608094', '', '', '', 0, 1, NULL),
 (62, 60.00, 0.00, 'ANTHONY COSTA PINHEIRO', 'Rua Salgado 108', 'Oliveira S. Mateus - VNF', '4765-757', '0', '2010-07-16', '', '', '', 9, '', '', 12, 0, 0, 'Sofia da Costa', '+351961819591', '', '', '1 x por semana', 0, 1, NULL),
 (61, 40.00, 0.00, 'ANA RITA SILVA COSTA', 'Rua Pe. Luís Maria Ol. Nascimento n220', 'Bente VNF', '4770-060', '0', '2010-08-14', '', '+351912049298', 'Escola Padre Benjamim Salgado', 9, '', '', 8, 0, 0, 'Cecília Silva Cruz', '+351918910007', '', '', '', 0, 1, NULL),
-(60, 40.00, 0.00, 'ANA RITA DA SILVA BARROS', 'Av. Das Lameiras', 'Delães', '4765-618', '0', '2010-01-16', '', '+351912821286', 'Escola Básica 2/3 das Aves', 9, '', '', 8, 0, 0, 'Isabel Rodrigues da Silva', '+351914736567', '', '', '2 x por semana', 0, 1, NULL),
+(60, 40.00, 0.00, 'ANA RITA DA SILVA BARROS', 'Av. Das Lameiras', 'Delães', '4765-618', '0', '2010-01-16', '', '+351912821286', 'Escola Básica 2/3 das Aves', 9, '', '', 8, 0, 0, 'Isabel Rodrigues da Silva', '+351914736567', '', '', '2 x por semana', 1, 1, NULL),
 (52, 60.00, 0.00, 'ANA INÊS FERREIRA COUTO', 'Rua da Granja, n56', 'Carreira - VNF', '4765-075', '276812301', '2010-12-18', '', '', 'Básica Vila das Aves', 9, '', '', 12, 0, 0, 'Bernadete Ferreira', '+351919872717', '', '', '', 0, 1, NULL),
 (63, 60.00, 0.00, 'BEATRIZ GONÇALVES SOUSA', 'Trav. José Dias Oliveira, n27', 'Mogege - VNF', '4770-350', '0', '2004-12-27', '', '+351912860138', 'Secundária Pe. Benjamim Salgado', 9, '', '', 12, 0, 0, 'Elisabete Carvalho', '+351915897387', 'Miguel Sousa', '+351919167714', '', 0, 1, NULL),
 (50, 40.00, 0.00, 'ALICE BARBOSA BAPTISTA', 'Rua do regalo, Bloco B 2D', 'Bairro - VNF', '4765-068', '0', '2010-05-25', '', '+351913664920', 'Escola Básica da Ponte', 9, '', '', 8, 0, 0, '', '', 'Ricardo da Silva Baptista', '+351919730329', '', 0, 1, NULL),
@@ -276,13 +276,13 @@ INSERT INTO `alunos` (`id`, `balancoGrupo`, `balancoIndividual`, `nome`, `morada
 (142, 40.00, 0.00, 'LEONOR FERREIRA DA SILVA', 'Lar Dr. Braga da Cruz, n94, 4Dt', 'Vila das Aves', '4795-015', '274051346', '2008-03-01', '', '+351938167704', 'EB 2,3 Bom Nome', 11, '', '', 8, 0, 0, 'Mónica Maria Ferreira', '+351938186968', '', '+351938186967', '', 0, 1, NULL),
 (143, 20.00, 0.00, 'RODRIGO SANTOS SILVA', 'Rua das Ínsuas, n457', 'Vilarinho -Santo Tirso', '4795-787', '0', '2007-12-27', '', '+351961468207', 'D. Afonso Heniques', 12, '', '', 4, 0, 0, 'Leonor Silva', '+351933337728', '', '', '', 0, 1, NULL),
 (151, 20.00, 0.00, 'GUSTAVO RODRIGUES SALGADO', 'Av. Monte dos Saltos, nº45', 'Sequeirô - St. Tirso', '4780-641', '275127109', '2008-02-25', '', '+351969608175', 'Escola Báica de Ave', 9, '', 'F', 4, 0, 0, 'Paula Francisca Couto Rodrigues', '+351932902925', '', '', '', 0, 1, NULL),
-(152, 20.00, 0.00, 'PEDRO DINIS ALVES PACHECO', 'Urb. Crapts&Crapts, Casa 4', 'Bairro - VNF', '4765-680', '0', '2008-10-21', '', '+351964804787', '', 11, '', '', 4, 0, 0, 'Emilia Alves - emilia.cristina@sapo.pt', '+351914411513', '', '', '', 0, 1, NULL),
+(152, 20.00, 0.00, 'PEDRO DINIS ALVES PACHECO', 'Urb. Crapts&Crapts, Casa 4', 'Bairro - VNF', '4765-680', '0', '2008-10-21', '', '+351964804787', '', 11, '', '', 4, 0, 0, 'Emilia Alves - emilia.cristina@sapo.pt', '+351914411513', '', '', '', 1, 1, NULL),
 (155, 0.00, 0.00, 'Maria Eduarda Pontes Dias', 'Rua Luís de Camões, 206', '', '4765-255', '0', '2010-05-03', '', '+351913567702', 'EB Aves ', 9, '', 'C', 8, 0, 0, 'Carolina Pontes', '+351914940758', '', '', '', 0, 1, '0000-00-00');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_disciplinas`
+-- Estrutura da tabela `alunos_disciplinas`
 --
 
 DROP TABLE IF EXISTS `alunos_disciplinas`;
@@ -296,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `alunos_disciplinas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_disponibilidade`
+-- Estrutura da tabela `alunos_disponibilidade`
 --
 
 DROP TABLE IF EXISTS `alunos_disponibilidade`;
@@ -312,7 +312,7 @@ CREATE TABLE IF NOT EXISTS `alunos_disponibilidade` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_pagamentos`
+-- Estrutura da tabela `alunos_pagamentos`
 --
 
 DROP TABLE IF EXISTS `alunos_pagamentos`;
@@ -332,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `alunos_pagamentos` (
 ) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `alunos_pagamentos`
+-- Extraindo dados da tabela `alunos_pagamentos`
 --
 
 INSERT INTO `alunos_pagamentos` (`id`, `idAluno`, `mensalidade`, `idMetodo`, `observacao`, `idProfessor`, `estado`, `created`, `pagoEm`) VALUES
@@ -446,7 +446,7 @@ INSERT INTO `alunos_pagamentos` (`id`, `idAluno`, `mensalidade`, `idMetodo`, `ob
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_presenca`
+-- Estrutura da tabela `alunos_presenca`
 --
 
 DROP TABLE IF EXISTS `alunos_presenca`;
@@ -469,7 +469,7 @@ CREATE TABLE IF NOT EXISTS `alunos_presenca` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `alunos_presenca`
+-- Extraindo dados da tabela `alunos_presenca`
 --
 
 INSERT INTO `alunos_presenca` (`id`, `idAluno`, `idProfessor`, `idDisciplina`, `individual`, `anoLetivo`, `duracao`, `dia`, `criado_em`, `criado_por`) VALUES
@@ -478,7 +478,7 @@ INSERT INTO `alunos_presenca` (`id`, `idAluno`, `idProfessor`, `idDisciplina`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_recibo`
+-- Estrutura da tabela `alunos_recibo`
 --
 
 DROP TABLE IF EXISTS `alunos_recibo`;
@@ -502,7 +502,7 @@ CREATE TABLE IF NOT EXISTS `alunos_recibo` (
 ) ENGINE=MyISAM AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `alunos_recibo`
+-- Extraindo dados da tabela `alunos_recibo`
 --
 
 INSERT INTO `alunos_recibo` (`id`, `idAluno`, `anoAluno`, `packGrupo`, `horasRealizadasGrupo`, `horasBalancoGrupo`, `mensalidadeGrupo`, `packIndividual`, `horasRealizadasIndividual`, `horasBalancoIndividual`, `mensalidadeIndividual`, `transporte`, `inscricao`, `ano`, `mes`) VALUES
@@ -616,7 +616,7 @@ INSERT INTO `alunos_recibo` (`id`, `idAluno`, `anoAluno`, `packGrupo`, `horasRea
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categorias`
+-- Estrutura da tabela `categorias`
 --
 
 DROP TABLE IF EXISTS `categorias`;
@@ -628,7 +628,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `categorias`
+-- Extraindo dados da tabela `categorias`
 --
 
 INSERT INTO `categorias` (`id`, `nome`, `tipo`) VALUES
@@ -637,7 +637,7 @@ INSERT INTO `categorias` (`id`, `nome`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `despesas`
+-- Estrutura da tabela `despesas`
 --
 
 DROP TABLE IF EXISTS `despesas`;
@@ -649,7 +649,7 @@ CREATE TABLE IF NOT EXISTS `despesas` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `despesas`
+-- Extraindo dados da tabela `despesas`
 --
 
 INSERT INTO `despesas` (`id`, `despesa`, `valor`) VALUES
@@ -658,7 +658,7 @@ INSERT INTO `despesas` (`id`, `despesa`, `valor`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `disciplinas`
+-- Estrutura da tabela `disciplinas`
 --
 
 DROP TABLE IF EXISTS `disciplinas`;
@@ -669,7 +669,7 @@ CREATE TABLE IF NOT EXISTS `disciplinas` (
 ) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `disciplinas`
+-- Extraindo dados da tabela `disciplinas`
 --
 
 INSERT INTO `disciplinas` (`id`, `nome`) VALUES
@@ -689,7 +689,7 @@ INSERT INTO `disciplinas` (`id`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ensino`
+-- Estrutura da tabela `ensino`
 --
 
 DROP TABLE IF EXISTS `ensino`;
@@ -700,7 +700,7 @@ CREATE TABLE IF NOT EXISTS `ensino` (
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `ensino`
+-- Extraindo dados da tabela `ensino`
 --
 
 INSERT INTO `ensino` (`id`, `nome`) VALUES
@@ -715,7 +715,7 @@ INSERT INTO `ensino` (`id`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `horario`
+-- Estrutura da tabela `horario`
 --
 
 DROP TABLE IF EXISTS `horario`;
@@ -728,19 +728,20 @@ CREATE TABLE IF NOT EXISTS `horario` (
   `hora` varchar(25) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idProfessor` (`idProfessor`,`idDisciplina`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `horario`
+-- Extraindo dados da tabela `horario`
 --
 
 INSERT INTO `horario` (`id`, `idProfessor`, `idDisciplina`, `dia`, `sala`, `hora`) VALUES
-(1, 1, 7, 'segunda', 'azul', '14:00');
+(1, 1, 7, 'segunda', 'azul', '14:00'),
+(2, 1, 2, 'segunda', 'branca', '14:00');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `horario_alunos`
+-- Estrutura da tabela `horario_alunos`
 --
 
 DROP TABLE IF EXISTS `horario_alunos`;
@@ -750,19 +751,25 @@ CREATE TABLE IF NOT EXISTS `horario_alunos` (
   `alunoIndex` int NOT NULL,
   `idAluno` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `horario_alunos`
+-- Extraindo dados da tabela `horario_alunos`
 --
 
 INSERT INTO `horario_alunos` (`id`, `idHorario`, `alunoIndex`, `idAluno`) VALUES
-(1, 1, 1, 1);
+(1, 1, 1, 1),
+(2, 2, 1, 1),
+(3, 2, 2, 20),
+(4, 2, 3, 11),
+(6, 2, 4, 73),
+(8, 2, 5, 60),
+(11, 2, 6, 5);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `mensalidade`
+-- Estrutura da tabela `mensalidade`
 --
 
 DROP TABLE IF EXISTS `mensalidade`;
@@ -777,7 +784,7 @@ CREATE TABLE IF NOT EXISTS `mensalidade` (
 ) ENGINE=MyISAM AUTO_INCREMENT=332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `mensalidade`
+-- Extraindo dados da tabela `mensalidade`
 --
 
 INSERT INTO `mensalidade` (`id`, `ano`, `horasGrupo`, `mensalidadeHorasGrupo`, `horasIndividual`, `mensalidadeHorasIndividual`) VALUES
@@ -887,7 +894,7 @@ INSERT INTO `mensalidade` (`id`, `ano`, `horasGrupo`, `mensalidadeHorasGrupo`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `metodos_pagamento`
+-- Estrutura da tabela `metodos_pagamento`
 --
 
 DROP TABLE IF EXISTS `metodos_pagamento`;
@@ -899,7 +906,7 @@ CREATE TABLE IF NOT EXISTS `metodos_pagamento` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `metodos_pagamento`
+-- Extraindo dados da tabela `metodos_pagamento`
 --
 
 INSERT INTO `metodos_pagamento` (`id`, `cod`, `metodo`) VALUES
@@ -909,7 +916,7 @@ INSERT INTO `metodos_pagamento` (`id`, `cod`, `metodo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `modulos`
+-- Estrutura da tabela `modulos`
 --
 
 DROP TABLE IF EXISTS `modulos`;
@@ -921,7 +928,7 @@ CREATE TABLE IF NOT EXISTS `modulos` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `modulos`
+-- Extraindo dados da tabela `modulos`
 --
 
 INSERT INTO `modulos` (`id`, `cod`, `module`) VALUES
@@ -936,7 +943,7 @@ INSERT INTO `modulos` (`id`, `cod`, `module`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores`
+-- Estrutura da tabela `professores`
 --
 
 DROP TABLE IF EXISTS `professores`;
@@ -953,11 +960,11 @@ CREATE TABLE IF NOT EXISTS `professores` (
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `professores`
+-- Extraindo dados da tabela `professores`
 --
 
 INSERT INTO `professores` (`id`, `nome`, `email`, `contacto`, `pass`, `img`, `notHorario`, `ativo`) VALUES
-(1, 'Sandra Martins', 'sdm.sandra@gmail.com', '+351913665676', '$2y$10$xonXJyTLiD4nRWtKgg7FxuD1ql2Chq3Sx.P.gWnTaQrjvjalXhH9i', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
+(1, 'Sandra Martins', 'sdm.sandra@gmail.com', '+351913665676', '$2y$10$xonXJyTLiD4nRWtKgg7FxuD1ql2Chq3Sx.P.gWnTaQrjvjalXhH9i', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 1),
 (2, 'Juliana Coelho', 'julianasfcoelho@gmail.com', '+351917755697', '$2y$10$iHE/lpsrEXFbxmx0MJivfufKyFMHJzJeNsu5HXaazG4RaYvqiZiAm', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
 (3, 'Filipe Lima', 'filipe.lima2001@gmail.com', '+351911731593', '$2y$10$sBwc0Da93VLY7FVxESuSUen9b3YRlwzKD63K1q3iJyCOwoG2leZzK', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
 (4, 'Patricia Silva', 'patriciarosariosilva1981@gmail.com', '+351918308602', '$2y$10$D7.cSllB.ilzCfkd6Pk9Ye2BiEL3vk5iJYbuJQEcPVWbDv.VIezXW', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
@@ -973,7 +980,7 @@ INSERT INTO `professores` (`id`, `nome`, `email`, `contacto`, `pass`, `img`, `no
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_disciplinas`
+-- Estrutura da tabela `professores_disciplinas`
 --
 
 DROP TABLE IF EXISTS `professores_disciplinas`;
@@ -985,7 +992,7 @@ CREATE TABLE IF NOT EXISTS `professores_disciplinas` (
 ) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `professores_disciplinas`
+-- Extraindo dados da tabela `professores_disciplinas`
 --
 
 INSERT INTO `professores_disciplinas` (`id`, `idProfessor`, `idDisciplina`) VALUES
@@ -1015,7 +1022,7 @@ INSERT INTO `professores_disciplinas` (`id`, `idProfessor`, `idDisciplina`) VALU
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_disponibilidade`
+-- Estrutura da tabela `professores_disponibilidade`
 --
 
 DROP TABLE IF EXISTS `professores_disponibilidade`;
@@ -1031,7 +1038,7 @@ CREATE TABLE IF NOT EXISTS `professores_disponibilidade` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_ensino`
+-- Estrutura da tabela `professores_ensino`
 --
 
 DROP TABLE IF EXISTS `professores_ensino`;
@@ -1043,7 +1050,7 @@ CREATE TABLE IF NOT EXISTS `professores_ensino` (
 ) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `professores_ensino`
+-- Extraindo dados da tabela `professores_ensino`
 --
 
 INSERT INTO `professores_ensino` (`id`, `idProfessor`, `idEnsino`) VALUES
@@ -1115,7 +1122,7 @@ INSERT INTO `professores_ensino` (`id`, `idProfessor`, `idEnsino`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_logs`
+-- Estrutura da tabela `professores_logs`
 --
 
 DROP TABLE IF EXISTS `professores_logs`;
@@ -1127,7 +1134,7 @@ CREATE TABLE IF NOT EXISTS `professores_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `professores_logs`
+-- Extraindo dados da tabela `professores_logs`
 --
 
 INSERT INTO `professores_logs` (`idProfessor`, `dataLog`, `logFile`) VALUES
@@ -1158,7 +1165,7 @@ INSERT INTO `professores_logs` (`idProfessor`, `dataLog`, `logFile`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_presenca`
+-- Estrutura da tabela `professores_presenca`
 --
 
 DROP TABLE IF EXISTS `professores_presenca`;
@@ -1181,7 +1188,7 @@ CREATE TABLE IF NOT EXISTS `professores_presenca` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `professores_presenca`
+-- Extraindo dados da tabela `professores_presenca`
 --
 
 INSERT INTO `professores_presenca` (`id`, `idProfessor`, `idAluno`, `idDisciplina`, `individual`, `anoLetivo`, `duracao`, `dia`, `criado_em`, `criado_por`) VALUES
@@ -1190,7 +1197,7 @@ INSERT INTO `professores_presenca` (`id`, `idProfessor`, `idAluno`, `idDisciplin
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_recibo`
+-- Estrutura da tabela `professores_recibo`
 --
 
 DROP TABLE IF EXISTS `professores_recibo`;
@@ -1220,7 +1227,7 @@ CREATE TABLE IF NOT EXISTS `professores_recibo` (
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `professores_recibo`
+-- Extraindo dados da tabela `professores_recibo`
 --
 
 INSERT INTO `professores_recibo` (`id`, `idProfessor`, `horasDadas1Ciclo`, `valorUnitario1Ciclo`, `valorParcial1Ciclo`, `horasDadas2Ciclo`, `valorUnitario2Ciclo`, `valorParcial2Ciclo`, `horasDadas3Ciclo`, `valorUnitario3Ciclo`, `valorParcial3Ciclo`, `horasDadasSecundario`, `valorUnitarioSecundario`, `valorParcialSecundario`, `horasDadasUniversidade`, `valorUnitarioUniversidade`, `valorParcialUniversidade`, `total`, `ano`, `mes`) VALUES
@@ -1240,7 +1247,7 @@ INSERT INTO `professores_recibo` (`id`, `idProfessor`, `horasDadas1Ciclo`, `valo
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `transacoes`
+-- Estrutura da tabela `transacoes`
 --
 
 DROP TABLE IF EXISTS `transacoes`;
@@ -1254,7 +1261,7 @@ CREATE TABLE IF NOT EXISTS `transacoes` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `transacoes`
+-- Extraindo dados da tabela `transacoes`
 --
 
 INSERT INTO `transacoes` (`id`, `idCategoria`, `descricao`, `valor`, `data`) VALUES
@@ -1263,7 +1270,7 @@ INSERT INTO `transacoes` (`id`, `idCategoria`, `descricao`, `valor`, `data`) VAL
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `valores_pagamento`
+-- Estrutura da tabela `valores_pagamento`
 --
 
 DROP TABLE IF EXISTS `valores_pagamento`;
@@ -1275,7 +1282,7 @@ CREATE TABLE IF NOT EXISTS `valores_pagamento` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `valores_pagamento`
+-- Extraindo dados da tabela `valores_pagamento`
 --
 
 INSERT INTO `valores_pagamento` (`id`, `idEnsino`, `valor`) VALUES
@@ -1288,11 +1295,11 @@ INSERT INTO `valores_pagamento` (`id`, `idEnsino`, `valor`) VALUES
 (9, 9, 10.00);
 
 --
--- Restricciones para tablas volcadas
+-- Restrições para despejos de tabelas
 --
 
 --
--- Filtros para la tabla `administrador_modulos`
+-- Limitadores para a tabela `administrador_modulos`
 --
 ALTER TABLE `administrador_modulos`
   ADD CONSTRAINT `administrador_modulos_ibfk_2` FOREIGN KEY (`idModule`) REFERENCES `modulos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
