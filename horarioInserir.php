@@ -10,8 +10,12 @@
         if ($op == 'save') {
             $partes = explode(" | ", $_POST['prof']);
             $idProfessor = $partes[0];
-            $id = $_GET['idHorario'];
-            if ($id == 0) {
+
+            $partes = explode(" | ", $_POST['disciplina']);
+            $idDisciplina = $partes[0];
+
+            $idHorario = $_GET['idHorario'];
+            if ($idHorario == 0) {
                 $stmt = $con->prepare('SELECT * FROM professores WHERE id = ?');
                 $stmt->bind_param('i', $idProfessor);
                 $stmt->execute();
@@ -30,7 +34,7 @@
                         notificacao('success', 'Hora alterada com sucesso!');
                         $idHorario = $con->insert_id;
 
-                        // --- NOVO: Marcar o professor como precisando de notificação ---
+                        //Marcar o professor como precisando de notificação
                         $stmtNotificarProf = $con->prepare('UPDATE professores SET notHorario = 1 WHERE id = ?');
                         $stmtNotificarProf->bind_param('i', $idProfessor);
                         $stmtNotificarProf->execute();
@@ -60,7 +64,7 @@
                                     notificacao('danger', 'Erro ao inserir aluno no horário: ' . $result->error);
                                 }
 
-                                // --- NOVO: Marcar o aluno como precisando de notificação ---
+                                //Marcar o aluno como precisando de notificação
                                 $stmtNotificarAluno = $con->prepare('UPDATE alunos SET notHorario = 1 WHERE id = ?');
                                 $stmtNotificarAluno->bind_param('i', $idAluno);
                                 $stmtNotificarAluno->execute();
@@ -98,84 +102,126 @@
                 }
             }
             else {
-                // 1. Buscar o estado atual do horário antes de alterar
-                $stmt = $con->prepare('SELECT idProfessor, dia, sala, hora FROM horario WHERE id = ?');
-                $stmt->bind_param('i', $id);
+                //Buscar o estado atual do horário antes de alterar
+                $stmt = $con->prepare('SELECT idProfessor, idDisciplina, dia, sala, hora FROM horario WHERE id = ?');
+                $stmt->bind_param('i', $idHorario);
                 $stmt->execute();
                 $resultado = $stmt->get_result();
                 $horarioAtual = $resultado->fetch_assoc();
                 $stmt->close();
 
-                // 2. Atualizar o horário (o teu código normal)
-                $sql = "UPDATE horario SET idProfessor = ?, idDisciplina = ?, dia = ?, sala = ?, hora = ? WHERE id = ?;";
-                $result = $con->prepare($sql);
-                if ($result) {
-                    $result->bind_param("iisssi", $idProfessor, $_POST['disciplina'], $_POST['dia'], $_POST['sala'], $_POST['hora'], $id);
-                    if ($result->execute()) {
-                        notificacao('success', 'Horário editado com sucesso!');
-                        
-                        // 3. Verificar se mudou alguma coisa no horário
-                        $houveAlteracao = false;
+                //Inserir professor novo 
+                if ($horarioAtual['idProfessor'] != $idProfessor) {
+                    
+                    $sql = "UPDATE horario SET idProfessor = ? WHERE id = ?;";
+                    $result = $con->prepare($sql);
+                    if ($result) {
+                        $result->bind_param("ii", $idProfessor, $idHorario);
+                        if (!$result->execute()) {
+                            notificacao('warning', 'Erro ao atualizar professor!');
+                        }
+                    }
 
-                        if ($horarioAtual['idProfessor'] != $idProfessor || 
-                            $horarioAtual['dia'] != $_POST['dia'] ||
-                            $horarioAtual['sala'] != $_POST['sala'] ||
-                            $horarioAtual['hora'] != $_POST['hora']) {
-                            $houveAlteracao = true;
+                    //Notificar o professor antigo e o novo professor
+                    $stmtNotificarProf = $con->prepare('UPDATE professores SET notHorario = 1 WHERE id IN (?, ?)');
+                    $stmtNotificarProf->bind_param('ii', $idProfessor, $horarioAtual['idProfessor']);
+                    $stmtNotificarProf->execute();
+                    $stmtNotificarProf->close();
+                }
+
+                //Inserir nova disciplina
+                if ($horarioAtual['idDisciplina'] != $idDisciplina) {
+                    $sql = "UPDATE horario SET idProfessor = ? WHERE id = ?;";
+                    $result = $con->prepare($sql);
+                    if ($result) {
+                        $result->bind_param("ii", $idProfessor, $idHorario);
+                        if (!$result->execute()) {
+                            notificacao('warning', 'Erro ao atualizar disciplina!');
+                        }
+                    }
+                }
+
+                //Inserir alunos
+                for ($i = 1; $i < 10; $i++) {
+                    if (isset($_POST['aluno_' . $i]) && !empty($_POST['aluno_' . $i])) {
+                        $partes = explode(" | ", $_POST['aluno_' . $i]);
+                        $idAluno = $partes[0];
+
+                        //Verifica se o id do aluno recebido é valido
+                        $stmt = $con->prepare("SELECT * FROM alunos WHERE id = ?");
+                        $stmt->bind_param("i", $idAluno);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        if ($result->num_rows <= 0) {
+                            notificacao('warning', 'Aluno ' .  $_POST['aluno_' . $i] . ' inválido.');
+                            header('Location: horario.php');
+                            exit();
                         }
 
-                        // 4. Se houve alterações, marcar o professor para notificação
-                        if ($houveAlteracao) {
-                            $stmt = $con->prepare('UPDATE professores SET notHorario = 1 WHERE id = ?');
-                            $stmt->bind_param('i', $idProfessor);
-                            $stmt->execute();
-                            $stmt->close();
-                        }
-
-                        // 5. Agora continuares o teu FOR dos alunos normalmente
-                        for ($i = 1; $i < 10; $i++) {
-                            if (isset($_POST['aluno_' . $i])) {
-                                $partes = explode(" | ", $_POST['aluno_' . $i]);
-                                $idAluno = $partes[0];
-
-                                if (!empty($idAluno)) {
-                                    // Atualizar ou inserir no horario_alunos (o teu código normal)
-                                    $stmt = $con->prepare('SELECT * FROM horario_alunos WHERE alunoIndex = ? AND idHorario = ?');
-                                    $stmt->bind_param('ii', $i, $id);
-                                    $stmt->execute();
-                                    $stmt->store_result();
-
-                                    if ($stmt->num_rows > 0) {
-                                        // Já existe, atualizar
-                                        $sqlUpdateAluno = "UPDATE horario_alunos SET idAluno = ? WHERE idHorario = ? AND alunoIndex = ?";
-                                        $updateAluno = $con->prepare($sqlUpdateAluno);
-                                        $updateAluno->bind_param("iii", $idAluno, $id, $i);
-                                        $updateAluno->execute();
-                                        $updateAluno->close();
-                                    } else {
-                                        // Não existe, inserir
-                                        $sqlInsertAluno = "INSERT INTO horario_alunos (idHorario, alunoIndex, idAluno) VALUES (?, ?, ?)";
-                                        $insertAluno = $con->prepare($sqlInsertAluno);
-                                        $insertAluno->bind_param("iii", $id, $i, $idAluno);
-                                        $insertAluno->execute();
-                                        $insertAluno->close();
+                        //Seleciona o aluno ja existente
+                        $stmt = $con->prepare('SELECT * FROM horario_alunos WHERE idHorario = ? AND alunoIndex = ?');
+                        $stmt->bind_param('ii', $idHorario, $i);
+                        $stmt->execute();
+                        $resultado = $stmt->get_result();
+                        $alunosAtuais = $resultado->fetch_assoc();
+                        //Se houver aluno atualmente
+                        if ($resultado->num_rows > 0) {
+                            //Se o aluno atual for diferente do recebido
+                            if ($idAluno != $alunosAtuais['idAluno']) {
+                                //Atualiza o aluno para o inserido
+                                $sql = "UPDATE horario_alunos SET idAluno = ? WHERE alunoIndex = ? AND idHorario = ?;";
+                                $result = $con->prepare($sql);
+                                if ($result) {
+                                    $result->bind_param("iii", $idAluno, $i, $idHorario);
+                                    if (!$result->execute()) {
+                                        notificacao('warning', 'Erro ao inserir aluno ' .  $_POST['aluno_' . $i] . ' .');
                                     }
-
-                                    // --- NOVO: marcar este aluno para ser notificado ---
-                                    $stmtUpdateNot = $con->prepare('UPDATE alunos SET notHorario = 1 WHERE id = ?');
-                                    $stmtUpdateNot->bind_param('i', $idAluno);
-                                    $stmtUpdateNot->execute();
-                                    $stmtUpdateNot->close();
+                                    else {
+                                        //Notifica o antigo e o novo aluno
+                                        $stmtNotificarAluno = $con->prepare('UPDATE alunos SET notHorario = 1 WHERE id IN (?, ?)');
+                                        $stmtNotificarAluno->bind_param('ii', $idAluno, $alunosAtuais['idAluno']);
+                                        $stmtNotificarAluno->execute();
+                                        $stmtNotificarAluno->close();
+                                    }
                                 }
                             }
                         }
-                    } 
-                    else {
-                        notificacao('danger', 'Erro ao editar horário: ' . $result->error);
+                        //Se nao existir aluno ainda
+                        else {
+                            //Insere o aluno e notifica-o
+                            $stmt = $con->prepare('INSERT INTO horario_alunos (idHorario, alunoIndex, idAluno) VALUES (?, ?, ?)');
+                            if ($stmt) {
+                                $stmt->bind_param("iii", $idHorario, $i, $idAluno);
+                                if (!$stmt->execute()) {
+                                    notificacao('warning', 'Erro ao inserir aluno ' .  $_POST['aluno_' . $i] . ' .');
+                                }
+                                else {
+                                    $stmtNotificarAluno = $con->prepare('UPDATE alunos SET notHorario = 1 WHERE id = ?');
+                                    $stmtNotificarAluno->bind_param('i', $idAluno);
+                                    $stmtNotificarAluno->execute();
+                                    $stmtNotificarAluno->close();
+                                }
+                            }
+                        }
                     }
-                }
-                else {
-                    notificacao('danger', 'Erro ao editar horário: ' . $result->error);
+                    elseif (isset($_POST['aluno_' . $i]) && empty($_POST['aluno_' . $i])) {
+                        $stmt = $con->prepare('SELECT * FROM horario_alunos WHERE idHorario = ? AND alunoIndex = ?');
+                        $stmt->bind_param('ii', $idHorario, $i);
+                        $stmt->execute();
+                        $resultado = $stmt->get_result();
+                        //Se houver aluno atualmente
+                        if ($resultado->num_rows > 0) {
+                            $row = $resultado->fetch_assoc();
+                            $stmt = $con->prepare('DELETE FROM horario_alunos WHERE id = ?');
+                            $stmt->bind_param('i', $row['id']);
+                            if ($stmt->execute()) {
+                                $stmtNotificarAluno = $con->prepare('UPDATE alunos SET notHorario = 1 WHERE id = ?');
+                                $stmtNotificarAluno->bind_param('i', $row['idAluno']);
+                                $stmtNotificarAluno->execute();
+                                $stmtNotificarAluno->close();
+                            }
+                        }
+                    }
                 }
 
                 switch ($_POST['dia']) {

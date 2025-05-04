@@ -5,7 +5,7 @@
     use Dompdf\Dompdf;
     use Dompdf\Options;
 
-    $url = 'http://localhost:3000/enviarMensagem';
+    $url = 'https://api.4x1.pt/enviarMensagem';
     $mensagem = "";
     $notificacao = 0;
     $contacto = "";

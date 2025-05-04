@@ -192,7 +192,7 @@
                                                                                         data-alunos='<?php echo json_encode($alunos) ?>'
                                                                                         data-alunosid='<?php echo json_encode($alunosId) ?>'
                                                                                     >
-                                                                                        <div class="professor"><?php echo $row["nome"]?></div>
+                                                                                        <div class="professor"><?php echo $row["nome"]?> | <?php echo $row["nomeDisciplina"]?></div>
                                                                                         <ul class="alunos">
                                                                                             <?php foreach ($alunos as $aluno): ?>
                                                                                                 <li><?php echo $aluno; ?></li>
@@ -301,7 +301,7 @@
                                                                                 data-alunos='<?php echo json_encode($alunos) ?>'
                                                                                 data-alunosid='<?php echo json_encode($alunosId) ?>'
                                                                             >
-                                                                                <div class="professor"><?php echo $row["nome"]?></div>
+                                                                                <div class="professor"><?php echo $row["nome"]?> | <?php echo $row["nomeDisciplina"]?></div>
                                                                                 <ul class="alunos">
                                                                                     <?php foreach ($alunos as $aluno): ?>
                                                                                         <li><?php echo $aluno; ?></li>
