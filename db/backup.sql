@@ -2,23 +2,23 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Tempo de geração: 04-Maio-2025 às 22:00
--- Versão do servidor: 9.1.0
--- versão do PHP: 8.3.14
+-- Servidor: 127.0.0.1:3306
+-- Tiempo de generación: 05-05-2025 a las 12:56:53
+-- Versión del servidor: 9.1.0
+-- Versión de PHP: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Banco de dados: `4x1`
+-- Base de datos: `4x1`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `administrador`
+-- Estructura de tabla para la tabla `administrador`
 --
 
 DROP TABLE IF EXISTS `administrador`;
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `administrador` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `administrador`
+-- Volcado de datos para la tabla `administrador`
 --
 
 INSERT INTO `administrador` (`id`, `nome`, `email`, `pass`, `img`, `adminMor`, `created`, `updated`, `active`) VALUES
@@ -45,7 +45,7 @@ INSERT INTO `administrador` (`id`, `nome`, `email`, `pass`, `img`, `adminMor`, `
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `administrador_logs`
+-- Estructura de tabla para la tabla `administrador_logs`
 --
 
 DROP TABLE IF EXISTS `administrador_logs`;
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `administrador_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `administrador_logs`
+-- Volcado de datos para la tabla `administrador_logs`
 --
 
 INSERT INTO `administrador_logs` (`idAdministrador`, `dataLog`, `logFile`) VALUES
@@ -89,12 +89,21 @@ INSERT INTO `administrador_logs` (`idAdministrador`, `dataLog`, `logFile`) VALUE
 (1, '2025-04-22 09:47:23', 'O administrador [1]Geral 4x1 eliminou a transação [3].'),
 (1, '2025-04-24 15:22:42', 'O administrador [1]Geral 4x1 criou o aluno [155]Maria Eduarda Pontes Dias.'),
 (1, '2025-04-24 15:22:50', 'O administrador [1]Geral 4x1 atualizou o aluno [155]Maria Eduarda Pontes Dias.'),
-(1, '2025-04-24 19:28:16', 'O administrador [1]Geral 4x1 atualizou o aluno [155]Maria Eduarda Pontes Dias.');
+(1, '2025-04-24 19:28:16', 'O administrador [1]Geral 4x1 atualizou o aluno [155]Maria Eduarda Pontes Dias.'),
+(1, '2025-05-05 11:32:23', 'O administrador [1]Geral 4x1 registrou o pagamento do aluno [15].'),
+(1, '2025-05-05 11:36:53', 'O administrador [1]Geral 4x1 registrou o pagamento do aluno [15].'),
+(1, '2025-05-05 11:37:17', 'O administrador [1]Geral 4x1 registrou o pagamento do aluno [15]MATILDE GONÇALVES ARAÚJO.'),
+(1, '2025-05-05 11:37:36', 'O administrador [1]Geral 4x1 registrou o pagamento do aluno [15]MATILDE GONÇALVES ARAÚJO.'),
+(1, '2025-05-05 11:41:36', 'O administrador [1]Geral 4x1 registrou o pagamento do aluno [22]DINIS MANUEL SOUSA PACHECO.'),
+(1, '2025-05-05 11:53:02', 'O administrador [1]Geral 4x1 registrou o pagamento do aluno [1]LEONARDO LOPES GOMES.'),
+(1, '2025-05-05 12:17:47', 'O administrador [1]Geral 4x1 registrou a presença do aluno [1]LEONARDO LOPES GOMES.'),
+(1, '2025-05-05 12:18:04', 'O administrador [1]Geral 4x1 registrou a presença do aluno [1]LEONARDO LOPES GOMES.'),
+(1, '2025-05-05 12:18:31', 'O administrador [1]Geral 4x1 registrou um teste para o aluno [11]LUNA FIGUEIRAS FREITAS.');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `administrador_modulos`
+-- Estructura de tabla para la tabla `administrador_modulos`
 --
 
 DROP TABLE IF EXISTS `administrador_modulos`;
@@ -112,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `administrador_modulos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `administrador_modulos`
+-- Volcado de datos para la tabla `administrador_modulos`
 --
 
 INSERT INTO `administrador_modulos` (`idProfessor`, `idModule`, `pView`, `pInsert`, `pUpdate`, `pDelete`, `updated`, `created`) VALUES
@@ -127,7 +136,7 @@ INSERT INTO `administrador_modulos` (`idProfessor`, `idModule`, `pView`, `pInser
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `alunos`
+-- Estructura de tabla para la tabla `alunos`
 --
 
 DROP TABLE IF EXISTS `alunos`;
@@ -162,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `alunos` (
 ) ENGINE=MyISAM AUTO_INCREMENT=156 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `alunos`
+-- Volcado de datos para la tabla `alunos`
 --
 
 INSERT INTO `alunos` (`id`, `balancoGrupo`, `balancoIndividual`, `nome`, `morada`, `localidade`, `codigoPostal`, `nif`, `dataNascimento`, `email`, `contacto`, `escola`, `ano`, `curso`, `turma`, `horasGrupo`, `horasIndividual`, `transporte`, `nomeMae`, `tlmMae`, `nomePai`, `tlmPai`, `modalidade`, `notHorario`, `ativo`, `dataInscricao`) VALUES
@@ -282,7 +291,7 @@ INSERT INTO `alunos` (`id`, `balancoGrupo`, `balancoIndividual`, `nome`, `morada
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `alunos_disciplinas`
+-- Estructura de tabla para la tabla `alunos_disciplinas`
 --
 
 DROP TABLE IF EXISTS `alunos_disciplinas`;
@@ -296,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `alunos_disciplinas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `alunos_disponibilidade`
+-- Estructura de tabla para la tabla `alunos_disponibilidade`
 --
 
 DROP TABLE IF EXISTS `alunos_disponibilidade`;
@@ -312,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `alunos_disponibilidade` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `alunos_pagamentos`
+-- Estructura de tabla para la tabla `alunos_pagamentos`
 --
 
 DROP TABLE IF EXISTS `alunos_pagamentos`;
@@ -332,7 +341,7 @@ CREATE TABLE IF NOT EXISTS `alunos_pagamentos` (
 ) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `alunos_pagamentos`
+-- Volcado de datos para la tabla `alunos_pagamentos`
 --
 
 INSERT INTO `alunos_pagamentos` (`id`, `idAluno`, `mensalidade`, `idMetodo`, `observacao`, `idProfessor`, `estado`, `created`, `pagoEm`) VALUES
@@ -446,7 +455,7 @@ INSERT INTO `alunos_pagamentos` (`id`, `idAluno`, `mensalidade`, `idMetodo`, `ob
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `alunos_presenca`
+-- Estructura de tabla para la tabla `alunos_presenca`
 --
 
 DROP TABLE IF EXISTS `alunos_presenca`;
@@ -456,29 +465,28 @@ CREATE TABLE IF NOT EXISTS `alunos_presenca` (
   `idProfessor` int NOT NULL,
   `idDisciplina` int NOT NULL,
   `individual` tinyint NOT NULL DEFAULT '0',
-  `anoLetivo` varchar(25) NOT NULL,
   `duracao` int NOT NULL,
   `dia` date NOT NULL,
   `criado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `criado_por` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idALuno` (`idAluno`),
   KEY `idDisciplina` (`idDisciplina`),
-  KEY `criado_por` (`criado_por`),
   KEY `idProfessor` (`idProfessor`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `alunos_presenca`
+-- Volcado de datos para la tabla `alunos_presenca`
 --
 
-INSERT INTO `alunos_presenca` (`id`, `idAluno`, `idProfessor`, `idDisciplina`, `individual`, `anoLetivo`, `duracao`, `dia`, `criado_em`, `criado_por`) VALUES
-(1, 22, 1, 4, 0, '2024/2025', 45, '2025-04-20', '2025-04-20 21:11:33', 1);
+INSERT INTO `alunos_presenca` (`id`, `idAluno`, `idProfessor`, `idDisciplina`, `individual`, `duracao`, `dia`, `criado_em`) VALUES
+(1, 22, 1, 4, 0, 45, '2025-04-20', '2025-04-20 21:11:33'),
+(2, 1, 8, 1, 0, 15, '2025-05-05', '2025-05-05 12:17:47'),
+(3, 1, 8, 1, 0, 15, '2025-05-05', '2025-05-05 12:18:04');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `alunos_recibo`
+-- Estructura de tabla para la tabla `alunos_recibo`
 --
 
 DROP TABLE IF EXISTS `alunos_recibo`;
@@ -496,127 +504,154 @@ CREATE TABLE IF NOT EXISTS `alunos_recibo` (
   `mensalidadeIndividual` int NOT NULL,
   `transporte` int NOT NULL,
   `inscricao` int NOT NULL,
+  `coima` int NOT NULL,
+  `estado` varchar(50) NOT NULL,
+  `idMetodo` int NOT NULL,
+  `observacao` text NOT NULL,
+  `pagoEm` datetime NOT NULL,
+  `idProfessor` int NOT NULL,
   `ano` int NOT NULL,
   `mes` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `alunos_recibo`
+-- Volcado de datos para la tabla `alunos_recibo`
 --
 
-INSERT INTO `alunos_recibo` (`id`, `idAluno`, `anoAluno`, `packGrupo`, `horasRealizadasGrupo`, `horasBalancoGrupo`, `mensalidadeGrupo`, `packIndividual`, `horasRealizadasIndividual`, `horasBalancoIndividual`, `mensalidadeIndividual`, `transporte`, `inscricao`, `ano`, `mes`) VALUES
-(1, 1, 12, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(2, 4, 4, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(3, 5, 3, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(4, 6, 4, 16, 0.00, 80.00, 0, 4, 0.00, 20.00, 0, 0, 0, 2025, 3),
-(5, 7, 4, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(6, 8, 3, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(7, 9, 3, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(8, 10, 2, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(9, 11, 3, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(10, 12, 3, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(11, 14, 3, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(12, 15, 1, 6, 0.00, 30.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(13, 16, 2, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(14, 17, 1, 4, 0.00, 20.00, 0, 4, 0.00, 20.00, 0, 0, 0, 2025, 3),
-(15, 18, 1, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(16, 20, 5, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(17, 21, 6, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(18, 22, 6, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(19, 23, 6, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(20, 24, 5, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(21, 25, 5, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(22, 74, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(23, 73, 10, 0, 0.00, 0.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(24, 72, 7, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(25, 71, 7, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(26, 70, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(27, 69, 8, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(28, 68, 8, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(29, 67, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(30, 66, 9, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(31, 65, 8, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(32, 64, 9, 0, 0.00, 0.00, 0, 8, 0.00, 40.00, 0, 0, 0, 2025, 3),
-(33, 62, 9, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(34, 61, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(35, 60, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(36, 52, 9, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(37, 63, 9, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(38, 50, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(39, 53, 3, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(40, 49, 7, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(41, 75, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(42, 76, 8, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(43, 77, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(44, 78, 9, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(45, 79, 8, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(46, 80, 9, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(47, 81, 8, 12, 0.00, 60.00, 0, 4, 0.00, 20.00, 0, 0, 0, 2025, 3),
-(48, 82, 8, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(49, 83, 9, 0, 0.00, 0.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(50, 150, 0, 0, 0.00, 0.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(51, 85, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(52, 87, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(53, 88, 12, 8, 0.00, 40.00, 0, 4, 0.00, 20.00, 0, 0, 0, 2025, 3),
-(54, 90, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(55, 91, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(56, 93, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(57, 94, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(58, 95, 10, 4, 0.00, 20.00, 0, 4, 0.00, 20.00, 0, 0, 0, 2025, 3),
-(59, 96, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(60, 97, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(61, 98, 12, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(62, 99, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(63, 100, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(64, 101, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(65, 103, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(66, 147, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(67, 105, 11, 4, 0.00, 20.00, 0, 4, 0.00, 20.00, 0, 0, 0, 2025, 3),
-(68, 106, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(69, 107, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(70, 108, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(71, 109, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(72, 110, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(73, 111, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(74, 113, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(75, 115, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(76, 116, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(77, 117, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(78, 118, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(79, 119, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(80, 120, 12, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(81, 121, 11, 0, 0.00, 0.00, 0, 4, 0.00, 20.00, 0, 0, 0, 2025, 3),
-(82, 122, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(83, 123, 12, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(84, 124, 10, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(85, 125, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(86, 126, 12, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(87, 127, 5, 0, 0.00, 0.00, 0, 8, 0.00, 40.00, 0, 0, 0, 2025, 3),
-(88, 128, 7, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(89, 129, 9, 8, 0.00, 40.00, 0, 4, 0.00, 20.00, 0, 0, 0, 2025, 3),
-(90, 130, 8, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(91, 131, 8, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(92, 132, 8, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(93, 133, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(94, 134, 7, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(95, 135, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(96, 136, 9, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(97, 137, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(98, 138, 10, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(99, 139, 12, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(100, 140, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(101, 141, 10, 4, 0.00, 20.00, 0, 4, 0.00, 20.00, 0, 0, 0, 2025, 3),
-(102, 142, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(103, 143, 12, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(104, 151, 9, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(105, 152, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3),
-(106, 154, 1, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 2025, 3);
+INSERT INTO `alunos_recibo` (`id`, `idAluno`, `anoAluno`, `packGrupo`, `horasRealizadasGrupo`, `horasBalancoGrupo`, `mensalidadeGrupo`, `packIndividual`, `horasRealizadasIndividual`, `horasBalancoIndividual`, `mensalidadeIndividual`, `transporte`, `inscricao`, `coima`, `estado`, `idMetodo`, `observacao`, `pagoEm`, `idProfessor`, `ano`, `mes`) VALUES
+(1, 1, 12, 8, 0.00, 40.00, 120, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pago', 1, '', '2025-05-05 11:53:02', 8, 2025, 3),
+(2, 4, 4, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(3, 5, 3, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(4, 6, 4, 16, 0.00, 80.00, 0, 4, 0.00, 20.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(5, 7, 4, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(6, 8, 3, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(7, 9, 3, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(8, 10, 2, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(9, 11, 3, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(10, 12, 3, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(11, 14, 3, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(12, 15, 1, 6, 0.00, 30.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pago', 1, '', '2025-05-05 11:37:36', 8, 2025, 3),
+(13, 16, 2, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(14, 17, 1, 4, 0.00, 20.00, 0, 4, 0.00, 20.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(15, 18, 1, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(16, 20, 5, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(17, 21, 6, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(19, 23, 6, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(20, 24, 5, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(21, 25, 5, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(22, 74, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(23, 73, 10, 0, 0.00, 0.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(24, 72, 7, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(25, 71, 7, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(26, 70, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(27, 69, 8, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(28, 68, 8, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(29, 67, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(30, 66, 9, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(31, 65, 8, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(32, 64, 9, 0, 0.00, 0.00, 0, 8, 0.00, 40.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(33, 62, 9, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(34, 61, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(35, 60, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(36, 52, 9, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(37, 63, 9, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(38, 50, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(39, 53, 3, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(40, 49, 7, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(41, 75, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(42, 76, 8, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(43, 77, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(44, 78, 9, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(45, 79, 8, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(46, 80, 9, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(47, 81, 8, 12, 0.00, 60.00, 0, 4, 0.00, 20.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(48, 82, 8, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(49, 83, 9, 0, 0.00, 0.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(50, 150, 0, 0, 0.00, 0.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(51, 85, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(52, 87, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(53, 88, 12, 8, 0.00, 40.00, 0, 4, 0.00, 20.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(54, 90, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(55, 91, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(56, 93, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(57, 94, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(58, 95, 10, 4, 0.00, 20.00, 0, 4, 0.00, 20.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(59, 96, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(60, 97, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(61, 98, 12, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(62, 99, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(63, 100, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(64, 101, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(65, 103, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(66, 147, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(67, 105, 11, 4, 0.00, 20.00, 0, 4, 0.00, 20.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(68, 106, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(69, 107, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(70, 108, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(71, 109, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(72, 110, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(73, 111, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(74, 113, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(75, 115, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(76, 116, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(77, 117, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(78, 118, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(79, 119, 10, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(80, 120, 12, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(81, 121, 11, 0, 0.00, 0.00, 0, 4, 0.00, 20.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(82, 122, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(83, 123, 12, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(84, 124, 10, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(85, 125, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(86, 126, 12, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(87, 127, 5, 0, 0.00, 0.00, 0, 8, 0.00, 40.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(88, 128, 7, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(89, 129, 9, 8, 0.00, 40.00, 0, 4, 0.00, 20.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(90, 130, 8, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(91, 131, 8, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(92, 132, 8, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(93, 133, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(94, 134, 7, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(95, 135, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(96, 136, 9, 12, 0.00, 60.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(97, 137, 9, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(98, 138, 10, 16, 0.00, 80.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(99, 139, 12, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(100, 140, 10, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(101, 141, 10, 4, 0.00, 20.00, 0, 4, 0.00, 20.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(102, 142, 11, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(103, 143, 12, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(104, 151, 9, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(105, 152, 11, 4, 0.00, 20.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3),
+(106, 154, 1, 8, 0.00, 40.00, 0, 0, 0.00, 0.00, 0, 0, 0, 0, 'Pendente', 1, '', '0000-00-00 00:00:00', 0, 2025, 3);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `categorias`
+-- Estructura de tabla para la tabla `alunos_testes`
+--
+
+DROP TABLE IF EXISTS `alunos_testes`;
+CREATE TABLE IF NOT EXISTS `alunos_testes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idAluno` int NOT NULL,
+  `idDisciplina` int NOT NULL,
+  `dia` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `alunos_testes`
+--
+
+INSERT INTO `alunos_testes` (`id`, `idAluno`, `idDisciplina`, `dia`) VALUES
+(1, 11, 1, '2025-05-05');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias`
 --
 
 DROP TABLE IF EXISTS `categorias`;
@@ -628,7 +663,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `categorias`
+-- Volcado de datos para la tabla `categorias`
 --
 
 INSERT INTO `categorias` (`id`, `nome`, `tipo`) VALUES
@@ -637,7 +672,7 @@ INSERT INTO `categorias` (`id`, `nome`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `despesas`
+-- Estructura de tabla para la tabla `despesas`
 --
 
 DROP TABLE IF EXISTS `despesas`;
@@ -649,7 +684,7 @@ CREATE TABLE IF NOT EXISTS `despesas` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `despesas`
+-- Volcado de datos para la tabla `despesas`
 --
 
 INSERT INTO `despesas` (`id`, `despesa`, `valor`) VALUES
@@ -658,7 +693,7 @@ INSERT INTO `despesas` (`id`, `despesa`, `valor`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `disciplinas`
+-- Estructura de tabla para la tabla `disciplinas`
 --
 
 DROP TABLE IF EXISTS `disciplinas`;
@@ -669,7 +704,7 @@ CREATE TABLE IF NOT EXISTS `disciplinas` (
 ) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `disciplinas`
+-- Volcado de datos para la tabla `disciplinas`
 --
 
 INSERT INTO `disciplinas` (`id`, `nome`) VALUES
@@ -689,7 +724,7 @@ INSERT INTO `disciplinas` (`id`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `ensino`
+-- Estructura de tabla para la tabla `ensino`
 --
 
 DROP TABLE IF EXISTS `ensino`;
@@ -697,10 +732,10 @@ CREATE TABLE IF NOT EXISTS `ensino` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `ensino`
+-- Volcado de datos para la tabla `ensino`
 --
 
 INSERT INTO `ensino` (`id`, `nome`) VALUES
@@ -710,12 +745,13 @@ INSERT INTO `ensino` (`id`, `nome`) VALUES
 (4, 'Secundário'),
 (5, 'Universidade'),
 (7, 'Inscrição'),
-(9, 'Transporte');
+(9, 'Transporte'),
+(10, 'Coima');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `horario`
+-- Estructura de tabla para la tabla `horario`
 --
 
 DROP TABLE IF EXISTS `horario`;
@@ -731,7 +767,7 @@ CREATE TABLE IF NOT EXISTS `horario` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `horario`
+-- Volcado de datos para la tabla `horario`
 --
 
 INSERT INTO `horario` (`id`, `idProfessor`, `idDisciplina`, `dia`, `sala`, `hora`) VALUES
@@ -741,7 +777,7 @@ INSERT INTO `horario` (`id`, `idProfessor`, `idDisciplina`, `dia`, `sala`, `hora
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `horario_alunos`
+-- Estructura de tabla para la tabla `horario_alunos`
 --
 
 DROP TABLE IF EXISTS `horario_alunos`;
@@ -754,7 +790,7 @@ CREATE TABLE IF NOT EXISTS `horario_alunos` (
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `horario_alunos`
+-- Volcado de datos para la tabla `horario_alunos`
 --
 
 INSERT INTO `horario_alunos` (`id`, `idHorario`, `alunoIndex`, `idAluno`) VALUES
@@ -769,7 +805,7 @@ INSERT INTO `horario_alunos` (`id`, `idHorario`, `alunoIndex`, `idAluno`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `mensalidade`
+-- Estructura de tabla para la tabla `mensalidade`
 --
 
 DROP TABLE IF EXISTS `mensalidade`;
@@ -784,7 +820,7 @@ CREATE TABLE IF NOT EXISTS `mensalidade` (
 ) ENGINE=MyISAM AUTO_INCREMENT=332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `mensalidade`
+-- Volcado de datos para la tabla `mensalidade`
 --
 
 INSERT INTO `mensalidade` (`id`, `ano`, `horasGrupo`, `mensalidadeHorasGrupo`, `horasIndividual`, `mensalidadeHorasIndividual`) VALUES
@@ -894,7 +930,7 @@ INSERT INTO `mensalidade` (`id`, `ano`, `horasGrupo`, `mensalidadeHorasGrupo`, `
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `metodos_pagamento`
+-- Estructura de tabla para la tabla `metodos_pagamento`
 --
 
 DROP TABLE IF EXISTS `metodos_pagamento`;
@@ -906,7 +942,7 @@ CREATE TABLE IF NOT EXISTS `metodos_pagamento` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `metodos_pagamento`
+-- Volcado de datos para la tabla `metodos_pagamento`
 --
 
 INSERT INTO `metodos_pagamento` (`id`, `cod`, `metodo`) VALUES
@@ -916,7 +952,7 @@ INSERT INTO `metodos_pagamento` (`id`, `cod`, `metodo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `modulos`
+-- Estructura de tabla para la tabla `modulos`
 --
 
 DROP TABLE IF EXISTS `modulos`;
@@ -928,7 +964,7 @@ CREATE TABLE IF NOT EXISTS `modulos` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `modulos`
+-- Volcado de datos para la tabla `modulos`
 --
 
 INSERT INTO `modulos` (`id`, `cod`, `module`) VALUES
@@ -943,7 +979,7 @@ INSERT INTO `modulos` (`id`, `cod`, `module`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores`
+-- Estructura de tabla para la tabla `professores`
 --
 
 DROP TABLE IF EXISTS `professores`;
@@ -954,33 +990,34 @@ CREATE TABLE IF NOT EXISTS `professores` (
   `contacto` varchar(25) NOT NULL,
   `pass` text NOT NULL,
   `img` text NOT NULL,
+  `defNotHorario` tinyint NOT NULL DEFAULT '1',
   `notHorario` tinyint NOT NULL DEFAULT '0',
   `ativo` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `professores`
+-- Volcado de datos para la tabla `professores`
 --
 
-INSERT INTO `professores` (`id`, `nome`, `email`, `contacto`, `pass`, `img`, `notHorario`, `ativo`) VALUES
-(1, 'Sandra Martins', 'sdm.sandra@gmail.com', '+351913665676', '$2y$10$xonXJyTLiD4nRWtKgg7FxuD1ql2Chq3Sx.P.gWnTaQrjvjalXhH9i', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 1),
-(2, 'Juliana Coelho', 'julianasfcoelho@gmail.com', '+351917755697', '$2y$10$iHE/lpsrEXFbxmx0MJivfufKyFMHJzJeNsu5HXaazG4RaYvqiZiAm', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
-(3, 'Filipe Lima', 'filipe.lima2001@gmail.com', '+351911731593', '$2y$10$sBwc0Da93VLY7FVxESuSUen9b3YRlwzKD63K1q3iJyCOwoG2leZzK', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
-(4, 'Patricia Silva', 'patriciarosariosilva1981@gmail.com', '+351918308602', '$2y$10$D7.cSllB.ilzCfkd6Pk9Ye2BiEL3vk5iJYbuJQEcPVWbDv.VIezXW', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
-(5, 'Cristiana Neto', 'cristiananeto@sapo.pt', '+351919549960', '$2y$10$286pT6v26k0eTNpgSFv2/OxgqTpKwU0De9tbXcz7T/JlS6nVNXSse', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
-(6, 'Paula Borralho', 'anapaula.borralho@sapo.pt', '+351917402807', '$2y$10$/hWJGFLBJvEJy5f5Sny8G..iOsjBute9HlBZXNXUlezQbeRxHG7LC', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
-(7, 'Ana Paula Fonseca', 'anapaulaferreirafonseca92@gmail.com', '+351915403775', '$2y$10$Pz.juomtG4TiuNzt6l6pf.Jn6uSYFNLhZBScV3LRUz4.NLRRInsim', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
-(8, 'Natália Luciano', 'natalialuci@gmail.com', '+351916985740', '$2y$10$S8ructuKPxPHWza0RRRUtuMqQOcYNJx7aCH3yxY4eQAQnWarP2EVW', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
-(9, 'Arcélio Sampaio', 'arceliosampaio@gmail.com', '+351912220109', '$2y$10$EW8dOJTRJAlbnVzKjdy3zeo6izfPpG8Bq517a2APJTuP2HUW/GJRm', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
-(10, 'Margarida Oliveira', 'margaridaisabeloliveira6@gmail.com', '+351918118126', '$2y$10$kV0OnCsrVemrQM.lMbZNHuXhkoJFJr0K8qC7M/hRC42R/ivveNNlm', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
-(11, 'Marta Santos', '', '+351964391685', '', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1),
-(12, 'Manuel Azevedo', '', '+351938855068', '', './images/uploads/foto_6806ab92e89773.16181461.png', 0, 1);
+INSERT INTO `professores` (`id`, `nome`, `email`, `contacto`, `pass`, `img`, `defNotHorario`, `notHorario`, `ativo`) VALUES
+(1, 'Sandra Martins', 'sdm.sandra@gmail.com', '+351913665676', '$2y$10$xonXJyTLiD4nRWtKgg7FxuD1ql2Chq3Sx.P.gWnTaQrjvjalXhH9i', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 1, 1),
+(2, 'Juliana Coelho', 'julianasfcoelho@gmail.com', '+351917755697', '$2y$10$iHE/lpsrEXFbxmx0MJivfufKyFMHJzJeNsu5HXaazG4RaYvqiZiAm', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1),
+(3, 'Filipe Lima', 'filipe.lima2001@gmail.com', '+351911731593', '$2y$10$sBwc0Da93VLY7FVxESuSUen9b3YRlwzKD63K1q3iJyCOwoG2leZzK', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1),
+(4, 'Patricia Silva', 'patriciarosariosilva1981@gmail.com', '+351918308602', '$2y$10$D7.cSllB.ilzCfkd6Pk9Ye2BiEL3vk5iJYbuJQEcPVWbDv.VIezXW', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1),
+(5, 'Cristiana Neto', 'cristiananeto@sapo.pt', '+351919549960', '$2y$10$286pT6v26k0eTNpgSFv2/OxgqTpKwU0De9tbXcz7T/JlS6nVNXSse', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1),
+(6, 'Paula Borralho', 'anapaula.borralho@sapo.pt', '+351917402807', '$2y$10$/hWJGFLBJvEJy5f5Sny8G..iOsjBute9HlBZXNXUlezQbeRxHG7LC', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1),
+(7, 'Ana Paula Fonseca', 'anapaulaferreirafonseca92@gmail.com', '+351915403775', '$2y$10$Pz.juomtG4TiuNzt6l6pf.Jn6uSYFNLhZBScV3LRUz4.NLRRInsim', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1),
+(8, 'Natália Luciano', 'natalialuci@gmail.com', '+351916985740', '$2y$10$S8ructuKPxPHWza0RRRUtuMqQOcYNJx7aCH3yxY4eQAQnWarP2EVW', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1),
+(9, 'Arcélio Sampaio', 'arceliosampaio@gmail.com', '+351912220109', '$2y$10$EW8dOJTRJAlbnVzKjdy3zeo6izfPpG8Bq517a2APJTuP2HUW/GJRm', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1),
+(10, 'Margarida Oliveira', 'margaridaisabeloliveira6@gmail.com', '+351918118126', '$2y$10$kV0OnCsrVemrQM.lMbZNHuXhkoJFJr0K8qC7M/hRC42R/ivveNNlm', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1),
+(11, 'Marta Santos', '', '+351964391685', '', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1),
+(12, 'Manuel Azevedo', '', '+351938855068', '', './images/uploads/foto_6806ab92e89773.16181461.png', 1, 0, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores_disciplinas`
+-- Estructura de tabla para la tabla `professores_disciplinas`
 --
 
 DROP TABLE IF EXISTS `professores_disciplinas`;
@@ -992,7 +1029,7 @@ CREATE TABLE IF NOT EXISTS `professores_disciplinas` (
 ) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `professores_disciplinas`
+-- Volcado de datos para la tabla `professores_disciplinas`
 --
 
 INSERT INTO `professores_disciplinas` (`id`, `idProfessor`, `idDisciplina`) VALUES
@@ -1022,7 +1059,7 @@ INSERT INTO `professores_disciplinas` (`id`, `idProfessor`, `idDisciplina`) VALU
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores_disponibilidade`
+-- Estructura de tabla para la tabla `professores_disponibilidade`
 --
 
 DROP TABLE IF EXISTS `professores_disponibilidade`;
@@ -1038,7 +1075,7 @@ CREATE TABLE IF NOT EXISTS `professores_disponibilidade` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores_ensino`
+-- Estructura de tabla para la tabla `professores_ensino`
 --
 
 DROP TABLE IF EXISTS `professores_ensino`;
@@ -1050,7 +1087,7 @@ CREATE TABLE IF NOT EXISTS `professores_ensino` (
 ) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `professores_ensino`
+-- Volcado de datos para la tabla `professores_ensino`
 --
 
 INSERT INTO `professores_ensino` (`id`, `idProfessor`, `idEnsino`) VALUES
@@ -1122,7 +1159,7 @@ INSERT INTO `professores_ensino` (`id`, `idProfessor`, `idEnsino`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores_logs`
+-- Estructura de tabla para la tabla `professores_logs`
 --
 
 DROP TABLE IF EXISTS `professores_logs`;
@@ -1134,7 +1171,7 @@ CREATE TABLE IF NOT EXISTS `professores_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `professores_logs`
+-- Volcado de datos para la tabla `professores_logs`
 --
 
 INSERT INTO `professores_logs` (`idProfessor`, `dataLog`, `logFile`) VALUES
@@ -1165,7 +1202,7 @@ INSERT INTO `professores_logs` (`idProfessor`, `dataLog`, `logFile`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores_presenca`
+-- Estructura de tabla para la tabla `professores_presenca`
 --
 
 DROP TABLE IF EXISTS `professores_presenca`;
@@ -1174,30 +1211,27 @@ CREATE TABLE IF NOT EXISTS `professores_presenca` (
   `idProfessor` int NOT NULL,
   `idAluno` int NOT NULL,
   `idDisciplina` int NOT NULL,
-  `individual` tinyint NOT NULL,
-  `anoLetivo` varchar(25) NOT NULL,
   `duracao` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `dia` date NOT NULL,
   `criado_em` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `criado_por` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idProfessor` (`idProfessor`),
   KEY `idDisciplina` (`idDisciplina`),
-  KEY `criado_por` (`criado_por`),
   KEY `idAluno` (`idAluno`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `professores_presenca`
+-- Volcado de datos para la tabla `professores_presenca`
 --
 
-INSERT INTO `professores_presenca` (`id`, `idProfessor`, `idAluno`, `idDisciplina`, `individual`, `anoLetivo`, `duracao`, `dia`, `criado_em`, `criado_por`) VALUES
-(1, 1, 22, 4, 0, '2024/2025', '45', '2025-04-20', '2025-04-20 21:11:33', 1);
+INSERT INTO `professores_presenca` (`id`, `idProfessor`, `idAluno`, `idDisciplina`, `duracao`, `dia`, `criado_em`) VALUES
+(1, 1, 22, 4, '45', '2025-04-20', '2025-04-20 21:11:33'),
+(2, 8, 1, 1, '15', '2025-05-05', '2025-05-05 12:18:04');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `professores_recibo`
+-- Estructura de tabla para la tabla `professores_recibo`
 --
 
 DROP TABLE IF EXISTS `professores_recibo`;
@@ -1227,7 +1261,7 @@ CREATE TABLE IF NOT EXISTS `professores_recibo` (
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `professores_recibo`
+-- Volcado de datos para la tabla `professores_recibo`
 --
 
 INSERT INTO `professores_recibo` (`id`, `idProfessor`, `horasDadas1Ciclo`, `valorUnitario1Ciclo`, `valorParcial1Ciclo`, `horasDadas2Ciclo`, `valorUnitario2Ciclo`, `valorParcial2Ciclo`, `horasDadas3Ciclo`, `valorUnitario3Ciclo`, `valorParcial3Ciclo`, `horasDadasSecundario`, `valorUnitarioSecundario`, `valorParcialSecundario`, `horasDadasUniversidade`, `valorUnitarioUniversidade`, `valorParcialUniversidade`, `total`, `ano`, `mes`) VALUES
@@ -1247,7 +1281,7 @@ INSERT INTO `professores_recibo` (`id`, `idProfessor`, `horasDadas1Ciclo`, `valo
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `transacoes`
+-- Estructura de tabla para la tabla `transacoes`
 --
 
 DROP TABLE IF EXISTS `transacoes`;
@@ -1258,19 +1292,25 @@ CREATE TABLE IF NOT EXISTS `transacoes` (
   `valor` decimal(10,2) NOT NULL,
   `data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `transacoes`
+-- Volcado de datos para la tabla `transacoes`
 --
 
 INSERT INTO `transacoes` (`id`, `idCategoria`, `descricao`, `valor`, `data`) VALUES
-(1, 1, 'Pagamento ao aluno duarte', 60.00, '2025-04-22 07:56:42');
+(1, 1, 'Pagamento ao aluno duarte', 60.00, '2025-04-22 07:56:42'),
+(4, 1, 'Pagamento do aluno ', 0.00, '2025-05-05 11:32:23'),
+(5, 1, 'Pagamento do aluno ', 0.00, '2025-05-05 11:36:53'),
+(6, 1, 'Pagamento do aluno MATILDE GONÇALVES ARAÚJO', 0.00, '2025-05-05 11:37:18'),
+(7, 1, 'Pagamento do aluno MATILDE GONÇALVES ARAÚJO', 0.00, '2025-05-05 11:37:36'),
+(8, 1, 'Pagamento do aluno DINIS MANUEL SOUSA PACHECO', 0.00, '2025-05-05 11:41:36'),
+(9, 1, 'Pagamento do aluno LEONARDO LOPES GOMES', 120.00, '2025-05-05 11:53:02');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `valores_pagamento`
+-- Estructura de tabla para la tabla `valores_pagamento`
 --
 
 DROP TABLE IF EXISTS `valores_pagamento`;
@@ -1279,10 +1319,10 @@ CREATE TABLE IF NOT EXISTS `valores_pagamento` (
   `idEnsino` int NOT NULL,
   `valor` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Extraindo dados da tabela `valores_pagamento`
+-- Volcado de datos para la tabla `valores_pagamento`
 --
 
 INSERT INTO `valores_pagamento` (`id`, `idEnsino`, `valor`) VALUES
@@ -1292,14 +1332,15 @@ INSERT INTO `valores_pagamento` (`id`, `idEnsino`, `valor`) VALUES
 (5, 4, 6.00),
 (6, 5, 18.00),
 (7, 7, 10.00),
-(9, 9, 10.00);
+(9, 9, 10.00),
+(10, 10, 10.00);
 
 --
--- Restrições para despejos de tabelas
+-- Restricciones para tablas volcadas
 --
 
 --
--- Limitadores para a tabela `administrador_modulos`
+-- Filtros para la tabla `administrador_modulos`
 --
 ALTER TABLE `administrador_modulos`
   ADD CONSTRAINT `administrador_modulos_ibfk_2` FOREIGN KEY (`idModule`) REFERENCES `modulos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
