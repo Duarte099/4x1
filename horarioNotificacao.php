@@ -194,7 +194,7 @@
         }
         header('horario.php');
     }
-    $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND notHorario = 1;";
+    $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND notHorario = 1 AND defNotHorario = 1;";
     $result1 = $con->query($sql1);
     if ($result1->num_rows > 0) {
         while ($row1 = $result1->fetch_assoc()) {

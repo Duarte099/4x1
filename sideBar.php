@@ -28,105 +28,105 @@
     </div>
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
-        <ul class="nav nav-secondary">
-            <li class="nav-item <?php echo ($estouEm == 1) ? 'active' : ''; ?>">
-                <a href="dashboard.php">
-                    <i class="fas fa-home"></i>
-                    <p>Dashboard</p>
-                </a>
-            </li>
-            <li class="nav-item <?php echo ($estouEm == 2) ? 'active' : ''; ?>">
-                <a href="aluno.php">
-                    <i class="fas fa-user-graduate"></i>
-                    <p>Alunos</p>
-                </a>
-            </li>
-            <?php if ($_SESSION["tipo"] == "administrador") { ?>
-                <li class="nav-item <?php echo ($estouEm == 3) ? 'active' : ''; ?>">
-                    <a href="professor.php">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                        <p>Professores</p>
+            <ul class="nav nav-secondary">
+                <li class="nav-item <?php echo ($estouEm == 1) ? 'active' : ''; ?>">
+                    <a href="dashboard.php">
+                        <i class="fas fa-home"></i>
+                        <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 4) ? 'active' : ''; ?>">
-                    <a href="professorLogs.php">
-                        <i class="fas fa-clipboard-list"></i>
-                        <p>Logs Professores</p>
+                <li class="nav-item <?php echo ($estouEm == 2) ? 'active' : ''; ?>">
+                    <a href="aluno.php">
+                        <i class="fas fa-user-graduate"></i>
+                        <p>Alunos</p>
                     </a>
                 </li>
-            <?php } ?>
-            <li class="nav-item <?php echo ($estouEm == 5) ? 'active' : ''; ?>">
-                <a href="presenca.php">
-                    <i class="fas fa-calendar-check"></i>
-                    <p>Registro de presença</p>
-                </a>
-            </li>
-            <li class="nav-item <?php echo ($estouEm == 6) ? 'active' : ''; ?>">
-                <a href="testes.php">
-                    <i class="fas fa-euro-sign"></i>
-                    <p>Registro de testes</p>
-                </a>
-            </li>
-            <li class="nav-item <?php echo ($estouEm == 7) ? 'active' : ''; ?>">
-                <a href="pagamentoEstado.php">
-                    <i class="fas fa-euro-sign"></i>
-                    <p>Estado Pagamentos</p>
-                </a>
-            </li>
-            <li class="nav-item <?php echo ($estouEm == 8) ? 'active' : ''; ?>">
-                <a href="estadoAlunos.php">
-                    <i class="fas fa-user-check"></i>
-                    <p>Estado Alunos</p>
-                </a>
-            </li>
-            <li class="nav-item <?php echo ($estouEm == 9) ? 'active' : ''; ?>">
-                <a href="horario.php">
-                    <i class="fas fa-user-shield"></i>
-                    <p>Horário</p>
-                </a>
-            </li>
-            <?php if ($_SESSION["tipo"] == "administrador") { ?>
-                <li class="nav-item <?php echo ($estouEm == 10) ? 'active' : ''; ?>">
-                    <a href="admin.php">
-                        <i class="fas fa-user-shield"></i>
-                        <p>Administradores</p>
+                <?php if ($_SESSION["tipo"] == "administrador") { ?>
+                    <li class="nav-item <?php echo ($estouEm == 3) ? 'active' : ''; ?>">
+                        <a href="professor.php">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <p>Professores</p>
+                        </a>
+                    </li>
+                    <li class="nav-item <?php echo ($estouEm == 4) ? 'active' : ''; ?>">
+                        <a href="professorLogs.php">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p>Logs Professores</p>
+                        </a>
+                    </li>
+                <?php } ?>
+                <li class="nav-item <?php echo ($estouEm == 5) ? 'active' : ''; ?>">
+                    <a href="presenca.php">
+                        <i class="fas fa-calendar-check"></i>
+                        <p>Registro de Presença</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 11) ? 'active' : ''; ?>">
-                    <a href="adminLogs.php">
+                <li class="nav-item <?php echo ($estouEm == 6) ? 'active' : ''; ?>">
+                    <a href="testes.php">
                         <i class="fas fa-file-alt"></i>
-                        <p>Logs Administradores</p>
+                        <p>Registro de Testes</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 12) ? 'active' : ''; ?>">
-                    <a href="pagamentoConfig.php">
-                        <i class="fas fa-hand-holding-usd"></i>
-                        <p>Configurações Pagamento</p>
+                <li class="nav-item <?php echo ($estouEm == 7) ? 'active' : ''; ?>">
+                    <a href="pagamentoEstado.php">
+                        <i class="fas fa-euro-sign"></i>
+                        <p>Estado Pagamentos</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 13) ? 'active' : ''; ?>">
-                    <a href="transacoes.php">
-                        <i class="fas fa-exchange-alt"></i>
-                        <p>Transações</p>
+                <li class="nav-item <?php echo ($estouEm == 8) ? 'active' : ''; ?>">
+                    <a href="estadoAlunos.php">
+                        <i class="fas fa-user-check"></i>
+                        <p>Estado Alunos</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 14) ? 'active' : ''; ?>">
-                    <a href="despesas.php">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <p>Despesas e Categorias</p>
+                <li class="nav-item <?php echo ($estouEm == 9) ? 'active' : ''; ?>">
+                    <a href="horario.php">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Horário</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 15) ? 'active' : ''; ?>">
-                    <a href="balancoGeral.php">
-                        <i class="fas fa-chart-line"></i>
-                        <p>Balanço geral</p>
-                    </a>
-                </li>
-            <?php } ?>
-        </ul>
+                <?php if ($_SESSION["tipo"] == "administrador") { ?>
+                    <li class="nav-item <?php echo ($estouEm == 10) ? 'active' : ''; ?>">
+                        <a href="admin.php">
+                            <i class="fas fa-user-cog"></i>
+                            <p>Administradores</p>
+                        </a>
+                    </li>
+                    <li class="nav-item <?php echo ($estouEm == 11) ? 'active' : ''; ?>">
+                        <a href="adminLogs.php">
+                            <i class="fas fa-file-signature"></i>
+                            <p>Logs Administradores</p>
+                        </a>
+                    </li>
+                    <li class="nav-item <?php echo ($estouEm == 12) ? 'active' : ''; ?>">
+                        <a href="pagamentoConfig.php">
+                            <i class="fas fa-cogs"></i>
+                            <p>Configurações Pagamento</p>
+                        </a>
+                    </li>
+                    <li class="nav-item <?php echo ($estouEm == 13) ? 'active' : ''; ?>">
+                        <a href="transacoes.php">
+                            <i class="fas fa-exchange-alt"></i>
+                            <p>Transações</p>
+                        </a>
+                    </li>
+                    <li class="nav-item <?php echo ($estouEm == 14) ? 'active' : ''; ?>">
+                        <a href="despesas.php">
+                            <i class="fas fa-receipt"></i>
+                            <p>Despesas e Categorias</p>
+                        </a>
+                    </li>
+                    <li class="nav-item <?php echo ($estouEm == 15) ? 'active' : ''; ?>">
+                        <a href="balancoGeral.php">
+                            <i class="fas fa-chart-pie"></i>
+                            <p>Balanço Geral</p>
+                        </a>
+                    </li>
+                <?php } ?>
+            </ul>
         </div>
     </div>
-    </div>
+</div>
 <!-- End Sidebar -->
 <div class="main-panel">
     <div class="main-header">
@@ -191,7 +191,9 @@
                                 </li>
                                 <li>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="defenicoes.php">Definições</a>
+                                    <?php if ($_SESSION["tipo"] == "professor") { ?>
+                                        <a class="dropdown-item" href="definicoes.php">Definições</a>
+                                    <?php } ?>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="indexLogout.php">Logout</a>

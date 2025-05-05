@@ -2,23 +2,23 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 05-05-2025 a las 12:56:53
--- Versión del servidor: 9.1.0
--- Versión de PHP: 8.3.14
+-- Host: 127.0.0.1:3306
+-- Tempo de geração: 05-Maio-2025 às 19:34
+-- Versão do servidor: 9.1.0
+-- versão do PHP: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Base de datos: `4x1`
+-- Banco de dados: `4x1`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `administrador`
+-- Estrutura da tabela `administrador`
 --
 
 DROP TABLE IF EXISTS `administrador`;
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `administrador` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `administrador`
+-- Extraindo dados da tabela `administrador`
 --
 
 INSERT INTO `administrador` (`id`, `nome`, `email`, `pass`, `img`, `adminMor`, `created`, `updated`, `active`) VALUES
@@ -45,7 +45,7 @@ INSERT INTO `administrador` (`id`, `nome`, `email`, `pass`, `img`, `adminMor`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `administrador_logs`
+-- Estrutura da tabela `administrador_logs`
 --
 
 DROP TABLE IF EXISTS `administrador_logs`;
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `administrador_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `administrador_logs`
+-- Extraindo dados da tabela `administrador_logs`
 --
 
 INSERT INTO `administrador_logs` (`idAdministrador`, `dataLog`, `logFile`) VALUES
@@ -103,7 +103,7 @@ INSERT INTO `administrador_logs` (`idAdministrador`, `dataLog`, `logFile`) VALUE
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `administrador_modulos`
+-- Estrutura da tabela `administrador_modulos`
 --
 
 DROP TABLE IF EXISTS `administrador_modulos`;
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `administrador_modulos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `administrador_modulos`
+-- Extraindo dados da tabela `administrador_modulos`
 --
 
 INSERT INTO `administrador_modulos` (`idProfessor`, `idModule`, `pView`, `pInsert`, `pUpdate`, `pDelete`, `updated`, `created`) VALUES
@@ -136,7 +136,7 @@ INSERT INTO `administrador_modulos` (`idProfessor`, `idModule`, `pView`, `pInser
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos`
+-- Estrutura da tabela `alunos`
 --
 
 DROP TABLE IF EXISTS `alunos`;
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `alunos` (
 ) ENGINE=MyISAM AUTO_INCREMENT=156 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `alunos`
+-- Extraindo dados da tabela `alunos`
 --
 
 INSERT INTO `alunos` (`id`, `balancoGrupo`, `balancoIndividual`, `nome`, `morada`, `localidade`, `codigoPostal`, `nif`, `dataNascimento`, `email`, `contacto`, `escola`, `ano`, `curso`, `turma`, `horasGrupo`, `horasIndividual`, `transporte`, `nomeMae`, `tlmMae`, `nomePai`, `tlmPai`, `modalidade`, `notHorario`, `ativo`, `dataInscricao`) VALUES
@@ -291,7 +291,7 @@ INSERT INTO `alunos` (`id`, `balancoGrupo`, `balancoIndividual`, `nome`, `morada
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_disciplinas`
+-- Estrutura da tabela `alunos_disciplinas`
 --
 
 DROP TABLE IF EXISTS `alunos_disciplinas`;
@@ -305,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `alunos_disciplinas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_disponibilidade`
+-- Estrutura da tabela `alunos_disponibilidade`
 --
 
 DROP TABLE IF EXISTS `alunos_disponibilidade`;
@@ -321,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `alunos_disponibilidade` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_pagamentos`
+-- Estrutura da tabela `alunos_pagamentos`
 --
 
 DROP TABLE IF EXISTS `alunos_pagamentos`;
@@ -341,7 +341,7 @@ CREATE TABLE IF NOT EXISTS `alunos_pagamentos` (
 ) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `alunos_pagamentos`
+-- Extraindo dados da tabela `alunos_pagamentos`
 --
 
 INSERT INTO `alunos_pagamentos` (`id`, `idAluno`, `mensalidade`, `idMetodo`, `observacao`, `idProfessor`, `estado`, `created`, `pagoEm`) VALUES
@@ -455,7 +455,7 @@ INSERT INTO `alunos_pagamentos` (`id`, `idAluno`, `mensalidade`, `idMetodo`, `ob
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_presenca`
+-- Estrutura da tabela `alunos_presenca`
 --
 
 DROP TABLE IF EXISTS `alunos_presenca`;
@@ -475,7 +475,7 @@ CREATE TABLE IF NOT EXISTS `alunos_presenca` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `alunos_presenca`
+-- Extraindo dados da tabela `alunos_presenca`
 --
 
 INSERT INTO `alunos_presenca` (`id`, `idAluno`, `idProfessor`, `idDisciplina`, `individual`, `duracao`, `dia`, `criado_em`) VALUES
@@ -486,7 +486,7 @@ INSERT INTO `alunos_presenca` (`id`, `idAluno`, `idProfessor`, `idDisciplina`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_recibo`
+-- Estrutura da tabela `alunos_recibo`
 --
 
 DROP TABLE IF EXISTS `alunos_recibo`;
@@ -516,7 +516,7 @@ CREATE TABLE IF NOT EXISTS `alunos_recibo` (
 ) ENGINE=MyISAM AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `alunos_recibo`
+-- Extraindo dados da tabela `alunos_recibo`
 --
 
 INSERT INTO `alunos_recibo` (`id`, `idAluno`, `anoAluno`, `packGrupo`, `horasRealizadasGrupo`, `horasBalancoGrupo`, `mensalidadeGrupo`, `packIndividual`, `horasRealizadasIndividual`, `horasBalancoIndividual`, `mensalidadeIndividual`, `transporte`, `inscricao`, `coima`, `estado`, `idMetodo`, `observacao`, `pagoEm`, `idProfessor`, `ano`, `mes`) VALUES
@@ -629,7 +629,7 @@ INSERT INTO `alunos_recibo` (`id`, `idAluno`, `anoAluno`, `packGrupo`, `horasRea
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `alunos_testes`
+-- Estrutura da tabela `alunos_testes`
 --
 
 DROP TABLE IF EXISTS `alunos_testes`;
@@ -642,7 +642,7 @@ CREATE TABLE IF NOT EXISTS `alunos_testes` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `alunos_testes`
+-- Extraindo dados da tabela `alunos_testes`
 --
 
 INSERT INTO `alunos_testes` (`id`, `idAluno`, `idDisciplina`, `dia`) VALUES
@@ -651,7 +651,7 @@ INSERT INTO `alunos_testes` (`id`, `idAluno`, `idDisciplina`, `dia`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categorias`
+-- Estrutura da tabela `categorias`
 --
 
 DROP TABLE IF EXISTS `categorias`;
@@ -663,7 +663,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `categorias`
+-- Extraindo dados da tabela `categorias`
 --
 
 INSERT INTO `categorias` (`id`, `nome`, `tipo`) VALUES
@@ -672,7 +672,7 @@ INSERT INTO `categorias` (`id`, `nome`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `despesas`
+-- Estrutura da tabela `despesas`
 --
 
 DROP TABLE IF EXISTS `despesas`;
@@ -684,7 +684,7 @@ CREATE TABLE IF NOT EXISTS `despesas` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `despesas`
+-- Extraindo dados da tabela `despesas`
 --
 
 INSERT INTO `despesas` (`id`, `despesa`, `valor`) VALUES
@@ -693,7 +693,7 @@ INSERT INTO `despesas` (`id`, `despesa`, `valor`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `disciplinas`
+-- Estrutura da tabela `disciplinas`
 --
 
 DROP TABLE IF EXISTS `disciplinas`;
@@ -704,7 +704,7 @@ CREATE TABLE IF NOT EXISTS `disciplinas` (
 ) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `disciplinas`
+-- Extraindo dados da tabela `disciplinas`
 --
 
 INSERT INTO `disciplinas` (`id`, `nome`) VALUES
@@ -724,7 +724,7 @@ INSERT INTO `disciplinas` (`id`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ensino`
+-- Estrutura da tabela `ensino`
 --
 
 DROP TABLE IF EXISTS `ensino`;
@@ -735,7 +735,7 @@ CREATE TABLE IF NOT EXISTS `ensino` (
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `ensino`
+-- Extraindo dados da tabela `ensino`
 --
 
 INSERT INTO `ensino` (`id`, `nome`) VALUES
@@ -751,7 +751,7 @@ INSERT INTO `ensino` (`id`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `horario`
+-- Estrutura da tabela `horario`
 --
 
 DROP TABLE IF EXISTS `horario`;
@@ -767,7 +767,7 @@ CREATE TABLE IF NOT EXISTS `horario` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `horario`
+-- Extraindo dados da tabela `horario`
 --
 
 INSERT INTO `horario` (`id`, `idProfessor`, `idDisciplina`, `dia`, `sala`, `hora`) VALUES
@@ -777,7 +777,7 @@ INSERT INTO `horario` (`id`, `idProfessor`, `idDisciplina`, `dia`, `sala`, `hora
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `horario_alunos`
+-- Estrutura da tabela `horario_alunos`
 --
 
 DROP TABLE IF EXISTS `horario_alunos`;
@@ -790,7 +790,7 @@ CREATE TABLE IF NOT EXISTS `horario_alunos` (
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `horario_alunos`
+-- Extraindo dados da tabela `horario_alunos`
 --
 
 INSERT INTO `horario_alunos` (`id`, `idHorario`, `alunoIndex`, `idAluno`) VALUES
@@ -805,7 +805,7 @@ INSERT INTO `horario_alunos` (`id`, `idHorario`, `alunoIndex`, `idAluno`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `mensalidade`
+-- Estrutura da tabela `mensalidade`
 --
 
 DROP TABLE IF EXISTS `mensalidade`;
@@ -820,7 +820,7 @@ CREATE TABLE IF NOT EXISTS `mensalidade` (
 ) ENGINE=MyISAM AUTO_INCREMENT=332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `mensalidade`
+-- Extraindo dados da tabela `mensalidade`
 --
 
 INSERT INTO `mensalidade` (`id`, `ano`, `horasGrupo`, `mensalidadeHorasGrupo`, `horasIndividual`, `mensalidadeHorasIndividual`) VALUES
@@ -930,7 +930,7 @@ INSERT INTO `mensalidade` (`id`, `ano`, `horasGrupo`, `mensalidadeHorasGrupo`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `metodos_pagamento`
+-- Estrutura da tabela `metodos_pagamento`
 --
 
 DROP TABLE IF EXISTS `metodos_pagamento`;
@@ -942,7 +942,7 @@ CREATE TABLE IF NOT EXISTS `metodos_pagamento` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `metodos_pagamento`
+-- Extraindo dados da tabela `metodos_pagamento`
 --
 
 INSERT INTO `metodos_pagamento` (`id`, `cod`, `metodo`) VALUES
@@ -952,7 +952,7 @@ INSERT INTO `metodos_pagamento` (`id`, `cod`, `metodo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `modulos`
+-- Estrutura da tabela `modulos`
 --
 
 DROP TABLE IF EXISTS `modulos`;
@@ -964,7 +964,7 @@ CREATE TABLE IF NOT EXISTS `modulos` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `modulos`
+-- Extraindo dados da tabela `modulos`
 --
 
 INSERT INTO `modulos` (`id`, `cod`, `module`) VALUES
@@ -979,7 +979,7 @@ INSERT INTO `modulos` (`id`, `cod`, `module`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores`
+-- Estrutura da tabela `professores`
 --
 
 DROP TABLE IF EXISTS `professores`;
@@ -997,7 +997,7 @@ CREATE TABLE IF NOT EXISTS `professores` (
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `professores`
+-- Extraindo dados da tabela `professores`
 --
 
 INSERT INTO `professores` (`id`, `nome`, `email`, `contacto`, `pass`, `img`, `defNotHorario`, `notHorario`, `ativo`) VALUES
@@ -1017,7 +1017,7 @@ INSERT INTO `professores` (`id`, `nome`, `email`, `contacto`, `pass`, `img`, `de
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_disciplinas`
+-- Estrutura da tabela `professores_disciplinas`
 --
 
 DROP TABLE IF EXISTS `professores_disciplinas`;
@@ -1029,7 +1029,7 @@ CREATE TABLE IF NOT EXISTS `professores_disciplinas` (
 ) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `professores_disciplinas`
+-- Extraindo dados da tabela `professores_disciplinas`
 --
 
 INSERT INTO `professores_disciplinas` (`id`, `idProfessor`, `idDisciplina`) VALUES
@@ -1059,7 +1059,7 @@ INSERT INTO `professores_disciplinas` (`id`, `idProfessor`, `idDisciplina`) VALU
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_disponibilidade`
+-- Estrutura da tabela `professores_disponibilidade`
 --
 
 DROP TABLE IF EXISTS `professores_disponibilidade`;
@@ -1075,7 +1075,7 @@ CREATE TABLE IF NOT EXISTS `professores_disponibilidade` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_ensino`
+-- Estrutura da tabela `professores_ensino`
 --
 
 DROP TABLE IF EXISTS `professores_ensino`;
@@ -1087,7 +1087,7 @@ CREATE TABLE IF NOT EXISTS `professores_ensino` (
 ) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `professores_ensino`
+-- Extraindo dados da tabela `professores_ensino`
 --
 
 INSERT INTO `professores_ensino` (`id`, `idProfessor`, `idEnsino`) VALUES
@@ -1159,7 +1159,7 @@ INSERT INTO `professores_ensino` (`id`, `idProfessor`, `idEnsino`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_logs`
+-- Estrutura da tabela `professores_logs`
 --
 
 DROP TABLE IF EXISTS `professores_logs`;
@@ -1171,7 +1171,7 @@ CREATE TABLE IF NOT EXISTS `professores_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `professores_logs`
+-- Extraindo dados da tabela `professores_logs`
 --
 
 INSERT INTO `professores_logs` (`idProfessor`, `dataLog`, `logFile`) VALUES
@@ -1197,12 +1197,18 @@ INSERT INTO `professores_logs` (`idProfessor`, `dataLog`, `logFile`) VALUES
 (8, '2025-04-21 17:17:28', 'O professor [8]Natália Luciano atualizou o seu perfil'),
 (8, '2025-04-21 17:17:42', 'O professor [8]Natália Luciano atualizou o seu perfil'),
 (8, '2025-04-21 17:22:57', 'O professor [8]Natália Luciano atualizou o seu perfil'),
-(8, '2025-04-21 20:33:22', 'O professor [8]Natália Luciano atualizou o seu perfil');
+(8, '2025-04-21 20:33:22', 'O professor [8]Natália Luciano atualizou o seu perfil'),
+(8, '2025-05-05 16:21:13', 'O professor [8] Natália Luciano desativou as notificações do horário!'),
+(8, '2025-05-05 16:21:15', 'O professor [8] Natália Luciano desativou as notificações do horário!'),
+(8, '2025-05-05 16:21:18', 'O professor [8] Natália Luciano desativou as notificações do horário!'),
+(8, '2025-05-05 16:21:20', 'O professor [8] Natália Luciano desativou as notificações do horário!'),
+(8, '2025-05-05 16:23:20', 'O professor [8] Natália Luciano desativou as notificações do horário!'),
+(8, '2025-05-05 16:23:23', 'O professor [8] Natália Luciano ativou as notificações do horário!');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_presenca`
+-- Estrutura da tabela `professores_presenca`
 --
 
 DROP TABLE IF EXISTS `professores_presenca`;
@@ -1221,7 +1227,7 @@ CREATE TABLE IF NOT EXISTS `professores_presenca` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `professores_presenca`
+-- Extraindo dados da tabela `professores_presenca`
 --
 
 INSERT INTO `professores_presenca` (`id`, `idProfessor`, `idAluno`, `idDisciplina`, `duracao`, `dia`, `criado_em`) VALUES
@@ -1231,7 +1237,7 @@ INSERT INTO `professores_presenca` (`id`, `idProfessor`, `idAluno`, `idDisciplin
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `professores_recibo`
+-- Estrutura da tabela `professores_recibo`
 --
 
 DROP TABLE IF EXISTS `professores_recibo`;
@@ -1261,7 +1267,7 @@ CREATE TABLE IF NOT EXISTS `professores_recibo` (
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `professores_recibo`
+-- Extraindo dados da tabela `professores_recibo`
 --
 
 INSERT INTO `professores_recibo` (`id`, `idProfessor`, `horasDadas1Ciclo`, `valorUnitario1Ciclo`, `valorParcial1Ciclo`, `horasDadas2Ciclo`, `valorUnitario2Ciclo`, `valorParcial2Ciclo`, `horasDadas3Ciclo`, `valorUnitario3Ciclo`, `valorParcial3Ciclo`, `horasDadasSecundario`, `valorUnitarioSecundario`, `valorParcialSecundario`, `horasDadasUniversidade`, `valorUnitarioUniversidade`, `valorParcialUniversidade`, `total`, `ano`, `mes`) VALUES
@@ -1281,7 +1287,7 @@ INSERT INTO `professores_recibo` (`id`, `idProfessor`, `horasDadas1Ciclo`, `valo
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `transacoes`
+-- Estrutura da tabela `transacoes`
 --
 
 DROP TABLE IF EXISTS `transacoes`;
@@ -1295,7 +1301,7 @@ CREATE TABLE IF NOT EXISTS `transacoes` (
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `transacoes`
+-- Extraindo dados da tabela `transacoes`
 --
 
 INSERT INTO `transacoes` (`id`, `idCategoria`, `descricao`, `valor`, `data`) VALUES
@@ -1310,7 +1316,7 @@ INSERT INTO `transacoes` (`id`, `idCategoria`, `descricao`, `valor`, `data`) VAL
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `valores_pagamento`
+-- Estrutura da tabela `valores_pagamento`
 --
 
 DROP TABLE IF EXISTS `valores_pagamento`;
@@ -1322,7 +1328,7 @@ CREATE TABLE IF NOT EXISTS `valores_pagamento` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `valores_pagamento`
+-- Extraindo dados da tabela `valores_pagamento`
 --
 
 INSERT INTO `valores_pagamento` (`id`, `idEnsino`, `valor`) VALUES
@@ -1336,11 +1342,11 @@ INSERT INTO `valores_pagamento` (`id`, `idEnsino`, `valor`) VALUES
 (10, 10, 10.00);
 
 --
--- Restricciones para tablas volcadas
+-- Restrições para despejos de tabelas
 --
 
 --
--- Filtros para la tabla `administrador_modulos`
+-- Limitadores para a tabela `administrador_modulos`
 --
 ALTER TABLE `administrador_modulos`
   ADD CONSTRAINT `administrador_modulos_ibfk_2` FOREIGN KEY (`idModule`) REFERENCES `modulos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
