@@ -4,16 +4,6 @@
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 1;
-
-    function minutosToValor($minutos){
-        // Conversão para horas e minutos
-        $horas = intdiv($minutos, 60);
-
-        $minutosRestantes = $minutos % 60;
-
-        // Conversão para horas decimais
-        return $minutos / 60;
-    }
 ?>
 <title>4x1 | Dashboard</title>
 </head>

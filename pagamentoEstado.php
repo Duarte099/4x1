@@ -71,7 +71,7 @@
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                               while ($row = $result->fetch_assoc()) {
-                                $sql1 = "SELECT * FROM alunos_pagamentos WHERE idAluno = {$row['id']} AND MONTH(created) = {$mesAnterior} AND YEAR(created) = {$anoAtual}";
+                                $sql1 = "SELECT * FROM alunos_recibo WHERE idAluno = {$row['id']} AND mes = {$mesAnterior} AND ano = {$anoAtual}";
                                 $result1 = $con->query($sql1);
                                 if ($result1->num_rows > 0) {
                                   $row1 = $result1->fetch_assoc();
@@ -103,7 +103,7 @@
                                             <button
                                               type=\"button\"
                                               data-bs-toggle=\"tooltip\"
-                                              onclick=\"window.location.href='alunoEdit.php?idAluno=" . $row['id'] . "&tab=pagamento'\"
+                                              onclick=\"window.location.href='alunoEdit.php?idAluno=" . $row['id'] . "&tab=recibo'\"
                                               class=\"btn btn-link btn-primary btn-lg\"
                                               data-original-title=\"Editar Aluno\"
                                             >

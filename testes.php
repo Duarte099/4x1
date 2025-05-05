@@ -144,17 +144,17 @@
           <?php 
               include('./sideBar.php'); 
           ?>
-          <form action="presencaInserir.php?op=save" method="POST">
+          <form action="testesInserir.php?op=save" method="POST">
             <div class="page-inner">
               <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
                   <div>
-                      <h2 class="fw-bold mb-3">Registar presença</h2>
+                      <h2 class="fw-bold mb-3">Registar teste</h2>
                   </div>
               </div>
               <div class="container2">
                   <div class="form-section">
                       <div class="form-row">
-                          <div class="campo" style="flex: 0 0 33%;">
+                          <div class="campo" style="flex: 0 0 60%;">
                             <label>ALUNO:</label>
                             <input type="text" name="nome" list="datalistNomes" oninput="atualizarCampos(this)">
                             <datalist id='datalistNomes'>
@@ -171,27 +171,13 @@
                               ?>
                             </datalist>
                           </div>
-                          <div class="campo" style="flex: 0 0 20%;">
-                            <label>Horas Grupo:</label>
-                            <input type="text" name="horasGrupo" id="horasGrupo" readonly>
-                          </div>
-                          <div class="campo" style="flex: 0 0 20%;">
-                            <label>Horas Individuais:</label>
-                            <input type="text" name="horasIndividual" id="horasIndividual" readonly>
-                          </div>
-                          <div class="campo" style="flex: 0 0 20%;">
-                            <label>Ano Letivo:</label>
-                            <input type="text" name="anoLetivo" readonly value="<?php 
-                            if (date('m') < 9) 
-                            {
-                              echo date('Y') - 1 . "/" . date('Y');
-                            } else {
-                              echo date('Y') . "/" . date('Y') + 1;
-                            }?>">
+                          <div class="campo" style="flex: 0 0 38%;">
+                              <label>DIA:</label>
+                              <input type="date" name="dia" value="<?php echo date('Y-m-d'); ?>">
                           </div>
                       </div>
 
-                      <div class="form-row" id="disciplinasContainer" style="display: none;">
+                      <div class="form-row">
                         <div class="campo" style="flex: 0 0 99.5%;">
                           <label>DISCIPLINA:</label>
                           <select
@@ -222,86 +208,10 @@
                           </select>
                         </div>
                       </div>
-
-                      <div class="form-row">
-                          <div class="campo" style="flex: 0 0 38%;">
-                              <label>DURAÇÃO:</label> 
-                              <select
-                                class="form-select form-control"
-                                id="defaultSelect"
-                                style="border: 1px solid #ccc;"
-                                name="hora"
-                              >
-                                <option value="15">15 min</option>
-                                <option value="30">30 min</option>
-                                <option value="45">45 min</option>
-                                <option value="60">60 min</option>
-                                <option value="75">75 min</option>
-                                <option value="90">90 min</option>
-                                <option value="105">105 min</option>
-                                <option value="120">120 min</option>
-                                <option value="150">150 min</option>
-                                <option value="180">180 min</option>
-                                <option value="210">210 min</option>
-                                <option value="240">240 min</option>
-                              </select>
-                          </div>
-                          <div class="campo" style="flex: 0 0 38%;">
-                              <label>DIA:</label>
-                              <input type="date" name="dia" value="<?php echo date('Y-m-d'); ?>">
-                          </div>
-                          <div class="campo" style="flex: 0 0 10%;">
-                              <label>INDIVIDUAL:</label>
-                              <input class="form-check-input" type="checkbox" name="individual" style="width: 25px; height: 25px; padding: 5px; border: 1px solid #ccc;" id="flexCheckDefault">
-                          </div>
-                      </div>
                   </div>
-                  <button type="submit" class="btn btn-primary">Registrar hora</button>
+                  <button type="submit" class="btn btn-primary">Registrar teste</button>
               </div>
             </div>
-            <script>
-                function atualizarCampos(input) {
-                    // O valor do input é o ID do aluno, conforme definido nas opções do datalist
-                    var partes = input.value.split(" | ");
-                    var alunoId = partes[0];
-                    
-                    // Se um valor for selecionado (não vazio)
-                    if(alunoId !== "") {
-                        // Realiza a requisição AJAX para obter os dados do aluno
-                        $.ajax({
-                            url: 'json.obterNome.php',
-                            type: 'GET',
-                            data: { idAluno: alunoId},
-                            success: function(response) 
-                            {
-                                var data = JSON.parse(response);
-                                if (data == "erro") {
-                                    document.getElementById("horasGrupo").value = "";
-                                    document.getElementById("horasIndividual").value = "";
-                                    document.getElementById("disciplinasContainer").style.display = "none";
-                                }
-                                else{
-                                    document.getElementById("horasGrupo").value = data.horasGrupo;
-                                    document.getElementById("horasIndividual").value = data.horasIndividual;
-                                    if (data.ciclo == 1) {
-                                        document.getElementById("disciplinasContainer").style.display = "none";
-                                    } else {
-                                        document.getElementById("disciplinasContainer").style.display = "block";
-                                    }
-                                }
-                            },
-                            error: function() {
-                                console.error('Erro ao buscar o nome.');
-                            }
-                        });
-                    } else {
-                        // Se não houver um ID válido, limpa o campo Pack
-                        document.getElementById("horasGrupo").value = "";
-                        document.getElementById("horasIndividual").value = "";
-                        document.getElementById("disciplinasContainer").style.display = "none";
-                    }
-                }
-            </script>
           </form>
         </div>
         <?php 

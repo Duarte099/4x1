@@ -17,7 +17,7 @@
     $nomeMes = $nomesMes[$mes];
 
     //RECIBO ALUNOS
-    $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND id = 1";
+    $sql1 = "SELECT * FROM alunos WHERE ativo = 1";
     $result1 = $con->query($sql1);
     if ($result1->num_rows >= 0) {
         while ($row1 = $result1->fetch_assoc()) {
@@ -47,7 +47,7 @@
                     $mensalidadeGrupo = $row6['mensalidadeHorasGrupo'];
                 }
             }
-            elseif ($row1['horasIndividual'] > 0) {
+            if ($row1['horasIndividual'] > 0) {
                 $result6 = $con->prepare('SELECT mensalidadeIndividual FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
                 $result6->bind_param('ii', $row1['ano'], $row1['horasIndividual']);
                 $result6->execute();
@@ -110,7 +110,7 @@
             $mensalidade = $mensalidadeGrupo + $mensalidadeIndividual + $valorInscricao + $valorTransporte;
 
             //Inserir Recibo
-            $sql4 = "INSERT INTO alunos_recibo (idAluno, anoAluno, packGrupo, horasRealizadasGrupo, horasBalancoGrupo, packIndividual, horasRealizadasIndividual, horasBalancoIndividual, mensalidade, ano, mes, mensalidadeGrupo, mensalidadeIndividual, inscricao, transporte) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql4 = "INSERT INTO alunos_recibo (idAluno, anoAluno, packGrupo, horasRealizadasGrupo, horasBalancoGrupo, packIndividual, horasRealizadasIndividual, horasBalancoIndividual, ano, mes, mensalidadeGrupo, mensalidadeIndividual, inscricao, transporte) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $result4 = $con->prepare($sql4);
             if ($result4) {
                 $result4->bind_param("iiiddiddiiiiii", $row1['id'], $row1['ano'], $row1['horasGrupo'], $horasRealizadasGrupo, $balancoGrupo, $row1['horasIndividual'], $horasRealizadasIndividual, $balancoIndividual, $ano, $mes, $mensalidadeGrupo, $mensalidadeIndividual, $valorInscricao, $valorTransporte);

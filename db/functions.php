@@ -71,4 +71,14 @@
 
         $stmt->execute();
     }
+
+    function minutosToValor($minutos){
+        // Conversão para horas e minutos
+        $horas = intdiv($minutos, 60);
+
+        $minutosRestantes = $minutos % 60;
+
+        // Conversão para horas decimais
+        return $minutos / 60;
+    }
 ?>

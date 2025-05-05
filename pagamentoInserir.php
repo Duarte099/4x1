@@ -6,15 +6,15 @@
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         //Obtem o operação 
         $op = $_GET['op'];
+        $idAluno = $_GET['idAluno'];
 
-        $id = $_GET['id'];
-
-        $stmt = $con->prepare('SELECT nome FROM alunos WHERE id = ?');
-        $stmt->bind_param('i', $id);
+        $stmt = $con->prepare('SELECT * FROM alunos WHERE id = ?');
+        $stmt->bind_param('i', $idAluno);
         $stmt->execute(); 
         $result = $stmt->get_result();
-        if ($stmt->num_rows <= 0) {
+        if ($result->num_rows <= 0) {
             header('Location: dashboard.php');
+            notificacao('warning', 'ID do aluno invàlido.');
             exit();
         }
         else {
@@ -22,33 +22,37 @@
         }
 
         if ($op == 'save') {
-            $mesAnterior = date('m');
-            $anoAtual = date('Y');
-
-            if ($mesAnterior == 0) {
-                $mesAnterior = 12;
-                $anoAtual -= 1;
-            }
-
-            $mensalidade = str_replace("€", "", $_POST['mensalidade']);
+            $mes = $_GET['mes'];
+            $ano = $_GET['ano'];
             $observacao = $_POST['observacao'];
             $idMetodo = $_POST['metodo'];
-            $estado = "Pago";
             $pagoEm = date("Y-m-d H:i:s");
+            $idProfessor = $_SESSION['id'];
+            if ($_SESSION['tipo'] == "administrador") {
+                $idProfessor = 8;
+            }
 
-            $sql = "UPDATE alunos_pagamentos SET mensalidade = ?, idMetodo = ?, idProfessor = ?, estado = ?, pagoEm = ? WHERE id = ?";
+            $stmt = $con->prepare('SELECT * FROM alunos_recibo WHERE idAluno = ? AND mes = ? AND ano = ?');
+            $stmt->bind_param('iii', $idAluno, $mes, $ano);
+            $stmt->execute(); 
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $rowRecibo = $result->fetch_assoc();
+            }
+
+            $sql = "UPDATE alunos_recibo SET estado = 'Pago', idMetodo = ?, observacao = ?, pagoEm = ?, idProfessor = ? WHERE idAluno = ? AND ano = ? AND mes = ?";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("iiissi", $mensalidade, $idMetodo, $idAdmin, $estado, $pagoEm, $id);
+                $result->bind_param("issiiii", $idMetodo, $observacao, $pagoEm, $idProfessor, $idAluno, $ano, $mes);
                 if ($result->execute()) {
                     notificacao('success', 'Pagamento registrado com sucesso!');
                     if ($_SESSION["tipo"] == "professor") {
-                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $id . "]" . $row["nome"] . ".");
+                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $idAluno . "]" . $row["nome"] . ".");
                     }
                     else {
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $id . "]" . $row["nome"] . ".");
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $idAluno . "]" . $row["nome"] . ".");
                     }
-                    transacao($con, 1, "Pagamento do aluno {$row["nome"]}", $mensalidade);
+                    transacao($con, 1, "Pagamento do aluno {$row["nome"]}", $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'] + $rowRecibo['coima']);
                 }
                 else {
                     notificacao('danger', 'Erro ao registrar pagamento: ' . $result->error);

@@ -16,8 +16,4 @@ fazer balanço geral e dashboard
 
 Definições para desativar notificações dos professores
 
-rever logica dos scripts de pagamentos e do pagamento na aba alunos
-
 rever javascript que mostra os alunos
-
-ver se nao posso colocar os pagamentos junto com os recibos, se faz sentido ter os "pagamentos"

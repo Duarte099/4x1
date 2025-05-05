@@ -146,9 +146,7 @@
         </div>
         <!-- Navbar Header -->
         <nav
-        class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
-            data-background-color="dark"
-        >
+        class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
             <div class="container-fluid">
                 <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                     <li class="nav-item topbar-user dropdown hidden-caret">
@@ -193,6 +191,9 @@
                                 </li>
                                 <li>
                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="defenicoes.php">Definições</a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item" href="indexLogout.php">Logout</a>
                                 </li>
                             </div>

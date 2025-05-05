@@ -29,54 +29,37 @@
                 $row = $result->fetch_assoc();
             } else {
                 notificacao('warning', 'ID do aluno inválido.');
-                header('Location: presenca.php');
+                header('Location: testes.php');
                 exit();
             }
 
-            $hora = $_POST['hora'];
             $dia = $_POST['dia'];
-            if (isset($_POST['individual']) && $_POST['individual'] == "on") {
-                $individual = 1;
-            } else {
-                $individual = 0;
-            }
-            $idProfessor = $_SESSION['id'];
-            if ($_SESSION['tipo'] == "administrador") {
-                $idProfessor = 8;
-            }
 
-            $sql = "INSERT INTO alunos_presenca (idAluno, idDisciplina, idProfessor, duracao, dia, individual) VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO alunos_testes (idAluno, idDisciplina, dia) VALUES (?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("iiiisi", $idAluno, $idDisciplina, $idProfessor, $hora, $dia, $individual);
+                $result->bind_param("iis", $idAluno, $idDisciplina, $dia);
                 if ($result->execute()) {
-                    notificacao('success', 'Presença registrada com sucesso!');
+                    notificacao('success', 'Teste registrado com sucesso!');
                     if ($_SESSION["tipo"] == "professor") {
-                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou a presença do aluno [" . $idAluno . "]" . $row["nome"] . ".");
+                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou um teste para o aluno [" . $idAluno . "]" . $row["nome"] . ".");
                     }
                     else {
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou a presença do aluno [" . $idAluno . "]" . $row["nome"] . ".");
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou um teste para o aluno [" . $idAluno . "]" . $row["nome"] . ".");
                     }
-
-                    $sql = "INSERT INTO professores_presenca (idProfessor, idAluno, idDisciplina, duracao, dia) VALUES (?, ?, ?, ?, ?)";
-                    $result = $con->prepare($sql);
-                    if ($result) {
-                        $result->bind_param("iiiis", $idProfessor, $idAluno, $idDisciplina, $hora, $dia);
-                    }
-                    $result->execute();
                 } 
                 else {
-                    notificacao('danger', 'Erro ao inserir presença: ' . $result->error);
+                    notificacao('danger', 'Erro ao inserir teste: ' . $result->error);
                 }
 
                 $result->close();
             }
             else {
-                notificacao('danger', 'Erro ao inserir presença: ' . $result->error);
+                notificacao('danger', 'Erro ao inserir teste: ' . $result->error);
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: presenca.php');
+            header('Location: testes.php');
         }
         else {
             notificacao('warning', 'Operação inválida.');

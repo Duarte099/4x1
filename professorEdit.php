@@ -4,7 +4,6 @@
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 3;
-    $estouEm2 = 3;
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
@@ -25,16 +24,6 @@
         notificacao('warning', 'ID do professor inválido.');
         header('Location: professor.php');
         exit();
-    }
-
-    function minutosToValor($minutos){
-        // Conversão para horas e minutos
-        $horas = intdiv($minutos, 60);
-
-        $minutosRestantes = $minutos % 60;
-
-        // Conversão para horas decimais
-        return $minutos / 60;
     }
 
     $sql = "SELECT valor FROM valores_pagamento;";
