@@ -65,6 +65,7 @@
                                           WHEN ano = 0 THEN 'UNIVERSIDADE'
                                       END AS ensino
                                     FROM alunos 
+                                    WHERE ativo = 1
                                     ORDER BY 
                                       FIELD(ensino, '1º CICLO', '2º CICLO', '3º CICLO', 'SECUNDÁRIO', 'UNIVERSIDADE'), 
                                       ano ASC;";

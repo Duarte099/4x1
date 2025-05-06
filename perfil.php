@@ -7,9 +7,6 @@
     if ($_SESSION["tipo"] == "professor") {
         $stmt = $con->prepare("SELECT * FROM professores WHERE id = ?");
 
-        $mes = date("m");
-        $ano = date("Y");
-
         $sql = "SELECT valor FROM valores_pagamento;";
         $result = $con->query($sql);
         $valores = [];
@@ -19,97 +16,100 @@
             }
         }
 
-        function minutosToValor($minutos){
-            // Conversão para horas e minutos
-            $horas = intdiv($minutos, 60);
-    
-            $minutosRestantes = $minutos % 60;
-    
-            // Conversão para horas decimais
-            return $minutos / 60;
-        }
+        $mesSelecionado = $_GET['mes'] ?? date('Y-m');
+        list($ano, $mes) = explode('-', $mesSelecionado);
 
-        //Horas dadas 1 Ciclo
-        $valorParcial1Ciclo = 0;
-        $horasDadas1Ciclo = 0;
-        $sql = "SELECT duracao
-                FROM professores_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4 AND idProfessor = {$_SESSION['id']};";
-        $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $horasDadas1Ciclo = $horasDadas1Ciclo + $row["duracao"];
+        if ($mes == date("n") && $ano == date("Y")) {
+            //Horas dadas 1 Ciclo
+            $valorParcial1Ciclo = 0;
+            $horasDadas1Ciclo = 0;
+            $sql = "SELECT duracao
+                    FROM alunos_presenca AS p
+                    INNER JOIN alunos AS a ON a.id = p.idAluno
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4 AND p.idProfessor = {$_SESSION["id"]};";
+            $result = $con->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $horasDadas1Ciclo = $horasDadas1Ciclo + $row["duracao"];
+                }
+                $horasDadas1Ciclo = minutosToValor($horasDadas1Ciclo);
+                $valorParcial1Ciclo = $horasDadas1Ciclo * $valores[0];
             }
-            $horasDadas1Ciclo = minutosToValor($horasDadas1Ciclo);
-            $valorParcial1Ciclo = $horasDadas1Ciclo * $valores[0];
-        }
 
-        //Horas dadas 2 Ciclo
-        $valorParcial2Ciclo = 0;
-        $horasDadas2Ciclo = 0;
-        $sql = "SELECT duracao
-                FROM professores_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7 AND idProfessor = {$_SESSION['id']};";
-        $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $horasDadas2Ciclo = $horasDadas2Ciclo + $row["duracao"];
+            //Horas dadas 2 Ciclo
+            $valorParcial2Ciclo = 0;
+            $horasDadas2Ciclo = 0;
+            $sql = "SELECT duracao
+                    FROM alunos_presenca AS p
+                    INNER JOIN alunos AS a ON a.id = p.idAluno
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7 AND p.idProfessor= {$_SESSION["id"]};";
+            $result = $con->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $horasDadas2Ciclo = $horasDadas2Ciclo + $row["duracao"];
+                }
+                $horasDadas2Ciclo = minutosToValor($horasDadas2Ciclo);
+                $valorParcial2Ciclo = $horasDadas2Ciclo * $valores[1];
             }
-            $horasDadas2Ciclo = minutosToValor($horasDadas2Ciclo);
-            $valorParcial2Ciclo = $horasDadas2Ciclo * $valores[1];
-        }
 
-        //Horas dadas 3 Ciclo
-        $valorParcial3Ciclo = 0;
-        $horasDadas3Ciclo = 0;
-        $sql = "SELECT duracao
-                FROM professores_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9 AND idProfessor = {$_SESSION['id']};";
-        $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $horasDadas3Ciclo = $horasDadas3Ciclo + $row["duracao"];
+            //Horas dadas 3 Ciclo
+            $valorParcial3Ciclo = 0;
+            $horasDadas3Ciclo = 0;
+            $sql = "SELECT duracao
+                    FROM alunos_presenca AS p
+                    INNER JOIN alunos AS a ON a.id = p.idAluno
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9 AND p.idProfessor= {$_SESSION["id"]};";
+            $result = $con->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $horasDadas3Ciclo = $horasDadas3Ciclo + $row["duracao"];
+                }
+                $horasDadas3Ciclo = minutosToValor($horasDadas3Ciclo);
+                $valorParcial3Ciclo = $horasDadas3Ciclo * $valores[2];
             }
-            $horasDadas3Ciclo = minutosToValor($horasDadas3Ciclo);
-            $valorParcial3Ciclo = $horasDadas3Ciclo * $valores[2];
-        }
 
-        //Horas dadas secundario
-        $valorParcialSecundario = 0;
-        $horasDadasSecundario = 0;
-        $sql = "SELECT duracao
-                FROM professores_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9 AND idProfessor = {$_SESSION['id']};";
-        $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $horasDadasSecundario = $horasDadasSecundario + $row["duracao"];
+            //Horas dadas secundario
+            $valorParcialSecundario = 0;
+            $horasDadasSecundario = 0;
+            $sql = "SELECT duracao
+                    FROM alunos_presenca AS p
+                    INNER JOIN alunos AS a ON a.id = p.idAluno
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9 AND p.idProfessor= {$_SESSION["id"]};";
+            $result = $con->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $horasDadasSecundario = $horasDadasSecundario + $row["duracao"];
+                }
+                $horasDadasSecundario = minutosToValor($horasDadasSecundario);
+                $valorParcialSecundario = $horasDadasSecundario * $valores[3];
             }
-            $horasDadasSecundario = minutosToValor($horasDadasSecundario);
-            $valorParcialSecundario = $horasDadasSecundario * $valores[3];
-        }
 
-        //Horas dadas Universidade
-        $valorParcialUniversidade = 0;
-        $horasDadasUniversidade = 0;
-        $sql = "SELECT duracao
-                FROM professores_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0 AND idProfessor = {$_SESSION['id']};";
-        $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $horasDadasUniversidade = $horasDadasUniversidade + $row["duracao"];
+            //Horas dadas Universidade
+            $valorParcialUniversidade = 0;
+            $horasDadasUniversidade = 0;
+            $sql = "SELECT duracao
+                    FROM alunos_presenca AS p
+                    INNER JOIN alunos AS a ON a.id = p.idAluno
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0 AND p.idProfessor= {$_SESSION["id"]};";
+            $result = $con->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $horasDadasUniversidade = $horasDadasUniversidade + $row["duracao"];
+                }
+                $horasDadasUniversidade = minutosToValor($horasDadasUniversidade);
+                $valorParcialUniversidade = $horasDadasUniversidade * $valores[4];
             }
-            $horasDadasUniversidade = minutosToValor($horasDadasUniversidade);
-            $valorParcialUniversidade = $horasDadasUniversidade * $valores[4];
-        }
 
-        $total = $valorParcial1Ciclo + $valorParcial2Ciclo + $valorParcial3Ciclo + $valorParcialSecundario + $valorParcialUniversidade; 
+            $total = $valorParcial1Ciclo + $valorParcial2Ciclo + $valorParcial3Ciclo + $valorParcialSecundario + $valorParcialUniversidade; 
+        }
+        else {
+            $sql = "SELECT * FROM professores_recibo WHERE p.idProfessor= {$_SESSION["id"]} AND mes = $mes AND ano = $ano";
+            $result = $con->query($sql);
+            //Se houver um aluno com o id recebido, guarda as informações
+            if ($result->num_rows >= 0) {
+                $rowRecibo = $result->fetch_assoc();
+            }
+        }
     }
     else {
         $stmt = $con->prepare("SELECT * FROM administrador WHERE id = ?");
@@ -432,6 +432,14 @@
                             </div>
                             <?php if($_SESSION['tipo'] == "professor") { ?>
                                 <div class="tab-pane fade" id="esti-ganhos" role="tabpanel" aria-labelledby="esti-ganhos-tab">
+                                    <form action="" method="GET">
+                                        <div class="select-container">
+                                            <input type="hidden" style="display: none;" name="tab" value="1">
+                                            
+                                            <label for="mes" class="form-label mb-0 me-2">Data:</label>
+                                            <input type="month" name="mes" id="mes" value="<?= $mesSelecionado ?>" class="form-control" style="width: 200px;" onchange="this.form.submit()">
+                                        </div>
+                                    </form>
                                     <div class="page-inner">
                                         <div class="container2">
                                             <div class="form-section">

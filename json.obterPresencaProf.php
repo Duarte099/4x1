@@ -7,7 +7,7 @@
         $id = $_GET['idProf'];
         
         // Prepara a query com placeholder para evitar injeção e erros
-        $stmt1 = $con->prepare("SELECT p.hora, p.dia, a.nome as nomeAluno, d.nome as nomeDisc FROM professores_presenca as p INNER JOIN alunos as a ON p.idAluno = a.id INNER JOIN disciplinas as d ON idDisciplina = d.id WHERE p.idProfessor = ?");
+        $stmt1 = $con->prepare("SELECT p.hora, p.dia, a.nome as nomeAluno, d.nome as nomeDisc FROM alunos_presenca as p INNER JOIN alunos as a ON p.idAluno = a.id INNER JOIN disciplinas as d ON idDisciplina = d.id WHERE p.idProfessor = ?");
         // Faz o bind do parâmetro
         $stmt1->bind_param("i", $id);
         // Executa a query

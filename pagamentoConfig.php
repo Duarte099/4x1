@@ -302,7 +302,7 @@
 													<div class="col-md-6">
 														<div class="form-group form-group-default">
 															<label>Valor</label>
-															<input type="text" name="valor" class="form-control" required>
+															<input type="number" step="0.01" min="0" name="valor" class="form-control" required>
 														</div>
 													</div>
 												</div>

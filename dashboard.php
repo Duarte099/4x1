@@ -149,11 +149,245 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Horas dadas por ensino</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="multipleLineChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Horas dadas pelos professores</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="barChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <?php  
         include('./endPage.php'); 
     ?>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script>
+        fetch('json.obterHorasPorCiclo.php')
+            .then(response => response.json())
+            .then(data => {
+                // Organizar os dados para o gráfico
+                const dias = [];
+                const ciclos = {
+                    '1º CICLO': [],
+                    '2º CICLO': [],
+                    '3º CICLO': [],
+                    'SECUNDÁRIO': [],
+                    'UNIVERSIDADE': []
+                };
+
+                // Preencher os ciclos de ensino com os valores de horas
+                data.forEach(row => {
+                    if (!dias.includes(row.dia)) {
+                        dias.push(row.dia);
+                    }
+                    if (row.ensino === '1º CICLO') {
+                        ciclos['1º CICLO'].push(row.horas);
+                    } else if (row.ensino === '2º CICLO') {
+                        ciclos['2º CICLO'].push(row.horas);
+                    } else if (row.ensino === '3º CICLO') {
+                        ciclos['3º CICLO'].push(row.horas);
+                    } else if (row.ensino === 'SECUNDÁRIO') {
+                        ciclos['SECUNDÁRIO'].push(row.horas);
+                    } else if (row.ensino === 'UNIVERSIDADE') {
+                        ciclos['UNIVERSIDADE'].push(row.horas);
+                    }
+                });
+
+                var multipleLineChart = document.getElementById("multipleLineChart").getContext("2d");
+            
+                var myMultipleLineChart = new Chart(multipleLineChart, {
+                    type: "line",
+                    data: {
+                        labels: [
+                            "Segunda",
+                            "Terça",
+                            "Quarta",
+                            "Quinta",
+                            "Sexta",
+                            "Sábado",
+                        ],
+                        datasets: [
+                            {
+                                label: "1 Ciclo",
+                                borderColor: "#FFD966",
+                                pointBorderColor: "#FFF",
+                                pointBackgroundColor: "#FFD966",
+                                pointBorderWidth: 2,
+                                pointHoverRadius: 4,
+                                pointHoverBorderWidth: 1,
+                                pointRadius: 4,
+                                backgroundColor: "transparent",
+                                fill: true,
+                                borderWidth: 2,
+                                data: ciclos['1º CICLO'],
+                            },
+                            {
+                                label: "2 Ciclo",
+                                borderColor: "#6FA8DC",
+                                pointBorderColor: "#FFF",
+                                pointBackgroundColor: "#6FA8DC",
+                                pointBorderWidth: 2,
+                                pointHoverRadius: 4,
+                                pointHoverBorderWidth: 1,
+                                pointRadius: 4,
+                                backgroundColor: "transparent",
+                                fill: true,
+                                borderWidth: 2,
+                                data: ciclos['2º CICLO'],
+                            },
+                            {
+                                label: "3 Ciclo",
+                                borderColor: "#8E7CC3",
+                                pointBorderColor: "#FFF",
+                                pointBackgroundColor: "#8E7CC3",
+                                pointBorderWidth: 2,
+                                pointHoverRadius: 4,
+                                pointHoverBorderWidth: 1,
+                                pointRadius: 4,
+                                backgroundColor: "transparent",
+                                fill: true,
+                                borderWidth: 2,
+                                data: ciclos['3º CICLO'],
+                            },
+                            {
+                                label: "Secundario",
+                                borderColor: "#E06666",
+                                pointBorderColor: "#FFF",
+                                pointBackgroundColor: "#E06666",
+                                pointBorderWidth: 2,
+                                pointHoverRadius: 4,
+                                pointHoverBorderWidth: 1,
+                                pointRadius: 4,
+                                backgroundColor: "transparent",
+                                fill: true,
+                                borderWidth: 2,
+                                data: ciclos['SECUNDÁRIO'],
+                            },
+                            {
+                                label: "Universidade",
+                                borderColor: "#6AA84F",
+                                pointBorderColor: "#FFF",
+                                pointBackgroundColor: "#6AA84F",
+                                pointBorderWidth: 2,
+                                pointHoverRadius: 4,
+                                pointHoverBorderWidth: 1,
+                                pointRadius: 4,
+                                backgroundColor: "transparent",
+                                fill: true,
+                                borderWidth: 2,
+                                data: ciclos['UNIVERSIDADE'],
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        legend: {
+                            position: "top",
+                        },
+                        tooltips: {
+                            bodySpacing: 4,
+                            mode: "nearest",
+                            intersect: 0,
+                            position: "nearest",
+                            xPadding: 10,
+                            yPadding: 10,
+                            caretPadding: 10,
+                        },
+                        layout: {
+                            padding: { left: 15, right: 15, top: 15, bottom: 15 },
+                        },
+                    },
+                });
+            })
+        .catch(error => console.error('Erro ao buscar os dados:', error));
+
+        fetch('json.obterHorasPorProfessor.php')
+            .then(response => response.json())
+            .then(data => {
+                const nomesProfessores = [];
+                const horasPorProfessor = [];
+
+                data.forEach(row => {
+                    nomesProfessores.push(row.professor);
+                    horasPorProfessor.push(parseFloat(row.horas));
+                });
+
+                const barChart = document.getElementById("barChart").getContext("2d");
+
+                const myBarChart = new Chart(barChart, {
+                    type: "bar",
+                    data: {
+                        labels: nomesProfessores,
+                        datasets: [{
+                            label: "Horas lecionadas este mês",
+                            backgroundColor: "rgb(23, 125, 255)",
+                            borderColor: "rgb(23, 125, 255)",
+                            data: horasPorProfessor
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                display: false // opcional: esconder eixo X
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: "Horas"
+                                }
+                            }
+                        },
+                        plugins: {
+                            datalabels: {
+                                anchor: "center",
+                                align: "center", // <- isto centraliza horizontalmente
+                                rotation: 90,     // <- sem rotação = texto na horizontal
+                                color: "white",
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                },
+                                formatter: function(value, context) {
+                                    return nomesProfessores[context.dataIndex];
+                                }
+                            },
+                            legend: {
+                                display: true
+                            },
+                            tooltip: {
+                                enabled: true
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels] // <- ativa o plugin
+                });
+            })
+        .catch(error => console.error('Erro ao buscar os dados:', error));
+    </script>
   </body>
 </html>

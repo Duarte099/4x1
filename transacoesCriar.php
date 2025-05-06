@@ -172,11 +172,11 @@
                                 <div class="form-row">
                                     <div class="campo" style="flex: 0 0 64%;">
                                         <label>DESCRIÇÃO:</label>
-                                        <input type="input" name="descricao">
+                                        <input type="input" name="descricao" required>
                                     </div>
                                     <div class="campo" style="flex: 0 0 34%;">
                                         <label>VALOR:</label>
-                                        <input type="input" name="valor">
+                                        <input type="number" step="0.01" min="0" name="valor" required>
                                     </div>
                                 </div>
                             </div>

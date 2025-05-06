@@ -3,7 +3,7 @@
     include('./head.php'); 
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-    $estouEm = 11;
+    $estouEm = 13;
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
@@ -190,7 +190,7 @@
                                     </div>
                                     <div class="campo" style="flex: 0 0 34%;">
                                         <label>VALOR:</label>
-                                        <input type="input" name="valor" value="<?php echo $rowTransacao['valor']; ?>">
+                                        <input type="number" step="0.01" min="0" name="valor" value="<?php echo $rowTransacao['valor']; ?>">
                                     </div>
                                 </div>
                             </div>

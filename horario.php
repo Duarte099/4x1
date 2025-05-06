@@ -436,7 +436,7 @@
                                                                 <div class="col-md-6" id="aluno_<?php echo $i; ?>" style="display: none;">
                                                                     <div class="form-group form-group-default">
                                                                         <label>Aluno <?php echo $i; ?></label>
-                                                                        <input type="input" name="aluno_<?php echo $i; ?>" list="datalistAlunos" class="form-control">
+                                                                        <input type="input" name="aluno_<?php echo $i; ?>" list="datalistAlunos" class="form-control" <?php echo $readonly; ?>>
                                                                         <datalist id='datalistAlunos'>
                                                                             <?php
                                                                                 //Obtem todas as referencias dos produtos que estao ativos
@@ -524,36 +524,38 @@
                 }
                 function preencherHorario(id, dia, sala, hora, idDisciplina, nomeDisciplina, idProfessor, nome, alunos, alunosId) {
                     aux = 0;
+
                     document.querySelector('.fw-mediumbold').value = dia;   
                     document.querySelector('.fw-light').value = hora;
                     document.querySelector('#editarCelulaAluno input[name="sala"]').value = sala;
+
                     select = document.querySelector('#editarCelulaAluno select[name="disciplina"]');
-                    select.value = idDisciplina;
                     if ([...select.options].some(option => option.value === idDisciplina)) {
                         select.value = idDisciplina;
                     }
-                    if (idProfessor) {
-                        document.querySelector('#editarCelulaAluno input[name="prof"]').value = idProfessor + " | " + nome;
-                    }
-                    else{
-                        document.querySelector('#editarCelulaAluno input[name="prof"]').value = "";
-                    }
+
+                    const profInput = document.querySelector('#editarCelulaAluno input[name="prof"]');
+                    profInput.value = idProfessor ? `${idProfessor} | ${nome}` : "";
+
+                    // Reset: mostra todos e limpa valores
                     for (let i = 1; i <= 10; i++) {
-                        document.querySelector(`#editarCelulaAluno input[name="aluno_${i}"]`).value = "";
-                    }
-                    alunos.forEach(aluno => {
-                        idAluno = alunosId[aux];
-                        aux++;
-                        const alunoQuery = document.querySelector(`#editarCelulaAluno input[name="aluno_${aux}"]`);
-                        if (alunoQuery.style.display === "none") {
-                            alunoQuery.style.display = "";
-                        }
-                        alunoQuery.value = idAluno + " | " + aluno
-                    });
-                    for (let i = aux+2; i < 11; i++) {
                         const alunoQuery = document.getElementById("aluno_" + i);
-                        alunoQuery.style.display = "none";
+                        alunoQuery.style.display = "";
+                        alunoQuery.querySelector("input").value = "";
                     }
+
+                    // Preencher com os atuais alunos
+                    alunos.forEach((aluno, index) => {
+                        const alunoDiv = document.getElementById("aluno_" + (index + 1));
+                        const input = alunoDiv.querySelector("input");
+                        input.value = alunosId[index] + " | " + aluno;
+                    });
+
+                    // Esconder os que não foram usados
+                    for (let i = alunos.length + 1; i <= 10; i++) {
+                        document.getElementById("aluno_" + i).style.display = "none";
+                    }
+
                     const form = document.querySelector('#editarCelulaAluno form');
                     form.action = `horarioInserir.php?op=save&idHorario=${id}`;
                 }
@@ -561,33 +563,41 @@
         <?php } else if ($_SESSION['tipo'] == "professor") { ?>
             <script> 
                 function preencherHorario(id, dia, sala, hora, idDisciplina, nomeDisciplina, idProfessor, nome, alunos, alunosId) {
-                    aux = 0;
-                    document.querySelector('.fw-mediumbold').value = dia;   
+                    // Preencher dados principais
+                    document.querySelector('.fw-mediumbold').value = dia;
                     document.querySelector('.fw-light').value = hora;
                     document.querySelector('#editarCelulaAluno input[name="sala"]').value = sala;
                     document.querySelector('#editarCelulaAluno input[name="disciplina"]').value = nomeDisciplina;
-                    if (idProfessor) {
-                        document.querySelector('#editarCelulaAluno input[name="prof"]').value = idProfessor + " | " + nome;
-                    }
-                    else{
-                        document.querySelector('#editarCelulaAluno input[name="prof"]').value = "";
-                    }
+
+                    const profInput = document.querySelector('#editarCelulaAluno input[name="prof"]');
+                    profInput.value = idProfessor ? `${idProfessor} | ${nome}` : "";
+
+                    // Limpar e mostrar todos os campos de aluno
                     for (let i = 1; i <= 10; i++) {
-                        document.querySelector(`#editarCelulaAluno input[name="aluno_${i}"]`).value = "";
-                    }
-                    alunos.forEach(aluno => {
-                        idAluno = alunosId[aux];
-                        aux++;
-                        const alunoQuery = document.querySelector(`#editarCelulaAluno input[name="aluno_${aux}"]`);
-                        if (alunoQuery.style.display === "none") {
-                            alunoQuery.style.display = "";
+                        const alunoDiv = document.getElementById("aluno_" + i);
+                        if (alunoDiv) {
+                            alunoDiv.style.display = "";
+                            const input = alunoDiv.querySelector("input");
+                            if (input) input.value = "";
                         }
-                        alunoQuery.value = idAluno + " | " + aluno
-                    });
-                    for (let i = aux+1; i < 11; i++) {
-                        const alunoQuery = document.getElementById("aluno_" + i);
-                        alunoQuery.style.display = "none";
                     }
+
+                    // Preencher com os alunos recebidos
+                    alunos.forEach((aluno, index) => {
+                        const alunoDiv = document.getElementById("aluno_" + (index + 1));
+                        if (alunoDiv) {
+                            const input = alunoDiv.querySelector("input");
+                            if (input) input.value = alunosId[index] + " | " + aluno;
+                        }
+                    });
+
+                    // Esconder os campos extra
+                    for (let i = alunos.length + 1; i <= 10; i++) {
+                        const alunoDiv = document.getElementById("aluno_" + i);
+                        if (alunoDiv) alunoDiv.style.display = "none";
+                    }
+
+                    // Atualizar ação do formulário
                     const form = document.querySelector('#editarCelulaAluno form');
                     form.action = `horarioInserir.php?op=save&idHorario=${id}`;
                 }

@@ -24,6 +24,25 @@
                 <a href="alunoCriar.php" class="btn btn-primary btn-round">Adicionar aluno</a>
               </div>
             </div>
+            <?php 
+              $stmt = $con->prepare("SELECT * FROM alunos WHERE ativo = 1 AND DATE_FORMAT(dataNascimento, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')");
+              $stmt->execute();
+              $result = $stmt->get_result();
+              if ($result->num_rows > 0) {
+                  while($rowAluno = $result->fetch_assoc()){ 
+                      $hoje = new DateTime();
+                      $nascimento = new DateTime($rowAluno['dataNascimento']);
+                      $idade = $nascimento->diff($hoje)->y;
+                    ?>
+                    <div id="aniversariosHoje" class="alert alert-success d-flex align-items-center" style="display: none;">
+                      <i class="bi bi-cake2-fill me-2"></i>
+                      <div id="textoAniversariosHoje">
+                        O aluno <?php echo $rowAluno['nome']; ?> faz <?php echo $idade; ?> anos.
+                      </div>
+                    </div>
+                  <?php }
+              }
+            ?>
             <div class="col-md-12">
                 <div class="card">
                   <div class="card-body">

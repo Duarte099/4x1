@@ -382,9 +382,9 @@
             $valorParcial1Ciclo = 0;
             $horasDadas1Ciclo = 0;
             $sql = "SELECT duracao
-                    FROM professores_presenca AS p
+                    FROM alunos_presenca AS p
                     INNER JOIN alunos AS a ON a.id = p.idAluno
-                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4 AND idProfessor = {$row1['id']};";
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4 AND p.idProfessor = {$row1['id']};";
             $result = $con->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
@@ -398,9 +398,9 @@
             $valorParcial2Ciclo = 0;
             $horasDadas2Ciclo = 0;
             $sql = "SELECT duracao
-                    FROM professores_presenca AS p
+                    FROM alunos_presenca AS p
                     INNER JOIN alunos AS a ON a.id = p.idAluno
-                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7 AND idProfessor = {$row1["id"]};";
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7 AND p.idProfessor = {$row1["id"]};";
             $result = $con->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
@@ -414,9 +414,9 @@
             $valorParcial3Ciclo = 0;
             $horasDadas3Ciclo = 0;
             $sql = "SELECT duracao
-                    FROM professores_presenca AS p
+                    FROM alunos_presenca AS p
                     INNER JOIN alunos AS a ON a.id = p.idAluno
-                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9 AND idProfessor = {$row1["id"]};";
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9 AND p.idProfessor = {$row1["id"]};";
             $result = $con->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
@@ -430,9 +430,9 @@
             $valorParcialSecundario = 0;
             $horasDadasSecundario = 0;
             $sql = "SELECT duracao
-                    FROM professores_presenca AS p
+                    FROM alunos_presenca AS p
                     INNER JOIN alunos AS a ON a.id = p.idAluno
-                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9 AND idProfessor = {$row1["id"]};";
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9 AND p.idProfessor = {$row1["id"]};";
             $result = $con->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
@@ -446,9 +446,9 @@
             $valorParcialUniversidade = 0;
             $horasDadasUniversidade = 0;
             $sql = "SELECT duracao
-                    FROM professores_presenca AS p
+                    FROM alunos_presenca AS p
                     INNER JOIN alunos AS a ON a.id = p.idAluno
-                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0 AND idProfessor = {$row1["id"]};";
+                    WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0 AND p.idProfessor = {$row1["id"]};";
             $result = $con->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {

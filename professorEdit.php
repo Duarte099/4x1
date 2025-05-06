@@ -14,6 +14,8 @@
 
     //Obtem o id do admin via GET
     $idProfessor = $_GET['idProf'];
+    $mesSelecionado = $_GET['mes'] ?? date('Y-m');
+
     $stmt = $con->prepare("SELECT * FROM professores WHERE id = ?");
     $stmt->bind_param("i", $idProfessor);
     $stmt->execute();
@@ -35,24 +37,16 @@
         }
     }
 
-    if (isset($_GET['mes'])) {
-        $partes = explode("-", $_GET['mes']);
-        $mes = $partes[0];
-        $ano = $partes[1];
-    }
-    else {
-        $mes = date("m");
-        $ano = date("Y");
-    }
+    list($ano, $mes) = explode('-', $mesSelecionado);
 
-    if ((int)$mes === (int)date("m") && (int)$ano === (int)date("Y")) {
+    if ($mes == date("n") && $ano == date("Y")) {
         //Horas dadas 1 Ciclo
         $valorParcial1Ciclo = 0;
         $horasDadas1Ciclo = 0;
         $sql = "SELECT duracao
-                FROM professores_presenca AS p
+                FROM alunos_presenca AS p
                 INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4 AND idProfessor = $idProfessor;";
+                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano >= 1 AND a.ano <= 4 AND p.idProfessor = $idProfessor;";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -66,9 +60,9 @@
         $valorParcial2Ciclo = 0;
         $horasDadas2Ciclo = 0;
         $sql = "SELECT duracao
-                FROM professores_presenca AS p
+                FROM alunos_presenca AS p
                 INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7 AND idProfessor = $idProfessor;";
+                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 4 AND a.ano < 7 AND p.idProfessor = $idProfessor;";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -82,9 +76,9 @@
         $valorParcial3Ciclo = 0;
         $horasDadas3Ciclo = 0;
         $sql = "SELECT duracao
-                FROM professores_presenca AS p
+                FROM alunos_presenca AS p
                 INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9 AND idProfessor = $idProfessor;";
+                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 6 AND a.ano <= 9 AND p.idProfessor = $idProfessor;";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -98,9 +92,9 @@
         $valorParcialSecundario = 0;
         $horasDadasSecundario = 0;
         $sql = "SELECT duracao
-                FROM professores_presenca AS p
+                FROM alunos_presenca AS p
                 INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9 AND idProfessor = $idProfessor;";
+                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano > 9 AND p.idProfessor = $idProfessor;";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -114,9 +108,9 @@
         $valorParcialUniversidade = 0;
         $horasDadasUniversidade = 0;
         $sql = "SELECT duracao
-                FROM professores_presenca AS p
+                FROM alunos_presenca AS p
                 INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0 AND idProfessor = $idProfessor;";
+                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND a.ano = 0 AND p.idProfessor = $idProfessor;";
         $result = $con->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -586,19 +580,9 @@
                                     <div class="select-container">
                                         <input type="hidden" style="display: none;" name="idProf" value="<?= $idProfessor ?>">
                                         <input type="hidden" style="display: none;" name="tab" value="1">
-                                        <label for="mes" class="select-label">Mês:</label>
-                                        <select name="mes" id="mes" onchange="this.form.submit()">
-                                            <option value="<?php echo date("n")."-".date("Y"); ?>" selected><?php echo date("n")."-".date("Y"); ?></option>
-                                            <?php
-                                                $sql = "SELECT DISTINCT mes, ano FROM professores_recibo WHERE idProfessor = " . $idProfessor . " ORDER BY ano DESC, mes DESC;";
-                                                $result = $con->query($sql);
-                                                if ($result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        echo "<option value=" . $row['mes'] . "-" . $row['ano'] . " " . ($row['mes'] == $mes && $row['ano'] == $ano ? 'selected' : '') . ">" . $row['mes'] . "-" . $row['ano'] ."</option>";
-                                                    }
-                                                }
-                                            ?>
-                                        </select>
+                                        
+                                        <label for="mes" class="form-label mb-0 me-2">Data:</label>
+                                        <input type="month" name="mes" id="mes" value="<?= $mesSelecionado ?>" class="form-control" style="width: 200px;" onchange="this.form.submit()">
                                     </div>
                                 </form>
                                 <div class="page-inner">

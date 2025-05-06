@@ -1,5 +1,15 @@
 <?php
     include('./db/conexao.php');
+
+    $numAlunosAniversario = 0;
+
+    $stmt = $con->prepare("SELECT COUNT(*) as numAlunos FROM alunos WHERE ativo = 1 AND DATE_FORMAT(dataNascimento, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $rowAniversario = $result->fetch_assoc();
+        $numAlunosAniversario = $rowAniversario['numAlunos'];
+    }
 ?>
 <!-- Sidebar -->
 <div class="sidebar sidebar-style-2" data-background-color="dark">
@@ -39,6 +49,9 @@
                     <a href="aluno.php">
                         <i class="fas fa-user-graduate"></i>
                         <p>Alunos</p>
+                        <?php if ($numAlunosAniversario > 0) { ?>
+                            <span class="badge badge-success"><?php echo $numAlunosAniversario; ?></span>
+                        <?php } ?>
                     </a>
                 </li>
                 <?php if ($_SESSION["tipo"] == "administrador") { ?>

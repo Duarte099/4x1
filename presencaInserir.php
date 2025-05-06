@@ -57,13 +57,6 @@
                     else {
                         registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou a presença do aluno [" . $idAluno . "]" . $row["nome"] . ".");
                     }
-
-                    $sql = "INSERT INTO professores_presenca (idProfessor, idAluno, idDisciplina, duracao, dia) VALUES (?, ?, ?, ?, ?)";
-                    $result = $con->prepare($sql);
-                    if ($result) {
-                        $result->bind_param("iiiis", $idProfessor, $idAluno, $idDisciplina, $hora, $dia);
-                    }
-                    $result->execute();
                 } 
                 else {
                     notificacao('danger', 'Erro ao inserir presença: ' . $result->error);
