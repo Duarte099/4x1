@@ -30,4 +30,6 @@
 
         Resumo Financeiro por Categoria
 
+ver quando enviar os recibos
+
 rever calendario da presença alunos e professor

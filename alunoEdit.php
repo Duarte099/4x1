@@ -338,9 +338,6 @@
                                 <a class="nav-link active" id="editar-aluno-tab" data-bs-toggle="pill" href="#editar-aluno" role="tab" aria-controls="editar-aluno" aria-selected="true">Ficha do Aluno</a>
                             </li>
                             <li class="nav-item1">
-                                <a class="nav-link" id="registro-presenca-tab" data-bs-toggle="pill" href="#registro-presenca" role="tab" aria-controls="registro-presenca" aria-selected="false">Calendário de presença</a>
-                            </li>
-                            <li class="nav-item1">
                                 <a class="nav-link" id="recibo-tab" data-bs-toggle="pill" href="#recibo" role="tab" aria-controls="recibo" aria-selected="false">Recibo</a>
                             </li>
                         </ul>
@@ -585,88 +582,6 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>
-                            <div class="tab-pane fade" id="registro-presenca" role="tabpanel" aria-labelledby="registro-presenca-tab">
-                                <div class="ui container">
-                                    <div class="ui grid">
-                                        <div class="ui sixteen column">
-                                            <div id="calendar"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Carregar scripts na ordem correta -->
-                                <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
-                                <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
-                                <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/pt.js'></script>
-
-                                <script>
-                                    $(document).ready(function() {
-                                        const urlParams = new URLSearchParams(window.location.search);
-                                        const idAluno = urlParams.get('idAluno');
-
-                                        const presenca = [];
-                                        const results = [];
-
-                                        $.ajax({
-                                            url: 'json.obterPresencaAluno.php?idAluno='+idAluno,
-                                            type: 'POST',
-                                            success: function(data) {
-                                                results.push(...data);
-                                                var eventos = [];
-                                                if (results.length > 0) {
-                                                    results.forEach((result) => {
-                                                        eventos.push({
-                                                            title: result.nomeDisc + ' | ' + result.nomeProf,
-                                                            start: result.dia + 'T' + result.horaInicio,
-                                                            end: result.dia + 'T' + result.horaFim,
-                                                        });
-                                                    });
-                                                }
-                                                $('#calendar').fullCalendar({
-                                                    header: {
-                                                        left: 'prev,next today',
-                                                        center: 'title',
-                                                        right: 'month,agendaWeek,agendaDay'
-                                                    },
-                                                    locale: 'pt', // Definir idioma para português
-                                                    firstDay: 1, // Iniciar a semana na segunda-feira
-                                                    hiddenDays: [0], // Esconder os domingos
-                                                    navLinks: true,
-                                                    editable: false,
-                                                    eventStartEditable: false,
-                                                    eventDurationEditable: false, 
-                                                    eventLimit: true,
-                                                    slotLabelFormat: 'HH:mm',
-                                                    events: eventos,
-                                                });
-                                            },
-                                            error: function(xhr, status, error) {
-                                                $('#calendar').fullCalendar({
-                                                    header: {
-                                                        left: 'prev,next today',
-                                                        center: 'title',
-                                                        right: 'month,agendaWeek,agendaDay'
-                                                    },
-                                                    locale: 'pt',
-                                                    firstDay: 1,
-                                                    hiddenDays: [0],
-                                                    navLinks: true,
-                                                    editable: false,
-                                                    eventStartEditable: false,
-                                                    eventDurationEditable: false, 
-                                                    eventLimit: true,
-                                                    slotLabelFormat: 'HH:mm',
-                                                });
-                                            }
-                                        });
-
-                                        $('a[data-bs-toggle="pill"]').on('shown.bs.tab', function(e) {
-                                            if (e.target.getAttribute('aria-controls') === 'registro-presenca') {
-                                                $('#calendar').fullCalendar('render'); // Ou 'updateSize'
-                                            }
-                                        });
-                                    });
-                                </script>
                             </div>
                             <div class="tab-pane fade" id="recibo" role="tabpanel" aria-labelledby="recibo-tab">
                                 <div class="d-flex justify-content-between align-items-center mb-3">

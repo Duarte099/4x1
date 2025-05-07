@@ -61,7 +61,7 @@
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT t.id, nome, tipo, descricao, valor, DATE_FORMAT(data, '%d-%m-%Y %H:%i:%s') AS data FROM transacoes as t LEFT JOIN categorias as c ON t.idCategoria = c.id;";
+                            $sql = "SELECT t.id, nome, tipo, descricao, valor, DATE_FORMAT(data, '%d-%m-%Y') AS data FROM transacoes as t LEFT JOIN categorias as c ON t.idCategoria = c.id;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {

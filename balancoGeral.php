@@ -214,6 +214,32 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Lucro por mês</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="lineChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Creditos e debitos ano atual</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="multipleLineChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -221,7 +247,129 @@
         include('./endPage.php'); 
     ?>
     <script>
+        fetch('json.obterLucroPorMes.php')
+            .then(response => response.json())
+            .then(dados => {
+                const lucroPorMes = Array(12).fill(0);
 
+                dados.forEach(item => {
+                    const indiceMes = item.mes - 1;
+                    lucroPorMes[indiceMes] = parseFloat(item.lucro);
+                });
+
+                var lineChart = document.getElementById("lineChart").getContext("2d");
+
+                var myLineChart = new Chart(lineChart, {
+                    type: "line",
+                    data: {
+                        labels: [
+                            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+                        ],
+                        datasets: [
+                            {
+                                label: "Lucro",
+                                borderColor: "#1d7af3",
+                                pointBorderColor: "#FFF",
+                                pointBackgroundColor: "#1d7af3",
+                                pointBorderWidth: 2,
+                                pointHoverRadius: 4,
+                                pointHoverBorderWidth: 1,
+                                pointRadius: 4,
+                                backgroundColor: "transparent",
+                                fill: true,
+                                borderWidth: 2,
+                                data: lucroPorMes,
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        legend: {
+                            position: "bottom",
+                            labels: {
+                                padding: 10,
+                                fontColor: "#1d7af3",
+                            },
+                        },
+                        tooltips: {
+                            bodySpacing: 4,
+                            mode: "nearest",
+                            intersect: 0,
+                            position: "nearest",
+                            xPadding: 10,
+                            yPadding: 10,
+                            caretPadding: 10,
+                        },
+                        layout: {
+                            padding: { left: 15, right: 15, top: 15, bottom: 15 },
+                        },
+                    },
+                });
+            })
+        .catch(error => {console.error('Erro ao obter os dados:', error);});
+        
+        fetch('json.obterCreditoDebitoPorMes.php')
+            .then(response => response.json())
+            .then(data => {
+                const meses = [
+                    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+                ];
+
+                const creditos = data.map(m => parseFloat(m.total_creditos));
+                const debitos = data.map(m => parseFloat(m.total_debitos));
+
+                const ctx = document.getElementById("multipleLineChart").getContext("2d");
+
+                new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: meses,
+                        datasets: [
+                            {
+                                label: "Crédito",
+                                borderColor: "#48abf7",
+                                pointBorderColor: "#FFF",
+                                pointBackgroundColor: "#48abf7",
+                                backgroundColor: "transparent",
+                                fill: true,
+                                borderWidth: 2,
+                                data: creditos,
+                            },
+                            {
+                                label: "Débito",
+                                borderColor: "#f25961",
+                                pointBorderColor: "#FFF",
+                                pointBackgroundColor: "#f25961",
+                                backgroundColor: "transparent",
+                                fill: true,
+                                borderWidth: 2,
+                                data: debitos,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: "top"
+                            },
+                            tooltip: {
+                                mode: "index",
+                                intersect: false,
+                                padding: 10,
+                            }
+                        },
+                        layout: {
+                            padding: 15,
+                        }
+                    }
+                });
+            })
+        .catch(error => {console.error("Erro ao carregar os dados do gráfico:", error);});
     </script>
   </body>
 </html>
