@@ -5,7 +5,7 @@
     use Dompdf\Dompdf;
     use Dompdf\Options;
 
-    $url = 'https://api.4x1.pt/enviarMensagem';
+    $url = 'https://api-4x1-whatsapp-production.up.railway.app/enviarMensagem';
     $mensagem = "";
     $notificacao = 0;
     $contacto = "";
