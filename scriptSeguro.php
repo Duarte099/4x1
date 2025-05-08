@@ -6,6 +6,7 @@
 </head>
 <?php 
     $auxLogin = true;
+    $cronjob = true;
     include('/home/xpt123/admin/db/conexao.php');
 
     require '/home/xpt123/cronJobs/PHPMailer/src/PHPMailer.php';

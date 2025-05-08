@@ -1,5 +1,6 @@
 <?php
     $auxLogin = true;
+    $cronjob = true;
     include('/home/xpt123/admin/db/conexao.php');
 
     // INCREMENTAR NOVO ANO
