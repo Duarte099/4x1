@@ -13,6 +13,19 @@
         exit('Erro ao conectar ao MySQL: ' . mysqli_connect_error());
     }
 
+    $cronjob = [];
+    $stmt = $con->prepare('SELECT id, estado FROM cronjobs');
+    $stmt->execute(); 
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()){
+            $cronjob[$row['id']] = $row['estado'];
+        }
+        $cronjobSeguro = $cronjob[1];
+        $cronjobRecibos = $cronjob[2];
+        $cronjobNovoAnoLetivo = $cronjob[3];
+    }
+
     // Bloco de verificação de sessão (só executa se $auxLogin for false ou não definido)
     if (!isset($auxLogin) || $auxLogin === false) {
         //Cria uma sessão
