@@ -9,7 +9,8 @@
     $cronjob = true;
     include('/home/xpt123/admin/db/conexao.php');
 
-    require '/home/xpt123/cronJobs/PHPMailer/src/PHPMailer.php';
+    require '/home/xpt123/cronJobs/PHPMailer/src/PHPMailer.php';   
+    require '/home/xpt123/cronJobs/vendor/autoload.php';
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
@@ -81,7 +82,7 @@
             CENTRO DE ESTUDO 4x1 | Alameda Arnaldo Gama nº 161, 4765-001 Vila das Aves | email: geral@4x1.pt
             </body>";
 
-    $pdfPath = "home/xpt123/admin/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf";
+    $pdfPath = "/home/xpt123/admin/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf";
     if (file_exists($pdfPath)) {
         $mail->addAttachment($pdfPath, "LISTA_ALUNOS_" . date("mdy") . "pdf");
     } else {
