@@ -1,5 +1,5 @@
 <?php
-    include('./db/conexao.php');
+    include('./admin/db/conexao.php');
 
     // INCREMENTAR NOVO ANO
     $sql1 = "SELECT * FROM alunos WHERE ativo = 1";

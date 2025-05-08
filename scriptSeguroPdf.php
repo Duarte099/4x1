@@ -1,5 +1,5 @@
 <?php 
-    include('./db/conexao.php'); 
+    include('./admin/db/conexao.php'); 
     $aux1 = 1;
     $sql = "SELECT nome, DATE_FORMAT(dataNascimento, '%d.%m.%Y') as dataNascimento FROM alunos WHERE ano >= 1 AND ano <= 4 AND ativo = 1;";
     $result1 = $con->query($sql);

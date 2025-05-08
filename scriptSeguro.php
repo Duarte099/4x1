@@ -5,7 +5,7 @@
     <title>Listagem de Alunos</title>
 </head>
 <?php 
-    include('./db/conexao.php'); 
+    include('./admin/db/conexao.php'); 
 
     require __DIR__ . "/vendor/autoload.php";
 

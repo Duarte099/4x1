@@ -1,5 +1,5 @@
 <?php
-    include('./db/conexao.php');
+    include('./admin/db/conexao.php');
     require __DIR__ . "/vendor/autoload.php";
 
     use Dompdf\Dompdf;

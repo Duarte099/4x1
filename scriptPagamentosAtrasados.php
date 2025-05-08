@@ -1,5 +1,5 @@
 <?php
-    include('./db/conexao.php');
+    include('./admin/db/conexao.php');
 
     //Valores pagamento inscrição
     $sql = "SELECT * FROM valores_pagamento WHERE id = 10;";
