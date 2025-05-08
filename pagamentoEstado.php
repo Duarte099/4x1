@@ -56,43 +56,31 @@
                               $anoAtual -= 1;
                             }
                             //query para selecionar todos os administradores
-                            $sql = "SELECT id, nome, ano, dataNascimento,
-                                      CASE 
-                                          WHEN ano >= 1 AND ano <= 4 THEN '1º CICLO'
-                                          WHEN ano > 4 AND ano < 7 THEN '2º CICLO'
-                                          WHEN ano > 6 AND ano <= 9 THEN '3º CICLO'
-                                          WHEN ano > 9 THEN 'SECUNDÁRIO'
-                                          WHEN ano = 0 THEN 'UNIVERSIDADE'
-                                      END AS ensino
-                                    FROM alunos 
-                                    WHERE ativo = 1
-                                    ORDER BY 
-                                      FIELD(ensino, '1º CICLO', '2º CICLO', '3º CICLO', 'SECUNDÁRIO', 'UNIVERSIDADE'), 
-                                      ano ASC;";
+                            $sql = "SELECT *, 
+                                        CASE 
+                                            WHEN pagoEm IS NULL AND DAY(CURDATE()) > 8 THEN 'Atrasado'
+                                            WHEN pagoEm IS NOT NULL THEN 'Pago'
+                                            WHEN pagoEm IS NULL AND DAY(CURDATE()) < 8 THEN 'Pendente'
+                                            ELSE 'Outro'
+                                        END AS estado
+                                    FROM alunos_recibo as ar 
+                                    INNER JOIN alunos as a ON idAluno = a.id 
+                                    WHERE mes = {$mesAnterior} AND ar.ano = {$anoAtual}";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
-                              while ($row = $result->fetch_assoc()) {
-                                $sql1 = "SELECT * FROM alunos_recibo WHERE idAluno = {$row['id']} AND mes = {$mesAnterior} AND ano = {$anoAtual}";
-                                $result1 = $con->query($sql1);
-                                if ($result1->num_rows > 0) {
-                                  $row1 = $result1->fetch_assoc();
-                                  if ($row1['estado'] == "Pago") {
-                                    $corStatus = "2ecc71";
-                                  }
-                                  elseif ($row1['estado'] == "Pendente") {
-                                    $corStatus = "f1c40f";
-                                  }
-                                  elseif ($row1['estado'] == "Em atraso") {
-                                    $corStatus = "ff0000";
-                                  }
-                                  else {
-                                    $corStatus = "";
-                                  }
-                                }
-                                else {
-                                  $corStatus = "";
-                                  $row1['estado'] = "Pendente";
-                                }
+                                while ($row = $result->fetch_assoc()) {
+                                    if ($row1['estado'] == "Pago") {
+                                        $corStatus = "2ecc71";
+                                    }
+                                    elseif ($row1['estado'] == "Pendente") {
+                                        $corStatus = "f1c40f";
+                                    }
+                                    elseif ($row1['estado'] == "Atrasado") {
+                                        $corStatus = "ff0000";
+                                    }
+                                    else {
+                                        $corStatus = "";
+                                    }
                                 //mostra os resultados todos 
                                 echo "<tr>
                                         <td>{$row['ensino']}</td>
