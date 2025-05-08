@@ -395,7 +395,7 @@
                         <?php } ?>
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="perfil" role="tabpanel" aria-labelledby="perfil-tab">
-                                <form action="perfilInserir?op=edit" method="POST" onsubmit="return verificarPasswords()" enctype="multipart/form-data">
+                                <form action="perfilInserir?op=edit" method="POST" id="formEdit" onsubmit="return verificarPasswords()" enctype="multipart/form-data">
                                     <div class="profile-photo">
                                         <img id="preview" src="<?php echo $_SESSION["img"] ?>">
                                         <input type="file" name="foto" accept="image/*" onchange="previewImage(event)">
@@ -413,7 +413,8 @@
                                         <?php if($_SESSION["tipo"] == "professor") { ?>
                                             <div class="form-group">
                                                 <label for="contacto">Contacto</label>
-                                                <input type="text" id="contacto" name="contacto" value="<?php echo $rowPerfil["contacto"] ?>" required>
+                                                <input type="tel" id="contacto" name="contacto" value="<?php echo $rowPerfil['contacto']; ?>" required>
+                                                <input type="hidden" name="contacto" id="contactoHidden">
                                             </div>
                                         <?php } ?>
                                         <div class="form-group">
@@ -539,7 +540,22 @@
                     </div>
                 </div>
             </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
             <script>
+                const input = document.querySelector("#contacto");
+                const hiddenInput = document.querySelector("#contactoHidden");
+                const iti = window.intlTelInput(input, {
+                    initialCountry: "pt",
+                    preferredCountries: ["pt", "br", "fr", "gb"],
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+                });
+
+                // Ao submeter o formulário, atualiza o campo hidden
+                document.querySelector("#formEdit").addEventListener("submit", function () {
+                    hiddenInput.value = iti.getNumber();
+                });
+
                 function verificarPasswords() {
                     const password = document.getElementById("password").value;
                     const confirm = document.getElementById("passwordConfirm").value;

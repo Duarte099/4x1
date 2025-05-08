@@ -14,16 +14,16 @@
 
 
     if ($tab == "recibo") {
-        $estouEm = 5;
+        $estouEm = 2;
     }
 
-    $stmt = $con->prepare("SELECT * FROM alunos as a INNER JOIN alunos_recibo as ar ON ar.idAluno = a.id WHERE a.id = ?");
+    $stmt = $con->prepare("SELECT *, a.ano as anoAluno, a.transporte as tAluno FROM alunos as a LEFT JOIN alunos_recibo as ar ON ar.idAluno = a.id WHERE a.id = ?");
     $stmt->bind_param("i", $idAluno);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $rowAluno = $result->fetch_assoc();
-        if (isset($row['transporte']) && $row['transporte'] == 1) {
+        if (isset($rowAluno['tAluno']) && $rowAluno['tAluno'] == 1) {
             $transporte = "checked";
         }
         else {
@@ -123,13 +123,13 @@
             }
         }
         if ($rowAluno['horasIndividual'] > 0) {
-            $result6 = $con->prepare('SELECT mensalidadeIndividual FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
+            $result6 = $con->prepare('SELECT mensalidadeHorasIndividual FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
             $result6->bind_param('ii', $rowAluno['ano'], $rowAluno['horasIndividual']);
             $result6->execute();
             $result6 = $result6->get_result(); 
             if ($result6->num_rows > 0) {
                 $row6 = $result6->fetch_assoc();
-                $rowRecibo['mensalidadeIndividual'] = $row6['mensalidadeIndividual'];
+                $rowRecibo['mensalidadeIndividual'] = $row6['mensalidadeHorasIndividual'];
             }
         }
         $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'];
@@ -460,7 +460,7 @@
                                                     </div>
                                                     <div class="campo" style="flex: 0 0 20%;">
                                                         <label>ANO:</label>
-                                                        <input type="number" name="ano" value="<?php echo $rowAluno['ano']; ?>">
+                                                        <input type="number" name="ano" value="<?php echo $rowAluno['anoAluno']; ?>">
                                                     </div>
                                                 </div>
 

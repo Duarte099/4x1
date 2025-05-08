@@ -5,6 +5,12 @@
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 15;
 
+    if ($_SESSION["tipo"] == "professor") {
+        notificacao('warning', 'Não tens permissão para aceder a esta página.');
+        header('Location: dashboard.php');
+        exit();
+    }
+
     //Saldo total
     $stmt = $con->prepare("SELECT IFNULL(SUM(CASE
                                         WHEN tipo = 'credito' THEN valor

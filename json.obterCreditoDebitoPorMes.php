@@ -1,6 +1,12 @@
 <?php
     include('./db/conexao.php');
 
+    if ($_SESSION["tipo"] == "professor") {
+        notificacao('warning', 'Não tens permissão para aceder a esta página.');
+        header('Location: dashboard.php');
+        exit();
+    }
+
     // Definir a query
     $sql = "
         SELECT 

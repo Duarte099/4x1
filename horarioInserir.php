@@ -2,6 +2,12 @@
     //Inclui a conexão à base de dados na página
     include('./db/conexao.php');
 
+    if ($_SESSION["tipo"] == "professor") {
+        notificacao('warning', 'Não tens permissão para aceder a esta página.');
+        header('Location: dashboard.php');
+        exit();
+    }
+
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['idHorario'])) {
         //Obtem o operação

@@ -15,6 +15,7 @@
     //Obtem o id do admin via GET
     $idProfessor = $_GET['idProf'];
     $mesSelecionado = $_GET['mes'] ?? date('Y-m');
+    $recibo = true;
 
     $stmt = $con->prepare("SELECT * FROM professores WHERE id = ?");
     $stmt->bind_param("i", $idProfessor);
@@ -126,8 +127,11 @@
         $sql = "SELECT * FROM professores_recibo WHERE idProfessor = $idProfessor AND mes = $mes AND ano = $ano";
         $result = $con->query($sql);
         //Se houver um aluno com o id recebido, guarda as informações
-        if ($result->num_rows >= 0) {
+        if ($result->num_rows > 0) {
             $rowRecibo = $result->fetch_assoc();
+        }
+        else {
+            $recibo = false;
         }
     }
 ?>
@@ -291,7 +295,7 @@
                         </ul>
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="editar-prof" role="tabpanel" aria-labelledby="editar-prof-tab">
-                                <form action="professorInserir?idProf=<?php echo $idProfessor ?>&op=edit" method="POST" onsubmit="return verificarPasswords()">
+                                <form action="professorInserir?idProf=<?php echo $idProfessor ?>&op=edit" id="formEdit" method="POST" onsubmit="return verificarPasswords()">
                                     <div
                                         class="modal fade"
                                         id="addRowModal"
@@ -502,103 +506,106 @@
                                 </form>
                                 <div class="page-inner">
                                     <div class="container2">
-                                        <div class="form-section">
-                                            <div class="form-row">
-                                                <div class="campo" style="flex: 0 0 98%;">
-                                                    <label>NOME:</label>
-                                                    <input type="text" name="nome" readonly value="<?php echo $rowProfessor['nome']; ?>">
+                                        <?php if ($recibo == true): ?>
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 98%;">
+                                                        <label>NOME:</label>
+                                                        <input type="text" name="nome" readonly value="<?php echo $rowProfessor['nome']; ?>">
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-section">
-                                            <div class="form-row">
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>HORAS 1º CICLO:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo $rowRecibo['horasDadas1Ciclo'];} ?>" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>VALOR UNITÁRIO:</label>
-                                                    <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[0];} else {echo $rowRecibo['valorUnitario1Ciclo'];} ?>€" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>VALOR PARCIAL:</label>
-                                                    <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial1Ciclo;} else {echo $rowRecibo['valorParcial1Ciclo'];} ?>€" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-section">
-                                            <div class="form-row">
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>HORAS 2º CICLO:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo $rowRecibo['horasDadas2Ciclo'];} ?>" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>VALOR UNITÁRIO:</label>
-                                                    <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[1];} else {echo $rowRecibo['valorUnitario2Ciclo'];} ?>€" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>VALOR PARCIAL:</label>
-                                                    <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial2Ciclo;} else {echo $rowRecibo['valorParcial2Ciclo'];} ?>€" readonly>
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>HORAS 1º CICLO:</label>
+                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo $rowRecibo['horasDadas1Ciclo'];} ?>" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>VALOR UNITÁRIO:</label>
+                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[0];} else {echo $rowRecibo['valorUnitario1Ciclo'];} ?>€" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>VALOR PARCIAL:</label>
+                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial1Ciclo;} else {echo $rowRecibo['valorParcial1Ciclo'];} ?>€" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-section">
-                                            <div class="form-row">
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>HORAS 3º CICLO:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo $rowRecibo['horasDadas3Ciclo'];} ?>" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>VALOR UNITÁRIO:</label>
-                                                    <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[2];} else {echo $rowRecibo['valorUnitario3Ciclo'];} ?>€" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>VALOR PARCIAL:</label>
-                                                    <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial3Ciclo;} else {echo $rowRecibo['valorParcial3Ciclo'];} ?>€" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-section">
-                                            <div class="form-row">
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>HORAS SECUNDÁRIO:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo $rowRecibo['horasDadasSecundario'];} ?>" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>VALOR UNITÁRIO:</label>
-                                                    <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[3];} else {echo $rowRecibo['valorUnitarioSecundario'];} ?>€" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>VALOR PARCIAL:</label>
-                                                    <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialSecundario;} else {echo $rowRecibo['valorParcialSecundario'];} ?>€" readonly>
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>HORAS 2º CICLO:</label>
+                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo $rowRecibo['horasDadas2Ciclo'];} ?>" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>VALOR UNITÁRIO:</label>
+                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[1];} else {echo $rowRecibo['valorUnitario2Ciclo'];} ?>€" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>VALOR PARCIAL:</label>
+                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial2Ciclo;} else {echo $rowRecibo['valorParcial2Ciclo'];} ?>€" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-section">
-                                            <div class="form-row">
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>HORAS UNIVERSIDADE:</label>
-                                                    <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo $rowRecibo['horasDadasUniversidade'];} ?>" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>VALOR UNITÁRIO:</label>
-                                                    <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[4];} else {echo $rowRecibo['valorUnitarioUniversidade'];} ?>€" readonly>
-                                                </div>
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>VALOR PARCIAL:</label>
-                                                    <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialUniversidade;} else {echo $rowRecibo['valorParcialUniversidade'];} ?>€" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-section">
-                                            <div class="form-row">
-                                                <div class="campo" style="flex: 0 0 32%;">
-                                                    <label>TOTAL:</label>
-                                                    <input type="input" name="total" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>HORAS 3º CICLO:</label>
+                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo $rowRecibo['horasDadas3Ciclo'];} ?>" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>VALOR UNITÁRIO:</label>
+                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[2];} else {echo $rowRecibo['valorUnitario3Ciclo'];} ?>€" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>VALOR PARCIAL:</label>
+                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial3Ciclo;} else {echo $rowRecibo['valorParcial3Ciclo'];} ?>€" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- <button type="submit" class="btn btn-primary">Registrar hora</button> -->
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>HORAS SECUNDÁRIO:</label>
+                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo $rowRecibo['horasDadasSecundario'];} ?>" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>VALOR UNITÁRIO:</label>
+                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[3];} else {echo $rowRecibo['valorUnitarioSecundario'];} ?>€" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>VALOR PARCIAL:</label>
+                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialSecundario;} else {echo $rowRecibo['valorParcialSecundario'];} ?>€" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>HORAS UNIVERSIDADE:</label>
+                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo $rowRecibo['horasDadasUniversidade'];} ?>" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>VALOR UNITÁRIO:</label>
+                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[4];} else {echo $rowRecibo['valorUnitarioUniversidade'];} ?>€" readonly>
+                                                    </div>
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>VALOR PARCIAL:</label>
+                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialUniversidade;} else {echo $rowRecibo['valorParcialUniversidade'];} ?>€" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-section">
+                                                <div class="form-row">
+                                                    <div class="campo" style="flex: 0 0 32%;">
+                                                        <label>TOTAL:</label>
+                                                        <input type="input" name="total" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php else: ?>
+                                            <p>Sem recibo nesta data.</p>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>

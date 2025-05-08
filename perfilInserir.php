@@ -190,6 +190,7 @@
                     notificacao('danger', 'Erro ao atualizar perfil: ' . $con->error);
                 }
             }
+            header('Location: perfil.php');
         }
         else {
             notificacao('warning', 'Operação inválida.');
