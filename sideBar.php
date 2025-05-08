@@ -204,9 +204,7 @@
                                 </li>
                                 <li>
                                     <div class="dropdown-divider"></div>
-                                    <?php if ($_SESSION["tipo"] == "professor") { ?>
-                                        <a class="dropdown-item" href="definicoes.php">Definições</a>
-                                    <?php } ?>
+                                    <a class="dropdown-item" href="definicoes.php">Definições</a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="indexLogout.php">Logout</a>
