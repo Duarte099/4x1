@@ -7,7 +7,7 @@
     use Dompdf\Dompdf;
     use Dompdf\Options;
 
-    $url = 'http://localhost:3000/enviarMensagem';
+    $url = 'https://api-4x1-whatsapp-production.up.railway.app/enviarMensagem';
     $mensagem = "";
     $notificacao = 0;
     $contacto = "";
@@ -19,7 +19,7 @@
     $nomeMes = $nomesMes[$mes];
 
     //RECIBO ALUNOS
-    $sql1 = "SELECT * FROM alunos WHERE ativo = 1";
+    $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND id = 156";
     $result1 = $con->query($sql1);
     if ($result1->num_rows >= 0) {
         while ($row1 = $result1->fetch_assoc()) {
@@ -112,20 +112,20 @@
             $mensalidade = $mensalidadeGrupo + $mensalidadeIndividual + $valorInscricao + $valorTransporte;
 
             //Inserir Recibo
-            // $sql4 = "INSERT INTO alunos_recibo (idAluno, anoAluno, packGrupo, horasRealizadasGrupo, horasBalancoGrupo, packIndividual, horasRealizadasIndividual, horasBalancoIndividual, ano, mes, mensalidadeGrupo, mensalidadeIndividual, inscricao, transporte) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            // $result4 = $con->prepare($sql4);
-            // if ($result4) {
-            //     $result4->bind_param("iiiddiddiiiiii", $row1['id'], $row1['ano'], $row1['horasGrupo'], $horasRealizadasGrupo, $balancoGrupo, $row1['horasIndividual'], $horasRealizadasIndividual, $balancoIndividual, $ano, $mes, $mensalidadeGrupo, $mensalidadeIndividual, $valorInscricao, $valorTransporte);
-            //     $result4->execute();
-            // }
+            $sql4 = "INSERT INTO alunos_recibo (idAluno, anoAluno, packGrupo, horasRealizadasGrupo, horasBalancoGrupo, packIndividual, horasRealizadasIndividual, horasBalancoIndividual, ano, mes, mensalidadeGrupo, mensalidadeIndividual, inscricao, transporte) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $result4 = $con->prepare($sql4);
+            if ($result4) {
+                $result4->bind_param("iiiddiddiiiiii", $row1['id'], $row1['ano'], $row1['horasGrupo'], $horasRealizadasGrupo, $balancoGrupo, $row1['horasIndividual'], $horasRealizadasIndividual, $balancoIndividual, $ano, $mes, $mensalidadeGrupo, $mensalidadeIndividual, $valorInscricao, $valorTransporte);
+                $result4->execute();
+            }
 
             //Atualizar balanço do aluno
-            // $sql5 = "UPDATE alunos SET balancoGrupo = ?, balancoIndividual = ? WHERE id = ?";
-            // $result5 = $con->prepare($sql5);
-            // if ($result5) {
-            //     $result5->bind_param("ddi", $balancoGrupo, $balancoIndividual, $row1['id']);
-            //     $result5->execute();
-            // }
+            $sql5 = "UPDATE alunos SET balancoGrupo = ?, balancoIndividual = ? WHERE id = ?";
+            $result5 = $con->prepare($sql5);
+            if ($result5) {
+                $result5->bind_param("ddi", $balancoGrupo, $balancoIndividual, $row1['id']);
+                $result5->execute();
+            }
 
             // Configurações do Dompdf
             $options = new Options;
@@ -334,25 +334,20 @@
             $response = curl_exec($ch);
             if ($response === false) {
                 // Se ocorreu erro na cURL
-                notificacao('danger', 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . curl_error($ch));
-                $notificacao++;
+                echo 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . curl_error($ch);
             } else {
                 // Se a requisição foi bem-sucedida, verificar código de status HTTP
                 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 
                 if ($httpCode == 200) {
-                    
+                    echo 'Mensagem enviada ao aluno ' . $row1['nome'] ;
                 }
                 else {
-                    $notificacao++;
-                    notificacao('danger', 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . $httpCode);
+                    echo 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . $httpCode;
                 }
             }
             
             curl_close($ch);
-        }
-        if ($notificacao == 0) {
-            notificacao('success', 'Alunos notificados com sucesso!');
         }
     }
 
@@ -376,7 +371,7 @@
     }
 
     //RECIBO PROFESSORES
-    $sql1 = "SELECT * FROM professores WHERE ativo = 1";
+    $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND id = 14";
     $result1 = $con->query($sql1);
     if ($result1->num_rows >= 0) {
         while ($row1 = $result1->fetch_assoc()) {
@@ -462,13 +457,13 @@
     
             $total = $valorParcial1Ciclo + $valorParcial2Ciclo + $valorParcial3Ciclo + $valorParcialSecundario + $valorParcialUniversidade; 
             
-            // //Inserir Recibo
-            // $sql4 = "INSERT INTO `professores_recibo`(`idProfessor`, `horasDadas1Ciclo`, `valorUnitario1Ciclo`, `valorParcial1Ciclo`, `horasDadas2Ciclo`, `valorUnitario2Ciclo`, `valorParcial2Ciclo`, `horasDadas3Ciclo`, `valorUnitario3Ciclo`, `valorParcial3Ciclo`, `horasDadasSecundario`, `valorUnitarioSecundario`, `valorParcialSecundario`, `horasDadasUniversidade`, `valorUnitarioUniversidade`, `valorParcialUniversidade`, `total`, `ano`, `mes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-            // $result4 = $con->prepare($sql4);
-            // if ($result4) {
-            //     $result4->bind_param("iiiiiiiiiiiiiiiiiii", $row1['id'], $horasDadas1Ciclo, $valores[0], $valorParcial1Ciclo, $horasDadas2Ciclo, $valores[1], $valorParcial2Ciclo, $horasDadas3Ciclo, $valores[2], $valorParcial3Ciclo,  $horasDadasSecundario, $valores[3], $valorParcialSecundario, $horasDadasUniversidade, $valores[4], $valorParcialUniversidade, $total, $ano, $mes);
-            //     $result4->execute();
-            // }
+            //Inserir Recibo
+            $sql4 = "INSERT INTO `professores_recibo`(`idProfessor`, `horasDadas1Ciclo`, `valorUnitario1Ciclo`, `valorParcial1Ciclo`, `horasDadas2Ciclo`, `valorUnitario2Ciclo`, `valorParcial2Ciclo`, `horasDadas3Ciclo`, `valorUnitario3Ciclo`, `valorParcial3Ciclo`, `horasDadasSecundario`, `valorUnitarioSecundario`, `valorParcialSecundario`, `horasDadasUniversidade`, `valorUnitarioUniversidade`, `valorParcialUniversidade`, `total`, `ano`, `mes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            $result4 = $con->prepare($sql4);
+            if ($result4) {
+                $result4->bind_param("iiiiiiiiiiiiiiiiiii", $row1['id'], $horasDadas1Ciclo, $valores[0], $valorParcial1Ciclo, $horasDadas2Ciclo, $valores[1], $valorParcial2Ciclo, $horasDadas3Ciclo, $valores[2], $valorParcial3Ciclo,  $horasDadasSecundario, $valores[3], $valorParcialSecundario, $horasDadasUniversidade, $valores[4], $valorParcialUniversidade, $total, $ano, $mes);
+                $result4->execute();
+            }
         }
     }
 ?>
