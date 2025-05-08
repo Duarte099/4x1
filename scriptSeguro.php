@@ -5,7 +5,7 @@
     <title>Listagem de Alunos</title>
 </head>
 <?php 
-    include('./admin/db/conexao.php'); 
+    include('../admin/db/conexao.php'); 
 
     require __DIR__ . "/vendor/autoload.php";
 
@@ -46,7 +46,7 @@
      * Save the PDF file locally
      */
     $output = $dompdf->output();
-    file_put_contents(__DIR__ . "/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf", $output);
+    file_put_contents(__DIR__ . "/../admin/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf", $output);
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
@@ -79,7 +79,7 @@
             CENTRO DE ESTUDO 4x1 | Alameda Arnaldo Gama nº 161, 4765-001 Vila das Aves | email: geral@4x1.pt
             </body>";
 
-    $pdfPath = __DIR__ . "/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf";
+    $pdfPath =__DIR__ . "/../admin/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf";
     if (file_exists($pdfPath)) {
         $mail->addAttachment($pdfPath, "LISTA_ALUNOS_" . date("mdy") . "pdf");
     } else {

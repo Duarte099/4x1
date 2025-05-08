@@ -1,5 +1,5 @@
 <?php
-    include('./admin/db/conexao.php');
+    include('../admin/db/conexao.php');
     require __DIR__ . "/vendor/autoload.php";
 
     use Dompdf\Dompdf;
@@ -110,20 +110,20 @@
             $mensalidade = $mensalidadeGrupo + $mensalidadeIndividual + $valorInscricao + $valorTransporte;
 
             //Inserir Recibo
-            $sql4 = "INSERT INTO alunos_recibo (idAluno, anoAluno, packGrupo, horasRealizadasGrupo, horasBalancoGrupo, packIndividual, horasRealizadasIndividual, horasBalancoIndividual, ano, mes, mensalidadeGrupo, mensalidadeIndividual, inscricao, transporte) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $result4 = $con->prepare($sql4);
-            if ($result4) {
-                $result4->bind_param("iiiddiddiiiiii", $row1['id'], $row1['ano'], $row1['horasGrupo'], $horasRealizadasGrupo, $balancoGrupo, $row1['horasIndividual'], $horasRealizadasIndividual, $balancoIndividual, $ano, $mes, $mensalidadeGrupo, $mensalidadeIndividual, $valorInscricao, $valorTransporte);
-                $result4->execute();
-            }
+            // $sql4 = "INSERT INTO alunos_recibo (idAluno, anoAluno, packGrupo, horasRealizadasGrupo, horasBalancoGrupo, packIndividual, horasRealizadasIndividual, horasBalancoIndividual, ano, mes, mensalidadeGrupo, mensalidadeIndividual, inscricao, transporte) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            // $result4 = $con->prepare($sql4);
+            // if ($result4) {
+            //     $result4->bind_param("iiiddiddiiiiii", $row1['id'], $row1['ano'], $row1['horasGrupo'], $horasRealizadasGrupo, $balancoGrupo, $row1['horasIndividual'], $horasRealizadasIndividual, $balancoIndividual, $ano, $mes, $mensalidadeGrupo, $mensalidadeIndividual, $valorInscricao, $valorTransporte);
+            //     $result4->execute();
+            // }
 
             //Atualizar balanço do aluno
-            $sql5 = "UPDATE alunos SET balancoGrupo = ?, balancoIndividual = ? WHERE id = ?";
-            $result5 = $con->prepare($sql5);
-            if ($result5) {
-                $result5->bind_param("ddi", $balancoGrupo, $balancoIndividual, $row1['id']);
-                $result5->execute();
-            }
+            // $sql5 = "UPDATE alunos SET balancoGrupo = ?, balancoIndividual = ? WHERE id = ?";
+            // $result5 = $con->prepare($sql5);
+            // if ($result5) {
+            //     $result5->bind_param("ddi", $balancoGrupo, $balancoIndividual, $row1['id']);
+            //     $result5->execute();
+            // }
 
             // Configurações do Dompdf
             $options = new Options;
@@ -208,7 +208,7 @@
             <div class="container">
                 <table class="top-table">
                     <tr>
-                        <td><img src="./images/LogoPreto4x1.png" height="50"></td>
+                        <td><img src="../admin/images/LogoPreto4x1.png" height="50"></td>
                         <td class="center">
                             <h4>AVISO de PAGAMENTO relativo ao mês de <strong>{$nomeMes} {$ano}</strong></h4>
                         </td>
@@ -311,7 +311,7 @@
             $output = $dompdf->output();
 
             $filename = "recibo_{$row1['nome']}_". date("d-m-y_H-i-s") . ".pdf";
-            $filepath = __DIR__ . "/uploads/recibos/" . $filename;
+            $filepath = __DIR__ . "/../admin/uploads/recibos/" . $filename;
             file_put_contents($filepath, $output);
 
             $fileData = new CURLFile($filepath);
