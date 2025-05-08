@@ -9,8 +9,7 @@
     $cronjob = true;
     include('/home/xpt123/admin/db/conexao.php');
 
-    require '/home/xpt123/cronJobs/PHPMailer/src/PHPMailer.php';   
-    require '/home/xpt123/cronJobs/vendor/autoload.php';
+    require '/home/xpt123/cronJobs/PHPMailer/src/PHPMailer.php'; 
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
