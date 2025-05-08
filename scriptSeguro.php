@@ -43,7 +43,7 @@
      */
     $dompdf->render();
 
-    $dompdf->addInfo("Title", "An Example PDF");
+    $dompdf->addInfo("Title", "Lista Alunos Seguro");
 
     /**
      * Save the PDF file locally
