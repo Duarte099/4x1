@@ -1,6 +1,6 @@
 <?php
-    include('../admin/db/conexao.php');
-    require __DIR__ . "/vendor/autoload.php";
+    include('/home/xpt123/admin/db/conexao.php');
+    require "/home/xpt123/cronJobs/vendor/autoload.php";
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
@@ -208,7 +208,7 @@
             <div class="container">
                 <table class="top-table">
                     <tr>
-                        <td><img src="../admin/images/LogoPreto4x1.png" height="50"></td>
+                        <td><img src="/home/xpt123/admin/images/LogoPreto4x1.png" height="50"></td>
                         <td class="center">
                             <h4>AVISO de PAGAMENTO relativo ao mês de <strong>{$nomeMes} {$ano}</strong></h4>
                         </td>
@@ -311,7 +311,7 @@
             $output = $dompdf->output();
 
             $filename = "recibo_{$row1['nome']}_". date("d-m-y_H-i-s") . ".pdf";
-            $filepath = __DIR__ . "/../admin/uploads/recibos/" . $filename;
+            $filepath = "/home/xpt123/admin/uploads/recibos/" . $filename;
             file_put_contents($filepath, $output);
 
             $fileData = new CURLFile($filepath);

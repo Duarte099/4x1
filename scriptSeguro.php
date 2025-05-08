@@ -5,9 +5,9 @@
     <title>Listagem de Alunos</title>
 </head>
 <?php 
-    include('../admin/db/conexao.php'); 
+    include('/home/xpt123/admin/db/conexao.php');
 
-    require __DIR__ . "/vendor/autoload.php";
+    require '/home/xpt123/cronJobs/PHPMailer/src/PHPMailer.php';
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
@@ -30,7 +30,7 @@
      * Render the PHP template before passing it to Dompdf
      */
     ob_start();
-    include "scriptSeguroPdf.php";
+    require '/home/xpt123/cronJobs/scriptSeguroPdf.php';
     $html = ob_get_clean();
 
     $dompdf->loadHtml($html);
@@ -46,14 +46,14 @@
      * Save the PDF file locally
      */
     $output = $dompdf->output();
-    file_put_contents(__DIR__ . "/../admin/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf", $output);
+    file_put_contents("/home/xpt123/admin/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf", $output);
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-    require 'PHPMailer/src/Exception.php';
-    require 'PHPMailer/src/PHPMailer.php';
-    require 'PHPMailer/src/SMTP.php';
+    require '/home/xpt123/cronJobs/PHPMailer/src/Exception.php';
+    require '/home/xpt123/cronJobs/PHPMailer/src/PHPMailer.php';
+    require '/home/xpt123/cronJobs/PHPMailer/src/SMTP.php';
 
     $mail = new PHPMailer(true);
 
@@ -79,7 +79,7 @@
             CENTRO DE ESTUDO 4x1 | Alameda Arnaldo Gama nº 161, 4765-001 Vila das Aves | email: geral@4x1.pt
             </body>";
 
-    $pdfPath =__DIR__ . "/../admin/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf";
+    $pdfPath = "home/xpt123/admin/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf";
     if (file_exists($pdfPath)) {
         $mail->addAttachment($pdfPath, "LISTA_ALUNOS_" . date("mdy") . "pdf");
     } else {
