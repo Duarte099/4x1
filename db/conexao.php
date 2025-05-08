@@ -2,14 +2,10 @@
     global $auxLogin; // Permite acesso à variável externa
 
     // Configurações de conexão ao banco de dados
-    $DATABASE_HOST = 'localhost';
-    $DATABASE_USER = 'root';
-    $DATABASE_PASS = '';
-    $DATABASE_NAME = '4x1';
-    // $DATABASE_HOST = '4x1.pt';
-    // $DATABASE_USER = 'xpt123_4x1';
-    // $DATABASE_PASS = 'nTgY}w0_fBj}';
-    // $DATABASE_NAME = 'xpt123_4x1';
+    $DATABASE_HOST = '4x1.pt';
+    $DATABASE_USER = 'xpt123_4x1';
+    $DATABASE_PASS = 'nTgY}w0_fBj}';
+    $DATABASE_NAME = 'xpt123_4x1';
     $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
     $con->set_charset("utf8mb4");
     // Verificação de erro de conexão (opcional)
