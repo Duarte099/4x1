@@ -211,7 +211,7 @@
                 <div class="container">
                     <table class="top-table">
                         <tr>
-                            <td><img src="/home/xpt123/admin/images/LogoPreto4x1.png" height="50"></td>
+                            <td><img src="https://admin.4x1.pt/images/LogoPreto4x1.png" height="50"></td>
                             <td class="center">
                                 <h4>AVISO de PAGAMENTO relativo ao mês de <strong>{$nomeMes} {$ano}</strong></h4>
                             </td>
