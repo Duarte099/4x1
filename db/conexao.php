@@ -42,6 +42,8 @@
         }
     }
 
-    //Chama as funções para serem usadas em todas as paginas
-    include_once './db/functions.php';
+    if (!isset($cronjob) || $cronjob === false) {
+        //Chama as funções para serem usadas em todas as paginas
+        include_once './db/functions.php';
+    }
 ?>
