@@ -5,6 +5,7 @@
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 1;
     if ($_SESSION["tipo"] == "professor") {
+        $recibo = true;
         $stmt = $con->prepare("SELECT * FROM professores WHERE id = ?");
 
         $sql = "SELECT valor FROM valores_pagamento;";
@@ -18,6 +19,7 @@
 
         $mesSelecionado = $_GET['mes'] ?? date('Y-m');
         list($ano, $mes) = explode('-', $mesSelecionado);
+        $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
 
         if ($mes == date("n") && $ano == date("Y")) {
             //Horas dadas 1 Ciclo
@@ -103,11 +105,14 @@
             $total = $valorParcial1Ciclo + $valorParcial2Ciclo + $valorParcial3Ciclo + $valorParcialSecundario + $valorParcialUniversidade; 
         }
         else {
-            $sql = "SELECT * FROM professores_recibo WHERE p.idProfessor= {$_SESSION["id"]} AND mes = $mes AND ano = $ano";
+            $sql = "SELECT * FROM professores_recibo WHERE idProfessor = {$_SESSION["id"]} AND mes = $mes AND ano = $ano";
             $result = $con->query($sql);
             //Se houver um aluno com o id recebido, guarda as informações
-            if ($result->num_rows >= 0) {
+            if ($result->num_rows > 0) {
                 $rowRecibo = $result->fetch_assoc();
+            }
+            else {
+                $recibo = false;
             }
         }
     }
@@ -119,110 +124,108 @@
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $rowPerfil = $result->fetch_assoc();
-    } 
-
-    
+    }
 ?>
     <title>4x1 | Perfil</title>
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css'>
     <style>
-    .container {
-        background-color: white;
-        border-radius: 10px;
-        margin: 40px auto;
-        max-width: 1000px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        padding: 20px;
-    }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            margin: 40px auto;
+            max-width: 1000px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+        }
 
-    form {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-    }
+        form {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
 
-    .profile-photo {
-        background-color: #f1f1f1;
-        width: 35%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 30px;
-        box-sizing: border-box;
-    }
+        .profile-photo {
+            background-color: #f1f1f1;
+            width: 35%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            box-sizing: border-box;
+        }
 
-    .profile-photo img {
-        width: 300px;
-        height: 300px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 6px solid #ccc;
-        margin-bottom: 15px;
-    }
+        .profile-photo img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid #ccc;
+            margin-bottom: 15px;
+        }
 
-    .profile-photo input[type="file"] {
-        margin-top: 10px;
-    }
+        .profile-photo input[type="file"] {
+            margin-top: 10px;
+        }
 
-    .profile-form {
-        width: 65%;
-        padding: 40px;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+        .profile-form {
+            width: 65%;
+            padding: 40px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-    .profile-form h2 {
-        margin-bottom: 25px;
-    }
+        .profile-form h2 {
+            margin-bottom: 25px;
+        }
 
-    .form-group {
-        margin-bottom: 20px;
-    }
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-    .form-group label {
-        display: block;
-        margin-bottom: 6px;
-        font-weight: 600;
-    }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
 
-    .form-group input[type="text"],
-    .form-group input[type="email"],
-    .form-group input[type="input"],
-    .form-group input[type="password"] {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 14px;
-    }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="input"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
 
-    .form-group input[type="submit"] {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 10px 14px;
-        font-size: 14px;
-        font-weight: bold;
-        border-radius: 6px;
-        cursor: pointer;
-    }
+        .form-group input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
-    .form-group input[type="submit"]:hover {
-        background-color: #0056b3;
-    }
+        .form-group input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
 
-    /* Garantir que as tabs não quebram o layout */
-    .tab-content .tab-pane {
-        padding-top: 20px;
-    }
+        /* Garantir que as tabs não quebram o layout */
+        .tab-content .tab-pane {
+            padding-top: 20px;
+        }
 
-    .fc-day-header[data-date="0"],
+        .fc-day-header[data-date="0"],
         .fc-day[data-date$="-0"] {
             display: none;
         }
@@ -358,22 +361,45 @@
             }
         }
 
-    @media (max-width: 768px) {
-        form {
-            flex-direction: column;
-        }
+        @media (max-width: 768px) {
+            form {
+                flex-direction: column;
+            }
 
-        .profile-photo,
-        .profile-form {
-            width: 100%;
-        }
+            .profile-photo,
+            .profile-form {
+                width: 100%;
+            }
 
-        .profile-photo img {
-            width: 150px;
-            height: 150px;
+            .profile-photo img {
+                width: 150px;
+                height: 150px;
+            }
         }
-    }
-</style>
+    </style>
+    <script>
+        $(document).ready(function() {
+            // Obtém o parâmetro da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab'); // Exemplo: ?tab=recibo
+
+            // Define qual aba abrir com base no parâmetro
+            let abaDesejada;
+            switch (tabParam) {
+                case 'perfil':
+                    abaDesejada = '#perfil-tab';
+                    break;
+                case 'ganhos':
+                    abaDesejada = '#esti-ganhos-tab';
+                    break;
+                default:
+                    abaDesejada = '#perfil'; // Aba padrão
+            }
+
+            // Ativa a aba
+            $(abaDesejada).tab('show');
+        });
+    </script>
 </head>
     <body>
         <div class="wrapper">
@@ -435,7 +461,7 @@
                                 <div class="tab-pane fade" id="esti-ganhos" role="tabpanel" aria-labelledby="esti-ganhos-tab">
                                     <form action="" method="GET">
                                         <div class="select-container">
-                                            <input type="hidden" style="display: none;" name="tab" value="1">
+                                            <input type="hidden" style="display: none;" name="tab" value="ganhos">
                                             
                                             <label for="mes" class="form-label mb-0 me-2">Data:</label>
                                             <input type="month" name="mes" id="mes" value="<?= $mesSelecionado ?>" class="form-control" style="width: 200px;" onchange="this.form.submit()">
@@ -443,95 +469,98 @@
                                     </form>
                                     <div class="page-inner">
                                         <div class="container2">
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS 1º CICLO:</label>
-                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo $rowRecibo['horasDadas1Ciclo'];} ?>" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR UNITÁRIO:</label>
-                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[0];} else {echo $rowRecibo['valorUnitario1Ciclo'];} ?>€" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR PARCIAL:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial1Ciclo;} else {echo $rowRecibo['valorParcial1Ciclo'];} ?>€" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS 2º CICLO:</label>
-                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo $rowRecibo['horasDadas2Ciclo'];} ?>" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR UNITÁRIO:</label>
-                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[1];} else {echo $rowRecibo['valorUnitario2Ciclo'];} ?>€" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR PARCIAL:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial2Ciclo;} else {echo $rowRecibo['valorParcial2Ciclo'];} ?>€" readonly>
+                                            <?php if ($recibo == true): ?>
+                                                <div class="form-section">
+                                                    <div class="form-row">
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>HORAS 1º CICLO:</label>
+                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo $rowRecibo['horasDadas1Ciclo'];} ?>" readonly>
+                                                        </div>
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>VALOR UNITÁRIO:</label>
+                                                            <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[0];} else {echo $rowRecibo['valorUnitario1Ciclo'];} ?>€" readonly>
+                                                        </div>
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>VALOR PARCIAL:</label>
+                                                            <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial1Ciclo;} else {echo $rowRecibo['valorParcial1Ciclo'];} ?>€" readonly>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS 3º CICLO:</label>
-                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo $rowRecibo['horasDadas3Ciclo'];} ?>" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR UNITÁRIO:</label>
-                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[2];} else {echo $rowRecibo['valorUnitario3Ciclo'];} ?>€" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR PARCIAL:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial3Ciclo;} else {echo $rowRecibo['valorParcial3Ciclo'];} ?>€" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS SECUNDÁRIO:</label>
-                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo $rowRecibo['horasDadasSecundario'];} ?>" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR UNITÁRIO:</label>
-                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[3];} else {echo $rowRecibo['valorUnitarioSecundario'];} ?>€" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR PARCIAL:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialSecundario;} else {echo $rowRecibo['valorParcialSecundario'];} ?>€" readonly>
+                                                <div class="form-section">
+                                                    <div class="form-row">
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>HORAS 2º CICLO:</label>
+                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo $rowRecibo['horasDadas2Ciclo'];} ?>" readonly>
+                                                        </div>
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>VALOR UNITÁRIO:</label>
+                                                            <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[1];} else {echo $rowRecibo['valorUnitario2Ciclo'];} ?>€" readonly>
+                                                        </div>
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>VALOR PARCIAL:</label>
+                                                            <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial2Ciclo;} else {echo $rowRecibo['valorParcial2Ciclo'];} ?>€" readonly>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS UNIVERSIDADE:</label>
-                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo $rowRecibo['horasDadasUniversidade'];} ?>" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR UNITÁRIO:</label>
-                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[4];} else {echo $rowRecibo['valorUnitarioUniversidade'];} ?>€" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR PARCIAL:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialUniversidade;} else {echo $rowRecibo['valorParcialUniversidade'];} ?>€" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>TOTAL:</label>
-                                                        <input type="input" name="total" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
+                                                <div class="form-section">
+                                                    <div class="form-row">
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>HORAS 3º CICLO:</label>
+                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo $rowRecibo['horasDadas3Ciclo'];} ?>" readonly>
+                                                        </div>
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>VALOR UNITÁRIO:</label>
+                                                            <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[2];} else {echo $rowRecibo['valorUnitario3Ciclo'];} ?>€" readonly>
+                                                        </div>
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>VALOR PARCIAL:</label>
+                                                            <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial3Ciclo;} else {echo $rowRecibo['valorParcial3Ciclo'];} ?>€" readonly>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- <button type="submit" class="btn btn-primary">Registrar hora</button> -->
+                                                <div class="form-section">
+                                                    <div class="form-row">
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>HORAS SECUNDÁRIO:</label>
+                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo $rowRecibo['horasDadasSecundario'];} ?>" readonly>
+                                                        </div>
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>VALOR UNITÁRIO:</label>
+                                                            <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[3];} else {echo $rowRecibo['valorUnitarioSecundario'];} ?>€" readonly>
+                                                        </div>
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>VALOR PARCIAL:</label>
+                                                            <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialSecundario;} else {echo $rowRecibo['valorParcialSecundario'];} ?>€" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-section">
+                                                    <div class="form-row">
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>HORAS UNIVERSIDADE:</label>
+                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo $rowRecibo['horasDadasUniversidade'];} ?>" readonly>
+                                                        </div>
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>VALOR UNITÁRIO:</label>
+                                                            <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[4];} else {echo $rowRecibo['valorUnitarioUniversidade'];} ?>€" readonly>
+                                                        </div>
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>VALOR PARCIAL:</label>
+                                                            <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialUniversidade;} else {echo $rowRecibo['valorParcialUniversidade'];} ?>€" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-section">
+                                                    <div class="form-row">
+                                                        <div class="campo" style="flex: 0 0 32%;">
+                                                            <label>TOTAL:</label>
+                                                            <input type="input" name="total" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php else: ?>
+                                                <p>Sem recibo nesta data.</p>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
