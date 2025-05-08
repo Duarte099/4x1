@@ -1,4 +1,5 @@
 <?php
+    $auxLogin = true;
     include('/home/xpt123/admin/db/conexao.php');
 
     //Valores pagamento inscrição

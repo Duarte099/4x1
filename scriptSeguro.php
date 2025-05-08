@@ -5,6 +5,7 @@
     <title>Listagem de Alunos</title>
 </head>
 <?php 
+    $auxLogin = true;
     include('/home/xpt123/admin/db/conexao.php');
 
     require '/home/xpt123/cronJobs/PHPMailer/src/PHPMailer.php';
