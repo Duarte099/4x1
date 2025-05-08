@@ -50,13 +50,13 @@
                 }
             }
             if ($row1['horasIndividual'] > 0) {
-                $result6 = $con->prepare('SELECT mensalidadeIndividual FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
+                $result6 = $con->prepare('SELECT mensalidadeHorasIndividual FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
                 $result6->bind_param('ii', $row1['ano'], $row1['horasIndividual']);
                 $result6->execute();
                 $result6 = $result6->get_result(); 
                 if ($result6->num_rows > 0) {
                     $row6 = $result6->fetch_assoc();
-                    $mensalidadeIndividual = $row6['mensalidadeIndividual'];
+                    $mensalidadeIndividual = $row6['mensalidadeHorasIndividual'];
                 }
             }
 
