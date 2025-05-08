@@ -17,7 +17,7 @@
     $ano = $dataAnterior->format('Y');
 
     // RECIBO ALUNOS
-    $sql1 = "SELECT alunos.id, estado FROM alunos INNER JOIN alunos_recibo ON alunos.id = idAluno WHERE ativo = 1 AND estado = 'Pendente' AND ano = $ano AND mes = $mes";
+    $sql1 = "SELECT alunos.id, estado FROM alunos INNER JOIN alunos_recibo as ar ON alunos.id = idAluno WHERE ativo = 1 AND estado = 'Pendente' AND ar.ano = $ano AND mes = $mes";
     $result1 = $con->query($sql1);
     if ($result1->num_rows > 0) {
         while ($row1 = $result1->fetch_assoc()) {
