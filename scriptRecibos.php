@@ -323,7 +323,7 @@
                     'number' => $contacto,
                     'message' => $mensagem,
                     'apiKey' => '5e_Z.4y5Zo$$',
-                    'file' => $fileData
+                    'fileUrl' => 'https://admin.4x1.pt/uploads/recibos/' . $filename
                 ];
 
                 $ch = curl_init();
