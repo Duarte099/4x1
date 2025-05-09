@@ -246,7 +246,6 @@
         if ($notificacao == 0) {
             notificacao('success', 'Alunos notificados com sucesso!');
         }
-        header('horario.php');
     }
     $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND notHorario = 1 AND defNotHorario = 1 AND id = 14;";
     $result1 = $con->query($sql1);
@@ -293,6 +292,6 @@
             }
             curl_close($ch);
         }
-        header('horario.php');
     }
+    header('horario.php');
 ?>
