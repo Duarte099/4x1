@@ -7,7 +7,7 @@
         exit();
     }
 
-    require __DIR__ . "/vendor/autoload.php";
+    require "/home/xpt123/vendor/autoload.php";
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
