@@ -20,9 +20,6 @@
                             $result3->execute();
                         }
                     }
-                    else {
-                        echo "Ainda não";
-                    }
                 }
             }
         }
