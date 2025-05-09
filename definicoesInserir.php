@@ -31,7 +31,7 @@
                 }
             }
             elseif ($_SESSION['tipo'] == "administrador") {
-                for ($i=1; $i < 4; $i++) { 
+                for ($i=1; $i < 5; $i++) { 
                     if (isset($_POST['cronjob_' . $i]) && $_POST['cronjob_' . $i] == "on") {
                         $cronjob = 1;
                     } else {
