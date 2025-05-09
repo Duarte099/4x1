@@ -91,21 +91,16 @@
                     <tbody>';
 
                 $diasSemana = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
-                $horas = [
-                    '14:00', '14:30',
-                    '15:00', '15:30',
-                    '16:00', '16:30',
-                    '17:00', '17:30',
-                    '18:00', '18:30',
-                    '19:00', '19:30'
-                ];
 
                 $horasSabado = [
                     '09:00', '09:30',
                     '10:00', '10:30',
                     '11:00', '11:30',
                     '12:00', '12:30',
-                    '13:00',
+                    '13:00'
+                ];
+
+                $horasSemana = [
                     '14:00', '14:30',
                     '15:00', '15:30',
                     '16:00', '16:30',
@@ -114,7 +109,43 @@
                     '19:00', '19:30'
                 ];
 
-                foreach ($horas as $hora) {
+                // Primeira parte - só sábado
+                foreach ($horasSabado as $hora) {
+                    $html .= "<tr>";
+                    $html .= "<td></td>"; // sem hora no início
+                    foreach ($diasSemana as $_) {
+                        $html .= "<td></td>"; // células vazias para dias da semana
+                    }
+                    $html .= "<td><strong>$hora</strong></td>"; // hora antes de sábado
+
+                    // Coluna do sábado
+                    $stmt = $con->prepare("SELECT h.id, h.sala, p.nome, d.nome as nomeDisc, p.nome as professor
+                        FROM horario h
+                        INNER JOIN professores p ON h.idProfessor = p.id
+                        INNER JOIN horario_alunos ha ON ha.idHorario = h.id
+                        INNER JOIN disciplinas d ON h.idDisciplina = d.id
+                        WHERE ha.idAluno = ? AND h.dia = 'sabado' AND h.hora = ?");
+                    $stmt->bind_param("is", $row1['id'], $hora);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows > 0) {
+                        $rowHorario = $result->fetch_assoc();
+                        $sala = htmlspecialchars($rowHorario['sala']);
+                        $disciplina = htmlspecialchars($rowHorario['nomeDisc']);
+                        $professor = htmlspecialchars($rowHorario['professor']);
+
+                        $html .= "<td style='background-color: #e8f5e9;'><strong>$disciplina</strong><br>$professor<br><em>Sala: $sala</em></td>";
+                    } else {
+                        $html .= "<td></td>";
+                    }
+
+                    $stmt->close();
+                    $html .= "</tr>";
+                }
+
+                // Segunda parte - dias da semana
+                foreach ($horasSemana as $hora) {
                     $html .= "<tr>";
                     $html .= "<td><strong>$hora</strong></td>";
 
@@ -143,36 +174,8 @@
                         $stmt->close();
                     }
 
-                    $html .= "<td><strong>$hora</strong></td>";
-
-                    // Coluna do sábado
-                    if (in_array($hora, $horasSabado)) {
-                        $dia = 'sabado';
-                        $stmt = $con->prepare("SELECT h.id, h.sala, p.nome, d.nome as nomeDisc, p.nome as professor
-                            FROM horario h
-                            INNER JOIN professores p ON h.idProfessor = p.id
-                            INNER JOIN horario_alunos ha ON ha.idHorario = h.id
-                            INNER JOIN disciplinas d ON h.idDisciplina = d.id
-                            WHERE ha.idAluno = ? AND h.dia = ? AND h.hora = ?");
-                        $stmt->bind_param("iss", $row1['id'], $dia, $hora);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-
-                        if ($result->num_rows > 0) {
-                            $rowHorario = $result->fetch_assoc();
-                            $sala = htmlspecialchars($rowHorario['sala']);
-                            $disciplina = htmlspecialchars($rowHorario['nomeDisc']);
-                            $professor = htmlspecialchars($rowHorario['professor']);
-
-                            $html .= "<td style='background-color: #e8f5e9;'><strong>$disciplina</strong><br>$professor<br><em>Sala: $sala</em></td>";
-                        } else {
-                            $html .= "<td></td>";
-                        }
-
-                        $stmt->close();
-                    } else {
-                        $html .= "<td></td>";
-                    }
+                    $html .= "<td><strong>$hora</strong></td>"; // hora antes de sábado
+                    $html .= "<td></td>"; // sábado vazio
 
                     $html .= "</tr>";
                 }
