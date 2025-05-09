@@ -231,6 +231,14 @@
                                             </label>
                                         </div>
                                     </div>
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 1 1 100%;">
+                                            <label class="form-check-label" style="display: flex; align-items: center;">
+                                                <input class="form-check-input" type="checkbox" name="cronjob_4" style="margin-right: 10px;" <?php echo $cronjob[4]; ?>>
+                                                Inserir transações de despesas
+                                            </label>
+                                        </div>
+                                    </div>
                                 <?php } ?>
 
                                 <div class="form-row" style="justify-content: flex-end; margin-top: 1.5rem;">
