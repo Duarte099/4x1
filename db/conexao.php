@@ -24,6 +24,7 @@
         $cronjobSeguro = $cronjobRow[1];
         $cronjobRecibos = $cronjobRow[2];
         $cronjobNovoAnoLetivo = $cronjobRow[3];
+        $cronjobDespesas = $cronjobRow[4];
     }
 
     // Bloco de verificação de sessão (só executa se $auxLogin for false ou não definido)
