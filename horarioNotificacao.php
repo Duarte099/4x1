@@ -17,7 +17,7 @@
     $notificacao = 0;
     $contacto = "";
 
-    $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND notHorario = 1;";
+    $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND notHorario = 1 ANd id = 156;";
     $result1 = $con->query($sql1);
     if ($result1->num_rows > 0) {
         while ($row1 = $result1->fetch_assoc()) {
@@ -154,13 +154,11 @@
             $filepath = __DIR__ . "/uploads/horarios/" . $filename;
             file_put_contents($filepath, $output);
 
-            $fileData = new CURLFile($filepath);
-
             $data = [
                 'number' => $contacto,
                 'message' => $mensagem,
                 'apiKey' => '5e_Z.4y5Zo$$',
-                'file' => $fileData
+                'fileUrl' => 'https://admin.4x1.pt/uploads/horarios/' . $filename
             ];
 
             $ch = curl_init();
@@ -201,7 +199,7 @@
         }
         header('horario.php');
     }
-    $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND notHorario = 1 AND defNotHorario = 1;";
+    $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND notHorario = 1 AND defNotHorario = 1 ANd id = 14;";
     $result1 = $con->query($sql1);
     if ($result1->num_rows > 0) {
         while ($row1 = $result1->fetch_assoc()) {
