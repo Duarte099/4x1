@@ -5,7 +5,7 @@
 
     if ($cronjobNovoAnoLetivo == 1) {
         // INCREMENTAR NOVO ANO
-        $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND id = 156";
+        $sql1 = "SELECT * FROM alunos WHERE ativo = 1";
         $result1 = $con->query($sql1);
         if ($result1->num_rows > 0) {
             while ($row1 = $result1->fetch_assoc()) {

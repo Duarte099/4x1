@@ -20,7 +20,7 @@
         $nomeMes = $nomesMes[$mes];
 
         //RECIBO ALUNOS
-        $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND id = 156";
+        $sql1 = "SELECT * FROM alunos WHERE ativo = 1";
         $result1 = $con->query($sql1);
         if ($result1->num_rows >= 0) {
             while ($row1 = $result1->fetch_assoc()) {
@@ -341,7 +341,7 @@
                     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                     
                     if ($httpCode == 200) {
-                        echo 'Mensagem enviada ao aluno ' . $row1['nome'] ;
+                        
                     }
                     else {
                         echo 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . $httpCode;
@@ -372,7 +372,7 @@
         }
 
         //RECIBO PROFESSORES
-        $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND id = 14";
+        $sql1 = "SELECT * FROM professores WHERE ativo = 1";
         $result1 = $con->query($sql1);
         if ($result1->num_rows >= 0) {
             while ($row1 = $result1->fetch_assoc()) {
