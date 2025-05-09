@@ -47,78 +47,139 @@
 
             // Gerar o conteúdo HTML do PDF
             $html = '
-                <head>
-                    <meta charset="UTF-8">
-                    <style>
-                        body {
-                            font-family: DejaVu Sans, sans-serif;
-                            font-size: 12px;
-                        }
-                        table {
-                            border-collapse: collapse;
-                            width: 100%;
-                        }
-                        th, td {
-                            border: 1px solid black;
-                            text-align: center;
-                            padding: 8px;
-                        }
-                        th {
-                            background-color: #f2f2f2;
-                        }
-                        td {
-                            height: 40px;
-                        }
-                    </style>
-                </head>
-                <body>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body {
+                        font-family: DejaVu Sans, sans-serif;
+                        font-size: 12px;
+                    }
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                        margin-top: 30px;
+                    }
+                    th, td {
+                        border: 1px solid black;
+                        text-align: center;
+                        padding: 8px;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                    td {
+                        height: 40px;
+                    }
+                </style>
+            </head>
+            <body>
 
-                <h2 style="text-align: center;">Horário Semanal</h2>
+            <h2 style="text-align: center;">Horário Semanal (Segunda a Sexta)</h2>
 
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Segunda</th>
+                        <th>Terça</th>
+                        <th>Quarta</th>
+                        <th>Quinta</th>
+                        <th>Sexta</th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+            $diasSemana = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
+            $horasSemana = [
+                '14:00', '14:30',
+                '15:00', '15:30',
+                '16:00', '16:30',
+                '17:00', '17:30',
+                '18:00', '18:30',
+                '19:00', '19:30'
+            ];
+
+            foreach ($horasSemana as $hora) {
+                $html .= "<tr>";
+                $html .= "<td><strong>$hora</strong></td>";
+
+                foreach ($diasSemana as $dia) {
+                    $stmt = $con->prepare("SELECT h.id, h.sala, p.nome, d.nome as nomeDisc, p.nome as professor
+                        FROM horario h
+                        INNER JOIN professores p ON h.idProfessor = p.id
+                        INNER JOIN horario_alunos ha ON ha.idHorario = h.id
+                        INNER JOIN disciplinas d ON h.idDisciplina = d.id
+                        WHERE ha.idAluno = ? AND h.dia = ? AND h.hora = ?");
+                    $stmt->bind_param("iss", $row1['id'], $dia, $hora);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows > 0) {
+                        $rowHorario = $result->fetch_assoc();
+                        $sala = htmlspecialchars($rowHorario['sala']);
+                        $disciplina = htmlspecialchars($rowHorario['nomeDisc']);
+                        $professor = htmlspecialchars($rowHorario['professor']);
+
+                        $html .= "<td style='background-color: #e8f5e9;'><strong>$disciplina</strong><br>$professor<br><em>Sala: $sala</em></td>";
+                    } else {
+                        $html .= "<td></td>";
+                    }
+
+                    $stmt->close();
+                }
+
+                $html .= "</tr>";
+            }
+
+            $html .= '
+                </tbody>
+            </table>';
+
+            // Verificar se o aluno tem aulas ao sábado
+            $horasSabado = [
+                '09:00', '09:30',
+                '10:00', '10:30',
+                '11:00', '11:30',
+                '12:00', '12:30',
+                '13:00'
+            ];
+
+            $temSabado = false;
+            foreach ($horasSabado as $hora) {
+                $stmt = $con->prepare("SELECT h.id FROM horario h
+                    INNER JOIN horario_alunos ha ON ha.idHorario = h.id
+                    WHERE ha.idAluno = ? AND h.dia = 'sabado' AND h.hora = ?");
+                $stmt->bind_param("is", $row1['id'], $hora);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    $temSabado = true;
+                    break;
+                }
+                $stmt->close();
+            }
+
+            // Se tiver aulas ao sábado, mostrar o horário
+            if ($temSabado) {
+                $html .= '
+                <h2 style="text-align: center;">Horário de Sábado</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>Hora</th>
-                            <th>Segunda</th>
-                            <th>Terça</th>
-                            <th>Quarta</th>
-                            <th>Quinta</th>
-                            <th>Sexta</th>
-                            <th>Hora</th>
-                            <th>Sábado</th>
-                        </tr>
-                    </thead>
-                    <tbody>';
+                            <th>Hora</th>';
 
-                $diasSemana = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
-
-                $horasSabado = [
-                    '09:00', '09:30',
-                    '10:00', '10:30',
-                    '11:00', '11:30',
-                    '12:00', '12:30',
-                    '13:00'
-                ];
-
-                $horasSemana = [
-                    '14:00', '14:30',
-                    '15:00', '15:30',
-                    '16:00', '16:30',
-                    '17:00', '17:30',
-                    '18:00', '18:30',
-                    '19:00', '19:30'
-                ];
-
-                // Primeira parte - só sábado
                 foreach ($horasSabado as $hora) {
-                    $html .= "<tr>";
-                    $html .= "<td></td>"; // sem hora no início
-                    foreach ($diasSemana as $_) {
-                        $html .= "<td></td>"; // células vazias para dias da semana
-                    }
-                    $html .= "<td><strong>$hora</strong></td>"; // hora antes de sábado
+                    $html .= "<th>$hora</th>";
+                }
 
-                    // Coluna do sábado
+                $html .= '</tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sábado</strong></td>';
+
+                foreach ($horasSabado as $hora) {
                     $stmt = $con->prepare("SELECT h.id, h.sala, p.nome, d.nome as nomeDisc, p.nome as professor
                         FROM horario h
                         INNER JOIN professores p ON h.idProfessor = p.id
@@ -141,51 +202,17 @@
                     }
 
                     $stmt->close();
-                    $html .= "</tr>";
-                }
-
-                // Segunda parte - dias da semana
-                foreach ($horasSemana as $hora) {
-                    $html .= "<tr>";
-                    $html .= "<td><strong>$hora</strong></td>";
-
-                    foreach ($diasSemana as $dia) {
-                        $stmt = $con->prepare("SELECT h.id, h.sala, p.nome, d.nome as nomeDisc, p.nome as professor
-                            FROM horario h
-                            INNER JOIN professores p ON h.idProfessor = p.id
-                            INNER JOIN horario_alunos ha ON ha.idHorario = h.id
-                            INNER JOIN disciplinas d ON h.idDisciplina = d.id
-                            WHERE ha.idAluno = ? AND h.dia = ? AND h.hora = ?");
-                        $stmt->bind_param("iss", $row1['id'], $dia, $hora);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-
-                        if ($result->num_rows > 0) {
-                            $rowHorario = $result->fetch_assoc();
-                            $sala = htmlspecialchars($rowHorario['sala']);
-                            $disciplina = htmlspecialchars($rowHorario['nomeDisc']);
-                            $professor = htmlspecialchars($rowHorario['professor']);
-
-                            $html .= "<td style='background-color: #e8f5e9;'><strong>$disciplina</strong><br>$professor<br><em>Sala: $sala</em></td>";
-                        } else {
-                            $html .= "<td></td>";
-                        }
-
-                        $stmt->close();
-                    }
-
-                    $html .= "<td><strong>$hora</strong></td>"; // hora antes de sábado
-                    $html .= "<td></td>"; // sábado vazio
-
-                    $html .= "</tr>";
                 }
 
                 $html .= '
+                        </tr>
                     </tbody>
-                </table>
+                </table>';
+            }
 
-                </body>
-                </html>';
+            $html .= '
+            </body>
+            </html>';
 
             // Carregar o HTML no Dompdf
             $dompdf->loadHtml($html);
