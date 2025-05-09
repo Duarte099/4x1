@@ -2,7 +2,7 @@
     $auxLogin = true;
     $cronjob = true;
     include('/home/xpt123/admin/db/conexao.php');
-    require "/home/xpt123/cronJobs/vendor/autoload.php";
+    require "/home/xpt123/vendor/autoload.php";
 
     use Dompdf\Dompdf;
     use Dompdf\Options;

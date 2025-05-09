@@ -9,7 +9,7 @@
     $cronjob = true;
     include('/home/xpt123/admin/db/conexao.php');
 
-    require '/home/xpt123/cronJobs/vendor/autoload.php';
+    require '/home/xpt123/vendor/autoload.php';
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
@@ -36,7 +36,7 @@
          * Render the PHP template before passing it to Dompdf
          */
         ob_start();
-        require '/home/xpt123/cronJobs/scriptSeguroPdf.php';
+        require '/home/xpt123/scriptSeguroPdf.php';
         $html = ob_get_clean();
 
         $dompdf->loadHtml($html);
@@ -54,9 +54,9 @@
         $output = $dompdf->output();
         file_put_contents("/home/xpt123/admin/uploads/seguro/listaAlunosSeguro_" . date("d-m-y") . ".pdf", $output);
 
-        require '/home/xpt123/cronJobs/PHPMailer/src/Exception.php';
-        require '/home/xpt123/cronJobs/PHPMailer/src/PHPMailer.php';
-        require '/home/xpt123/cronJobs/PHPMailer/src/SMTP.php';
+        require '/home/xpt123/PHPMailer/src/Exception.php';
+        require '/home/xpt123/PHPMailer/src/PHPMailer.php';
+        require '/home/xpt123/PHPMailer/src/SMTP.php';
 
         $mail = new PHPMailer(true);
 
