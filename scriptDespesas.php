@@ -11,7 +11,7 @@
             if ($result2->num_rows > 0) {
                 while ($row2 = $result2->fetch_assoc()) {
                     if ($row2['mes'] == date('n')) {
-                        $sql3 = "INSERT INTO `transacoes`('idCategoria', 'descricao', 'valor') VALUES (?, ?, ?);";
+                        $sql3 = "INSERT INTO `transacoes` (`idCategoria`, `descricao`, `valor`) VALUES (?, ?, ?);";
                         $result3 = $con->prepare($sql3);
                         if ($result3) {
                             $result3->bind_param("iss", $categoria, $row1['despesa'], $row1['valor']);
