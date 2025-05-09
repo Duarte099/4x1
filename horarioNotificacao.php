@@ -7,7 +7,7 @@
         exit();
     }
 
-    require __DIR__ . "/vendor/autoload.php";
+    require "/home/xpt123/vendor/autoload.php";
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
@@ -17,21 +17,21 @@
     $notificacao = 0;
     $contacto = "";
 
-    $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND notHorario = 1 ANd id = 156;";
+    $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND notHorario = 1;";
     $result1 = $con->query($sql1);
     if ($result1->num_rows > 0) {
         while ($row1 = $result1->fetch_assoc()) {
             if (!empty($row1['contacto']) && ($row1['ano'] > 4 || $row1['ano'] == 0)) {
                 $contacto = $row1['contacto'];
-                $mensagem = "*Olá!* 👋\n\nO teu horário foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacta a diretora pedagógica:\n📞 *966 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+                $mensagem = "*Olá!* 👋\n\nO teu horário foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacta a diretora pedagógica:\n📞 *966 539 965*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
             }
             else if (!empty($row1['tlmMae'])){
                 $contacto = $row1['tlmMae'];
-                $mensagem = "*Olá!* 👋\n\nO horário do aluno *" . $row1['nome'] . "* foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+                $mensagem = "*Olá!* 👋\n\nO horário do aluno *" . $row1['nome'] . "* foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 539 965*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
             }
             elseif (!empty($row1['tlmPai'])) {
                 $contacto = $row1['tlmPai'];
-                $mensagem = "*Olá!* 👋\n\nO horário do aluno *" . $row1['nome'] . "* foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+                $mensagem = "*Olá!* 👋\n\nO horário do aluno *" . $row1['nome'] . "* foi atualizado.\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 539 965*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
             }
             $contacto = str_replace("+", "", $contacto);
 
@@ -43,9 +43,7 @@
             $dompdf->setPaper("A4", "landscape");
 
             // Definir os dias e horas
-            $dias = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
             $salas = ['azul', 'branca', 'rosa', 'verde', 'bancada', 'biblioteca'];
-            $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30'];
 
             // Gerar o conteúdo HTML do PDF
             $html = '
@@ -59,6 +57,7 @@
                     table {
                         border-collapse: collapse;
                         width: 100%;
+                        margin-top: 30px;
                     }
                     th, td {
                         border: 1px solid black;
@@ -75,7 +74,7 @@
             </head>
             <body>
 
-            <h2 style="text-align: center;">Horário Semanal</h2>
+            <h2 style="text-align: center;">Horário Semanal (Segunda a Sexta)</h2>
 
             <table>
                 <thead>
@@ -86,55 +85,132 @@
                         <th>Quarta</th>
                         <th>Quinta</th>
                         <th>Sexta</th>
-                        <th>Sábado</th>
                     </tr>
                 </thead>
                 <tbody>';
 
-                $diasSemana = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
-                $horas = [
-                    '14:00', '14:30',
-                    '15:00', '15:30',
-                    '16:00', '16:30',
-                    '17:00', '17:30',
-                    '18:00', '18:30',
-                    '19:00', '19:30'
-                ];
-                
-                foreach ($horas as $hora) {
-                    $html .= "<tr>";
-                    $html .= "<td><strong>$hora</strong></td>";
-                
-                    foreach ($diasSemana as $dia) {
-                        $stmt = $con->prepare("SELECT h.id, h.sala, p.nome as professor
-                            FROM horario h
-                            INNER JOIN professores p ON h.idProfessor = p.id
-                            INNER JOIN horario_alunos ha ON ha.idHorario = h.id
-                            WHERE ha.idAluno = ? AND h.dia = ? AND h.hora = ?");
-                        $stmt->bind_param("iss", $row1['id'], $dia, $hora);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                
-                        if ($result->num_rows > 0) {
-                            $rowHorario = $result->fetch_assoc();
-                            $sala = htmlspecialchars($rowHorario['sala']);
-                            $professor = htmlspecialchars($rowHorario['professor']);
-                
-                            $html .= "<td style='background-color: #e8f5e9;'><strong>Matematica</strong><br>$professor<br><em>Sala: $sala</em></td>";
-                        } else {
-                            $html .= "<td></td>";
-                        }
-                
-                        $stmt->close();
+            $diasSemana = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
+            $horasSemana = [
+                '14:00', '14:30',
+                '15:00', '15:30',
+                '16:00', '16:30',
+                '17:00', '17:30',
+                '18:00', '18:30',
+                '19:00', '19:30'
+            ];
+
+            foreach ($horasSemana as $hora) {
+                $html .= "<tr>";
+                $html .= "<td><strong>$hora</strong></td>";
+
+                foreach ($diasSemana as $dia) {
+                    $stmt = $con->prepare("SELECT h.id, h.sala, p.nome, d.nome as nomeDisc, p.nome as professor
+                        FROM horario h
+                        INNER JOIN professores p ON h.idProfessor = p.id
+                        INNER JOIN horario_alunos ha ON ha.idHorario = h.id
+                        INNER JOIN disciplinas d ON h.idDisciplina = d.id
+                        WHERE ha.idAluno = ? AND h.dia = ? AND h.hora = ?");
+                    $stmt->bind_param("iss", $row1['id'], $dia, $hora);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows > 0) {
+                        $rowHorario = $result->fetch_assoc();
+                        $sala = htmlspecialchars($rowHorario['sala']);
+                        $disciplina = htmlspecialchars($rowHorario['nomeDisc']);
+                        $professor = htmlspecialchars($rowHorario['professor']);
+
+                        $html .= "<td style='background-color: #e8f5e9;'><strong>$disciplina</strong><br>$professor<br><em>Sala: $sala</em></td>";
+                    } else {
+                        $html .= "<td></td>";
                     }
-                
-                    $html .= "</tr>";
+
+                    $stmt->close();
                 }
+
+                $html .= "</tr>";
+            }
 
             $html .= '
                 </tbody>
-            </table>
+            </table>';
 
+            // Verificar se o aluno tem aulas ao sábado
+            $horasSabado = [
+                '09:00', '09:30',
+                '10:00', '10:30',
+                '11:00', '11:30',
+                '12:00', '12:30',
+                '13:00'
+            ];
+
+            $temSabado = false;
+            foreach ($horasSabado as $hora) {
+                $stmt = $con->prepare("SELECT h.id FROM horario h
+                    INNER JOIN horario_alunos ha ON ha.idHorario = h.id
+                    WHERE ha.idAluno = ? AND h.dia = 'sabado' AND h.hora = ?");
+                $stmt->bind_param("is", $row1['id'], $hora);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    $temSabado = true;
+                    break;
+                }
+                $stmt->close();
+            }
+
+            // Se tiver aulas ao sábado, mostrar o horário
+            if ($temSabado) {
+                $html .= '
+                <h2 style="text-align: center;">Horário de Sábado</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hora</th>';
+
+                foreach ($horasSabado as $hora) {
+                    $html .= "<th>$hora</th>";
+                }
+
+                $html .= '</tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sábado</strong></td>';
+
+                foreach ($horasSabado as $hora) {
+                    $stmt = $con->prepare("SELECT h.id, h.sala, p.nome, d.nome as nomeDisc, p.nome as professor
+                        FROM horario h
+                        INNER JOIN professores p ON h.idProfessor = p.id
+                        INNER JOIN horario_alunos ha ON ha.idHorario = h.id
+                        INNER JOIN disciplinas d ON h.idDisciplina = d.id
+                        WHERE ha.idAluno = ? AND h.dia = 'sabado' AND h.hora = ?");
+                    $stmt->bind_param("is", $row1['id'], $hora);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows > 0) {
+                        $rowHorario = $result->fetch_assoc();
+                        $sala = htmlspecialchars($rowHorario['sala']);
+                        $disciplina = htmlspecialchars($rowHorario['nomeDisc']);
+                        $professor = htmlspecialchars($rowHorario['professor']);
+
+                        $html .= "<td style='background-color: #e8f5e9;'><strong>$disciplina</strong><br>$professor<br><em>Sala: $sala</em></td>";
+                    } else {
+                        $html .= "<td></td>";
+                    }
+
+                    $stmt->close();
+                }
+
+                $html .= '
+                        </tr>
+                    </tbody>
+                </table>';
+            }
+
+            $html .= '
             </body>
             </html>';
 
@@ -197,14 +273,13 @@
         if ($notificacao == 0) {
             notificacao('success', 'Alunos notificados com sucesso!');
         }
-        header('horario.php');
     }
-    $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND notHorario = 1 AND defNotHorario = 1 ANd id = 14;";
+    $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND notHorario = 1 AND defNotHorario = 1;";
     $result1 = $con->query($sql1);
     if ($result1->num_rows > 0) {
         while ($row1 = $result1->fetch_assoc()) {
             $contacto = str_replace("+", "", $row1['contacto']);
-            $mensagem = "*Olá!* 👋\n\nO seu horário foi atualizado - https://admin.4x1.pt/horario.php .\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 915 259*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+            $mensagem = "*Olá!* 👋\n\nO seu horário foi atualizado - https://admin.4x1.pt/horario.php .\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 539 965*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
             
             $data = [
                 'number' => $contacto,
@@ -244,6 +319,6 @@
             }
             curl_close($ch);
         }
-        header('horario.php');
     }
+    header('Location: horario.php');
 ?>
