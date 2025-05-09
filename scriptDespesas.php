@@ -1,7 +1,7 @@
 <?php
     $auxLogin = true;
     $cronjob = true;
-    $categoria = 3;
+    $categoria = 1;
     include('/home/xpt123/admin/db/conexao.php');
 
     $sql1 = "SELECT * FROM despesas";
