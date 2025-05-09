@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 08-05-2025 a las 08:43:29
+-- Tiempo de generación: 09-05-2025 a las 07:17:35
 -- Versión del servidor: 10.6.22-MariaDB
 -- Versión de PHP: 8.3.20
 
@@ -92,119 +92,118 @@ CREATE TABLE `alunos` (
 --
 
 INSERT INTO `alunos` (`id`, `balancoGrupo`, `balancoIndividual`, `nome`, `morada`, `localidade`, `codigoPostal`, `nif`, `dataNascimento`, `email`, `contacto`, `escola`, `ano`, `curso`, `turma`, `horasGrupo`, `horasIndividual`, `transporte`, `nomeMae`, `tlmMae`, `nomePai`, `tlmPai`, `modalidade`, `notHorario`, `ativo`, `dataInscricao`) VALUES
-(1, 0.00, 0.00, 'LEONARDO LOPES GOMES', 'Rua de Valinhas, 272', 'Regilde', '4815-621', '0', '2006-07-07', '', '+351956575995', '', 12, '', '', 8, 0, 0, 'Vera Marciana Teixeira Lopes', '+351938459221', '', '', '', 0, 1, NULL),
-(4, 0.00, 0.00, 'ANTÓNIO MONTEIRO COSTA', 'Calçada Jaime Gomes Guimarães, n111', 'Vila Nova do Campo', '4795-516', '0', '2015-04-11', '', '', '', 4, '', '', 16, 0, 0, 'Daniela Monteiro', '+351918177233', '', '', '', 0, 1, NULL),
-(5, 0.00, 0.00, 'CARLA ISABEL SILVA RIBEIRO', 'Rua José Moreira Araújo', 'Vila das Aves', '4795-081', '0', '2016-12-05', '', '', 'Bom Nome', 3, '', '', 16, 0, 0, 'Carla Cristina Abreu Silva', '+351912308573', '', '', '1 x por semana', 0, 1, NULL),
-(6, 0.00, 0.00, 'DIOGO MARTINS GONÇALVES', 'Rua Sra do Rosário, n24', 'São Tomé de Negrelos', '4795-701', '0', '2014-12-01', '', '', '', 4, '', '', 16, 4, 0, 'Rui Miguel Santos Gonçalves', '+351914089305', '', '', '', 0, 1, NULL),
-(7, 0.00, 0.00, 'FRANCISCO GUIMARÃES MONTEIRO', 'Rua do Mourigo, n22 R/ch', 'Vila Nova do Campo', '4795-516', '0', '2015-05-29', '', '', '', 4, '', '', 16, 0, 0, 'Ariana Monteiro', '+351919124722', '', '', '', 0, 1, NULL),
-(8, 0.00, 0.00, 'ÍRIS MARIA PIMENTA ABREU MACHADO', 'R. António Aberu Machado, n499', 'Vila das Aves', '4795-034', '0', '2016-01-09', '', '', 'Escola do Bom Nome', 3, '', '', 16, 0, 0, 'Cassilda Isabel Pimenta Abreu', '+351916504199', 'Rui Jorge Ribeiro Machado', '+351917683550', '', 0, 1, NULL),
-(9, 0.00, 0.00, 'ÍRIS SANTOS FERREIRA', 'Rua St. André, n354', 'Vila das Aves', '4795-113', '288027680', '2016-01-08', '', '', 'Bom Nome', 3, '', 'E', 16, 0, 0, 'Laura da Conceição Canellhas Santos', '+351965540489', '', '+351967828379', '4 x por semana', 0, 1, NULL),
-(10, 0.00, 0.00, 'LEONOR GUIMARÃES MONTEIRO', 'Rua do Mourigo, n22 R/ch', 'Vila Nova do Campo', '4795-516', '0', '2016-12-21', '', '', '', 2, '', '', 16, 0, 0, 'Ariana Monteiro', '+351919124722', '', '', '', 0, 1, NULL),
-(11, 0.00, 0.00, 'LUNA FIGUEIRAS FREITAS', 'Estrada nacional 105, n728', 'Lordelo - GMR', '4785-025', '0', '2016-02-20', '', '', 'Carreiro', 3, '', '', 12, 0, 0, 'Mónica Alexandra da Silva Figueiras', '+351968610806', '', '', '2 x por semana', 0, 1, NULL),
-(12, 0.00, 0.00, 'MARGARIDA MENDES DA COSTA', 'Praceta das Fontainhas, n3 3Dt', 'Vila das Aves', '4795-021', '0', '2016-08-07', '', '+351912860138', 'Escola do Bom Nome', 3, '', '', 16, 0, 0, 'Sara Cristina Mendes Pedrosa', '+351916710987', '', '', '', 0, 1, NULL),
+(1, 0.00, 0.00, 'LEONARDO LOPES GOMES', 'Rua de Valinhas, 272', 'Regilde', '4815-621', '0', '2006-07-07', '', '+351956575995', '', 13, '', '', 8, 0, 0, 'Vera Marciana Teixeira Lopes', '+351938459221', '', '', '', 0, 1, NULL),
+(4, 0.00, 0.00, 'ANTÓNIO MONTEIRO COSTA', 'Calçada Jaime Gomes Guimarães, n111', 'Vila Nova do Campo', '4795-516', '0', '2015-04-11', '', '', '', 5, '', '', 16, 0, 0, 'Daniela Monteiro', '+351918177233', '', '', '', 0, 1, NULL),
+(5, 0.00, 0.00, 'CARLA ISABEL SILVA RIBEIRO', 'Rua José Moreira Araújo', 'Vila das Aves', '4795-081', '0', '2016-12-05', '', '', 'Bom Nome', 4, '', '', 16, 0, 0, 'Carla Cristina Abreu Silva', '+351912308573', '', '', '1 x por semana', 0, 1, NULL),
+(6, 0.00, 0.00, 'DIOGO MARTINS GONÇALVES', 'Rua Sra do Rosário, n24', 'São Tomé de Negrelos', '4795-701', '0', '2014-12-01', '', '', '', 5, '', '', 16, 4, 0, 'Rui Miguel Santos Gonçalves', '+351914089305', '', '', '', 0, 1, NULL),
+(7, 0.00, 0.00, 'FRANCISCO GUIMARÃES MONTEIRO', 'Rua do Mourigo, n22 R/ch', 'Vila Nova do Campo', '4795-516', '0', '2015-05-29', '', '', '', 5, '', '', 16, 0, 0, 'Ariana Monteiro', '+351919124722', '', '', '', 0, 1, NULL),
+(8, 0.00, 0.00, 'ÍRIS MARIA PIMENTA ABREU MACHADO', 'R. António Aberu Machado, n499', 'Vila das Aves', '4795-034', '0', '2016-01-09', '', '', 'Escola do Bom Nome', 4, '', '', 16, 0, 0, 'Cassilda Isabel Pimenta Abreu', '+351916504199', 'Rui Jorge Ribeiro Machado', '+351917683550', '', 0, 1, NULL),
+(9, 0.00, 0.00, 'ÍRIS SANTOS FERREIRA', 'Rua St. André, n354', 'Vila das Aves', '4795-113', '288027680', '2016-01-08', '', '', 'Bom Nome', 4, '', 'E', 16, 0, 0, 'Laura da Conceição Canellhas Santos', '+351965540489', '', '+351967828379', '4 x por semana', 0, 1, NULL),
+(10, 0.00, 0.00, 'LEONOR GUIMARÃES MONTEIRO', 'Rua do Mourigo, n22 R/ch', 'Vila Nova do Campo', '4795-516', '0', '2016-12-21', '', '', '', 3, '', '', 16, 0, 0, 'Ariana Monteiro', '+351919124722', '', '', '', 0, 1, NULL),
+(11, 0.00, 0.00, 'LUNA FIGUEIRAS FREITAS', 'Estrada nacional 105, n728', 'Lordelo - GMR', '4785-025', '0', '2016-02-20', '', '', 'Carreiro', 4, '', '', 12, 0, 0, 'Mónica Alexandra da Silva Figueiras', '+351968610806', '', '', '2 x por semana', 0, 1, NULL),
+(12, 0.00, 0.00, 'MARGARIDA MENDES DA COSTA', 'Praceta das Fontainhas, n3 3Dt', 'Vila das Aves', '4795-021', '0', '2016-08-07', '', '+351912860138', 'Escola do Bom Nome', 4, '', '', 16, 0, 0, 'Sara Cristina Mendes Pedrosa', '+351916710987', '', '', '', 0, 1, NULL),
 (13, 0.00, 0.00, 'MARIA DA SILVA COSTA', 'Rua da Indústria n375', 'Rebordões', '4795-207', '0', '2017-03-16', '', '', 'Escola da Ponte', 2, '', '', 0, 0, 0, 'Patrícia do Rosário Fernandes da Silva', '+351918308602', '', '', '', 0, 0, NULL),
-(14, 0.00, 0.00, 'MARIANA GONÇALVES COSTA', 'Rua Antero de Quental n143', 'Vila das Aves', '4795-033', '0', '2016-11-08', '', '', 'Bairro', 3, '', 'G3A', 8, 0, 0, 'Ana Gonçalves', '+351915764995', '', '', '2 x por semana', 0, 1, NULL),
-(15, 0.00, 0.00, 'MATILDE GONÇALVES ARAÚJO', 'Rua dos Aves n15', 'Vila das Aves', '4795-057', '0', '2018-01-04', '', '+', '', 0, '', '', 6, 0, 0, 'Sónia Sofia Martins Gonçalves', '++351918141603', '', '+', '', 0, 1, '0000-00-00'),
-(16, 0.00, 0.00, 'NAYRA CASTELO OLIVEIRA', 'Rua Dr. Joaquim Santos Simões, n3', 'Lordelo - GMR', '48155-74', '0', '2016-06-18', '', '', 'Escola Básica do Carreiro', 2, '', '', 8, 0, 0, '', '', 'Miguel da Silva', '+351965039924', '', 0, 1, NULL),
-(17, 0.00, 0.00, 'SANTIAGO FREITAS MARTINS CARNEIRO', 'Rua do Brejo, n178', 'Santo Tirso', '4825-254', '0', '2017-08-16', '', '', 'Escla Básica de Quinchães', 1, '', '', 4, 4, 0, 'Sylvie Freitas Fernandes', '+351932735468', '', '', '', 0, 1, NULL),
-(18, 0.00, 0.00, 'SANTIAGO LEITE MARQUES', 'Rua Monte de Cima 195 B', 'Guardizela - GMR', '4785-025', '0', '2018-10-22', '', '', 'Bom Nome', 1, '', 'B', 8, 0, 0, 'Elisabete Castro Leite', '+351912491531', '', '', '', 0, 1, NULL),
+(14, 0.00, 0.00, 'MARIANA GONÇALVES COSTA', 'Rua Antero de Quental n143', 'Vila das Aves', '4795-033', '0', '2016-11-08', '', '', 'Bairro', 4, '', 'G3A', 8, 0, 0, 'Ana Gonçalves', '+351915764995', '', '', '2 x por semana', 0, 1, NULL),
+(15, 0.00, 0.00, 'MATILDE GONÇALVES ARAÚJO', 'Rua dos Aves n15', 'Vila das Aves', '4795-057', '0', '2018-01-04', '', '+', '', 1, '', '', 6, 0, 0, 'Sónia Sofia Martins Gonçalves', '++351918141603', '', '+', '', 0, 1, '0000-00-00'),
+(16, 0.00, 0.00, 'NAYRA CASTELO OLIVEIRA', 'Rua Dr. Joaquim Santos Simões, n3', 'Lordelo - GMR', '48155-74', '0', '2016-06-18', '', '', 'Escola Básica do Carreiro', 3, '', '', 8, 0, 0, '', '', 'Miguel da Silva', '+351965039924', '', 0, 1, NULL),
+(17, 0.00, 0.00, 'SANTIAGO FREITAS MARTINS CARNEIRO', 'Rua do Brejo, n178', 'Santo Tirso', '4825-254', '0', '2017-08-16', '', '', 'Escla Básica de Quinchães', 2, '', '', 4, 4, 0, 'Sylvie Freitas Fernandes', '+351932735468', '', '', '', 0, 1, NULL),
+(18, 0.00, 0.00, 'SANTIAGO LEITE MARQUES', 'Rua Monte de Cima 195 B', 'Guardizela - GMR', '4785-025', '0', '2018-10-22', '', '', 'Bom Nome', 2, '', 'B', 8, 0, 0, 'Elisabete Castro Leite', '+351912491531', '', '', '', 0, 1, NULL),
 (19, 0.00, 0.00, 'TOMÁS LOPES COSTA', 'Praça do Bom Nome, Ent 6 - 3Esq', 'São Tomé Negrelos', '4795-662', '0', '2015-05-12', 'patriciaclopes23@gmail.com', '', 'Escola de Bairro', 4, '', 'GB', 0, 0, 0, 'Patrícia Carneiro Lopes', '+351910447006', '', '', '', 0, 0, NULL),
-(20, 0.00, 0.00, 'ALESSIA CHIARA CIFELLI', 'Travessa da Carreira, n133', 'Vila das Aves', '4795-', '0', '2014-05-06', '', '', 'Escola de Ave', 5, '', '', 12, 0, 0, 'Vanessa Andreia Gomes Lemos', '+351913198140', '', '', '', 0, 1, NULL),
-(21, 0.00, 0.00, 'ANA FRANCISCA OLIVEIRA MENDES DA SILVA', 'Rua das Escolas, n4361', 'Guardizela - GMR', '4765-496', '0', '2013-10-21', '', '', '', 6, '', '', 12, 0, 1, 'Maia Goreti Gonçalves Oliveira da Silva', '+351991550683', 'Pedro Silva', '', '3 x por semana', 0, 1, NULL),
-(22, 0.00, 0.00, 'DINIS MANUEL SOUSA PACHECO', 'Rua São José, n280 1andar', 'Vila das Aves', '4785-000', '0', '2013-09-22', '', '', 'EB 2, 3 de Vila das Aves', 6, '', 'A', 12, 0, 0, '', '', 'Alexandre Manuel Ferreira Pacheco', '+351914576368', '', 0, 1, NULL),
-(23, 0.00, 0.00, 'FRANCISCO DUARTE PINTO GOMES', 'Rua José Pacheco n63', 'S. Tomé de Negrelos', '4795-641', '0', '2013-10-12', '', '', '', 6, '', '', 12, 0, 0, 'Natália de Jesus Ferreira Pinto', '+351916093982', '', '', '', 0, 1, NULL),
-(24, 0.00, 0.00, 'ÍRIS FERREIRA COELHO', 'Rua Santa Clara n 138', 'Vila das Aves', '4795-112', '271666838', '2014-08-19', '', '', '', 5, '', '', 12, 0, 0, 'Helena Isabel Pereira Gomes Ferreira', '+351939330876', '', '', '', 0, 1, NULL),
-(25, 0.00, 0.00, 'LUÍS JÚNIOR MACHADO FERREIRA', 'Rua 25 de Abril, 2 Dt', 'Vila das Aves', '4795-023', '0', '2014-02-14', '', '+351913294202', 'Escola Básica do Ave', 5, '', 'C', 12, 0, 0, 'Joana Machado', '+351918419650', '', '', '3 x por semana', 0, 1, NULL),
-(74, 0.00, 0.00, 'JOSÉ PEDRO SIMÕES ALVES', 'Rua Alto Sobrado, n203', 'Vila das Aves', '4795-031', '0', '2010-12-09', '', '+351963873310', '', 9, '', '', 8, 0, 0, 'Filipa Alves', '+351961399848', '', '', '2 x por semana', 0, 1, NULL),
-(73, 0.00, 0.00, 'JOÃO CARLOS DA SILVA COSTA', 'Rua da Indústria n375', 'Rebordões', '4795-207', '0', '2009-06-27', '', '+351930681390', 'D. Dinis', 10, 'Curso Desporto', '', 0, 0, 0, 'Patrícia do Rosário Fernandes da Silva', '+351918308602', '', '', '', 0, 1, NULL),
-(72, 0.00, 0.00, 'IRIS FONSECA CALÇADA', 'Largo Francisco M. Guimarães, Ent 80 2 E T', 'Vila das Aves', '4795-016', '0', '2012-02-18', '', '', '', 7, '', '', 12, 0, 0, 'Carla Cristina Carneiro Fonseca', '+351919083515', '', '', '', 0, 1, NULL),
-(71, 0.00, 0.00, 'HENRIQUE CARDOSO VIEIRA', 'Estrada Nacional 105, n2', 'Lordelo- GMR', '4815-135', '0', '2012-01-02', '', '+351927293387', '', 7, '', '', 12, 0, 0, 'Sandra Filipa Gomes Cardoso', '+351918980555', '', '', '', 0, 1, NULL),
-(70, 0.00, 0.00, 'AFONSO RODRIGUES SALGADO', 'Av. Monte dos Saltos, n45', 'Sequeirô - St. Tirso', '4780-641', '275127109', '2008-02-25', '', '', 'Escola Báica de Ave', 11, '', 'F', 8, 0, 0, 'Paula Francisca Couto Rodrigues', '+351932902925', '', '', '1 x por semana', 0, 1, NULL),
-(69, 0.00, 0.00, 'GONÇALO MARTINS GUIMARÃES', 'Al. Eng. João Mallen Junior, n15 1Dt.', 'Vila das Aves', '4795-910', '0', '2011-06-02', '', '+351937155288', 'EB de São Martinho', 8, '', '', 4, 0, 0, 'Florbela Martins', '+351916525051', '', '', '', 0, 1, NULL),
-(68, 0.00, 0.00, 'FRANCISCA DE CAMPOS MACHADO', 'Travessa Silva Araújo, n49 1 Esq.', 'Vila das Aves', '4795-168', '0', '2011-11-29', '', '', 'Escola Básica das Aves', 8, '', '', 12, 0, 0, 'Sandra Sofia da Silva Campos', '+351912951039', 'Jorge', '+351912337751', '', 0, 1, NULL),
-(67, 0.00, 0.00, 'DUARTE ROCHA AZEVEDO', 'Rua Parque de Jogos n50', 'Carreira - VNF', '4765-070', '0', '2010-08-31', '', '', 'ARTAVE', 9, '', '', 8, 0, 0, 'Lucia de Jesus Rocha Lopes', '+351912942692', '', '', '', 0, 1, NULL),
-(66, 0.00, 0.00, 'CAROLINA CARDOSO DE MOURA BRANDÃO FERREIRA', 'Rua Municipal de Minhava n418', 'Vila Real', '', '0', '2010-06-27', '', '+351912835629', 'Escola Básica do Ave', 9, '', '', 4, 0, 0, 'Paula Cristina Cardoso Brandão', '+351912321242', '', '', '', 0, 1, NULL),
-(65, 0.00, 0.00, 'CAMILA SILVA DIAS', 'R. D. Américo Bispo de Lamego, n980', 'Vila das Aves', '4795-842', '274760002', '2011-03-29', '', '', '', 8, '', '', 8, 0, 0, 'Carla Silva', '+351914756128', '', '', '', 0, 1, NULL),
-(64, 0.00, 0.00, 'BRUNA MARIA NICOLAU ALMEIDA', 'Urb. Vila Verde Lote 11', 'Bairro - VNF', '4765-065', '0', '2010-11-02', '', '+351932575153', '', 9, '', 'C', 0, 8, 0, 'Elsa Maria Almeida paiva', '+351932608094', '', '', '', 0, 1, NULL),
-(62, 0.00, 0.00, 'ANTHONY COSTA PINHEIRO', 'Rua Salgado 108', 'Oliveira S. Mateus - VNF', '4765-757', '0', '2010-07-16', '', '', '', 9, '', '', 12, 0, 0, 'Sofia da Costa', '+351961819591', '', '', '1 x por semana', 0, 1, NULL),
-(61, 0.00, 0.00, 'ANA RITA SILVA COSTA', 'Rua Pe. Luís Maria Ol. Nascimento n220', 'Bente VNF', '4770-060', '0', '2010-08-14', '', '+351912049298', 'Escola Padre Benjamim Salgado', 9, '', '', 8, 0, 0, 'Cecília Silva Cruz', '+351918910007', '', '', '', 0, 1, NULL),
-(60, 0.00, 0.00, 'ANA RITA DA SILVA BARROS', 'Av. Das Lameiras', 'Delães', '4765-618', '0', '2010-01-16', '', '+351912821286', 'Escola Básica 2/3 das Aves', 9, '', '', 8, 0, 0, 'Isabel Rodrigues da Silva', '+351914736567', '', '', '2 x por semana', 0, 1, NULL),
-(52, 0.00, 0.00, 'ANA INÊS FERREIRA COUTO', 'Rua da Granja, n56', 'Carreira - VNF', '4765-075', '276812301', '2010-12-18', '', '', 'Básica Vila das Aves', 9, '', '', 12, 0, 0, 'Bernadete Ferreira', '+351919872717', '', '', '', 0, 1, NULL),
-(63, 0.00, 0.00, 'BEATRIZ GONÇALVES SOUSA', 'Trav. José Dias Oliveira, n27', 'Mogege - VNF', '4770-350', '0', '2004-12-27', '', '+351912860138', 'Secundária Pe. Benjamim Salgado', 9, '', '', 12, 0, 0, 'Elisabete Carvalho', '+351915897387', 'Miguel Sousa', '+351919167714', '', 0, 1, NULL),
-(50, 0.00, 0.00, 'ALICE BARBOSA BAPTISTA', 'Rua do regalo, Bloco B 2D', 'Bairro - VNF', '4765-068', '0', '2010-05-25', '', '+351913664920', 'Escola Básica da Ponte', 9, '', '', 8, 0, 0, '', '', 'Ricardo da Silva Baptista', '+351919730329', '', 0, 1, NULL),
-(53, 0.00, 0.00, 'AFONSO OLIVEIRA TEIXEIRA', 'Rua de São Pedro, n12', 'Lordelo - GMR', '4815-176', '0', '2001-09-20', '', '+351912860138', 'Escola do Carreiro', 3, '', '', 12, 0, 0, 'Anabela Araújo Oliveira', '+351918971811', 'Marco', '', '', 0, 1, NULL),
-(49, 0.00, 0.00, 'AFONSO RODRIGUES SILVA', 'Estrada Nacional 204-5, n 2011 2Esq', 'Landim - VNF', '4770-336', '280040563', '2012-08-30', '', '+351913197182', 'Escala Básica de Ave', 7, '', '', 12, 0, 0, 'Alice Manuel Bezerra', '+351916834978', '', '', '', 0, 1, NULL),
-(75, 0.00, 0.00, 'JOSÉ PEDRO FRANCISCO CARNEIRO', 'R. de S. Tiago n15', 'Lordelo - GMR', '', '0', '2010-08-26', '', '', '', 9, '', '', 8, 0, 0, 'Luísa da Conceição da Cunha Pereira de Lima Francisco', '+351919190805', '', '', '', 0, 1, NULL),
-(76, 0.00, 0.00, 'LARA SOFIA FERREIRA COELHO', 'Rua Santa Clara n 138', 'Vila das Aves', '4795-112', '271666838', '2011-03-26', '', '', '', 8, '', '', 8, 0, 0, 'Helena Isabel Pereira Gomes Ferreira', '+351939330876', '', '', '', 0, 1, NULL),
-(77, 0.00, 0.00, 'LAURA DA SILVA MARTINS', 'Rua Gil Vicente n 1', 'Vila das Aves', '4795-299', '0', '2010-02-15', '', '+351912837629', 'Agrupamento de Escolas de São Martinho', 9, '', '', 8, 0, 0, 'Aurora Manuela Martins da Silva', '+351916569283', '', '', '', 0, 1, NULL),
-(78, 0.00, 0.00, 'LEONOR GOUVEIA DE ARAÚJO', 'Rua Pedro Dioga, n 15', 'Vila das Aves', '4795-', '0', '2010-12-16', '', '+351912031139', 'Escala Básica de Ave', 9, '', 'A', 12, 0, 0, 'Maria Armanda Gouveia Sousa Reis', '+351913996001', 'D. Alice - 910 556 587', '+351910556587', '12h/mês', 0, 1, NULL),
-(79, 0.00, 0.00, 'LEONOR RIBEIRO SANTOS', 'Estrada Nacional 204-5, n1257', 'Carreira - VNF', '4765-074', '0', '2011-07-13', 'leonor.santos.5611@aeterrsave.net', '+351934633617', '', 8, '', '', 8, 0, 0, 'Liliana Maria Marques Ribeiro', '+351915460505', '', '', '2 x por semana', 0, 1, NULL),
-(80, 0.00, 0.00, 'MARIANA BARBOSA DA COSTA', 'Rua Nova n80, 1 Esq. Trás', 'St Maria Oliveira - VNF', '4765-334', '0', '2010-04-03', '', '+351926863804', '', 9, '', 'A', 4, 0, 0, 'Carla Andreia Castro Barbosa', '+351936080586', '', '', '', 0, 1, NULL),
-(81, 0.00, 0.00, 'MATILDE LOPES SILVA', 'Travessa da Aves, Lote 2', 'Vila das Aves', '4785-025', '0', '2011-10-29', '', '+351912076290', 'Didáxis', 8, '', '', 12, 4, 0, 'Anabela Carneiro Lopes', '+351911053161', '', '', '', 0, 1, NULL),
-(82, 0.00, 0.00, 'SANTIAGO DA CUNHA SILVA', 'Rua General Humberto Delgado', 'Vila das Aves', '4795-072', '0', '2011-08-24', '', '+351912520371', 'Escola do Ave', 8, '', '', 12, 0, 0, 'Cidália Manuela da Cunha Oliveira', '+351915495472', '', '', '', 0, 1, NULL),
-(83, 0.00, 0.00, 'TIAGO CAMPOS FERNANDES', 'Rua do Agrelo, n60F 1ª Esq', 'S. Matinho do Campo', '4795-452', '0', '2010-02-03', '', '+351934636657', 'Escola Secundária D. DINIS', 9, '', '', 0, 0, 0, 'Cláudia Goreti Pereira Campos', '+351916300169', '', '', '2h/semana', 0, 1, NULL),
-(150, 0.00, 0.00, 'FILIPE MANUEL ALVES PACHECO', 'Urb. Crapts&Crapts, Casa 4', 'Bairro - VNF', '4765-680', '0', '2005-03-02', 'a16051@aedah.pt', '+351927542405', '', 0, '', '', 0, 0, 0, 'Emilia Alves - emilia.cristina@sapo.pt', '+351914411513', '', '', '', 0, 1, NULL),
-(85, 0.00, 0.00, 'ANA LUÍSA RIBEIRO FERREIRA', 'Rua Aldeia Nova n211', 'Carreira VNF', '4765-071', '0', '2009-12-29', '', '+351960387958', '', 10, '', '', 8, 0, 0, 'Elisa Ângela Morais Ribeiro', '+351916967138', '', '', '', 0, 1, NULL),
+(20, 0.00, 0.00, 'ALESSIA CHIARA CIFELLI', 'Travessa da Carreira, n133', 'Vila das Aves', '4795-', '0', '2014-05-06', '', '', 'Escola de Ave', 6, '', '', 12, 0, 0, 'Vanessa Andreia Gomes Lemos', '+351913198140', '', '', '', 0, 1, NULL),
+(21, 0.00, 0.00, 'ANA FRANCISCA OLIVEIRA MENDES DA SILVA', 'Rua das Escolas, n4361', 'Guardizela - GMR', '4765-496', '0', '2013-10-21', '', '', '', 7, '', '', 12, 0, 1, 'Maia Goreti Gonçalves Oliveira da Silva', '+351991550683', 'Pedro Silva', '', '3 x por semana', 0, 1, NULL),
+(22, 0.00, 0.00, 'DINIS MANUEL SOUSA PACHECO', 'Rua São José, n280 1andar', 'Vila das Aves', '4785-000', '0', '2013-09-22', '', '', 'EB 2, 3 de Vila das Aves', 7, '', 'A', 12, 0, 0, '', '', 'Alexandre Manuel Ferreira Pacheco', '+351914576368', '', 0, 1, NULL),
+(23, 0.00, 0.00, 'FRANCISCO DUARTE PINTO GOMES', 'Rua José Pacheco n63', 'S. Tomé de Negrelos', '4795-641', '0', '2013-10-12', '', '', '', 7, '', '', 12, 0, 0, 'Natália de Jesus Ferreira Pinto', '+351916093982', '', '', '', 0, 1, NULL),
+(24, 0.00, 0.00, 'ÍRIS FERREIRA COELHO', 'Rua Santa Clara n 138', 'Vila das Aves', '4795-112', '271666838', '2014-08-19', '', '', '', 6, '', '', 12, 0, 0, 'Helena Isabel Pereira Gomes Ferreira', '+351939330876', '', '', '', 0, 1, NULL),
+(25, 0.00, 0.00, 'LUÍS JÚNIOR MACHADO FERREIRA', 'Rua 25 de Abril, 2 Dt', 'Vila das Aves', '4795-023', '0', '2014-02-14', '', '+351913294202', 'Escola Básica do Ave', 6, '', 'C', 12, 0, 0, 'Joana Machado', '+351918419650', '', '', '3 x por semana', 0, 1, NULL),
+(74, 0.00, 0.00, 'JOSÉ PEDRO SIMÕES ALVES', 'Rua Alto Sobrado, n203', 'Vila das Aves', '4795-031', '0', '2010-12-09', '', '+351963873310', '', 10, '', '', 8, 0, 0, 'Filipa Alves', '+351961399848', '', '', '2 x por semana', 0, 1, NULL),
+(73, 0.00, 0.00, 'JOÃO CARLOS DA SILVA COSTA', 'Rua da Indústria n375', 'Rebordões', '4795-207', '0', '2009-06-27', '', '+351930681390', 'D. Dinis', 11, 'Curso Desporto', '', 0, 0, 0, 'Patrícia do Rosário Fernandes da Silva', '+351918308602', '', '', '', 0, 1, NULL),
+(72, 0.00, 0.00, 'IRIS FONSECA CALÇADA', 'Largo Francisco M. Guimarães, Ent 80 2 E T', 'Vila das Aves', '4795-016', '0', '2012-02-18', '', '', '', 8, '', '', 12, 0, 0, 'Carla Cristina Carneiro Fonseca', '+351919083515', '', '', '', 0, 1, NULL),
+(71, 0.00, 0.00, 'HENRIQUE CARDOSO VIEIRA', 'Estrada Nacional 105, n2', 'Lordelo- GMR', '4815-135', '0', '2012-01-02', '', '+351927293387', '', 8, '', '', 12, 0, 0, 'Sandra Filipa Gomes Cardoso', '+351918980555', '', '', '', 0, 1, NULL),
+(70, 0.00, 0.00, 'AFONSO RODRIGUES SALGADO', 'Av. Monte dos Saltos, n45', 'Sequeirô - St. Tirso', '4780-641', '275127109', '2008-02-25', '', '', 'Escola Báica de Ave', 12, '', 'F', 8, 0, 0, 'Paula Francisca Couto Rodrigues', '+351932902925', '', '', '1 x por semana', 0, 1, NULL),
+(69, 0.00, 0.00, 'GONÇALO MARTINS GUIMARÃES', 'Al. Eng. João Mallen Junior, n15 1Dt.', 'Vila das Aves', '4795-910', '0', '2011-06-02', '', '+351937155288', 'EB de São Martinho', 9, '', '', 4, 0, 0, 'Florbela Martins', '+351916525051', '', '', '', 0, 1, NULL),
+(68, 0.00, 0.00, 'FRANCISCA DE CAMPOS MACHADO', 'Travessa Silva Araújo, n49 1 Esq.', 'Vila das Aves', '4795-168', '0', '2011-11-29', '', '', 'Escola Básica das Aves', 9, '', '', 12, 0, 0, 'Sandra Sofia da Silva Campos', '+351912951039', 'Jorge', '+351912337751', '', 0, 1, NULL),
+(67, 0.00, 0.00, 'DUARTE ROCHA AZEVEDO', 'Rua Parque de Jogos n50', 'Carreira - VNF', '4765-070', '0', '2010-08-31', '', '', 'ARTAVE', 10, '', '', 8, 0, 0, 'Lucia de Jesus Rocha Lopes', '+351912942692', '', '', '', 0, 1, NULL),
+(66, 0.00, 0.00, 'CAROLINA CARDOSO DE MOURA BRANDÃO FERREIRA', 'Rua Municipal de Minhava n418', 'Vila Real', '', '0', '2010-06-27', '', '+351912835629', 'Escola Básica do Ave', 10, '', '', 4, 0, 0, 'Paula Cristina Cardoso Brandão', '+351912321242', '', '', '', 0, 1, NULL),
+(65, 0.00, 0.00, 'CAMILA SILVA DIAS', 'R. D. Américo Bispo de Lamego, n980', 'Vila das Aves', '4795-842', '274760002', '2011-03-29', '', '', '', 9, '', '', 8, 0, 0, 'Carla Silva', '+351914756128', '', '', '', 0, 1, NULL),
+(64, 0.00, 0.00, 'BRUNA MARIA NICOLAU ALMEIDA', 'Urb. Vila Verde Lote 11', 'Bairro - VNF', '4765-065', '0', '2010-11-02', '', '+351932575153', '', 10, '', 'C', 0, 8, 0, 'Elsa Maria Almeida paiva', '+351932608094', '', '', '', 0, 1, NULL),
+(62, 0.00, 0.00, 'ANTHONY COSTA PINHEIRO', 'Rua Salgado 108', 'Oliveira S. Mateus - VNF', '4765-757', '0', '2010-07-16', '', '', '', 10, '', '', 12, 0, 0, 'Sofia da Costa', '+351961819591', '', '', '1 x por semana', 0, 1, NULL),
+(61, 0.00, 0.00, 'ANA RITA SILVA COSTA', 'Rua Pe. Luís Maria Ol. Nascimento n220', 'Bente VNF', '4770-060', '0', '2010-08-14', '', '+351912049298', 'Escola Padre Benjamim Salgado', 10, '', '', 8, 0, 0, 'Cecília Silva Cruz', '+351918910007', '', '', '', 0, 1, NULL),
+(60, 0.00, 0.00, 'ANA RITA DA SILVA BARROS', 'Av. Das Lameiras', 'Delães', '4765-618', '0', '2010-01-16', '', '+351912821286', 'Escola Básica 2/3 das Aves', 10, '', '', 8, 0, 0, 'Isabel Rodrigues da Silva', '+351914736567', '', '', '2 x por semana', 0, 1, NULL),
+(52, 0.00, 0.00, 'ANA INÊS FERREIRA COUTO', 'Rua da Granja, n56', 'Carreira - VNF', '4765-075', '276812301', '2010-12-18', '', '', 'Básica Vila das Aves', 10, '', '', 12, 0, 0, 'Bernadete Ferreira', '+351919872717', '', '', '', 0, 1, NULL),
+(63, 0.00, 0.00, 'BEATRIZ GONÇALVES SOUSA', 'Trav. José Dias Oliveira, n27', 'Mogege - VNF', '4770-350', '0', '2004-12-27', '', '+351912860138', 'Secundária Pe. Benjamim Salgado', 10, '', '', 12, 0, 0, 'Elisabete Carvalho', '+351915897387', 'Miguel Sousa', '+351919167714', '', 0, 1, NULL),
+(50, 0.00, 0.00, 'ALICE BARBOSA BAPTISTA', 'Rua do regalo, Bloco B 2D', 'Bairro - VNF', '4765-068', '0', '2010-05-25', '', '+351913664920', 'Escola Básica da Ponte', 10, '', '', 8, 0, 0, '', '', 'Ricardo da Silva Baptista', '+351919730329', '', 0, 1, NULL),
+(53, 0.00, 0.00, 'AFONSO OLIVEIRA TEIXEIRA', 'Rua de São Pedro, n12', 'Lordelo - GMR', '4815-176', '0', '2001-09-20', '', '+351912860138', 'Escola do Carreiro', 4, '', '', 12, 0, 0, 'Anabela Araújo Oliveira', '+351918971811', 'Marco', '', '', 0, 1, NULL),
+(49, 0.00, 0.00, 'AFONSO RODRIGUES SILVA', 'Estrada Nacional 204-5, n 2011 2Esq', 'Landim - VNF', '4770-336', '280040563', '2012-08-30', '', '+351913197182', 'Escala Básica de Ave', 8, '', '', 12, 0, 0, 'Alice Manuel Bezerra', '+351916834978', '', '', '', 0, 1, NULL),
+(75, 0.00, 0.00, 'JOSÉ PEDRO FRANCISCO CARNEIRO', 'R. de S. Tiago n15', 'Lordelo - GMR', '', '0', '2010-08-26', '', '', '', 10, '', '', 8, 0, 0, 'Luísa da Conceição da Cunha Pereira de Lima Francisco', '+351919190805', '', '', '', 0, 1, NULL),
+(76, 0.00, 0.00, 'LARA SOFIA FERREIRA COELHO', 'Rua Santa Clara n 138', 'Vila das Aves', '4795-112', '271666838', '2011-03-26', '', '', '', 9, '', '', 8, 0, 0, 'Helena Isabel Pereira Gomes Ferreira', '+351939330876', '', '', '', 0, 1, NULL),
+(77, 0.00, 0.00, 'LAURA DA SILVA MARTINS', 'Rua Gil Vicente n 1', 'Vila das Aves', '4795-299', '0', '2010-02-15', '', '+351912837629', 'Agrupamento de Escolas de São Martinho', 10, '', '', 8, 0, 0, 'Aurora Manuela Martins da Silva', '+351916569283', '', '', '', 0, 1, NULL),
+(78, 0.00, 0.00, 'LEONOR GOUVEIA DE ARAÚJO', 'Rua Pedro Dioga, n 15', 'Vila das Aves', '4795-', '0', '2010-12-16', '', '+351912031139', 'Escala Básica de Ave', 10, '', 'A', 12, 0, 0, 'Maria Armanda Gouveia Sousa Reis', '+351913996001', 'D. Alice - 910 556 587', '+351910556587', '12h/mês', 0, 1, NULL),
+(79, 0.00, 0.00, 'LEONOR RIBEIRO SANTOS', 'Estrada Nacional 204-5, n1257', 'Carreira - VNF', '4765-074', '0', '2011-07-13', 'leonor.santos.5611@aeterrsave.net', '+351934633617', '', 9, '', '', 8, 0, 0, 'Liliana Maria Marques Ribeiro', '+351915460505', '', '', '2 x por semana', 0, 1, NULL),
+(80, 0.00, 0.00, 'MARIANA BARBOSA DA COSTA', 'Rua Nova n80, 1 Esq. Trás', 'St Maria Oliveira - VNF', '4765-334', '0', '2010-04-03', '', '+351926863804', '', 10, '', 'A', 4, 0, 0, 'Carla Andreia Castro Barbosa', '+351936080586', '', '', '', 0, 1, NULL),
+(81, 0.00, 0.00, 'MATILDE LOPES SILVA', 'Travessa da Aves, Lote 2', 'Vila das Aves', '4785-025', '0', '2011-10-29', '', '+351912076290', 'Didáxis', 9, '', '', 12, 4, 0, 'Anabela Carneiro Lopes', '+351911053161', '', '', '', 0, 1, NULL),
+(82, 0.00, 0.00, 'SANTIAGO DA CUNHA SILVA', 'Rua General Humberto Delgado', 'Vila das Aves', '4795-072', '0', '2011-08-24', '', '+351912520371', 'Escola do Ave', 9, '', '', 12, 0, 0, 'Cidália Manuela da Cunha Oliveira', '+351915495472', '', '', '', 0, 1, NULL),
+(83, 0.00, 0.00, 'TIAGO CAMPOS FERNANDES', 'Rua do Agrelo, n60F 1ª Esq', 'S. Matinho do Campo', '4795-452', '0', '2010-02-03', '', '+351934636657', 'Escola Secundária D. DINIS', 10, '', '', 0, 0, 0, 'Cláudia Goreti Pereira Campos', '+351916300169', '', '', '2h/semana', 0, 1, NULL),
+(150, 0.00, 0.00, 'FILIPE MANUEL ALVES PACHECO', 'Urb. Crapts&Crapts, Casa 4', 'Bairro - VNF', '4765-680', '0', '2005-03-02', 'a16051@aedah.pt', '+351927542405', '', 1, '', '', 0, 0, 0, 'Emilia Alves - emilia.cristina@sapo.pt', '+351914411513', '', '', '', 0, 1, NULL),
+(85, 0.00, 0.00, 'ANA LUÍSA RIBEIRO FERREIRA', 'Rua Aldeia Nova n211', 'Carreira VNF', '4765-071', '0', '2009-12-29', '', '+351960387958', '', 11, '', '', 8, 0, 0, 'Elisa Ângela Morais Ribeiro', '+351916967138', '', '', '', 0, 1, NULL),
 (86, 0.00, 0.00, 'BRUNA FRANCISCA PINTO RIBEIRO', 'Rua General Humberto Delgado, n244', 'Oliveira S. Mateus -VNF', '4795-072', '0', '2008-12-02', '', '+351919904860', 'Escola Secundária D. Afonso Henriques', 11, '', 'H2', 0, 0, 0, 'Maria do Céu Moreira Pinto', '+351917997477', '', '', '', 0, 0, NULL),
-(87, 0.00, 0.00, 'BRUNA SOFIA PACHECO QUEIRÓS', 'Rua da Bela Vista, n23', 'Vila das Aves', '4795-039', '0', '2009-02-15', '', '+351961039238', 'Agrupamento de Escolas Virgínia Moura', 10, '', 'D', 4, 0, 0, 'Carla Sofia de Almeda Pacheco', '+351966264259', '938 446 729', '+351938446729', '', 0, 1, NULL),
-(88, 0.00, 0.00, 'CAUÃ SANTANA BAHIA ONOFRE', 'Rua Louvazim, 409 2 Dt Frente', 'Vila das Aves', '4795-081', '0', '2006-09-07', '', '', 'D. H. A.', 12, 'Ciências e Tecnologias', '', 8, 4, 0, 'Andreia Onofre', '+351914246393', '914 246 404', '+351914246404', '', 0, 1, NULL),
+(87, 0.00, 0.00, 'BRUNA SOFIA PACHECO QUEIRÓS', 'Rua da Bela Vista, n23', 'Vila das Aves', '4795-039', '0', '2009-02-15', '', '+351961039238', 'Agrupamento de Escolas Virgínia Moura', 11, '', 'D', 4, 0, 0, 'Carla Sofia de Almeda Pacheco', '+351966264259', '938 446 729', '+351938446729', '', 0, 1, NULL),
+(88, 0.00, 0.00, 'CAUÃ SANTANA BAHIA ONOFRE', 'Rua Louvazim, 409 2 Dt Frente', 'Vila das Aves', '4795-081', '0', '2006-09-07', '', '', 'D. H. A.', 13, 'Ciências e Tecnologias', '', 8, 4, 0, 'Andreia Onofre', '+351914246393', '914 246 404', '+351914246404', '', 0, 1, NULL),
 (89, 0.00, 0.00, 'DIANA BARRA E ANTUNES', 'Av. D. João IV, Edifício Lei Fu 15, 9G', 'Macau', '4785-025', '0', '2008-09-15', 'joana15barra@gmail.com (mãe)', '+853 62758413', 'Escola Portuguesa de Macau', 11, '', '', 0, 0, 0, 'Joana Gabriela Ferreira Barra', '+853 62358449', '', '', '', 0, 0, NULL),
-(90, 0.00, 0.00, 'DIEGO CIFELLI', 'Travessa da Carreira, n133', 'Vila das Aves', '4795-', '0', '2008-03-12', '', '32', '', 11, '', '', 4, 0, 0, 'Vanessa Andreia Gomes Lemos', '+351913198140', '', '', '', 0, 1, NULL),
-(91, 0.00, 0.00, 'ELISABETE FILIPA PINTO', 'Rua do Cardal, n179 R/chão', 'Bente - VNF', '4770-060', '0', '2009-04-25', '', '', '', 10, '', '', 8, 0, 0, 'Ana Rita Moreira Barbosa Pinto Martins', '+351910011016', '', '', '', 0, 1, NULL),
-(93, 0.00, 0.00, 'FRANCISCA BARROSO PEIXOTO', 'Rua Zeca da Costa, n119', 'Roriz - S. Tirso', '4795-378', '0', '2004-12-27', '', '+351912451499', 'D. A. H.', 11, 'Ciências e Tecnologias', '', 4, 0, 0, '', '', '961 040 772', '+351961040772', '', 0, 1, NULL),
-(94, 0.00, 0.00, 'FRANCISCA PIMENTA COELHO', 'Rua Armindo Coielho Cardoso, n67', 'St Tirso - Negrelos', '4795-574', '273607588', '2009-02-20', '', '+351938155323', 'Colégio da Trofa', 10, 'C. T.', '', 4, 0, 0, 'Alcina Pimenta', '+351965475445', '', '', '1 x por semana', 0, 1, NULL),
-(95, 0.00, 0.00, 'GUILHERME MONTEIRO COSTA', 'Calçada Jaime Gomes Guimarães, n111', 'Vila Nova do Campo', '4795-516', '0', '2008-12-29', '', '+351961161546', '', 10, '', '', 4, 4, 0, 'Daniela Monteiro', '+351918177233', '', '', '', 0, 1, NULL),
-(96, 0.00, 0.00, 'GUILHERME PIMENTA NEVES', 'Rua António Maria Gomes n580', 'Roriz', '4795-268', '0', '2008-01-09', '', '+351965034514', '', 11, '', '', 4, 0, 0, 'Sónia Paula Coelho Pimenta', '+351912860246', '', '', '', 0, 1, NULL),
-(97, 0.00, 0.00, 'HELENA ISABEL GOMES RIBEIRO', 'Rua da Ribes, n175', 'Sta. Maria Oliveira - VNF', '4765-332', '0', '2009-03-04', '', '+351913203409', 'Escola Secundária D. Afonso Henriques', 10, '', 'A', 4, 0, 0, 'Cassilda Maria Antunes Gomes', '+351914148453', '', '', '', 0, 1, NULL),
-(98, 0.00, 0.00, 'INÊS CASTRO OLIVEIRA', 'Rua Luís de Camões, 89', 'Vila das Aves', '4795-079', '0', '2005-03-16', '', '+351961574038', 'D.Afonso Henriques', 12, '', '', 4, 0, 0, 'Carminda Castro', '+351968519494', '', '', '', 0, 1, NULL),
-(99, 0.00, 0.00, 'INÊS FRANCISCA MACHADO GUEDES', 'Rua Antero de Quental, n93', 'Vila das Aves', '4795-033', '0', '2008-07-09', '', '+351932044120', 'D. Afonso Henriques', 11, '', 'A', 8, 0, 0, '', '', '965 791 778', '+351965791778', '', 0, 1, NULL),
-(100, 0.00, 0.00, 'JOANA MIGUEL FERREIRA SOARES', 'Lr. Francisco M Guimarães, n80 R/C Dt Tr', 'Vila das Aves', '4795-016', '272153648', '2009-01-27', '', '+351912092189', '', 10, '', '', 4, 0, 0, 'Oriana Manuel Cunha Ferreira', '+351933190540', '', '', '', 0, 1, NULL),
-(101, 0.00, 0.00, 'JOANA RODRIGUES FERREIRA', 'Rua José Moreira Araújo, n74 R/CH Dto.', 'Vila das Aves', '4795-081', '265335159', '2006-11-20', '', '+351937257844', 'D. A. H.', 11, 'C. T.', 'C', 4, 0, 0, 'Alexandrina Manuela Coelho Rodrigues', '+351962266036', '', '', '1 x por semana', 0, 1, NULL),
+(90, 0.00, 0.00, 'DIEGO CIFELLI', 'Travessa da Carreira, n133', 'Vila das Aves', '4795-', '0', '2008-03-12', '', '32', '', 12, '', '', 4, 0, 0, 'Vanessa Andreia Gomes Lemos', '+351913198140', '', '', '', 0, 1, NULL),
+(91, 0.00, 0.00, 'ELISABETE FILIPA PINTO', 'Rua do Cardal, n179 R/chão', 'Bente - VNF', '4770-060', '0', '2009-04-25', '', '', '', 11, '', '', 8, 0, 0, 'Ana Rita Moreira Barbosa Pinto Martins', '+351910011016', '', '', '', 0, 1, NULL),
+(93, 0.00, 0.00, 'FRANCISCA BARROSO PEIXOTO', 'Rua Zeca da Costa, n119', 'Roriz - S. Tirso', '4795-378', '0', '2004-12-27', '', '+351912451499', 'D. A. H.', 12, 'Ciências e Tecnologias', '', 4, 0, 0, '', '', '961 040 772', '+351961040772', '', 0, 1, NULL),
+(94, 0.00, 0.00, 'FRANCISCA PIMENTA COELHO', 'Rua Armindo Coielho Cardoso, n67', 'St Tirso - Negrelos', '4795-574', '273607588', '2009-02-20', '', '+351938155323', 'Colégio da Trofa', 11, 'C. T.', '', 4, 0, 0, 'Alcina Pimenta', '+351965475445', '', '', '1 x por semana', 0, 1, NULL),
+(95, 0.00, 0.00, 'GUILHERME MONTEIRO COSTA', 'Calçada Jaime Gomes Guimarães, n111', 'Vila Nova do Campo', '4795-516', '0', '2008-12-29', '', '+351961161546', '', 11, '', '', 4, 4, 0, 'Daniela Monteiro', '+351918177233', '', '', '', 0, 1, NULL),
+(96, 0.00, 0.00, 'GUILHERME PIMENTA NEVES', 'Rua António Maria Gomes n580', 'Roriz', '4795-268', '0', '2008-01-09', '', '+351965034514', '', 12, '', '', 4, 0, 0, 'Sónia Paula Coelho Pimenta', '+351912860246', '', '', '', 0, 1, NULL),
+(97, 0.00, 0.00, 'HELENA ISABEL GOMES RIBEIRO', 'Rua da Ribes, n175', 'Sta. Maria Oliveira - VNF', '4765-332', '0', '2009-03-04', '', '+351913203409', 'Escola Secundária D. Afonso Henriques', 11, '', 'A', 4, 0, 0, 'Cassilda Maria Antunes Gomes', '+351914148453', '', '', '', 0, 1, NULL),
+(98, 0.00, 0.00, 'INÊS CASTRO OLIVEIRA', 'Rua Luís de Camões, 89', 'Vila das Aves', '4795-079', '0', '2005-03-16', '', '+351961574038', 'D.Afonso Henriques', 13, '', '', 4, 0, 0, 'Carminda Castro', '+351968519494', '', '', '', 0, 1, NULL),
+(99, 0.00, 0.00, 'INÊS FRANCISCA MACHADO GUEDES', 'Rua Antero de Quental, n93', 'Vila das Aves', '4795-033', '0', '2008-07-09', '', '+351932044120', 'D. Afonso Henriques', 12, '', 'A', 8, 0, 0, '', '', '965 791 778', '+351965791778', '', 0, 1, NULL),
+(100, 0.00, 0.00, 'JOANA MIGUEL FERREIRA SOARES', 'Lr. Francisco M Guimarães, n80 R/C Dt Tr', 'Vila das Aves', '4795-016', '272153648', '2009-01-27', '', '+351912092189', '', 11, '', '', 4, 0, 0, 'Oriana Manuel Cunha Ferreira', '+351933190540', '', '', '', 0, 1, NULL),
+(101, 0.00, 0.00, 'JOANA RODRIGUES FERREIRA', 'Rua José Moreira Araújo, n74 R/CH Dto.', 'Vila das Aves', '4795-081', '265335159', '2006-11-20', '', '+351937257844', 'D. A. H.', 12, 'C. T.', 'C', 4, 0, 0, 'Alexandrina Manuela Coelho Rodrigues', '+351962266036', '', '', '1 x por semana', 0, 1, NULL),
 (102, 0.00, 0.00, 'JOAQUIM RAFAEL DE SOUSA NOGUEIRA', 'Rua Pedro Alves Cabral n20', 'Rebodões', '4795-222', '0', '1988-06-06', '', '+351919705824', '', 21, '', '', 0, 0, 0, '', '', '', '', '', 0, 0, NULL),
-(103, 0.00, 0.00, 'LARA BEATRIZ PEREIRA DE SOUSA', 'Rua de  Carrezedo, n210', 'Delães - VNF', '4765-605', '0', '2009-04-06', '', '+351915525173', 'Escola D. Afonso Henriques', 10, 'Ciências Socioeconómicas', 'SE', 4, 0, 0, 'Ângela Cristiana Machado Cunha Pereira', '+351914712379', '', '', '1 x por semana', 0, 1, NULL),
-(147, 0.00, 0.00, 'MARIA INÊS LEAL MAGALHÃES', 'Trav. Bernardino Gomes Ferreira', 'Vila das Aves', '4795-055', '0', '2008-10-08', '', '+351918524967', '', 10, '', '', 8, 0, 0, 'Paula Cristina da Costa Leal Magalhães', '+351917878947', '', '', '', 0, 1, NULL),
-(105, 0.00, 0.00, 'LEONOR LOPES SILVA', 'Travessa da Aves, Lote 2', 'Vila das Aves', '4785-025', '0', '2008-07-16', '', '+351919952545', 'Didáxis', 11, 'Ciências e Tecnologias', '', 4, 4, 0, 'Anabela Carneiro Lopes', '+351911053161', '', '', '', 0, 1, NULL),
-(106, 0.00, 0.00, 'LEONOR MAGALHÃES GONÇALVES', 'Lrg. Dr. Braga da Cruz 135, 1 Esq', 'Vila das Aves', '4795-015', '0', '2008-05-13', '', '+351935484335', 'D. Dinis', 11, 'Humanidades', 'D', 4, 0, 0, 'Leonardo Gonçalves', '+351922123442', '', '', '', 0, 1, NULL),
-(107, 0.00, 0.00, 'LÍLIA OLIVEIRA FERREIRA', 'Rua St. Clara, 383 R/Ch', 'Vila das Aves', '4795-112', '0', '2009-03-21', '', '+351961046691', '', 10, '', 'C', 8, 0, 0, 'Margarida da Conceição Ferreira Oliveira', '+351938275438', '', '', '', 0, 1, NULL),
-(108, 0.00, 0.00, 'LUÍSA ISABEL MARTINS MOURA', 'Av. De Poldrães 231', 'Vila das Aves', '4795-006', '0', '2009-04-01', '', '+351938073260', '', 10, '', 'AV', 4, 0, 0, 'Isabel Moura', '+351932942448', '', '', '', 0, 1, NULL),
-(109, 0.00, 0.00, 'MARGARIDA FILIPA FRAGA MONTEIRO', 'Rua Camilo Castelo Branco, n825', 'Vila das Aves', '4793-045', '0', '2009-11-24', '', '+351915248075', 'D. Afonso Henriques', 10, '', 'Artes', 4, 0, 0, 'Cátia Fraga', '+351916841152', '', '', '1 x por semana', 0, 1, NULL),
-(110, 0.00, 0.00, 'MARIA CLARA FERREIRA DE FARIA', 'Rua Professor Jeónimo de Castro, n26', 'Vila das Aves', '4785-000', '0', '2009-01-20', '', '+351912291806', 'D. Afonso Henriques', 10, '', 'SE', 4, 0, 0, 'Luisa Ferreira', '+351913385760', '', '', '', 0, 1, NULL),
-(111, 0.00, 0.00, 'MARIA HERDEIRO CARDOSO CARVALHO GUEDES', 'Largo Dr Braga da Cruz, 48 3 Esq', 'Vila das Aves', '4795-015', '0', '2008-11-08', '', '+351911530537', 'Escola Secundário Afonso Henriques', 10, 'Ciências e Tecnologias', '', 4, 0, 0, 'Patrícia Cardoso Guedes', '+351936052285', '', '', '', 0, 1, NULL),
+(103, 0.00, 0.00, 'LARA BEATRIZ PEREIRA DE SOUSA', 'Rua de  Carrezedo, n210', 'Delães - VNF', '4765-605', '0', '2009-04-06', '', '+351915525173', 'Escola D. Afonso Henriques', 11, 'Ciências Socioeconómicas', 'SE', 4, 0, 0, 'Ângela Cristiana Machado Cunha Pereira', '+351914712379', '', '', '1 x por semana', 0, 1, NULL),
+(147, 0.00, 0.00, 'MARIA INÊS LEAL MAGALHÃES', 'Trav. Bernardino Gomes Ferreira', 'Vila das Aves', '4795-055', '0', '2008-10-08', '', '+351918524967', '', 11, '', '', 8, 0, 0, 'Paula Cristina da Costa Leal Magalhães', '+351917878947', '', '', '', 0, 1, NULL),
+(105, 0.00, 0.00, 'LEONOR LOPES SILVA', 'Travessa da Aves, Lote 2', 'Vila das Aves', '4785-025', '0', '2008-07-16', '', '+351919952545', 'Didáxis', 12, 'Ciências e Tecnologias', '', 4, 4, 0, 'Anabela Carneiro Lopes', '+351911053161', '', '', '', 0, 1, NULL),
+(106, 0.00, 0.00, 'LEONOR MAGALHÃES GONÇALVES', 'Lrg. Dr. Braga da Cruz 135, 1 Esq', 'Vila das Aves', '4795-015', '0', '2008-05-13', '', '+351935484335', 'D. Dinis', 12, 'Humanidades', 'D', 4, 0, 0, 'Leonardo Gonçalves', '+351922123442', '', '', '', 0, 1, NULL),
+(107, 0.00, 0.00, 'LÍLIA OLIVEIRA FERREIRA', 'Rua St. Clara, 383 R/Ch', 'Vila das Aves', '4795-112', '0', '2009-03-21', '', '+351961046691', '', 11, '', 'C', 8, 0, 0, 'Margarida da Conceição Ferreira Oliveira', '+351938275438', '', '', '', 0, 1, NULL),
+(108, 0.00, 0.00, 'LUÍSA ISABEL MARTINS MOURA', 'Av. De Poldrães 231', 'Vila das Aves', '4795-006', '0', '2009-04-01', '', '+351938073260', '', 11, '', 'AV', 4, 0, 0, 'Isabel Moura', '+351932942448', '', '', '', 0, 1, NULL),
+(109, 0.00, 0.00, 'MARGARIDA FILIPA FRAGA MONTEIRO', 'Rua Camilo Castelo Branco, n825', 'Vila das Aves', '4793-045', '0', '2009-11-24', '', '+351915248075', 'D. Afonso Henriques', 11, '', 'Artes', 4, 0, 0, 'Cátia Fraga', '+351916841152', '', '', '1 x por semana', 0, 1, NULL),
+(110, 0.00, 0.00, 'MARIA CLARA FERREIRA DE FARIA', 'Rua Professor Jeónimo de Castro, n26', 'Vila das Aves', '4785-000', '0', '2009-01-20', '', '+351912291806', 'D. Afonso Henriques', 11, '', 'SE', 4, 0, 0, 'Luisa Ferreira', '+351913385760', '', '', '', 0, 1, NULL),
+(111, 0.00, 0.00, 'MARIA HERDEIRO CARDOSO CARVALHO GUEDES', 'Largo Dr Braga da Cruz, 48 3 Esq', 'Vila das Aves', '4795-015', '0', '2008-11-08', '', '+351911530537', 'Escola Secundário Afonso Henriques', 11, 'Ciências e Tecnologias', '', 4, 0, 0, 'Patrícia Cardoso Guedes', '+351936052285', '', '', '', 0, 1, NULL),
 (112, 0.00, 0.00, 'MARIA LUÍS MACHADO FERREIRA', 'Rua 25 de Abril, 2 Dt', 'Vila das Aves', '4795-023', '0', '2009-05-22', '', '+351912193746', 'Escola D. Afonso Henriques', 10, 'Humanidades', 'E', 0, 0, 0, 'Joana Machado', '+351918419650', '', '', '2 x por semana', 0, 0, NULL),
-(113, 0.00, 0.00, 'MARIANA LOPES SANTOS', 'Rua Parque de Jogos, n42', 'Carreira VNF', '4765-071', '0', '2009-06-28', '', '', 'EB de Pedome', 10, '', '', 8, 0, 0, 'Silvia Maria Lopes Rocha', '+351916686511', '', '', '', 0, 1, NULL),
-(115, 0.00, 0.00, 'PEDRO LUÍS FERREIRA MENDES', 'Rua do Enxudres, n79', 'Lordelo - GMR', '4815-165', '0', '2008-09-01', '', '+351916686511', 'D. A. H.', 11, 'Ciências e Tecnologias', '', 8, 0, 0, 'Carla Susana Ferreira da Cunha', '+351938508097', '', '', '', 0, 1, NULL),
-(116, 0.00, 0.00, 'RAFAEL MACHADO JOÃO LIMA', 'Rua de Santosinho, 127', 'Rebordões', '4795-231', '0', '2007-03-02', '', '+351930555374', '', 11, '', '', 8, 0, 0, 'Andreia Presa Ferreira João', '+351912023336', '', '', '', 0, 1, NULL),
-(117, 0.00, 0.00, 'RODRIGO CARDOSO VIEIRA', 'Estrada Nacional 105, n2', 'Lordelo- GMR', '4815-135', '0', '2008-09-15', '', '+351962044446', 'Escola Secundária Vila das Aves', 11, '', 'SE', 4, 0, 0, 'Sandra Filipa Gomes Cardoso', '+351918980555', '', '', '', 0, 1, NULL),
-(118, 0.00, 0.00, 'RODRIGO SÁ PIMENTA', 'Rua Associação do Outeiro, n 263', 'Carreira - VNF', '4765-078', '0', '2009-09-27', '', '+351938565659', '', 10, '', 'B', 8, 0, 0, 'Rosário de Fátima Sá Ribeiro', '+351918951934', '916 049 948', '+351916049948', '', 0, 1, NULL),
-(119, 0.00, 0.00, 'SANTIAGO FERREIRA DE SOUSA', 'Rua Igreja Sanfins, 49', 'Bairro - VNF', '4765-040', '0', '2009-12-06', '', '+351919893815', 'Escola Secundária Vila das Aves', 10, '', 'B', 8, 0, 0, 'Laurentina de Jesus da Silva Ferreira', '+351914675562', '', '', '', 0, 1, NULL),
-(120, 0.00, 0.00, 'SARA DA COSTA ESTEVES', 'Rua São Bento 153', 'Lordelo - GMR', '4815-207', '0', '2007-06-29', '', '+351933248355', 'Secundária Dom Dinis', 12, '', '', 8, 0, 0, 'Lucilia Raquel Pereira da Costa', '+351936772231', '', '', '', 0, 1, NULL),
-(121, 0.00, 0.00, 'SORAIA LEAL FONSECA', 'Ru Quinta da Costa 10', 'Roriz - St. Tirso', '4795-327', '0', '2008-07-01', '', '+351911163391', 'Escola Profissional Oficina', 11, 'Desenho digital 3D', '', 0, 4, 0, 'Ana Bela Leal', '+351967855631', '', '', '', 0, 1, NULL),
-(122, 0.00, 0.00, 'SORAIA MOUTINHO OLIVEIRA', 'Rua S. André 202', 'Vila das Aves', '4795-113', '0', '2008-06-21', '', '+351926693330', '', 11, '', '', 8, 0, 0, 'Soraia Oliveira', '+351936073904', '', '', '', 0, 1, NULL),
-(123, 0.00, 0.00, 'TIAGO ANTÓNIO MACHADO MARTINS', 'Av. Conde Vizela, n36', 'Vila das Aves', '4795-004', '0', '2007-05-17', '', '+351960071196', 'Escola D. Afonso Henriques', 12, 'C. T.', 'B', 4, 0, 0, 'Cidália Machado', '+351968491840', '', '', '1 x por semana', 0, 1, NULL),
-(124, 0.00, 0.00, 'TOMÁS EDUARDO BESSA SOUSA', 'Rua dos Louros n10', 'Lordelo', '4815-195', '0', '2009-04-28', '', '+351961156936', 'S. Tomé de Negrelos', 10, '', '', 12, 0, 0, 'Luísa Maria Caneiro Bessa', '+351965663963', '', '', '', 0, 1, NULL),
-(125, 0.00, 0.00, 'VASCO MONTEIRO MARTINS', 'Rua da Indústria, n 145', 'Rebordões - St. Tirso', '4795-207', '0', '2004-12-27', '', '+351966462578', 'Escola Secundária D. Afonso Henriques', 10, '', 'A', 4, 0, 0, 'Andreia Carla Dias Monteiro', '+351913418845', '914 099 595', '+351914099595', '', 0, 1, NULL),
-(126, 0.00, 0.00, 'VITÓRIA DE MACEDO CAMPOS', 'Rua Monsenhor José Ferreira, n95', 'Vila das Aves', '4795-088', '260282170', '2007-04-12', '', '+351930527597', 'Secundária D. Afonso Henriques', 12, 'Ciências e Tecnologias', '', 8, 0, 0, 'Fernanda Liliana Silva Macedo', '+351964895017', '', '', '', 0, 1, NULL),
-(127, 0.00, 0.00, 'VICENTE FERREIRA DA SILVA', 'Lar Dr. Braga da Cruz, n94, 4Dt', 'Vila das Aves', '4795-015', '274051346', '2014-06-17', '', '', '', 5, '', '', 0, 8, 0, 'Mónica Maria Ferreira   (Avó Joaquina - 913 822 703)', '+351938186968', '', '+351938186967', '', 0, 1, NULL),
-(128, 0.00, 0.00, 'ANA CAROLINA SOARES PACHECO', 'Rua de Sobrado, 186', 'Vila das Aves', '4795-121', '279765002', '2012-10-25', '', '', '', 7, '', '', 8, 0, 0, '', '+351252872652', 'Carlos Rafael Alves Pacheco', '', '', 0, 1, NULL),
-(129, 0.00, 0.00, 'DUARTE TEIXEIRA RIBEIRO', 'Av. Comendador Ab. F. Oliv. N 511 Dto Norte', 'São Martinho do Campo', '4795-443', '0', '2009-10-12', '', '', '', 9, '', '', 8, 4, 0, 'Daniela Marina Martins Teixeira', '+351913592354', '', '', '', 0, 1, NULL),
-(130, 0.00, 0.00, 'ERIC PINHEIRO RIBEIRO', 'Alameda João Paulo II, n 74', 'Vila das Aves', '4795-155', '277714486', '2011-11-16', '', '', '', 8, '', '', 12, 0, 0, 'Marisa Pinheiro', '+351917924427', '', '', '', 0, 1, NULL),
-(131, 0.00, 0.00, 'LEONOR TEIXEIRA RIBEIRO', 'Av. Comendador Ab. F. Oliv. N 511 Dto Norte', 'São Martinho do Campo', '4795-443', '0', '2011-12-12', '', '', '', 8, '', '', 8, 0, 0, 'Daniela Marina Martins Teixeira', '+351913592354', '', '', '', 0, 1, NULL),
-(132, 0.00, 0.00, 'LIA PINHEIRO RIBEIRO', 'Alameda João Paulo II, n 74', 'Vila das Aves', '4795-155', '277714486', '2011-11-16', '', '', '', 8, '', '', 12, 0, 0, 'Marisa Pinheiro', '+351917924427', '', '', '', 0, 1, NULL),
-(133, 0.00, 0.00, 'MARIA BEATRIZ DA COSTA BARROSO', 'Rua da Aldeia Nova, 351', 'Roriz- STS', '4765-044', '0', '2010-08-04', '', '+351910825865', 'S. MARTINHO DO CAMPO', 9, '', 'C', 8, 0, 0, 'Sandra Marina Ferreira da Costa', '+351913184657', 'Pedro', '', '2h /semana', 0, 1, NULL),
-(134, 0.00, 0.00, 'MARTIM MIGUEL CRUZ OLIVEIRA', 'Rua do Fojo, n 148', 'Carreira - VNF', '4765-076', '280511728', '2012-02-09', 'martimmiguel2001@gmail.com', '+351912929716', 'EB Vila das Aves', 7, '', '', 12, 0, 0, 'Marta da Conceição Coutinho Cruz', '+351910124180', '', '', '', 0, 1, NULL),
-(135, 0.00, 0.00, 'RODRIGO MIGUEL SILVA MATOS', 'Alameda Arnauldo Gama n121, 3 Esq', 'Vila das Aves', '4795-001', '271666838', '2010-01-21', '', '', 'EB Vila das Aves', 9, '', '', 8, 0, 0, 'Paula Marina Torres Silva', '+351918394159', 'Ricardo', '+351919346871', '', 0, 1, NULL),
-(136, 0.00, 0.00, 'RÚBEN FILIPE SILVA MONTEIRO', 'Rua do Casino, n 301', 'Bairro - VNF', '4765-063', '0', '2010-12-07', '', '', '', 9, '', '', 12, 0, 0, 'Silvia', '+351918169689', 'Hélio Filipe Nogueira Monteiro', '+351916919586', '', 0, 1, NULL),
-(137, 0.00, 0.00, 'TIAGO GABRIEL CASTRO DA SILVA', 'Rua das Lages, n23', 'Bairro - VNF', '4765-044', '0', '2010-03-15', '', '', '', 9, '', '', 8, 0, 0, 'Marisa Isabel Barbosa Castro Silva', '+351916030029', 'Pedro', '+351917103375', '', 0, 1, NULL),
-(138, 0.00, 0.00, 'AFONSO AZEVEDO FERREIRA', 'Rua de St. Rita n 85', 'Cense - Vila das Aves', '', '0', '2009-02-26', '', '', '', 10, '', '', 16, 0, 0, 'Ângela Cristina Azevedo Pereira', '+351936545223', '', '', '', 0, 1, NULL),
-(139, 0.00, 0.00, 'FRANCISCO MARTINS PIMENTA DA SILVA PEREIRA', 'Praça do Bom Nome Ent.2, 1 Esq.', 'Vila das Aves', '4795-025', '0', '2007-10-02', '', '+351937790784', 'Secundária Afonso Henriques', 12, '', '', 8, 0, 0, '', '', 'Manuel Adérito da Silva Pereira', '+351965057633', '', 0, 1, NULL),
-(140, 0.00, 0.00, 'GONÇALO DINIS FERREIRA FREITAS', 'Rua Quinta da Vila n95, Roriz', 'Santo Tirso', '4795-503', '272153648', '2009-01-27', '', '', '', 10, '', '', 4, 0, 0, 'Adriana Correia Ferreira Freitas', '+351916646649', '', '', '', 0, 1, NULL),
-(141, 0.00, 0.00, 'JOSÉ ANTÓNIO DIAS RASO', 'Rua Cônsul Aristides de Sousa Mendes, n 22', 'Lordelo - GMR', '4815-116', '0', '2008-08-19', 'zeraso3232@gmail.com', '+351936757374', 'Tomás Pelayo', 10, '', '', 4, 4, 0, 'Darcília Isabel Dias Gomes', '+351962580494', '', '', '', 0, 1, NULL),
-(142, 0.00, 0.00, 'LEONOR FERREIRA DA SILVA', 'Lar Dr. Braga da Cruz, n94, 4Dt', 'Vila das Aves', '4795-015', '274051346', '2008-03-01', '', '+351938167704', 'EB 2,3 Bom Nome', 11, '', '', 8, 0, 0, 'Mónica Maria Ferreira', '+351938186968', '', '+351938186967', '', 0, 1, NULL),
-(143, 0.00, 0.00, 'RODRIGO SANTOS SILVA', 'Rua das Ínsuas, n457', 'Vilarinho -Santo Tirso', '4795-787', '0', '2007-12-27', '', '+351961468207', 'D. Afonso Heniques', 12, '', '', 4, 0, 0, 'Leonor Silva', '+351933337728', '', '', '', 0, 1, NULL),
-(151, 0.00, 0.00, 'GUSTAVO RODRIGUES SALGADO', 'Av. Monte dos Saltos, nº45', 'Sequeirô - St. Tirso', '4780-641', '275127109', '2008-02-25', '', '+351969608175', 'Escola Báica de Ave', 9, '', 'F', 4, 0, 0, 'Paula Francisca Couto Rodrigues', '+351932902925', '', '', '', 0, 1, NULL),
-(152, 0.00, 0.00, 'PEDRO DINIS ALVES PACHECO', 'Urb. Crapts&Crapts, Casa 4', 'Bairro - VNF', '4765-680', '0', '2008-10-21', '', '+351964804787', '', 11, '', '', 4, 0, 0, 'Emilia Alves - emilia.cristina@sapo.pt', '+351914411513', '', '', '', 0, 1, NULL),
-(155, 0.00, 0.00, 'Maria Eduarda Pontes Dias', 'Rua Luís de Camões, 206', '', '4765-255', '0', '2010-05-03', '', '+351913567702', 'EB Aves ', 9, '', 'C', 8, 0, 0, 'Carolina Pontes', '+351914940758', '', '', '', 0, 1, '0000-00-00');
-
+(113, 0.00, 0.00, 'MARIANA LOPES SANTOS', 'Rua Parque de Jogos, n42', 'Carreira VNF', '4765-071', '0', '2009-06-28', '', '', 'EB de Pedome', 11, '', '', 8, 0, 0, 'Silvia Maria Lopes Rocha', '+351916686511', '', '', '', 0, 1, NULL),
+(115, 0.00, 0.00, 'PEDRO LUÍS FERREIRA MENDES', 'Rua do Enxudres, n79', 'Lordelo - GMR', '4815-165', '0', '2008-09-01', '', '+351916686511', 'D. A. H.', 12, 'Ciências e Tecnologias', '', 8, 0, 0, 'Carla Susana Ferreira da Cunha', '+351938508097', '', '', '', 0, 1, NULL),
+(116, 0.00, 0.00, 'RAFAEL MACHADO JOÃO LIMA', 'Rua de Santosinho, 127', 'Rebordões', '4795-231', '0', '2007-03-02', '', '+351930555374', '', 12, '', '', 8, 0, 0, 'Andreia Presa Ferreira João', '+351912023336', '', '', '', 0, 1, NULL),
+(117, 0.00, 0.00, 'RODRIGO CARDOSO VIEIRA', 'Estrada Nacional 105, n2', 'Lordelo- GMR', '4815-135', '0', '2008-09-15', '', '+351962044446', 'Escola Secundária Vila das Aves', 12, '', 'SE', 4, 0, 0, 'Sandra Filipa Gomes Cardoso', '+351918980555', '', '', '', 0, 1, NULL),
+(118, 0.00, 0.00, 'RODRIGO SÁ PIMENTA', 'Rua Associação do Outeiro, n 263', 'Carreira - VNF', '4765-078', '0', '2009-09-27', '', '+351938565659', '', 11, '', 'B', 8, 0, 0, 'Rosário de Fátima Sá Ribeiro', '+351918951934', '916 049 948', '+351916049948', '', 0, 1, NULL),
+(119, 0.00, 0.00, 'SANTIAGO FERREIRA DE SOUSA', 'Rua Igreja Sanfins, 49', 'Bairro - VNF', '4765-040', '0', '2009-12-06', '', '+351919893815', 'Escola Secundária Vila das Aves', 11, '', 'B', 8, 0, 0, 'Laurentina de Jesus da Silva Ferreira', '+351914675562', '', '', '', 0, 1, NULL),
+(120, 0.00, 0.00, 'SARA DA COSTA ESTEVES', 'Rua São Bento 153', 'Lordelo - GMR', '4815-207', '0', '2007-06-29', '', '+351933248355', 'Secundária Dom Dinis', 13, '', '', 8, 0, 0, 'Lucilia Raquel Pereira da Costa', '+351936772231', '', '', '', 0, 1, NULL),
+(121, 0.00, 0.00, 'SORAIA LEAL FONSECA', 'Ru Quinta da Costa 10', 'Roriz - St. Tirso', '4795-327', '0', '2008-07-01', '', '+351911163391', 'Escola Profissional Oficina', 12, 'Desenho digital 3D', '', 0, 4, 0, 'Ana Bela Leal', '+351967855631', '', '', '', 0, 1, NULL),
+(122, 0.00, 0.00, 'SORAIA MOUTINHO OLIVEIRA', 'Rua S. André 202', 'Vila das Aves', '4795-113', '0', '2008-06-21', '', '+351926693330', '', 12, '', '', 8, 0, 0, 'Soraia Oliveira', '+351936073904', '', '', '', 0, 1, NULL),
+(123, 0.00, 0.00, 'TIAGO ANTÓNIO MACHADO MARTINS', 'Av. Conde Vizela, n36', 'Vila das Aves', '4795-004', '0', '2007-05-17', '', '+351960071196', 'Escola D. Afonso Henriques', 13, 'C. T.', 'B', 4, 0, 0, 'Cidália Machado', '+351968491840', '', '', '1 x por semana', 0, 1, NULL),
+(124, 0.00, 0.00, 'TOMÁS EDUARDO BESSA SOUSA', 'Rua dos Louros n10', 'Lordelo', '4815-195', '0', '2009-04-28', '', '+351961156936', 'S. Tomé de Negrelos', 11, '', '', 12, 0, 0, 'Luísa Maria Caneiro Bessa', '+351965663963', '', '', '', 0, 1, NULL),
+(125, 0.00, 0.00, 'VASCO MONTEIRO MARTINS', 'Rua da Indústria, n 145', 'Rebordões - St. Tirso', '4795-207', '0', '2004-12-27', '', '+351966462578', 'Escola Secundária D. Afonso Henriques', 11, '', 'A', 4, 0, 0, 'Andreia Carla Dias Monteiro', '+351913418845', '914 099 595', '+351914099595', '', 0, 1, NULL),
+(126, 0.00, 0.00, 'VITÓRIA DE MACEDO CAMPOS', 'Rua Monsenhor José Ferreira, n95', 'Vila das Aves', '4795-088', '260282170', '2007-04-12', '', '+351930527597', 'Secundária D. Afonso Henriques', 13, 'Ciências e Tecnologias', '', 8, 0, 0, 'Fernanda Liliana Silva Macedo', '+351964895017', '', '', '', 0, 1, NULL),
+(127, 0.00, 0.00, 'VICENTE FERREIRA DA SILVA', 'Lar Dr. Braga da Cruz, n94, 4Dt', 'Vila das Aves', '4795-015', '274051346', '2014-06-17', '', '', '', 6, '', '', 0, 8, 0, 'Mónica Maria Ferreira   (Avó Joaquina - 913 822 703)', '+351938186968', '', '+351938186967', '', 0, 1, NULL),
+(128, 0.00, 0.00, 'ANA CAROLINA SOARES PACHECO', 'Rua de Sobrado, 186', 'Vila das Aves', '4795-121', '279765002', '2012-10-25', '', '', '', 8, '', '', 8, 0, 0, '', '+351252872652', 'Carlos Rafael Alves Pacheco', '', '', 0, 1, NULL),
+(129, 0.00, 0.00, 'DUARTE TEIXEIRA RIBEIRO', 'Av. Comendador Ab. F. Oliv. N 511 Dto Norte', 'São Martinho do Campo', '4795-443', '0', '2009-10-12', '', '', '', 10, '', '', 8, 4, 0, 'Daniela Marina Martins Teixeira', '+351913592354', '', '', '', 0, 1, NULL),
+(130, 0.00, 0.00, 'ERIC PINHEIRO RIBEIRO', 'Alameda João Paulo II, n 74', 'Vila das Aves', '4795-155', '277714486', '2011-11-16', '', '', '', 9, '', '', 12, 0, 0, 'Marisa Pinheiro', '+351917924427', '', '', '', 0, 1, NULL),
+(131, 0.00, 0.00, 'LEONOR TEIXEIRA RIBEIRO', 'Av. Comendador Ab. F. Oliv. N 511 Dto Norte', 'São Martinho do Campo', '4795-443', '0', '2011-12-12', '', '', '', 9, '', '', 8, 0, 0, 'Daniela Marina Martins Teixeira', '+351913592354', '', '', '', 0, 1, NULL),
+(132, 0.00, 0.00, 'LIA PINHEIRO RIBEIRO', 'Alameda João Paulo II, n 74', 'Vila das Aves', '4795-155', '277714486', '2011-11-16', '', '', '', 9, '', '', 12, 0, 0, 'Marisa Pinheiro', '+351917924427', '', '', '', 0, 1, NULL),
+(133, 0.00, 0.00, 'MARIA BEATRIZ DA COSTA BARROSO', 'Rua da Aldeia Nova, 351', 'Roriz- STS', '4765-044', '0', '2010-08-04', '', '+351910825865', 'S. MARTINHO DO CAMPO', 10, '', 'C', 8, 0, 0, 'Sandra Marina Ferreira da Costa', '+351913184657', 'Pedro', '', '2h /semana', 0, 1, NULL),
+(134, 0.00, 0.00, 'MARTIM MIGUEL CRUZ OLIVEIRA', 'Rua do Fojo, n 148', 'Carreira - VNF', '4765-076', '280511728', '2012-02-09', 'martimmiguel2001@gmail.com', '+351912929716', 'EB Vila das Aves', 8, '', '', 12, 0, 0, 'Marta da Conceição Coutinho Cruz', '+351910124180', '', '', '', 0, 1, NULL),
+(135, 0.00, 0.00, 'RODRIGO MIGUEL SILVA MATOS', 'Alameda Arnauldo Gama n121, 3 Esq', 'Vila das Aves', '4795-001', '271666838', '2010-01-21', '', '', 'EB Vila das Aves', 10, '', '', 8, 0, 0, 'Paula Marina Torres Silva', '+351918394159', 'Ricardo', '+351919346871', '', 0, 1, NULL),
+(136, 0.00, 0.00, 'RÚBEN FILIPE SILVA MONTEIRO', 'Rua do Casino, n 301', 'Bairro - VNF', '4765-063', '0', '2010-12-07', '', '', '', 10, '', '', 12, 0, 0, 'Silvia', '+351918169689', 'Hélio Filipe Nogueira Monteiro', '+351916919586', '', 0, 1, NULL),
+(137, 0.00, 0.00, 'TIAGO GABRIEL CASTRO DA SILVA', 'Rua das Lages, n23', 'Bairro - VNF', '4765-044', '0', '2010-03-15', '', '', '', 10, '', '', 8, 0, 0, 'Marisa Isabel Barbosa Castro Silva', '+351916030029', 'Pedro', '+351917103375', '', 0, 1, NULL),
+(138, 0.00, 0.00, 'AFONSO AZEVEDO FERREIRA', 'Rua de St. Rita n 85', 'Cense - Vila das Aves', '', '0', '2009-02-26', '', '', '', 11, '', '', 16, 0, 0, 'Ângela Cristina Azevedo Pereira', '+351936545223', '', '', '', 0, 1, NULL),
+(139, 0.00, 0.00, 'FRANCISCO MARTINS PIMENTA DA SILVA PEREIRA', 'Praça do Bom Nome Ent.2, 1 Esq.', 'Vila das Aves', '4795-025', '0', '2007-10-02', '', '+351937790784', 'Secundária Afonso Henriques', 13, '', '', 8, 0, 0, '', '', 'Manuel Adérito da Silva Pereira', '+351965057633', '', 0, 1, NULL),
+(140, 0.00, 0.00, 'GONÇALO DINIS FERREIRA FREITAS', 'Rua Quinta da Vila n95, Roriz', 'Santo Tirso', '4795-503', '272153648', '2009-01-27', '', '', '', 11, '', '', 4, 0, 0, 'Adriana Correia Ferreira Freitas', '+351916646649', '', '', '', 0, 1, NULL),
+(141, 0.00, 0.00, 'JOSÉ ANTÓNIO DIAS RASO', 'Rua Cônsul Aristides de Sousa Mendes, n 22', 'Lordelo - GMR', '4815-116', '0', '2008-08-19', 'zeraso3232@gmail.com', '+351936757374', 'Tomás Pelayo', 11, '', '', 4, 4, 0, 'Darcília Isabel Dias Gomes', '+351962580494', '', '', '', 0, 1, NULL),
+(142, 0.00, 0.00, 'LEONOR FERREIRA DA SILVA', 'Lar Dr. Braga da Cruz, n94, 4Dt', 'Vila das Aves', '4795-015', '274051346', '2008-03-01', '', '+351938167704', 'EB 2,3 Bom Nome', 12, '', '', 8, 0, 0, 'Mónica Maria Ferreira', '+351938186968', '', '+351938186967', '', 0, 1, NULL),
+(143, 0.00, 0.00, 'RODRIGO SANTOS SILVA', 'Rua das Ínsuas, n457', 'Vilarinho -Santo Tirso', '4795-787', '0', '2007-12-27', '', '+351961468207', 'D. Afonso Heniques', 13, '', '', 4, 0, 0, 'Leonor Silva', '+351933337728', '', '', '', 0, 1, NULL),
+(151, 0.00, 0.00, 'GUSTAVO RODRIGUES SALGADO', 'Av. Monte dos Saltos, nº45', 'Sequeirô - St. Tirso', '4780-641', '275127109', '2008-02-25', '', '+351969608175', 'Escola Báica de Ave', 10, '', 'F', 4, 0, 0, 'Paula Francisca Couto Rodrigues', '+351932902925', '', '', '', 0, 1, NULL),
+(152, 0.00, 0.00, 'PEDRO DINIS ALVES PACHECO', 'Urb. Crapts&Crapts, Casa 4', 'Bairro - VNF', '4765-680', '0', '2008-10-21', '', '+351964804787', '', 12, '', '', 4, 0, 0, 'Emilia Alves - emilia.cristina@sapo.pt', '+351914411513', '', '', '', 0, 1, NULL),
+(155, 0.00, 0.00, 'Maria Eduarda Pontes Dias', 'Rua Luís de Camões, 206', '', '4765-255', '0', '2010-05-03', '', '+351913567702', 'EB Aves ', 10, '', 'C', 8, 0, 0, 'Carolina Pontes', '+351914940758', '', '', '', 0, 1, '0000-00-00');
 -- --------------------------------------------------------
 
 --
@@ -308,7 +307,29 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id`, `nome`, `tipo`) VALUES
-(1, 'Pagamento Alunos', 'credito');
+(1, 'Despesas mensais', 'debito');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cronjobs`
+--
+
+CREATE TABLE `cronjobs` (
+  `id` int(11) NOT NULL,
+  `cronjob` text NOT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `cronjobs`
+--
+
+INSERT INTO `cronjobs` (`id`, `cronjob`, `estado`) VALUES
+(1, 'Seguro', 0),
+(2, 'Recibos', 0),
+(3, 'Novo ano letivo', 0),
+(4, 'Despesas', 0);
 
 -- --------------------------------------------------------
 
@@ -349,7 +370,6 @@ CREATE TABLE `despesas_meses` (
 --
 
 INSERT INTO `despesas_meses` (`id`, `idDespesa`, `mes`) VALUES
-(13, 1, 1),
 (2, 1, 2),
 (3, 1, 3),
 (4, 1, 4),
@@ -360,7 +380,34 @@ INSERT INTO `despesas_meses` (`id`, `idDespesa`, `mes`) VALUES
 (9, 1, 9),
 (10, 1, 10),
 (11, 1, 11),
-(12, 1, 12);
+(12, 1, 12),
+(13, 1, 1),
+(14, 4, 1),
+(15, 4, 2),
+(16, 4, 3),
+(17, 4, 4),
+(18, 4, 5),
+(19, 4, 6),
+(20, 4, 7),
+(21, 4, 10),
+(22, 4, 11),
+(23, 4, 12),
+(24, 3, 1),
+(25, 3, 4),
+(26, 3, 7),
+(27, 3, 10),
+(28, 5, 1),
+(29, 5, 2),
+(30, 5, 3),
+(31, 5, 4),
+(32, 5, 5),
+(33, 5, 6),
+(34, 5, 7),
+(35, 5, 8),
+(36, 5, 9),
+(37, 5, 10),
+(38, 5, 11),
+(39, 5, 12);
 
 -- --------------------------------------------------------
 
@@ -902,6 +949,12 @@ ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `cronjobs`
+--
+ALTER TABLE `cronjobs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `despesas`
 --
 ALTER TABLE `despesas`
@@ -1013,7 +1066,7 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `alunos`
 --
 ALTER TABLE `alunos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
 -- AUTO_INCREMENT de la tabla `alunos_disciplinas`
@@ -1037,7 +1090,7 @@ ALTER TABLE `alunos_presenca`
 -- AUTO_INCREMENT de la tabla `alunos_recibo`
 --
 ALTER TABLE `alunos_recibo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `alunos_testes`
@@ -1049,7 +1102,13 @@ ALTER TABLE `alunos_testes`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `cronjobs`
+--
+ALTER TABLE `cronjobs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `despesas`
@@ -1061,7 +1120,7 @@ ALTER TABLE `despesas`
 -- AUTO_INCREMENT de la tabla `despesas_meses`
 --
 ALTER TABLE `despesas_meses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `disciplinas`
@@ -1103,7 +1162,7 @@ ALTER TABLE `metodos_pagamento`
 -- AUTO_INCREMENT de la tabla `professores`
 --
 ALTER TABLE `professores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `professores_disciplinas`
@@ -1127,13 +1186,13 @@ ALTER TABLE `professores_ensino`
 -- AUTO_INCREMENT de la tabla `professores_recibo`
 --
 ALTER TABLE `professores_recibo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `transacoes`
 --
 ALTER TABLE `transacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `valores_pagamento`
