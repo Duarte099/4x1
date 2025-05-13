@@ -363,16 +363,6 @@
         }
     }
 
-    function minutosToValor($minutos){
-        // Conversão para horas e minutos
-        $horas = intdiv($minutos, 60);
-
-        $minutosRestantes = $minutos % 60;
-
-        // Conversão para horas decimais
-        return $minutos / 60;
-    }
-
     //RECIBO PROFESSORES
     $sql1 = "SELECT * FROM professores WHERE ativo = 1";
     $result1 = $con->query($sql1);

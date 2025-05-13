@@ -136,13 +136,13 @@
     }
     else {
         $sql = "SELECT *, CASE 
-                            WHEN pagoEm IS NULL AND DAY(CURDATE()) > 8 THEN 'Atrasado'
-                            WHEN pagoEm IS NOT NULL THEN 'Pago'
-                            WHEN pagoEm IS NULL AND DAY(CURDATE()) < 8 THEN 'Pendente'
+                            WHEN pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) > 8 THEN 'Atrasado'
+                            WHEN pagoEm != '0000-00-00 00:00:00' THEN 'Pago'
+                            WHEN pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) < 8 THEN 'Pendente'
                             ELSE 'Outro'
                         END AS estado 
                 FROM alunos_recibo as a 
-                    INNER JOIN metodos_pagamento as m ON a.idMetodo = m.id 
+                    LEFT JOIN metodos_pagamento as m ON a.idMetodo = m.id 
                 WHERE idAluno = $idAluno AND ano = $ano AND mes = $mes";
         $result = $con->query($sql);
         //Se houver um aluno com o id recebido, guarda as informações
