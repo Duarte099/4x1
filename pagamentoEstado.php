@@ -56,11 +56,11 @@
                               $anoAtual -= 1;
                             }
                             //query para selecionar todos os administradores
-                            $sql = "SELECT *, 
+                            $sql = "SELECT *, IF(a.ano>=1 AND a.ano<=4, \"1º CICLO\", IF(a.ano>4 AND a.ano<7, \"2º CICLO\", IF(a.ano>6 AND a.ano<=9, \"3º CICLO\", IF(a.ano>9 AND a.ano<=12, \"SECUNDÁRIO\", IF(a.ano=0, \"UNIVERSIDADE\", \"ERRO\"))))) as ensino, 
                                         CASE 
-                                            WHEN pagoEm IS NULL AND DAY(CURDATE()) > 8 THEN 'Atrasado'
-                                            WHEN pagoEm IS NOT NULL THEN 'Pago'
-                                            WHEN pagoEm IS NULL AND DAY(CURDATE()) < 8 THEN 'Pendente'
+                                            WHEN pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) > 8 THEN 'Atrasado'
+                                            WHEN pagoEm != '0000-00-00 00:00:00' THEN 'Pago'
+                                            WHEN pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) < 8 THEN 'Pendente'
                                             ELSE 'Outro'
                                         END AS estado
                                     FROM alunos_recibo as ar 
@@ -69,13 +69,13 @@
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
-                                    if ($row1['estado'] == "Pago") {
+                                    if ($row['estado'] == "Pago") {
                                         $corStatus = "2ecc71";
                                     }
-                                    elseif ($row1['estado'] == "Pendente") {
+                                    elseif ($row['estado'] == "Pendente") {
                                         $corStatus = "f1c40f";
                                     }
-                                    elseif ($row1['estado'] == "Atrasado") {
+                                    elseif ($row['estado'] == "Atrasado") {
                                         $corStatus = "ff0000";
                                     }
                                     else {
@@ -86,7 +86,7 @@
                                         <td>{$row['ensino']}</td>
                                         <td>{$row['nome']}</td>
                                         <td>{$row['dataNascimento']}</td>
-                                        <td style=\"color: #$corStatus;\">{$row1['estado']}</td>
+                                        <td style=\"color: #$corStatus;\">{$row['estado']}</td>
                                         <td>
                                           <div class=\"form-button-action\">
                                             <button

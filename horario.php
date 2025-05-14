@@ -83,6 +83,20 @@
         include('./sideBar.php'); 
       ?>
         <div class="container">
+            <div class="modal fade" id="modalProgresso" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-center">
+                        <div class="modal-header">
+                            <h5 class="modal-title">A enviar notificações...</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="page-inner">
                 <div class="col-md-12">
                     <div class="card">
@@ -110,7 +124,7 @@
                                 </ul>
                                 <?php 
                                     if ($_SESSION['tipo'] == "administrador") { ?>
-                                        <button type="button" class="btn btn-primary" id="meuBotao" <?php echo $disabled; ?> onclick="window.location.href='horarioNotificacao.php'">
+                                        <button type="button" class="btn btn-primary" id="meuBotao" onclick="enviarNotificacoes()" <?php echo $disabled; ?> >
                                             Notificar <?php echo $alunos; ?> <?php echo $professores; ?>.
                                         </button>
                                     <?php }
@@ -485,6 +499,27 @@
             </div>
         </div>
         <script>
+            function enviarNotificacoes() {
+                // Mostrar o modal
+                const modal = new bootstrap.Modal(document.getElementById('modalProgresso'));
+                modal.show();
+
+                // Enviar o pedido AJAX para o ficheiro correto
+                fetch("horarioNotificacao.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: "acao=enviar_notificacoes"
+                })
+                .then(response => response.text())
+                .then(data => {
+                    // Redirecionar de volta para o horário depois do envio
+                    window.location.href = "horario.php";
+                })
+                .catch(error => {
+                    alert("Erro ao enviar notificações: " + error);
+                });
+            }
+
             document.addEventListener("DOMContentLoaded", function () {
                 // Seleciona todas as células com dados
                 const celulas = document.querySelectorAll(".celula-horario");
