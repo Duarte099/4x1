@@ -1,5 +1,15 @@
 ver quando enviar os recibos, em que mes e em julho se apenas a quem fez horas
 
+peguntar o que quer por mais na dashboard e balanco geral
+
+perguntar se quer por tambem o professor no registro de presença
+
+perguntar que campos colocar em cada tabela
+
+ver como funciona se o aluno sair a meio do mês, se tem de pagar a que fez durante o mês
+
+perguntar se precisa de duração no horario
+
 function getParametroUrl(nome) {
                     const params = new URLSearchParams(window.location.search);
                     return params.get(nome);

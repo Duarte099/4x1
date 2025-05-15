@@ -105,8 +105,8 @@
                         success: function(response) 
                         {
                             var data = JSON.parse(response);
-                            data.forEach(item => {
-                                if (emailAdmin === item.email) {
+                            for (let i = 0; i < data.length; i++) {
+                                if (data[i].email === emailAdmin) {
                                     $.notify({
                                         message: 'Esse email já existe no sistema.',
                                         title: 'Notificação',
@@ -120,11 +120,13 @@
                                         delay: 3000
                                     });
 
-                                    erro = erro + 1;
-                                } else {
-                                    e.target.submit();
+                                    erro += 1;
+                                    break;
                                 }
-                            });
+                            }
+                            if (erro === 0) {
+                                e.target.submit();
+                            }
                         },
                         error: function() {
                             console.error('Erro ao buscar os emails.');

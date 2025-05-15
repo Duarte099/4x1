@@ -23,12 +23,6 @@
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $rowAluno = $result->fetch_assoc();
-        if (isset($rowAluno['tAluno']) && $rowAluno['tAluno'] == 1) {
-            $transporte = "checked";
-        }
-        else {
-            $transporte = "";
-        }
     } else {
         notificacao('warning', 'ID do aluno inválido.');
         header('Location: aluno.php');
@@ -156,9 +150,6 @@
     }
 ?>
     <title>4x1 | Editar Aluno</title>
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css'>
     <style>
         .fc-day-header[data-date="0"],
         .fc-day[data-date$="-0"] {
@@ -296,6 +287,19 @@
         font-size: 15px;
         }
 
+        .big-checkbox {
+            width: 1.5em;
+            height: 1.5em;
+            transform: translateY(4px); /* opcional: alinha melhor com o label */
+        }
+
+        .form-control:disabled,
+        .form-control[readonly] {
+            background-color: white !important;
+            opacity: 1 !important;
+            border: 1px solid #ced4da !important; /* igual ao form-control */
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
             .form-row {
@@ -351,245 +355,215 @@
                         </ul>
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="editar-aluno" role="tabpanel" aria-labelledby="editar-aluno-tab">
-                                <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST" id="formEdit" class="formEdit">
-                                    <div
-                                        class="modal fade"
-                                        id="addRowModal"
-                                        tabindex="-1"
-                                        role="dialog"
-                                        aria-hidden="true"
-                                    >
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <h1>DISPONIBILIDADE</h1>
-                                                <table>
-                                                    <tr>
-                                                        <th>Segunda</th>
-                                                        <th>Terça</th>
-                                                        <th>Quarta</th>
-                                                        <th>Quinta</th>
-                                                        <th>Sexta</th>
-                                                        <th>Sábado</th>
-                                                    </tr>
+                                <div class="col-12 col-md-10 col-lg-8 mx-auto">
+                                    <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST" id="formEdit" class="formEdit">
+                                        <!-- <div
+                                            class="modal fade"
+                                            id="addRowModal"
+                                            tabindex="-1"
+                                            role="dialog"
+                                            aria-hidden="true"
+                                        >
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <h1>DISPONIBILIDADE</h1>
+                                                    <table>
+                                                        <tr>
+                                                            <th>Segunda</th>
+                                                            <th>Terça</th>
+                                                            <th>Quarta</th>
+                                                            <th>Quinta</th>
+                                                            <th>Sexta</th>
+                                                            <th>Sábado</th>
+                                                        </tr>
+                                                        <?php 
+                                                            $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+                                                            $horasFDS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
+                                                            $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+                                                        
+                                                            for ($i = 1; $i <= 11; $i++) {
+                                                                echo "<tr>";
+                                                                foreach ($dias as $dia) {
+                                                                    $hora = ($dia == 'Sábado') ? ($horasFDS[$i] ?? '') : ($horas[$i] ?? '');
+                                                                    $disponibilidade = 0;
+                                                                    $sql = "SELECT disponibilidade FROM alunos_disponibilidade WHERE idAluno = ? AND dia = ? AND hora = ?";
+                                                                    $result = $con->prepare($sql);
+                                                                    $result->bind_param('iss', $idAluno, $dia, $hora);
+                                                                    $result->execute(); 
+                                                                    $result->store_result();
+                                                                    $result->bind_result($disponibilidade);
+                                                                    $result->fetch();
+                                                                    if ($disponibilidade == 1) {
+                                                                        $estado = "checked=\"\"";
+                                                                    }
+                                                                    else{
+                                                                        $estado = "";
+                                                                    }
+
+                                                                    if ($hora) {
+                                                                        echo "<td>
+                                                                                <label class='selectgroup-item' id='selectgroup-item'>
+                                                                                    <input type=\"checkbox\" name=\"disponibilidade_" . $dia . "_" . $hora . "\" class=\"selectgroup-input\" id=\"selectgroup-input\" " . $estado . "/>
+                                                                                    <span class='selectgroup-button' id='selectgroup-button'>$hora</span>
+                                                                                </label>
+                                                                            </td>";
+                                                                    } else {
+                                                                        echo "<td></td>";
+                                                                    }
+                                                                }
+                                                                echo "</tr>";
+                                                            }
+                                                        ?>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="page-inner">
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="nome" class="form-label">Nome:</label>
+                                                    <input type="text" class="form-control" name="nome" value="<?php echo $rowAluno['nome']; ?>" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="morada" class="form-label">Morada:</label>
+                                                    <input type="text" class="form-control" name="morada" id="email" value="<?php echo $rowAluno['morada']; ?>" required>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="localidade" class="form-label">Localidade:</label>
+                                                    <input type="text" class="form-control" name="localidade" value="<?php echo $rowAluno['localidade']; ?>">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="codigoPostal" class="form-label">Còdigo postal:</label>
+                                                    <input type="input" class="form-control" name="codigoPostal" value="<?php echo $rowAluno['codigoPostal']; ?>" required>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-3">
+                                                    <label for="NIF" class="form-label">NIF:</label>
+                                                    <input type="number" class="form-control" name="NIF" min="0" max="999999999" value="<?php echo $rowAluno['nif']; ?>">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="dataNascimento" class="form-label">Data nascimento:</label>
+                                                    <input type="date" class="form-control" name="dataNascimento" value="<?php echo $rowAluno['dataNascimento']; ?>" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="email" class="form-label">Email:</label>
+                                                    <input type="email" class="form-control" name="email" value="<?php echo $rowAluno['email']; ?>">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="contacto" class="form-label">Contacto:</label>
+                                                    <input type="tel" id="contacto" class="form-control" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
+                                                    <input type="hidden" name="contacto" id="contactoHidden">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="escola" class="form-label">Escola:</label>
+                                                    <input type="text" class="form-control" name="escola" value="<?php echo $rowAluno['escola']; ?>">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="ano" class="form-label">
+                                                        Ano: 
+                                                        <span 
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="right" 
+                                                            title="Universidade: 0"
+                                                            style="cursor: pointer; color: #0d6efd;"
+                                                        >
+                                                            ?
+                                                        </span>
+                                                    </label>
+                                                    <input type="number" class="form-control" name="ano" min="0" max="12" value="<?php echo $rowAluno['anoAluno']; ?>" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="curso" class="form-label">Curso:</label>
+                                                    <input type="curso" class="form-control" name="curso" value="<?php echo $rowAluno['curso']; ?>">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="turma" class="form-label">Turma:</label>
+                                                    <input type="text" class="form-control" name="turma" value="<?php echo $rowAluno['turma']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="modalidade" class="form-label">Modalidade:</label>
+                                                    <input type="text" class="form-control" name="modalidade" value="<?php echo $rowAluno['modalidade']; ?>">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="ano" class="form-label">Horas grupo:</label>
+                                                    <input type="number" class="form-control" name="horasGrupo" min="0" value="<?php echo $rowAluno['horasGrupo']; ?>">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="horasIndividual" class="form-label">Horas individuais:</label>
+                                                    <input type="number" class="form-control" name="horasIndividual" min="0" value="<?php echo $rowAluno['horasIndividual']; ?>">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="transporte" class="form-label">Transporte:</label>
+                                                    <select class="form-control" name="transporte" >
+                                                        <option value='1' <?php if ($rowAluno['tAluno'] == 1) { echo "selected"; }?>>Sim</option>
+                                                        <option value='0' <?php if ($rowAluno['tAluno'] == 0) { echo "selected"; }?>>Não</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="form-label" for="estado">Estado:</label>
+                                                    <select class="form-control" name="estado">
+                                                        <option value='1' <?php if ($rowAluno['ativo'] == 1) { echo "selected"; }?>>Ativo</option>
+                                                        <option value='0' <?php if ($rowAluno['ativo'] == 0) { echo "selected"; }?>>Inativo</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-3">
+                                                    <label for="mae" class="form-label">Mãe:</label>
+                                                    <input type="text" class="form-control" name="mae" value="<?php echo $rowAluno['nomeMae']; ?>">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="maeTlm" class="form-label">Contacto mãe:</label>
+                                                    <input type="tel" class="form-control" id="maeTlm" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
+                                                    <input type="hidden" name="maeTlm" id="maeTlmHidden">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="pai" class="form-label">Pai:</label>
+                                                    <input type="text" class="form-control" name="pai" value="<?php echo $rowAluno['nomePai']; ?>">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="paiTlm" class="form-label">Contacto pai:</label>
+                                                    <input type="tlm" class="form-control" id="paiTlm" name="paiTlm" value="<?php echo $rowAluno['tlmPai']; ?>">
+                                                    <input type="hidden" name="paiTlm" id="paiTlmHidden">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label>DISCIPLINAS:</label>
+                                                <div class="selectgroup selectgroup-pills">
                                                     <?php 
-                                                        $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
-                                                        $horasFDS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
-                                                        $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-                                                    
-                                                        for ($i = 1; $i <= 11; $i++) {
-                                                            echo "<tr>";
-                                                            foreach ($dias as $dia) {
-                                                                $hora = ($dia == 'Sábado') ? ($horasFDS[$i] ?? '') : ($horas[$i] ?? '');
-                                                                $disponibilidade = 0;
-                                                                $sql = "SELECT disponibilidade FROM alunos_disponibilidade WHERE idAluno = ? AND dia = ? AND hora = ?";
-                                                                $result = $con->prepare($sql);
-                                                                $result->bind_param('iss', $idAluno, $dia, $hora);
-                                                                $result->execute(); 
-                                                                $result->store_result();
-                                                                $result->bind_result($disponibilidade);
-                                                                $result->fetch();
-                                                                if ($disponibilidade == 1) {
+                                                        $sql = "SELECT id, nome FROM disciplinas;";
+                                                        $result = $con->query($sql);
+                                                        if ($result->num_rows > 0) {
+                                                            while ($row = $result->fetch_assoc()) {
+                                                                $sql = "SELECT * FROM alunos_disciplinas WHERE idAluno = ? AND idDisciplina = ?";
+                                                                $result1 = $con->prepare($sql);
+                                                                $result1->bind_param('ii', $idAluno, $row['id']);
+                                                                $result1->execute(); 
+                                                                $result1->store_result();
+                                                                if ($result1->num_rows > 0) {
                                                                     $estado = "checked=\"\"";
                                                                 }
                                                                 else{
                                                                     $estado = "";
                                                                 }
-
-                                                                if ($hora) {
-                                                                    echo "<td>
-                                                                            <label class='selectgroup-item' id='selectgroup-item'>
-                                                                                <input type=\"checkbox\" name=\"disponibilidade_" . $dia . "_" . $hora . "\" class=\"selectgroup-input\" id=\"selectgroup-input\" " . $estado . "/>
-                                                                                <span class='selectgroup-button' id='selectgroup-button'>$hora</span>
-                                                                            </label>
-                                                                        </td>";
-                                                                } else {
-                                                                    echo "<td></td>";
-                                                                }
+                                                                echo "<label class='selectgroup-item'>
+                                                                        <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
+                                                                        <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
+                                                                    </label>";
                                                             }
-                                                            echo "</tr>";
                                                         }
                                                     ?>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="page-inner">
-                                        <div class="container2">
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 99.5%;">
-                                                        <label>NOME:</label>
-                                                        <input type="text" name="nome" value="<?php echo $rowAluno['nome']; ?>">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 64%;">
-                                                        <label>MORADA:</label>
-                                                        <input type="text" name="morada" value="<?php echo $rowAluno['morada']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 34%;">
-                                                        <label>LOCALIDADE:</label>
-                                                        <input type="text" name="localidade" value="<?php echo $rowAluno['localidade']; ?>">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 31%;">
-                                                        <label>CÓDIGO POSTAL:</label>
-                                                        <input type="text" name="codigoPostal" value="<?php echo $rowAluno['codigoPostal']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>NIF:</label>
-                                                        <input type="number" name="NIF" value="<?php echo $rowAluno['nif']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 34%;">
-                                                        <label>DATA DE NASCIMENTO:</label>
-                                                        <input type="date" name="dataNascimento" value="<?php echo $rowAluno['dataNascimento']; ?>">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 64%;">
-                                                        <label>EMAIL:</label>
-                                                        <input type="email" name="email" value="<?php echo $rowAluno['email']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 34%;">
-                                                        <label>CONTACTO:</label>
-                                                        <input type="tel" id="contacto" name="contacto" value="<?php echo $rowAluno['contacto']; ?>">
-                                                        <input type="hidden" name="contacto" id="contactoHidden">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 78%;">
-                                                        <label>ESCOLA:</label>
-                                                        <input type="text" name="escola" value="<?php echo $rowAluno['escola']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 20%;">
-                                                        <label>ANO:</label>
-                                                        <input type="number" name="ano" value="<?php echo $rowAluno['anoAluno']; ?>">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 78%;">
-                                                        <label>CURSO:</label>
-                                                        <input type="text" name="curso" value="<?php echo $rowAluno['curso']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 20%;">
-                                                        <label>TURMA:</label>
-                                                        <input type="text" name="turma" value="<?php echo $rowAluno['turma']; ?>">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 23%;">
-                                                        <label>DISPONIBILIDADE:</label>
-                                                        <button
-                                                            type="button"
-                                                            class="btn btn-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#addRowModal"
-                                                            style="padding: 3px;"
-                                                        >
-                                                            <!-- <i class="fa fa-up-right-from-square"> -->
-                                                            DISPONIBILIDADE
-                                                        </button>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 23%;">
-                                                        <label>HORAS GRUPO:</label>
-                                                        <input type="number" name="horasGrupo" min="0" value="<?php echo $rowAluno['horasGrupo']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 23%;">
-                                                        <label>HORAS INDIVIDUAL:</label>
-                                                        <input type="number" name="horasIndividual" min="0" value="<?php echo $rowAluno['horasIndividual']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 10%;">
-                                                        <label>TRANSPORTE:</label>
-                                                        <input class="form-check-input" type="checkbox" name="transporte" style="width: 25px; height: 25px; padding: 5px; border: 1px solid #ccc;" id="flexCheckDefault" <?php echo $transporte; ?>>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Seção de pais -->
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 49%;">
-                                                        <label>MÃE:</label>
-                                                        <input type="text" name="mae" value="<?php echo $rowAluno['nomeMae']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 49%;">
-                                                        <label>Tlm:</label>
-                                                        <input type="tel" id="maeTlm" name="maeTlm" value="<?php echo $rowAluno['tlmMae']; ?>">
-                                                        <input type="hidden" name="maeTlm" id="maeTlmHidden">
-                                                    </div>     
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 49%;">
-                                                        <label>PAI:</label>
-                                                        <input type="text" name="pai" value="<?php echo $rowAluno['nomePai']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 49%;">
-                                                        <label>Tlm:</label>
-                                                        <input type="tel" id="paiTlm" name="paiTlm" value="<?php echo $rowAluno['tlmPai']; ?>">
-                                                        <input type="hidden" name="paiTlm" id="paiTlmHidden">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Modalidade e Disciplinas -->
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 78%;">
-                                                        <label>MODALIDADE:</label>
-                                                        <input type="text" name="modalidade" value="<?php echo $rowAluno['modalidade']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 20%;">
-                                                        <label>ESTADO:</label>
-                                                        <select name="estado" class="select-box">
-                                                            <option <?php if ($rowAluno['ativo'] == 1) { echo "selected"; }?> value="Ativo">Ativo</option>
-                                                            <option <?php if ($rowAluno['ativo'] == 0) { echo "selected"; }?> value="Desativado">Desativado</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 100%;">
-                                                        <label>DISCIPLINAS:</label>
-                                                        <div class="selectgroup selectgroup-pills">
-                                                            <?php 
-                                                                $sql = "SELECT id, nome FROM disciplinas;";
-                                                                $result = $con->query($sql);
-                                                                if ($result->num_rows > 0) {
-                                                                    while ($row = $result->fetch_assoc()) {
-                                                                        $sql = "SELECT * FROM alunos_disciplinas WHERE idAluno = ? AND idDisciplina = ?";
-                                                                        $result1 = $con->prepare($sql);
-                                                                        $result1->bind_param('ii', $idAluno, $row['id']);
-                                                                        $result1->execute(); 
-                                                                        $result1->store_result();
-                                                                        if ($result1->num_rows > 0) {
-                                                                            $estado = "checked=\"\"";
-                                                                        }
-                                                                        else{
-                                                                            $estado = "";
-                                                                        }
-                                                                        echo "<label class='selectgroup-item'>
-                                                                                <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
-                                                                                <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
-                                                                            </label>";
-                                                                    }
-                                                                }
-                                                            ?>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Guardar alterações</button>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="recibo" role="tabpanel" aria-labelledby="recibo-tab">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -606,39 +580,37 @@
                                         <div class="container2">
                                             <?php if ($recibo == true): ?>
                                                 <div class="form-section">
-                                                    <div class="form-section">
-                                                        <div class="form-row">
-                                                            <div class="campo" style="flex: 0 0 56%;">
-                                                                <label>NOME:</label>
-                                                                <input type="text" name="nome" readonly value="<?php echo $rowAluno['nome']; ?>">
-                                                            </div>
-                                                            <div class="campo" style="flex: 0 0 20%;">
-                                                                <label>Ano:</label>
-                                                                <input type="text" name="pack" id="pack" readonly value="<?php echo $rowRecibo['anoAluno']; ?>º">
-                                                            </div>
-                                                            <div class="campo" style="flex: 0 0 20%;">
-                                                                <label>ESTADO:</label>
-                                                                <input type="input" name="estado" value="<?php echo $rowRecibo['estado']; ?>" readonly>
-                                                            </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-6">
+                                                            <label for="nome" class="form-label">Nome:</label>
+                                                            <input type="text" class="form-control" name="nome" value="<?php echo $rowAluno['nome']; ?>" disabled>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label for="morada" class="form-label">Ano:</label>
+                                                            <input type="text" class="form-control" name="ano" value="<?php echo $rowRecibo['anoAluno']; ?>º" disabled>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label for="estado" class="form-label">Estado:</label>
+                                                            <input type="text" class="form-control" name="estado" value="<?php echo $rowRecibo['estado']; ?>" disabled>
                                                         </div>
                                                     </div>
                                                     <?php if ($botao == true) { ?>
                                                         <div class="form-section">
-                                                            <div class="form-row">
-                                                                <div class="campo" style="flex: 0 0 49%;">
-                                                                    <label>MÉTODO:</label>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-4">
+                                                                    <label for="metodo" class="form-label">Método:</label>
                                                                     <?php if ($rowRecibo['estado'] == "Pago") { ?>
-                                                                        <input type="input" name="metodo" value="<?php echo $rowRecibo['metodo']; ?>" readonly>
+                                                                        <input type="text" class="form-control" name="metodo" value="<?php echo $rowRecibo['metodo']; ?>" disabled>
                                                                     <?php } else { ?>
-                                                                        <select name="metodo" class="select-box">
+                                                                        <select name="metodo" class="form-control">
                                                                             <option selected value="1">Dinheiro</option>
                                                                             <option value="2">MBWay</option>
                                                                         </select>
                                                                     <?php } ?>
                                                                 </div>
-                                                                <div class="campo" style="flex: 0 0 49%;">
-                                                                    <label>OBSERVAÇÃO:</label>
-                                                                    <input type="input" name="observacao" value="<?php if ($rowRecibo['estado'] == "Pago") {echo $rowRecibo['observacao'];} ?>" <?php if ($rowRecibo['estado'] == "Pago") { echo "readonly"; } ?>>
+                                                                <div class="col-md-8">
+                                                                    <label for="observacao" class="form-label">Observação:</label>
+                                                                    <input type="text" class="form-control" name="observacao" value="<?php if ($rowRecibo['estado'] == "Pago") {echo $rowRecibo['observacao'];} ?>" <?php if ($rowRecibo['estado'] == "Pago") { echo "readonly"; } ?>>
                                                                 </div>
                                                             </div>
                                                         </div>

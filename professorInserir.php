@@ -8,6 +8,8 @@
         exit();
     }
 
+    print_r($_POST);
+
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         //Obtem o operação 
@@ -21,33 +23,6 @@
         $contacto = $_POST['contacto'];
 
         if ($op == 'save') {
-            $stmt = $con->prepare("SELECT email FROM professores");
-            $stmt->execute();
-            $result = $stmt->get_result();
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    if ($row["email"] == $email) {
-                        notificacao('warning', 'Esse email já existe no sistema.');
-                        header('Location: professorCriar.php');
-                        exit();
-                    }
-                    else {
-                        $stmt1 = $con->prepare("SELECT email FROM administrador");
-                        $stmt1->execute();
-                        $result1 = $stmt1->get_result();
-                        if ($result1->num_rows > 0) {
-                            while ($row1 = $result1->fetch_assoc()) {
-                                if ($row1["email"] == $email) {
-                                    notificacao('warning', 'Esse email já existe no sistema.');
-                                    header('Location: professorCriar.php');
-                                    exit();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
             $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
             //query sql para inserir os dados do aluno
             $sql = "INSERT INTO professores (nome, email, contacto, pass) VALUES (?, ?, ?, ?)";
@@ -123,13 +98,6 @@
 
             $estado = $_POST['estado'];
 
-            if ($estado == "Ativo") {
-                $estado = 1;
-            }
-            else {
-                $estado = 0;
-            }
-
             $stmt = $con->prepare('SELECT id FROM professores WHERE id = ?');
             $stmt->bind_param('i', $idProfessor);
             $stmt->execute(); 
@@ -144,7 +112,7 @@
                 $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, pass = ?, ativo = ? WHERE id = ?";
                 $result = $con->prepare($sql);
                 if ($result) {
-                    $result->bind_param("ssssdi", $nome, $email, $contacto, $passwordHash, $estado, $idProfessor);
+                    $result->bind_param("ssssbi", $nome, $email, $contacto, $passwordHash, $estado, $idProfessor);
                     if ($result->execute()) {
                         notificacao('success', 'Professor editado com sucesso!');
                         registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o professor [" . $idProfessor . "]" . $nome . ".");
@@ -163,7 +131,7 @@
                 $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, ativo = ? WHERE id = ?";
                 $result = $con->prepare($sql);
                 if ($result) {
-                    $result->bind_param("sssdi", $nome, $email, $contacto, $estado, $idProfessor);
+                    $result->bind_param("sssbi", $nome, $email, $contacto, $estado, $idProfessor);
                     if ($result->execute()) {
                         notificacao('success', 'Professor editado com sucesso!');
                         registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o professor [" . $idProfessor . "]" . $nome . ".");
@@ -270,7 +238,7 @@
                     }
                 }
             }
-            header('Location: professor.php');
+            //header('Location: professor.php');
         }
         else {
             notificacao('warning', 'Operação inválida.');
