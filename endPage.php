@@ -63,6 +63,12 @@
 
         $("#multi-filter-select").DataTable({
           pageLength: 5,
+          <?php if (isset($_SESSION['testes']) && $_SESSION['testes'] == "true") { ?>
+            order: [[2, 'asc']],
+          <?php } ?>
+          language: {
+              url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
+          },
           initComplete: function () {
             this.api()
               .columns()

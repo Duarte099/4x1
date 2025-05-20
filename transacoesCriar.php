@@ -3,7 +3,7 @@
     include('./head.php'); 
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-    $estouEm = 11;
+    $estouEm = 13;
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
@@ -13,9 +13,6 @@
     }
 ?>
     <title>4x1 | Nova Transação</title>
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css'>
     <style>
         .fc-day-header[data-date="0"],
         .fc-day[data-date$="-0"] {
@@ -160,31 +157,29 @@
                 include('./sideBar.php'); 
             ?>
             <div class="container">
-                <form action="transacoesInserir?op=save" method="POST">
-                    <div class="page-inner">
-                        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
-                            <div>
-                                <h2 class="fw-bold mb-3">Nova Transação</h2>
-                            </div>
-                        </div>
+                <div class="col-12 col-md-10 col-lg-8 mx-auto">
+                    <form action="transacoesInserir?op=save" method="POST">
                         <div class="container2">
-                            <div class="form-section">
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 64%;">
-                                        <label>DESCRIÇÃO:</label>
-                                        <input type="input" name="descricao" required>
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 34%;">
-                                        <label>VALOR:</label>
-                                        <input type="number" step="0.01" min="0" name="valor" required>
+                            <div class="page-inner">
+                                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
+                                    <div>
+                                        <h2 class="fw-bold mb-3">Nova Transação</h2>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-section">
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 49%;">
-                                        <label>CATEGORIA:</label>
-                                        <select name="categoria" class="select-box">
+                                <div class="row mb-3">
+                                    <div class="col-md-8">
+                                        <label for="descricao" class="form-label">Descrição:</label>
+                                        <input type="input" name="descricao" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="valor" class="form-label">Valor:</label>
+                                        <input type="number" class="form-control" step="0.01" min="0" name="valor" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <label for="categoria" class="form-label">Categoria:</label>
+                                        <select name="categoria" class="form-control">
                                             <?php
                                                 $sql = "SELECT id, nome, tipo FROM categorias;";
                                                 $result = $con->query($sql);
@@ -198,11 +193,11 @@
                                         </select>
                                     </div>
                                 </div>
+                                <button type="submit" class="btn btn-primary">Criar transação</button>
                             </div>
-                            <button type="submit" class="btn btn-primary">Criar transação</button>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
         <?php include('./endPage.php'); ?>

@@ -4,6 +4,8 @@
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 1;
+
+    $_SESSION['testes'] = true;
 ?>
 <title>4x1 | Dashboard</title>
 </head>
@@ -175,9 +177,74 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+							<div class="card-header">
+								<div class="d-flex align-items-center">
+									<h4 class="card-title">Testes</h4>
+									<button
+										class="btn btn-primary btn-round ms-auto"
+                                        onclick="window.location.href='testes.php';"
+									>
+										<i class="fa fa-plus"></i>
+										Adicionar teste
+									</button>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table
+										id="multi-filter-select"
+										class="display table table-striped table-hover"
+									>
+										<thead>
+											<tr>
+												<th>Aluno</th>
+												<th>Disciplina</th>
+												<th>Dia</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+												//query para selecionar todos os administradores
+												$sql = " SELECT 
+                                                            a.nome AS nomeAluno, 
+                                                            d.nome AS nomeDisciplina, 
+                                                            dia 
+                                                        FROM 
+                                                            alunos_testes 
+                                                        INNER JOIN alunos AS a ON a.id = idAluno 
+                                                        INNER JOIN disciplinas AS d ON d.id = idDisciplina 
+                                                        WHERE dia >= CURDATE()
+                                                        ORDER BY dia ASC
+                                                    ";
+												$result = $con->query($sql);
+												if ($result->num_rows > 0) {
+													while ($row = $result->fetch_assoc()) {
+														?>
+															<tr>
+																<td><?php echo $row['nomeAluno'] ?></td>
+																<td><?php echo $row['nomeDisciplina'] ?></td>
+																<td><?php echo $row['dia'] ?></td>
+															</tr>
+														<?php
+													}
+												}
+											?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="col-md-6">
+                        
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </div> 
     <?php  
         include('./endPage.php'); 
     ?>

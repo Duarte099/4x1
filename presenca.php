@@ -5,7 +5,7 @@
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 5;
 ?>
-    <title>4x1 | Resgistrar presença</title>
+    <title>4x1 | Registrar presença</title>
     <style>
         h1 {
             text-align: center;
@@ -234,11 +234,12 @@
                                         <label for="dia" class="form-label">Dia:</label>
                                         <input type="date" name="dia" class="form-control" value="<?php echo date('Y-m-d'); ?>">
                                     </div>
-                                    <div class="col-md-3 d-flex align-items-end">
-                                        <div class="form-check">
-                                            <label for="individual" class="form-label d-block">Individual:</label>
-                                            <input class="form-check-input big-checkbox" type="checkbox" name="individual">
-                                        </div>
+                                    <div class="col-md-3">
+                                        <label for="individual" class="form-label">Individual:</label>
+                                        <select class="form-control" name="individual">
+                                            <option value="1">Sim</option>
+                                            <option value="0" selected>Não</option>
+                                        </select> 
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Registrar presença</button>
