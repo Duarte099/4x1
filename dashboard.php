@@ -201,6 +201,7 @@
 										<thead>
 											<tr>
 												<th>Aluno</th>
+                                                <th>Ensino</th>
 												<th>Disciplina</th>
 												<th>Dia</th>
 											</tr>
@@ -211,7 +212,8 @@
 												$sql = " SELECT 
                                                             a.nome AS nomeAluno, 
                                                             d.nome AS nomeDisciplina, 
-                                                            dia 
+                                                            dia,
+                                                            IF(a.ano>=1 AND a.ano<=4, \"1º CICLO\", IF(a.ano>4 AND a.ano<7, \"2º CICLO\", IF(a.ano>6 AND a.ano<=9, \"3º CICLO\", IF(a.ano>9 AND a.ano<=12, \"SECUNDÁRIO\", IF(a.ano=0, \"UNIVERSIDADE\", \"ERRO\"))))) as ensino
                                                         FROM 
                                                             alunos_testes 
                                                         INNER JOIN alunos AS a ON a.id = idAluno 
@@ -225,6 +227,7 @@
 														?>
 															<tr>
 																<td><?php echo $row['nomeAluno'] ?></td>
+                                                                <td><?php echo $row['ensino'] ?></td>
 																<td><?php echo $row['nomeDisciplina'] ?></td>
 																<td><?php echo $row['dia'] ?></td>
 															</tr>
@@ -239,7 +242,61 @@
 						</div>
                     </div>
                     <div class="col-md-6">
-                        
+                        <div class="card">
+							<div class="card-header">
+								<div class="d-flex align-items-center">
+									<h4 class="card-title">Pagamentos em atraso</h4>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table
+										id="multi-filter-select2"
+										class="display table table-striped table-hover"
+									>
+										<thead>
+											<tr>
+												<th>Aluno</th>
+                                                <th>Ensino</th>
+												<th>Valor</th>
+												<th>Data</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+                                                $dataAnterior = new DateTime('first day of last month');
+                                                $mes = $dataAnterior->format('n');
+                                                $ano = $dataAnterior->format('Y');
+												//query para selecionar todos os administradores
+												$sql = " SELECT ar.*,
+                                                            a.nome AS nomeAluno,
+                                                            IF(a.ano>=1 AND a.ano<=4, \"1º CICLO\", IF(a.ano>4 AND a.ano<7, \"2º CICLO\", IF(a.ano>6 AND a.ano<=9, \"3º CICLO\", IF(a.ano>9 AND a.ano<=12, \"SECUNDÁRIO\", IF(a.ano=0, \"UNIVERSIDADE\", \"ERRO\"))))) as ensino
+                                                        FROM alunos_recibo as ar
+                                                        INNER JOIN alunos AS a ON a.id = ar.idAluno
+                                                        WHERE ar.pagoEm = '0000-00-00 00:00:00' AND NOT (
+                                                                ar.mes = MONTH(DATE_SUB(CURDATE(), INTERVAL 1 MONTH)) 
+                                                                AND ar.ano = YEAR(DATE_SUB(CURDATE(), INTERVAL 1 MONTH))
+                                                            )
+                                                ";
+												$result = $con->query($sql);
+												if ($result->num_rows > 0) {
+													while ($row = $result->fetch_assoc()) {
+														?>
+															<tr>
+																<td><?php echo $row['nomeAluno'] ?></td>
+                                                                <td><?php echo $row['ensino'] ?></td>
+																<td><?php echo $row['mensalidadeGrupo'] + $row['mensalidadeIndividual'] + $row['transporte'] + $row['inscricao'] + $row['coima']?></td>
+																<td data-order="<?php echo $row['ano'] ?>-<?php echo $row['mes'] ?>"><?php echo $row['mes'] ?>-<?php echo $row['ano'] ?></td>
+															</tr>
+														<?php
+													}
+												}
+											?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
                     </div>
                 </div>
             </div>

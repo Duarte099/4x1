@@ -127,9 +127,6 @@
     }
 ?>
     <title>4x1 | Perfil</title>
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css'>
     <style>
         .container {
             background-color: white;
@@ -571,20 +568,23 @@
             </div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+            <?php if($_SESSION["tipo"] == "professor") { ?>
+                <script>
+                    const input = document.querySelector("#contacto");
+                    const hiddenInput = document.querySelector("#contactoHidden");
+                    const iti = window.intlTelInput(input, {
+                        initialCountry: "pt",
+                        preferredCountries: ["pt", "br", "fr", "gb"],
+                        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+                    });
+
+                    // Ao submeter o formulário, atualiza o campo hidden
+                    document.querySelector("#formEdit").addEventListener("submit", function () {
+                        hiddenInput.value = iti.getNumber();
+                    });
+                </script>
+            <?php } ?>
             <script>
-                const input = document.querySelector("#contacto");
-                const hiddenInput = document.querySelector("#contactoHidden");
-                const iti = window.intlTelInput(input, {
-                    initialCountry: "pt",
-                    preferredCountries: ["pt", "br", "fr", "gb"],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                });
-
-                // Ao submeter o formulário, atualiza o campo hidden
-                document.querySelector("#formEdit").addEventListener("submit", function () {
-                    hiddenInput.value = iti.getNumber();
-                });
-
                 function verificarPasswords() {
                     const password = document.getElementById("password").value;
                     const confirm = document.getElementById("passwordConfirm").value;
