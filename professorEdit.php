@@ -140,45 +140,6 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css'>
     <style>
-        .fc-day-header[data-date="0"],
-        .fc-day[data-date$="-0"] {
-            display: none;
-        }
-
-        h1 {
-            text-align: center;
-            color: #343a40;
-        }
-
-        table {
-            border-collapse: collapse;
-            margin: 20px auto;
-            background-color: #fff;
-            border: 2px solid #dee2e6;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        th,
-        td {
-            border: 1px solid #dee2e6;
-            /* padding: 10px; */
-            text-align: center;
-        }
-
-        th {
-            padding: 10px;
-            background-color: #f2f2f2;
-            color: #343a40;
-        }
-
-        .highlight {
-            background-color: #f8f9fa;
-        }
-
-        .special {
-            background-color: #f0f0f0;
-        }
-
         .container2 {
             background: white;
             padding: 2rem;
@@ -187,106 +148,11 @@
             margin: 0 auto;
         }
 
-        /* Formulário estruturado com flexbox */
-        .form-section {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            width: 100%;
-            gap: 10px;
-        }
-
-        .campo {
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .campo label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input {
-            width: 100%;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        /* Ajusta a largura e altura para ocupar o TD inteiro */
-        #selectgroup-item {
-            display: block;
-            width: 100%;
-            height: 100%;
-            padding: 0; /* Remove qualquer padding extra */
-            margin: 0;
-        }
-
-        /* Oculta a checkbox padrão */
-        #electgroup-input {
-            display: none;
-        }
-
-        /* Estiliza o botão (span) para ocupar todo o espaço do TD */
-        .selectgroup-button {
-            display: block;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            background-color: white; /* Cor padrão */
-            border: 1px solid #ccc;
-            cursor: pointer;
-            transition: background 0.3s ease, color 0.3s ease;
-            box-sizing: border-box; /* Garante que o padding não afete o tamanho total */
-        }
-
-        /* Muda a cor quando a checkbox está selecionada */
-        #selectgroup-input:checked + .selectgroup-button {
-            background-color: blue;
-            color: white;
-            font-weight: bold;
-        }
-
-        select {
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 4px;
-            font-size: 16px;
-            color: #343a40;
-            width: 100%;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .big-checkbox {
-            width: 1.5em;
-            height: 1.5em;
-            transform: translateY(4px); /* opcional: alinha melhor com o label */
-        }
-
         .form-control:disabled,
         .form-control[readonly] {
             background-color: white !important;
             opacity: 1 !important;
             border: 1px solid #ced4da !important; /* igual ao form-control */
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .form-row {
-                flex-direction: column;
-            }
-            .campo {
-                flex: 0 0 100%;
-            }
         }
     </style>
 </head>

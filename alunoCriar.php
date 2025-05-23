@@ -69,19 +69,19 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label for="nome" class="form-label">Nome:</label>
                                     <input type="text" class="form-control" name="nome" required>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label for="morada" class="form-label">Morada:</label>
                                     <input type="text" class="form-control" name="morada" id="email" required>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label for="localidade" class="form-label">Localidade:</label>
                                     <input type="text" class="form-control" name="localidade">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label for="codigoPostal" class="form-label">Código postal:</label>
                                     <input type="input" class="form-control" name="codigoPostal" required>
                                 </div>
@@ -91,11 +91,11 @@
                                     <label for="NIF" class="form-label">NIF:</label>
                                     <input type="number" class="form-control" name="NIF" min="0" max="999999999">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label for="dataNascimento" class="form-label">Data nascimento:</label>
                                     <input type="date" class="form-control" name="dataNascimento" required>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label for="email" class="form-label">Email:</label>
                                     <input type="email" class="form-control" name="email">
                                 </div>
@@ -106,19 +106,29 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label for="escola" class="form-label">Escola:</label>
                                     <input type="text" class="form-control" name="escola">
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="ano" class="form-label">Ano:</label>
+                                <div class="col-md-2">
+                                    <label for="ano" class="form-label">
+                                        Ano:
+                                        <span 
+                                            data-bs-toggle="tooltip" 
+                                            data-bs-placement="right" 
+                                            title="Universidade: 0"
+                                            style="cursor: pointer; color: #0d6efd;"
+                                        >
+                                            ?
+                                        </span>
+                                    </label>
                                     <input type="number" class="form-control" name="ano" min="0" max="12" required>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label for="curso" class="form-label">Curso:</label>
                                     <input type="curso" class="form-control" name="curso">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label for="turma" class="form-label">Turma:</label>
                                     <input type="text" class="form-control" name="turma">
                                 </div>

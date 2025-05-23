@@ -235,10 +235,10 @@
                                         <input type="date" name="dia" class="form-control" value="<?php echo date('Y-m-d'); ?>">
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="individual" class="form-label">Individual:</label>
+                                        <label for="individual" class="form-label">Tipo:</label>
                                         <select class="form-control" name="individual">
-                                            <option value="1">Sim</option>
-                                            <option value="0" selected>Não</option>
+                                            <option value="1" >Individual</option>
+                                            <option value="0" selected>Grupo</option>
                                         </select> 
                                     </div>
                                 </div>
