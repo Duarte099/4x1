@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 15-Maio-2025 às 12:58
+-- Tempo de geração: 23-Maio-2025 às 10:13
 -- Versão do servidor: 9.1.0
 -- versão do PHP: 8.3.14
 
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `administrador`;
 CREATE TABLE IF NOT EXISTS `administrador` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nome` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_gener      al_ci NOT NULL,
   `email` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `pass` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `img` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.freepik.com%2Ffotos-vetores-gratis%2Fuser-icon&psig=AOvVaw3d95dQ6o0U0qDmh29NZRCh&ust=1738437993975000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNDnnqnYoIsDFQAAAAAdAAAAABAJ',
@@ -152,7 +152,16 @@ INSERT INTO `administrador_logs` (`idAdministrador`, `dataLog`, `logFile`) VALUE
 (1, '2025-05-15 12:52:45', 'O administrador [1]Geral 4x1 atualizou o professor [14]teste.'),
 (1, '2025-05-15 12:53:01', 'O administrador [1]Geral 4x1 atualizou o professor [9]Arcélio Sampaio.'),
 (1, '2025-05-15 12:53:09', 'O administrador [1]Geral 4x1 atualizou o professor [9]Arcélio Sampaio.'),
-(1, '2025-05-15 12:56:12', 'O administrador [1]Geral 4x1 atualizou o professor [9]Arcélio Sampaio.');
+(1, '2025-05-15 12:56:12', 'O administrador [1]Geral 4x1 atualizou o professor [9]Arcélio Sampaio.'),
+(1, '2025-05-15 12:59:33', 'O administrador [1]Geral 4x1 atualizou o professor [9]Arcélio Sampaio.'),
+(1, '2025-05-15 13:00:00', 'O administrador [1]Geral 4x1 atualizou o professor [9]Arcélio Sampaio.'),
+(1, '2025-05-15 13:00:16', 'O administrador [1]Geral 4x1 atualizou o professor [9]Arcélio Sampaio.'),
+(1, '2025-05-15 13:00:25', 'O administrador [1]Geral 4x1 atualizou o professor [9]Arcélio Sampaio.'),
+(1, '2025-05-20 11:41:48', 'O administrador [1]Geral 4x1 registrou a presença do aluno [7]FRANCISCO GUIMARÃES MONTEIRO.'),
+(1, '2025-05-23 09:06:56', 'O administrador [1] Geral 4x1 alterou as definições!'),
+(1, '2025-05-23 09:06:56', 'O administrador [1] Geral 4x1 alterou as definições!'),
+(1, '2025-05-23 09:06:56', 'O administrador [1] Geral 4x1 alterou as definições!'),
+(1, '2025-05-23 09:06:56', 'O administrador [1] Geral 4x1 alterou as definições!');
 
 -- --------------------------------------------------------
 
@@ -381,7 +390,7 @@ CREATE TABLE IF NOT EXISTS `alunos_presenca` (
   KEY `idALuno` (`idAluno`),
   KEY `idDisciplina` (`idDisciplina`),
   KEY `idProfessor` (`idProfessor`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Extraindo dados da tabela `alunos_presenca`
@@ -389,7 +398,8 @@ CREATE TABLE IF NOT EXISTS `alunos_presenca` (
 
 INSERT INTO `alunos_presenca` (`id`, `idAluno`, `idProfessor`, `idDisciplina`, `individual`, `duracao`, `dia`, `criado_em`) VALUES
 (1, 1, 8, 1, 0, 15, '2025-05-13', '2025-05-13 09:34:11'),
-(2, 1, 8, 1, 0, 15, '2025-05-15', '2025-05-15 08:27:54');
+(2, 1, 8, 1, 0, 15, '2025-05-15', '2025-05-15 08:27:54'),
+(3, 7, 8, 1, 0, 45, '2025-05-20', '2025-05-20 11:41:48');
 
 -- --------------------------------------------------------
 
@@ -487,6 +497,29 @@ CREATE TABLE IF NOT EXISTS `categorias` (
 INSERT INTO `categorias` (`id`, `nome`, `tipo`) VALUES
 (1, 'Pagamento Alunos', 'credito'),
 (3, 'Despesas', 'debito');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `cronjobs`
+--
+
+DROP TABLE IF EXISTS `cronjobs`;
+CREATE TABLE IF NOT EXISTS `cronjobs` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `estado` tinyint NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Extraindo dados da tabela `cronjobs`
+--
+
+INSERT INTO `cronjobs` (`id`, `estado`) VALUES
+(1, 0),
+(2, 0),
+(3, 1),
+(4, 0);
 
 -- --------------------------------------------------------
 
@@ -815,7 +848,7 @@ INSERT INTO `professores` (`id`, `nome`, `email`, `contacto`, `pass`, `img`, `de
 (6, 'Paula Borralho', 'anapaula.borralho@sapo.pt', '+351917402807', '$2y$10$/hWJGFLBJvEJy5f5Sny8G..iOsjBute9HlBZXNXUlezQbeRxHG7LC', './images/iconUser.png', 1, 0, 1),
 (7, 'Ana Paula Fonseca', 'anapaulaferreirafonseca92@gmail.com', '+351915403775', '$2y$10$Pz.juomtG4TiuNzt6l6pf.Jn6uSYFNLhZBScV3LRUz4.NLRRInsim', './images/iconUser.png', 1, 0, 1),
 (8, 'Natália Luciano', 'natalialuci@gmail.com', '+351966539965', '$2y$10$S8ructuKPxPHWza0RRRUtuMqQOcYNJx7aCH3yxY4eQAQnWarP2EVW', './images/iconUser.png', 1, 0, 1),
-(9, 'Arcélio Sampaio', 'arceliosampaio@gmail.com', '+351912220109', '$2y$10$EW8dOJTRJAlbnVzKjdy3zeo6izfPpG8Bq517a2APJTuP2HUW/GJRm', './images/iconUser.png', 1, 0, 0),
+(9, 'Arcélio Sampaio', 'arceliosampaio@gmail.com', '', '$2y$10$EW8dOJTRJAlbnVzKjdy3zeo6izfPpG8Bq517a2APJTuP2HUW/GJRm', './images/iconUser.png', 1, 0, 0),
 (10, 'Margarida Oliveira', 'margaridaisabeloliveira6@gmail.com', '+351918118126', '$2y$10$kV0OnCsrVemrQM.lMbZNHuXhkoJFJr0K8qC7M/hRC42R/ivveNNlm', './images/iconUser.png', 1, 0, 1),
 (11, 'Marta Santos', '', '+351964391685', '', './images/iconUser.png', 1, 0, 1),
 (12, 'Manuel Azevedo', '', '+351938855068', '', './images/iconUser.png', 1, 0, 1),
