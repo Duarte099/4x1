@@ -146,12 +146,12 @@
         <div class="main-header-logo">
         <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
-                <a href="index.html" class="logo">
+                <a href="dashboard.php" class="logo">
                 <img
-                    src="assets/img/kaiadmin/logo_light.svg"
+                    src="./images/LogoBranco4x1.png"
                     alt="navbar brand"
                     class="navbar-brand"
-                    height="20"
+                    height="45"
                 />
                 </a>
             </div>
