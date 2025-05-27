@@ -135,50 +135,11 @@
         }
     }
 ?>
-    <title>Editar Professor | 4x1</title>
+    <title>4x1 | Editar Professor</title>
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css'>
     <style>
-        .fc-day-header[data-date="0"],
-        .fc-day[data-date$="-0"] {
-            display: none;
-        }
-
-        h1 {
-            text-align: center;
-            color: #343a40;
-        }
-
-        table {
-            border-collapse: collapse;
-            margin: 20px auto;
-            background-color: #fff;
-            border: 2px solid #dee2e6;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        th,
-        td {
-            border: 1px solid #dee2e6;
-            /* padding: 10px; */
-            text-align: center;
-        }
-
-        th {
-            padding: 10px;
-            background-color: #f2f2f2;
-            color: #343a40;
-        }
-
-        .highlight {
-            background-color: #f8f9fa;
-        }
-
-        .special {
-            background-color: #f0f0f0;
-        }
-
         .container2 {
             background: white;
             padding: 2rem;
@@ -187,93 +148,11 @@
             margin: 0 auto;
         }
 
-        /* Formulário estruturado com flexbox */
-        .form-section {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            width: 100%;
-            gap: 10px;
-        }
-
-        .campo {
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .campo label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input {
-            width: 100%;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        /* Ajusta a largura e altura para ocupar o TD inteiro */
-        #selectgroup-item {
-            display: block;
-            width: 100%;
-            height: 100%;
-            padding: 0; /* Remove qualquer padding extra */
-            margin: 0;
-        }
-
-        /* Oculta a checkbox padrão */
-        #electgroup-input {
-            display: none;
-        }
-
-        /* Estiliza o botão (span) para ocupar todo o espaço do TD */
-        .selectgroup-button {
-            display: block;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            background-color: white; /* Cor padrão */
-            border: 1px solid #ccc;
-            cursor: pointer;
-            transition: background 0.3s ease, color 0.3s ease;
-            box-sizing: border-box; /* Garante que o padding não afete o tamanho total */
-        }
-
-        /* Muda a cor quando a checkbox está selecionada */
-        #selectgroup-input:checked + .selectgroup-button {
-            background-color: blue;
-            color: white;
-            font-weight: bold;
-        }
-
-        select {
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 4px;
-            font-size: 16px;
-            color: #343a40;
-            width: 100%;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .form-row {
-                flex-direction: column;
-            }
-            .campo {
-                flex: 0 0 100%;
-            }
+        .form-control:disabled,
+        .form-control[readonly] {
+            background-color: white !important;
+            opacity: 1 !important;
+            border: 1px solid #ced4da !important; /* igual ao form-control */
         }
     </style>
 </head>
@@ -295,204 +174,178 @@
                         </ul>
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="editar-prof" role="tabpanel" aria-labelledby="editar-prof-tab">
-                                <form action="professorInserir?idProf=<?php echo $idProfessor ?>&op=edit" id="formEdit" method="POST" onsubmit="return verificarPasswords()">
-                                    <div
-                                        class="modal fade"
-                                        id="addRowModal"
-                                        tabindex="-1"
-                                        role="dialog"
-                                        aria-hidden="true"
-                                    >
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <h1>DISPONIBILIDADE</h1>
-                                                <table>
-                                                    <tr>
-                                                        <th>Segunda</th>
-                                                        <th>Terça</th>
-                                                        <th>Quarta</th>
-                                                        <th>Quinta</th>
-                                                        <th>Sexta</th>
-                                                        <th>Sábado</th>
-                                                    </tr>
-                                                    <?php 
-                                                        $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
-                                                        $horasFDS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
-                                                        $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-                                                    
-                                                        for ($i = 1; $i <= 11; $i++) {
-                                                            echo "<tr>";
-                                                            foreach ($dias as $dia) {
-                                                                $hora = ($dia == 'Sábado') ? ($horasFDS[$i] ?? '') : ($horas[$i] ?? '');
-                                                                $disponibilidade = 0;
-                                                                $sql = "SELECT disponibilidade FROM professores_disponibilidade WHERE idProfessor = ? AND dia = ? AND hora = ?";
-                                                                $result = $con->prepare($sql);
-                                                                $result->bind_param('iss', $idProfessor, $dia, $hora);
-                                                                $result->execute(); 
-                                                                $result->store_result();
-                                                                $result->bind_result($disponibilidade);
-                                                                $result->fetch();
-                                                                if ($disponibilidade == 1) {
-                                                                    $estado = "checked=\"\"";
-                                                                }
-                                                                else{
-                                                                    $estado = "";
-                                                                }
+                                <div class="col-12 col-md-10 col-lg-8 mx-auto">
+                                    <form action="professorInserir?idProf=<?php echo $idProfessor ?>&op=edit" id="formEdit" method="POST" onsubmit="return verificarPasswords(event, '<?php echo $rowProfessor['email']; ?>')">
+                                        <!-- <div
+                                            class="modal fade"
+                                            id="addRowModal"
+                                            tabindex="-1"
+                                            role="dialog"
+                                            aria-hidden="true"
+                                        >
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <h1>DISPONIBILIDADE</h1>
+                                                    <table>
+                                                        <tr>
+                                                            <th>Segunda</th>
+                                                            <th>Terça</th>
+                                                            <th>Quarta</th>
+                                                            <th>Quinta</th>
+                                                            <th>Sexta</th>
+                                                            <th>Sábado</th>
+                                                        </tr>
+                                                        <?php 
+                                                            $horas = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+                                                            $horasFDS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
+                                                            $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+                                                        
+                                                            for ($i = 1; $i <= 11; $i++) {
+                                                                echo "<tr>";
+                                                                foreach ($dias as $dia) {
+                                                                    $hora = ($dia == 'Sábado') ? ($horasFDS[$i] ?? '') : ($horas[$i] ?? '');
+                                                                    $disponibilidade = 0;
+                                                                    $sql = "SELECT disponibilidade FROM professores_disponibilidade WHERE idProfessor = ? AND dia = ? AND hora = ?";
+                                                                    $result = $con->prepare($sql);
+                                                                    $result->bind_param('iss', $idProfessor, $dia, $hora);
+                                                                    $result->execute(); 
+                                                                    $result->store_result();
+                                                                    $result->bind_result($disponibilidade);
+                                                                    $result->fetch();
+                                                                    if ($disponibilidade == 1) {
+                                                                        $estado = "checked=\"\"";
+                                                                    }
+                                                                    else{
+                                                                        $estado = "";
+                                                                    }
 
-                                                                if ($hora) {
-                                                                    echo "<td>
-                                                                            <label class='selectgroup-item' id='selectgroup-item'>
-                                                                                <input type=\"checkbox\" name=\"disponibilidade_" . $dia . "_" . $hora . "\" class=\"selectgroup-input\" id=\"selectgroup-input\" " . $estado . "/>
-                                                                                <span class='selectgroup-button' id='selectgroup-button'>$hora</span>
-                                                                            </label>
-                                                                        </td>";
-                                                                } else {
-                                                                    echo "<td></td>";
+                                                                    if ($hora) {
+                                                                        echo "<td>
+                                                                                <label class='selectgroup-item' id='selectgroup-item'>
+                                                                                    <input type=\"checkbox\" name=\"disponibilidade_" . $dia . "_" . $hora . "\" class=\"selectgroup-input\" id=\"selectgroup-input\" " . $estado . "/>
+                                                                                    <span class='selectgroup-button' id='selectgroup-button'>$hora</span>
+                                                                                </label>
+                                                                            </td>";
+                                                                    } else {
+                                                                        echo "<td></td>";
+                                                                    }
                                                                 }
+                                                                echo "</tr>";
                                                             }
-                                                            echo "</tr>";
-                                                        }
-                                                    ?>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="page-inner">
-                                        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
-                                            <div>
-                                                <h2 class="fw-bold mb-3">Ficha do professor</h2>
-                                            </div>
-                                        </div>
-                                        <div class="container2">
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 99.5%;">
-                                                        <label>NOME:</label>
-                                                        <input type="text" name="nome" value="<?php echo $rowProfessor['nome']; ?>">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 64%;">
-                                                        <label>EMAIL:</label>
-                                                        <input type="email" name="email" value="<?php echo $rowProfessor['email']; ?>">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 34%;">
-                                                        <label>CONTACTO:</label>
-                                                        <input type="tel" id="contacto" name="contacto" value="<?php echo $rowProfessor['contacto']; ?>">
-                                                        <input type="hidden" name="contacto" id="contactoHidden">
-                                                    </div>
+                                                        ?>
+                                                    </table>
                                                 </div>
                                             </div>
-
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 31%;">
-                                                        <label>PASSWORD:</label>
-                                                        <input type="text" name="password" id="password">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 31%;">
-                                                        <label>CONFIRMAR PASSWORD:</label>
-                                                        <input type="text" name="passwordConfirm" id="passwordConfirm">
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 34%;">
-                                                        <label>ESTADO:</label>
-                                                        <select name="estado" class="select-box">
-                                                            <option <?php if ($rowProfessor['ativo'] == 1) { echo "selected"; }?> value="Ativo">Ativo</option>
-                                                            <option <?php if ($rowProfessor['ativo'] == 0) { echo "selected"; }?> value="Desativado">Desativado</option>
-                                                        </select>
-                                                    </div>
-                                                </div>     
+                                        </div> -->
+                                        <div class="page-inner">
+                                            <div class="row mb-3">
+                                                <div class="col-md-5">
+                                                    <label for="nome" class="form-label">Nome:</label>
+                                                    <input type="text" class="form-control" name="nome" value="<?php echo $rowProfessor['nome']; ?>" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="email" class="form-label">Email:</label>
+                                                    <input type="email" class="form-control" name="email" id="email" value="<?php echo $rowProfessor['email']; ?>" required>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="contacto" class="form-label">Contacto:</label>
+                                                    <input type="tel" id="contacto" class="form-control" name="contacto" value="<?php echo $rowProfessor['contacto']; ?>" required>
+                                                    <input type="hidden" name="contacto" id="contactoHidden">
+                                                </div>
                                             </div>
-
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 64%;">
-                                                        <label>DISPONIBILIDADE:</label>
-                                                        <button
-                                                            type="button"
-                                                            class="btn btn-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#addRowModal"
-                                                        >
-                                                            <!-- <i class="fa fa-up-right-from-square"> -->
-                                                            DISPONIBILIDADE
-                                                        </button>
-                                                    </div>
-                                                </div>     
+                                            <div class="row mb-3">
+                                                <div class="col-md-3">
+                                                    <label for="password" class="form-label">Password:</label>
+                                                    <input type="password" class="form-control" name="password" id="password">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="passwordConfirm" class="form-label">Confirmar password:</label>
+                                                    <input type="password" class="form-control" name="passwordConfirm" id="passwordConfirm">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="estado" class="form-label">Estado:</label>
+                                                    <select class="form-control" name="estado" >
+                                                        <option value='1' <?php if ($rowProfessor['ativo'] == 1) { echo "selected"; }?>>Ativo</option>
+                                                        <option value='0' <?php if ($rowProfessor['ativo'] == 0) { echo "selected"; }?>>Inativo</option>
+                                                    </select>
+                                                </div>
                                             </div>
 
                                             <!-- Disciplinas -->
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 100%;">
-                                                        <label>DISCIPLINAS:</label>
-                                                        <div class="selectgroup selectgroup-pills">
-                                                            <?php 
-                                                                $sql = "SELECT id, nome FROM disciplinas;";
-                                                                $result = $con->query($sql);
-                                                                if ($result->num_rows > 0) {
-                                                                    while ($row = $result->fetch_assoc()) {
-                                                                        $sql = "SELECT * FROM professores_disciplinas WHERE idProfessor = ? AND idDisciplina = ?";
-                                                                        $result1 = $con->prepare($sql);
-                                                                        $result1->bind_param('ii', $idProfessor, $row['id']);
-                                                                        $result1->execute(); 
-                                                                        $result1->store_result();
-                                                                        if ($result1->num_rows > 0) {
-                                                                            $estado = "checked=\"\"";
-                                                                        }
-                                                                        else{
-                                                                            $estado = "";
-                                                                        }
-                                                                        echo "<label class='selectgroup-item'>
-                                                                                <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
-                                                                                <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
-                                                                            </label>";
+                                            <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <label>DISCIPLINAS:</label>
+                                                    <div class="selectgroup selectgroup-pills">
+                                                        <?php 
+                                                            $sql = "SELECT id, nome FROM disciplinas;";
+                                                            $result = $con->query($sql);
+                                                            if ($result->num_rows > 0) {
+                                                                while ($row = $result->fetch_assoc()) {
+                                                                    $sql = "SELECT * FROM professores_disciplinas WHERE idProfessor = ? AND idDisciplina = ?";
+                                                                    $result1 = $con->prepare($sql);
+                                                                    $result1->bind_param('ii', $idProfessor, $row['id']);
+                                                                    $result1->execute(); 
+                                                                    $result1->store_result();
+                                                                    if ($result1->num_rows > 0) {
+                                                                        $estado = "checked=\"\"";
                                                                     }
+                                                                    else{
+                                                                        $estado = "";
+                                                                    }
+                                                                    echo "<label class='selectgroup-item'>
+                                                                            <input type='checkbox' name='disciplina_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
+                                                                            <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
+                                                                        </label>";
                                                                 }
-                                                            ?>
-                                                        </div>
+                                                            }
+                                                        ?>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <!-- Ensino -->
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 100%;">
-                                                        <label>ENSINO:</label>
-                                                        <div class="selectgroup selectgroup-pills">
-                                                            <?php 
-                                                                $sql = "SELECT id, nome FROM ensino WHERE id < 6;";
-                                                                $result = $con->query($sql);
-                                                                if ($result->num_rows > 0) {
-                                                                    while ($row = $result->fetch_assoc()) {
-                                                                        $sql = "SELECT * FROM professores_ensino WHERE idProfessor = ? AND idEnsino = ?";
-                                                                        $result1 = $con->prepare($sql);
-                                                                        $result1->bind_param('ii', $idProfessor, $row['id']);
-                                                                        $result1->execute(); 
-                                                                        $result1->store_result();
-                                                                        if ($result1->num_rows > 0) {
-                                                                            $estado = "checked=\"\"";
-                                                                        }
-                                                                        else{
-                                                                            $estado = "";
-                                                                        }
-                                                                        echo "<label class='selectgroup-item'>
-                                                                                <input type='checkbox' name='ensino_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
-                                                                                <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
-                                                                            </label>";
+                                            <div class="row mb-3">
+                                                <div class="col-md-5">
+                                                    <label>ENSINO:</label>
+                                                    <div class="selectgroup selectgroup-pills">
+                                                        <?php 
+                                                            $sql = "SELECT id, nome FROM ensino WHERE id < 6;";
+                                                            $result = $con->query($sql);
+                                                            if ($result->num_rows > 0) {
+                                                                while ($row = $result->fetch_assoc()) {
+                                                                    $sql = "SELECT * FROM professores_ensino WHERE idProfessor = ? AND idEnsino = ?";
+                                                                    $result1 = $con->prepare($sql);
+                                                                    $result1->bind_param('ii', $idProfessor, $row['id']);
+                                                                    $result1->execute(); 
+                                                                    $result1->store_result();
+                                                                    if ($result1->num_rows > 0) {
+                                                                        $estado = "checked=\"\"";
                                                                     }
+                                                                    else{
+                                                                        $estado = "";
+                                                                    }
+                                                                    echo "<label class='selectgroup-item'>
+                                                                            <input type='checkbox' name='ensino_" . $row['id'] . "' value='" . $row['nome'] . "' class='selectgroup-input' " . $estado . " />
+                                                                            <span class='selectgroup-button' style=\"padding: 5px\">" . $row['nome'] . "</span>
+                                                                        </label>";
                                                                 }
-                                                            ?>
-                                                        </div>
+                                                            }
+                                                        ?>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- <label>DISPONIBILIDADE:</label>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#addRowModal"
+                                            >
+                                                DISPONIBILIDADE
+                                            </button> -->
                                             <button type="submit" class="btn btn-primary">Guardar alterações</button>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="recibo" role="tabpanel" aria-labelledby="recibo-tab">
                                 <form action="" method="GET">
@@ -507,102 +360,93 @@
                                 <div class="page-inner">
                                     <div class="container2">
                                         <?php if ($recibo == true): ?>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 98%;">
-                                                        <label>NOME:</label>
-                                                        <input type="text" name="nome" readonly value="<?php echo $rowProfessor['nome']; ?>">
-                                                    </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-12">
+                                                    <label for="nome" class="form-label">Nome:</label>
+                                                    <input type="text" name="nome" class="form-control" readonly value="<?php echo $rowProfessor['nome']; ?>">
                                                 </div>
                                             </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS 1º CICLO:</label>
-                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo $rowRecibo['horasDadas1Ciclo'];} ?>" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR UNITÁRIO:</label>
-                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[0];} else {echo $rowRecibo['valorUnitario1Ciclo'];} ?>€" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR PARCIAL:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial1Ciclo;} else {echo $rowRecibo['valorParcial1Ciclo'];} ?>€" readonly>
-                                                    </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="horasGrupo" class="form-label">Horas 1º Ciclo:</label>
+                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo $rowRecibo['horasDadas1Ciclo'];} ?>" readonly>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="valorUnitario" class="form-label">Valor unitário:</label>
+                                                    <input type="input" name="valorUnitario" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[0];} else {echo $rowRecibo['valorUnitario1Ciclo'];} ?>€" readonly>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="horasBalanco" class="form-label">Valor parcial:</label>
+                                                    <input type="input" name="horasBalanco" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial1Ciclo;} else {echo $rowRecibo['valorParcial1Ciclo'];} ?>€" readonly>
                                                 </div>
                                             </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS 2º CICLO:</label>
-                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo $rowRecibo['horasDadas2Ciclo'];} ?>" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR UNITÁRIO:</label>
-                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[1];} else {echo $rowRecibo['valorUnitario2Ciclo'];} ?>€" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR PARCIAL:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial2Ciclo;} else {echo $rowRecibo['valorParcial2Ciclo'];} ?>€" readonly>
-                                                    </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="horas2Ciclo" class="form-label">Horas 2º Ciclo:</label>
+                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo $rowRecibo['horasDadas2Ciclo'];} ?>" readonly>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="valorUnitario2Ciclo" class="form-label">Valor unitário:</label>
+                                                    <input type="input" name="valorUnitario" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[1];} else {echo $rowRecibo['valorUnitario2Ciclo'];} ?>€" readonly>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="valorParcial2Ciclo" class="form-label">Valor parcial:</label>
+                                                    <input type="input" name="horasBalanco" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial2Ciclo;} else {echo $rowRecibo['valorParcial2Ciclo'];} ?>€" readonly>
                                                 </div>
                                             </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS 3º CICLO:</label>
-                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo $rowRecibo['horasDadas3Ciclo'];} ?>" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR UNITÁRIO:</label>
-                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[2];} else {echo $rowRecibo['valorUnitario3Ciclo'];} ?>€" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR PARCIAL:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial3Ciclo;} else {echo $rowRecibo['valorParcial3Ciclo'];} ?>€" readonly>
-                                                    </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="horas3Ciclo" class="form-label">Horas 3º Ciclo:</label>
+                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo $rowRecibo['horasDadas3Ciclo'];} ?>" readonly>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="valorUnitario3Ciclo" class="form-label">Valor unitário:</label>
+                                                    <input type="input" name="valorUnitario" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[2];} else {echo $rowRecibo['valorUnitario3Ciclo'];} ?>€" readonly>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="valorParcial3Ciclo" class="form-label">Valor parcial:</label>
+                                                    <input type="input" name="horasBalanco" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcial3Ciclo;} else {echo $rowRecibo['valorParcial3Ciclo'];} ?>€" readonly>
                                                 </div>
                                             </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS SECUNDÁRIO:</label>
-                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo $rowRecibo['horasDadasSecundario'];} ?>" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR UNITÁRIO:</label>
-                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[3];} else {echo $rowRecibo['valorUnitarioSecundario'];} ?>€" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR PARCIAL:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialSecundario;} else {echo $rowRecibo['valorParcialSecundario'];} ?>€" readonly>
-                                                    </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="horasSecundario" class="form-label">Horas Secundário:</label>
+                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo $rowRecibo['horasDadasSecundario'];} ?>" readonly>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="valorUnitarioSecundario" class="form-label">Valor unitário:</label>
+                                                    <input type="input" name="valorUnitario" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[3];} else {echo $rowRecibo['valorUnitarioSecundario'];} ?>€" readonly>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="valorParcialSecundario" class="form-label">Valor parcial:</label>
+                                                    <input type="input" name="horasBalanco" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialSecundario;} else {echo $rowRecibo['valorParcialSecundario'];} ?>€" readonly>
                                                 </div>
                                             </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>HORAS UNIVERSIDADE:</label>
-                                                        <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo $rowRecibo['horasDadasUniversidade'];} ?>" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR UNITÁRIO:</label>
-                                                        <input type="input" name="valorUnitario" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[4];} else {echo $rowRecibo['valorUnitarioUniversidade'];} ?>€" readonly>
-                                                    </div>
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>VALOR PARCIAL:</label>
-                                                        <input type="input" name="horasBalanco" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialUniversidade;} else {echo $rowRecibo['valorParcialUniversidade'];} ?>€" readonly>
-                                                    </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="horasUniversidade" class="form-label">Horas Universidade:</label>
+                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo $rowRecibo['horasDadasUniversidade'];} ?>" readonly>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="valorUnitarioUniversidade" class="form-label">Valor unitário:</label>
+                                                    <input type="input" name="valorUnitario" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valores[4];} else {echo $rowRecibo['valorUnitarioUniversidade'];} ?>€" readonly>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="valorParcialUniversidade" class="form-label">Valor parcial:</label>
+                                                    <input type="input" name="horasBalanco" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $valorParcialUniversidade;} else {echo $rowRecibo['valorParcialUniversidade'];} ?>€" readonly>
                                                 </div>
                                             </div>
-                                            <div class="form-section">
-                                                <div class="form-row">
-                                                    <div class="campo" style="flex: 0 0 32%;">
-                                                        <label>TOTAL:</label>
-                                                        <input type="input" name="total" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
-                                                    </div>
+
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="total" class="form-label">Total:</label>
+                                                    <input type="input" name="total" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
                                                 </div>
                                             </div>
+
                                         <?php else: ?>
                                             <p>Sem recibo nesta data.</p>
                                         <?php endif; ?>
@@ -628,27 +472,67 @@
                     hiddenInput.value = iti.getNumber();
                 });
 
-                function verificarPasswords() {
+                function verificarPasswords(e, emailAntigo) {
+                    e.preventDefault();
                     const password = document.getElementById("password").value;
                     const confirm = document.getElementById("passwordConfirm").value;
+                    const emailAdmin = document.getElementById("email").value;
 
-                    if (password === confirm) {
-                        return true;
-                    } else {
+                    let erro = 0;
+
+                    if (password !== confirm) {
                         $.notify({
                             message: 'As palavras passes não coincidem!',
                             title: 'Notificação',
                             icon: 'fa fa-info-circle',
                         }, {
-                            type: 'danger',
+                            type: 'warning',
                             placement: {
                                 from: 'top',
                                 align: 'right'
                             },
-                            delay: 2000
+                            delay: 3000
                         });
+                        erro += 1;
+                    }
 
-                        return false;
+                    if (erro === 0 && emailAntigo !== emailAdmin) {
+                        $.ajax({
+                            url: 'json.obterEmails.php',
+                            type: 'GET',
+                            success: function(response) 
+                            {
+                                var data = JSON.parse(response);
+                                for (let i = 0; i < data.length; i++) {
+                                    if (data[i].email === emailAdmin ) {
+                                        $.notify({
+                                            message: 'Esse email já existe no sistema.',
+                                            title: 'Notificação',
+                                            icon: 'fa fa-info-circle',
+                                        }, {
+                                            type: 'warning',
+                                            placement: {
+                                                from: 'top',
+                                                align: 'right'
+                                            },
+                                            delay: 3000
+                                        });
+
+                                        erro += 1;
+                                        break;
+                                    }
+                                }
+                                if (erro === 0) {
+                                    e.target.submit();
+                                }
+                            },
+                            error: function() {
+                                console.error('Erro ao buscar os emails.');
+                            }
+                        });
+                    }
+                    else{
+                        e.target.submit();
                     }
                 }
             </script>

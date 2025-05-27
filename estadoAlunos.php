@@ -5,7 +5,7 @@
   //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
   $estouEm = 8;
 ?>
-  <title>Estado Alunos | 4x1</title>
+  <title>4x1 | Estado Alunos</title>
 </head>
   <body>
     <div class="wrapper">
@@ -60,11 +60,11 @@
                                       <button
                                         type="button"
                                         data-bs-toggle="tooltip"
-                                        onclick="estadoAluno(<?php echo $row['id']; ?>)"
+                                        onclick="window.location.href='alunoEstado.php?idAluno=<?php echo $row['id']; ?>$op=save'"
                                         class="btn btn-link btn-primary btn-lg"
                                         data-original-title="Editar Aluno"
                                       >
-                                        <i class="fa fa-edit"></i>
+                                        <i class="fa fa-sync-alt"></i>
                                       </button>
                                     </div>
                                   </td>
@@ -83,16 +83,6 @@
         </div>
       </div>
     </div>
-    <script>
-      function estadoAluno(id) {
-        fetch('alunoEstado.php?idAluno=' + id)
-          .then(response => response.text())
-          .then(data => {
-              location.reload(); // Recarrega a página para atualizar o estado
-          })
-          .catch(error => console.error('Erro:', error));
-      }
-    </script>
     <?php   
       include('./endPage.php'); 
     ?>

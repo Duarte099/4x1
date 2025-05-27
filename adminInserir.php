@@ -14,32 +14,6 @@
         $op = $_GET['op'];
 
         if ($op == 'save') {
-            $stmt = $con->prepare("SELECT email FROM professores");
-            $stmt->execute();
-            $result = $stmt->get_result();
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    if ($row["email"] == $_POST['email']) {
-                        notificacao('warning', 'Esse email já existe no sistema.');
-                        header('Location: adminCriar.php');
-                        exit();
-                    }
-                    else {
-                        $stmt1 = $con->prepare("SELECT email FROM administrador");
-                        $stmt1->execute();
-                        $result1 = $stmt1->get_result();
-                        if ($result1->num_rows > 0) {
-                            while ($row1 = $result1->fetch_assoc()) {
-                                if ($row1["email"] == $_POST['email']) {
-                                    notificacao('warning', 'Esse email já existe no sistema.');
-                                    header('Location: adminCriar.php');
-                                    exit();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
             $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
             //query sql para inserir os dados do aluno
             $sql = "INSERT INTO administrador (nome, email, pass) VALUES (?, ?, ?)";
@@ -76,13 +50,6 @@
                 notificacao('warning', 'ID do administrador inválido.');
                 header('Location: dashboard.php');
                 exit();
-            }
-
-            if ($_POST['estado'] == "Ativo") {
-                $_POST['estado'] = 1;
-            }
-            else {
-                $_POST['estado'] = 0;
             }
 
             //Se a password e a imagem não tiverem vazios então insere altera tudo 

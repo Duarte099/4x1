@@ -8,7 +8,7 @@
         $op = $_GET['op'];
 
         if ($op == 'save') {
-           if ($_SESSION['tipo'] == "professor") {
+            if ($_SESSION['tipo'] == "professor") {
                 if (isset($_POST['notificacoesHorario']) && $_POST['notificacoesHorario'] == "on") {
                     $definicaoHorario = 1;
                     $aux = "ativou";
@@ -41,8 +41,7 @@
                     $result = $con->prepare($sql);
                     if ($result) {
                         $result->bind_param("ii", $cronjob, $i);
-                        if ($result->execute()) {
-                            registrar_log("admin", "O administrador [{$_SESSION['id']}] {$_SESSION['nome']} alterou as definições!");
+                        if ($result->execute()) {  
                             notificacao('success', "Definições alteradas com sucesso!");
                         }
                         else {
@@ -50,6 +49,7 @@
                         }
                     }
                 }
+                registrar_log("admin", "O administrador [{$_SESSION['id']}] {$_SESSION['nome']} alterou as definições!"); 
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos

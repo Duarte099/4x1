@@ -5,7 +5,7 @@
   //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
   $estouEm = 7;
 ?>
-  <title>Estado Pagamentos | 4x1</title>
+  <title>4x1 | Estado Pagamentos</title>
 </head>
   <body>
     <div class="wrapper">
@@ -56,49 +56,37 @@
                               $anoAtual -= 1;
                             }
                             //query para selecionar todos os administradores
-                            $sql = "SELECT id, nome, ano, dataNascimento,
-                                      CASE 
-                                          WHEN ano >= 1 AND ano <= 4 THEN '1º CICLO'
-                                          WHEN ano > 4 AND ano < 7 THEN '2º CICLO'
-                                          WHEN ano > 6 AND ano <= 9 THEN '3º CICLO'
-                                          WHEN ano > 9 THEN 'SECUNDÁRIO'
-                                          WHEN ano = 0 THEN 'UNIVERSIDADE'
-                                      END AS ensino
-                                    FROM alunos 
-                                    WHERE ativo = 1
-                                    ORDER BY 
-                                      FIELD(ensino, '1º CICLO', '2º CICLO', '3º CICLO', 'SECUNDÁRIO', 'UNIVERSIDADE'), 
-                                      ano ASC;";
+                            $sql = "SELECT *, IF(a.ano>=1 AND a.ano<=4, \"1º CICLO\", IF(a.ano>4 AND a.ano<7, \"2º CICLO\", IF(a.ano>6 AND a.ano<=9, \"3º CICLO\", IF(a.ano>9 AND a.ano<=12, \"SECUNDÁRIO\", IF(a.ano=0, \"UNIVERSIDADE\", \"ERRO\"))))) as ensino, 
+                                        CASE 
+                                            WHEN pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) > 8 THEN 'Atrasado'
+                                            WHEN pagoEm != '0000-00-00 00:00:00' THEN 'Pago'
+                                            WHEN pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) < 8 THEN 'Pendente'
+                                            ELSE 'Outro'
+                                        END AS estado
+                                    FROM alunos_recibo as ar 
+                                    INNER JOIN alunos as a ON idAluno = a.id 
+                                    WHERE mes = {$mesAnterior} AND ar.ano = {$anoAtual}";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
-                              while ($row = $result->fetch_assoc()) {
-                                $sql1 = "SELECT * FROM alunos_recibo WHERE idAluno = {$row['id']} AND mes = {$mesAnterior} AND ano = {$anoAtual}";
-                                $result1 = $con->query($sql1);
-                                if ($result1->num_rows > 0) {
-                                  $row1 = $result1->fetch_assoc();
-                                  if ($row1['estado'] == "Pago") {
-                                    $corStatus = "2ecc71";
-                                  }
-                                  elseif ($row1['estado'] == "Pendente") {
-                                    $corStatus = "f1c40f";
-                                  }
-                                  elseif ($row1['estado'] == "Em atraso") {
-                                    $corStatus = "ff0000";
-                                  }
-                                  else {
-                                    $corStatus = "";
-                                  }
-                                }
-                                else {
-                                  $corStatus = "";
-                                  $row1['estado'] = "Pendente";
-                                }
+                                while ($row = $result->fetch_assoc()) {
+                                    if ($row['estado'] == "Pago") {
+                                        $corStatus = "2ecc71";
+                                    }
+                                    elseif ($row['estado'] == "Pendente") {
+                                        $corStatus = "f1c40f";
+                                    }
+                                    elseif ($row['estado'] == "Atrasado") {
+                                        $corStatus = "ff0000";
+                                    }
+                                    else {
+                                        $corStatus = "";
+                                    }
                                 //mostra os resultados todos 
                                 echo "<tr>
                                         <td>{$row['ensino']}</td>
                                         <td>{$row['nome']}</td>
                                         <td>{$row['dataNascimento']}</td>
-                                        <td style=\"color: #$corStatus;\">{$row1['estado']}</td>
+                                        <td style=\"color: #$corStatus;\">{$row['estado']}</td>
                                         <td>
                                           <div class=\"form-button-action\">
                                             <button

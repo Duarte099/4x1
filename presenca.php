@@ -5,7 +5,7 @@
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 5;
 ?>
-    <title>Resgistrar presença | 4x1</title>
+    <title>4x1 | Registrar presença</title>
     <style>
         h1 {
             text-align: center;
@@ -128,6 +128,12 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        .big-checkbox {
+            width: 1.5em;
+            height: 1.5em;
+            transform: translateY(4px); /* opcional: alinha melhor com o label */
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
             .form-row {
@@ -141,171 +147,146 @@
 </head>
     <body>
         <div class="wrapper">
-          <?php 
-              include('./sideBar.php'); 
-          ?>
-          <form action="presencaInserir.php?op=save" method="POST">
-            <div class="page-inner">
-              <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
-                  <div>
-                      <h2 class="fw-bold mb-3">Registar presença</h2>
-                  </div>
-              </div>
-              <div class="container2">
-                  <div class="form-section">
-                      <div class="form-row">
-                          <div class="campo" style="flex: 0 0 33%;">
-                            <label>ALUNO:</label>
-                            <input type="text" name="nome" list="datalistNomes" oninput="atualizarCampos(this)">
-                            <datalist id='datalistNomes'>
-                              <?php
-                                //Obtem todas as referencias dos produtos que estao ativos
-                                $sql = "SELECT id, nome FROM alunos;";
-                                $result = $con->query($sql);
-                                if ($result->num_rows > 0) {
-                                  //Percorre todos os produtos e adiciona-os como opção na dataList
-                                  while ($row = $result->fetch_assoc()) {
-                                      echo "<option>$row[id] | $row[nome]</option>";
-                                  }
-                                }
-                              ?>
-                            </datalist>
-                          </div>
-                          <div class="campo" style="flex: 0 0 20%;">
-                            <label>Horas Grupo:</label>
-                            <input type="text" name="horasGrupo" id="horasGrupo" readonly>
-                          </div>
-                          <div class="campo" style="flex: 0 0 20%;">
-                            <label>Horas Individuais:</label>
-                            <input type="text" name="horasIndividual" id="horasIndividual" readonly>
-                          </div>
-                          <div class="campo" style="flex: 0 0 20%;">
-                            <label>Ano Letivo:</label>
-                            <input type="text" name="anoLetivo" readonly value="<?php 
-                            if (date('m') < 9) 
-                            {
-                              echo date('Y') - 1 . "/" . date('Y');
-                            } else {
-                              echo date('Y') . "/" . date('Y') + 1;
-                            }?>">
-                          </div>
-                      </div>
+            <?php 
+                include('./sideBar.php'); 
+            ?>
+            <div class="container">
+                <div class="col-12 col-md-10 col-lg-8 mx-auto">
+                    <form action="presencaInserir.php?op=save" method="POST">
+                        <div class="container2">
+                            <div class="page-inner">
+                                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
+                                    <div>
+                                        <h2 class="fw-bold mb-3">Registrar presença</h2>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="nome" class="form-label">Aluno:</label>
+                                        <input type="text" class="form-control" name="nome" list="datalistNomes" oninput="atualizarCampos(this)" required>
+                                        <datalist id='datalistNomes'>
+                                            <?php
+                                                //Obtem todas as referencias dos produtos que estao ativos
+                                                $sql = "SELECT id, nome FROM alunos WHERE ativo = 1;";
+                                                $result = $con->query($sql);
+                                                if ($result->num_rows > 0) {
+                                                //Percorre todos os produtos e adiciona-os como opção na dataList
+                                                while ($row = $result->fetch_assoc()) {
+                                                    echo "<option>$row[id] | $row[nome]</option>";
+                                                }
+                                                }
+                                            ?>
+                                        </datalist>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="ano" class="form-label">Horas grupo:</label>
+                                        <input type="text" class="form-control" name="horasGrupo" id="horasGrupo" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="horasIndividual" class="form-label">Horas individuais:</label>
+                                        <input type="text" class="form-control" name="horasIndividual" id="horasIndividual" disabled>
+                                    </div>
+                                </div>
 
-                      <div class="form-row" id="disciplinasContainer" style="display: none;">
-                        <div class="campo" style="flex: 0 0 99.5%;">
-                          <label>DISCIPLINA:</label>
-                          <select
-                            class="form-select form-control"
-                            id="defaultSelect"
-                            style="border: 1px solid #ccc;"
-                            name="disciplina"
-                          >
-                            <?php 
-                              if ($_SESSION['tipo'] == "professor") {
-                                $sql = "SELECT d.nome, d.id
-                                  FROM disciplinas AS d 
-                                  INNER JOIN professores_disciplinas AS pd ON d.id = pd.idDisciplina 
-                                  INNER JOIN professores AS p ON pd.idProfessor = p.id 
-                                  WHERE p.id = {$_SESSION['id']};";
-                              }
-                              elseif ($_SESSION['tipo'] == "administrador") {
-                                $sql = "SELECT d.nome, d.id FROM disciplinas AS d;";
-                              }
-                              
-                              $result = $con->query($sql);
-                              if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) { 
-                                  echo "<option value='disciplina_" . $row['id'] . "'>". $row['nome'] . "</option>";  
-                                }
-                              }
-                            ?>
-                          </select>
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <label for="disciplina" class="form-label">Disciplina:</label>
+                                        <select class="form-control" name="disciplina">
+                                            <?php 
+                                                if ($_SESSION['tipo'] == "professor") {
+                                                    $sql = "SELECT d.nome, d.id
+                                                    FROM disciplinas AS d 
+                                                    INNER JOIN professores_disciplinas AS pd ON d.id = pd.idDisciplina 
+                                                    INNER JOIN professores AS p ON pd.idProfessor = p.id 
+                                                    WHERE p.id = {$_SESSION['id']};";
+                                                }
+                                                elseif ($_SESSION['tipo'] == "administrador") {
+                                                    $sql = "SELECT d.nome, d.id FROM disciplinas AS d;";
+                                                }
+                                                
+                                                $result = $con->query($sql);
+                                                if ($result->num_rows > 0) {
+                                                    while ($row = $result->fetch_assoc()) { 
+                                                        echo "<option value='disciplina_" . $row['id'] . "'>". $row['nome'] . "</option>";  
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="duracao" class="form-label">Duração:</label>
+                                        <select class="form-control" name="hora">
+                                            <option value="15">15 min</option>
+                                            <option value="30">30 min</option>
+                                            <option value="45">45 min</option>
+                                            <option value="60">60 min</option>
+                                            <option value="75">75 min</option>
+                                            <option value="90">90 min</option>
+                                            <option value="105">105 min</option>
+                                            <option value="120">120 min</option>
+                                            <option value="150">150 min</option>
+                                            <option value="180">180 min</option>
+                                            <option value="210">210 min</option>
+                                            <option value="240">240 min</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="dia" class="form-label">Dia:</label>
+                                        <input type="date" name="dia" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="individual" class="form-label">Tipo:</label>
+                                        <select class="form-control" name="individual">
+                                            <option value="1" >Individual</option>
+                                            <option value="0" selected>Grupo</option>
+                                        </select> 
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Registrar presença</button>
+                            </div>
                         </div>
-                      </div>
-
-                      <div class="form-row">
-                          <div class="campo" style="flex: 0 0 38%;">
-                              <label>DURAÇÃO:</label> 
-                              <select
-                                class="form-select form-control"
-                                id="defaultSelect"
-                                style="border: 1px solid #ccc;"
-                                name="hora"
-                              >
-                                <option value="15">15 min</option>
-                                <option value="30">30 min</option>
-                                <option value="45">45 min</option>
-                                <option value="60">60 min</option>
-                                <option value="75">75 min</option>
-                                <option value="90">90 min</option>
-                                <option value="105">105 min</option>
-                                <option value="120">120 min</option>
-                                <option value="150">150 min</option>
-                                <option value="180">180 min</option>
-                                <option value="210">210 min</option>
-                                <option value="240">240 min</option>
-                              </select>
-                          </div>
-                          <div class="campo" style="flex: 0 0 38%;">
-                              <label>DIA:</label>
-                              <input type="date" name="dia" value="<?php echo date('Y-m-d'); ?>">
-                          </div>
-                          <div class="campo" style="flex: 0 0 10%;">
-                              <label>INDIVIDUAL:</label>
-                              <input class="form-check-input" type="checkbox" name="individual" style="width: 25px; height: 25px; padding: 5px; border: 1px solid #ccc;" id="flexCheckDefault">
-                          </div>
-                      </div>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Registrar hora</button>
-              </div>
-            </div>
-            <script>
-                function atualizarCampos(input) {
-                    // O valor do input é o ID do aluno, conforme definido nas opções do datalist
-                    var partes = input.value.split(" | ");
-                    var alunoId = partes[0];
-                    
-                    // Se um valor for selecionado (não vazio)
-                    if(alunoId !== "") {
-                        // Realiza a requisição AJAX para obter os dados do aluno
-                        $.ajax({
-                            url: 'json.obterNome.php',
-                            type: 'GET',
-                            data: { idAluno: alunoId},
-                            success: function(response) 
-                            {
-                                var data = JSON.parse(response);
-                                if (data == "erro") {
-                                    document.getElementById("horasGrupo").value = "";
-                                    document.getElementById("horasIndividual").value = "";
-                                    document.getElementById("disciplinasContainer").style.display = "none";
-                                }
-                                else{
-                                    document.getElementById("horasGrupo").value = data.horasGrupo;
-                                    document.getElementById("horasIndividual").value = data.horasIndividual;
-                                    if (data.ciclo == 1) {
-                                        document.getElementById("disciplinasContainer").style.display = "none";
-                                    } else {
-                                        document.getElementById("disciplinasContainer").style.display = "block";
-                                    }
-                                }
-                            },
-                            error: function() {
-                                console.error('Erro ao buscar o nome.');
-                            }
-                        });
-                    } else {
-                        // Se não houver um ID válido, limpa o campo Pack
-                        document.getElementById("horasGrupo").value = "";
-                        document.getElementById("horasIndividual").value = "";
-                        document.getElementById("disciplinasContainer").style.display = "none";
-                    }
-                }
-            </script>
-          </form>
+                    </form>
+                </div>
+            </div> 
         </div>
+        <script>
+            function atualizarCampos(input) {
+                // O valor do input é o ID do aluno, conforme definido nas opções do datalist
+                var partes = input.value.split(" | ");
+                var alunoId = partes[0];
+                
+                // Se um valor for selecionado (não vazio)
+                if(alunoId !== "") {
+                    // Realiza a requisição AJAX para obter os dados do aluno
+                    $.ajax({
+                        url: 'json.obterNome.php',
+                        type: 'GET',
+                        data: { idAluno: alunoId},
+                        success: function(response) 
+                        {
+                            var data = JSON.parse(response);
+                            if (data == "erro") {
+                                document.getElementById("horasGrupo").value = "";
+                                document.getElementById("horasIndividual").value = "";
+                            }
+                            else{
+                                document.getElementById("horasGrupo").value = data.horasGrupo;
+                                document.getElementById("horasIndividual").value = data.horasIndividual;
+                            }
+                        },
+                        error: function() {
+                            console.error('Erro ao buscar o nome.');
+                        }
+                    });
+                } else {
+                    // Se não houver um ID válido, limpa o campo Pack
+                    document.getElementById("horasGrupo").value = "";
+                    document.getElementById("horasIndividual").value = "";
+                }
+            }
+        </script>
         <?php 
             include('./endPage.php'); 
         ?>
     </body>
-    </html>
+</html>

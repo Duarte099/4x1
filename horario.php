@@ -43,7 +43,7 @@
         $readonly = "readonly";
     }
 ?>
-  <title>Horário | 4x1</title>
+  <title>4x1 | Horário</title>
   <style>
     .professor {
         text-align: center;
@@ -83,6 +83,20 @@
         include('./sideBar.php'); 
       ?>
         <div class="container">
+            <div class="modal fade" id="modalProgresso" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-center">
+                        <div class="modal-header">
+                            <h5 class="modal-title">A enviar notificações...</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="page-inner">
                 <div class="col-md-12">
                     <div class="card">
@@ -110,7 +124,7 @@
                                 </ul>
                                 <?php 
                                     if ($_SESSION['tipo'] == "administrador") { ?>
-                                        <button type="button" class="btn btn-primary" id="meuBotao" <?php echo $disabled; ?> onclick="window.location.href='horarioNotificacao.php'">
+                                        <button type="button" class="btn btn-primary" id="meuBotao" onclick="enviarNotificacoes()" <?php echo $disabled; ?> >
                                             Notificar <?php echo $alunos; ?> <?php echo $professores; ?>.
                                         </button>
                                     <?php }
@@ -342,139 +356,97 @@
                                     </div>    
                                 </div>
                             </div>
-                            <div class="modal fade" id="editarCelulaAluno" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal fade" id="editarCelulaAluno" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <form action="pagamentoConfigInserir.php?op=editMensalidade" method="POST" >
+                                        <form action="pagamentoConfigInserir.php?op=editMensalidade" method="POST">
+                                            <!-- Cabeçalho -->
                                             <div class="modal-header border-0">
-                                                <h5 class="modal-title">
-                                                    <input type="text" name="dia" class="fw-mediumbold" readonly>
-                                                    <input type="text" name="hora" class="fw-light" readonly>
-                                                </h5>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
+                                                <div class="row w-100 align-items-center">
                                                     <div class="col-md-6">
-                                                        <div class="form-group form-group-default">
-                                                            <label>Sala</label>
-                                                            <input type="input" name="sala" class="form-control" required readonly>
-                                                        </div>
+                                                        <input type="text" name="dia" id="dia"
+                                                            class="form-control border-0 bg-transparent fw-bold fs-5" readonly>
                                                     </div>
+                                                    <div class="col-md-6 text-end">
+                                                        <input type="text" name="hora" id="hora"
+                                                            class="form-control border-0 bg-transparent fw-bold fs-5" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Corpo do Modal -->
+                                            <div class="modal-body">
+                                                <div class="row g-3">
+                                                    <!-- Sala -->
                                                     <div class="col-md-6">
-                                                        <div class="form-group form-group-default">
-                                                            <label>Professor</label>
-                                                            <input type="text" name="prof" list="datalistProfs" class="form-control" required <?php echo $readonly; ?>>
-                                                            <datalist id='datalistProfs'>
+                                                        <label for="sala" class="form-label">Sala</label>
+                                                        <input type="text" name="sala" class="form-control" required readonly>
+                                                    </div>
+
+                                                    <!-- Professor -->
+                                                    <div class="col-md-6">
+                                                        <label for="prof" class="form-label">Professor</label>
+                                                        <input type="text" name="prof" list="datalistProfs" class="form-control" required <?= $readonly; ?>>
+                                                        <datalist id="datalistProfs">
+                                                            <?php
+                                                            $sql = "SELECT id, nome FROM professores;";
+                                                            $result = $con->query($sql);
+                                                            while ($row = $result->fetch_assoc()) {
+                                                                echo "<option>{$row['id']} | {$row['nome']}</option>";
+                                                            }
+                                                            ?>
+                                                        </datalist>
+                                                    </div>
+
+                                                    <!-- Disciplina -->
+                                                    <div class="col-md-6">
+                                                        <label for="disciplina" class="form-label">Disciplina</label>
+                                                        <?php if ($_SESSION['tipo'] == "administrador") { ?>
+                                                            <select name="disciplina" class="form-control">
                                                                 <?php
-                                                                    //Obtem todas as referencias dos produtos que estao ativos
-                                                                    $sql = "SELECT id, nome FROM professores;";
+                                                                    $sql = "SELECT id, nome FROM disciplinas;";
                                                                     $result = $con->query($sql);
-                                                                    if ($result->num_rows > 0) {
-                                                                        //Percorre todos os produtos e adiciona-os como opção na dataList
-                                                                        while ($row = $result->fetch_assoc()) {
-                                                                            echo "<option>$row[id] | $row[nome]</option>";
-                                                                        }
+                                                                    while ($row = $result->fetch_assoc()) {
+                                                                        echo "<option value=\"{$row['id']}\">{$row['nome']}</option>";
                                                                     }
                                                                 ?>
-                                                            </datalist>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <?php if ($_SESSION['tipo'] == "administrador") { ?>
-                                                            <div class="form-group form-group-default">
-                                                                <label>Disciplina</label>
-                                                                <select name="disciplina" class="select-box">
-                                                                    <?php
-                                                                        //Obtem todas as referencias dos produtos que estao ativos
-                                                                        $sql = "SELECT id, nome FROM disciplinas;";
-                                                                        $result = $con->query($sql);
-                                                                        if ($result->num_rows > 0) {
-                                                                            //Percorre todos os produtos e adiciona-os como opção na dataList
-                                                                            while ($row = $result->fetch_assoc()) {
-                                                                                echo "<option value=\"{$row['id']}\">{$row['nome']}</option>";
-                                                                            }
-                                                                        }
-                                                                    ?>
-                                                                </select>
-                                                            </div>
+                                                            </select>
                                                         <?php } else { ?>
-                                                            <div class="form-group form-group-default">
-                                                                <label>Disciplina</label>
-                                                                <input type="input" name="disciplina" class="form-control" readonly>
-                                                            </div>
+                                                            <input type="text" name="disciplina" class="form-control" readonly>
                                                         <?php } ?>
                                                     </div>
-                                                    <?php 
-                                                        for ($i=1; $i < 11; $i++) { 
-                                                            if ($i == 1) {
-                                                                $required = "required";
-                                                            }
-                                                            else {
-                                                                $required = "";
-                                                            }
-                                                            if ($i <= 4) { ?>
-                                                                <div class="col-md-6" id="aluno_<?php echo $i; ?>">
-                                                                    <div class="form-group form-group-default">
-                                                                        <label>Aluno <?php echo $i; ?></label>
-                                                                        <input type="input" name="aluno_<?php echo $i; ?>" list="datalistAlunos" class="form-control" <?php echo $required; ?> <?php echo $readonly; ?>>
-                                                                        <datalist id='datalistAlunos'>
-                                                                            <?php
-                                                                                //Obtem todas as referencias dos produtos que estao ativos
-                                                                                $sql = "SELECT id, nome FROM alunos;";
-                                                                                $result = $con->query($sql);
-                                                                                if ($result->num_rows > 0) {
-                                                                                    //Percorre todos os produtos e adiciona-os como opção na dataList
-                                                                                    while ($row = $result->fetch_assoc()) {
-                                                                                        echo "<option>$row[id] | $row[nome]</option>";
-                                                                                    }
-                                                                                }
-                                                                            ?>
-                                                                        </datalist>
-                                                                    </div>
-                                                                </div>
-                                                            <?php } else { ?>
-                                                                <div class="col-md-6" id="aluno_<?php echo $i; ?>" style="display: none;">
-                                                                    <div class="form-group form-group-default">
-                                                                        <label>Aluno <?php echo $i; ?></label>
-                                                                        <input type="input" name="aluno_<?php echo $i; ?>" list="datalistAlunos" class="form-control" <?php echo $readonly; ?>>
-                                                                        <datalist id='datalistAlunos'>
-                                                                            <?php
-                                                                                //Obtem todas as referencias dos produtos que estao ativos
-                                                                                $sql = "SELECT id, nome FROM alunos;";
-                                                                                $result = $con->query($sql);
-                                                                                if ($result->num_rows > 0) {
-                                                                                    //Percorre todos os produtos e adiciona-os como opção na dataList
-                                                                                    while ($row = $result->fetch_assoc()) {
-                                                                                        echo "<option>$row[id] | $row[nome]</option>";
-                                                                                    }
-                                                                                }
-                                                                            ?>
-                                                                        </datalist>
-                                                                    </div>
-                                                                </div>
-                                                            <?php }
+
+                                                    <!-- Alunos -->
+                                                    <?php
+                                                        for ($i = 1; $i <= 10; $i++) {
+                                                            $required = $i === 1 ? "required" : "";
+                                                            $style = $i <= 4 ? "" : "style='display:none;'";
+                                                            echo "
+                                                            <div class='col-md-6' id='aluno_$i' $style>
+                                                                <label for='aluno_$i' class='form-label'>Aluno $i</label>
+                                                                <input type='text' name='aluno_$i' list='datalistAlunos' class='form-control' $required $readonly>
+                                                            </div>";
                                                         }
                                                     ?>
+                                                    <datalist id="datalistAlunos">
+                                                        <?php
+                                                            $sql = "SELECT id, nome FROM alunos;";
+                                                            $result = $con->query($sql);
+                                                            while ($row = $result->fetch_assoc()) {
+                                                                echo "<option>{$row['id']} | {$row['nome']}</option>";
+                                                            }
+                                                        ?>
+                                                    </datalist>
                                                 </div>
-                                                <?php if ($_SESSION['tipo'] == "administrador") { ?>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="modal-footer border-0">
-                                                                <button type="button" class="btn btn-primary" onclick="adicionarAluno()" disab>
-                                                                    Adicionar aluno
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="modal-footer border-0">
-                                                                <button type="submit" class="btn btn-primary">
-                                                                    Guardar Alterações
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <?php } ?>
                                             </div>
+
+                                            <!-- Rodapé -->
+                                            <?php if ($_SESSION['tipo'] == "administrador") { ?>
+                                                <div class="modal-footer border-0 d-flex justify-content-between">
+                                                    <button type="button" class="btn btn-outline-primary" onclick="adicionarAluno()">Adicionar Aluno</button>
+                                                    <button type="submit" class="btn btn-primary">Guardar Alterações</button>
+                                                </div>
+                                            <?php } ?>
                                         </form>
                                     </div>
                                 </div>
@@ -485,6 +457,27 @@
             </div>
         </div>
         <script>
+            function enviarNotificacoes() {
+                // Mostrar o modal
+                const modal = new bootstrap.Modal(document.getElementById('modalProgresso'));
+                modal.show();
+
+                // Enviar o pedido AJAX para o ficheiro correto
+                fetch("horarioNotificacao.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: "acao=enviar_notificacoes"
+                })
+                .then(response => response.text())
+                .then(data => {
+                    // Redirecionar de volta para o horário depois do envio
+                    window.location.href = "horario.php";
+                })
+                .catch(error => {
+                    alert("Erro ao enviar notificações: " + error);
+                });
+            }
+
             document.addEventListener("DOMContentLoaded", function () {
                 // Seleciona todas as células com dados
                 const celulas = document.querySelectorAll(".celula-horario");
@@ -525,8 +518,8 @@
                 function preencherHorario(id, dia, sala, hora, idDisciplina, nomeDisciplina, idProfessor, nome, alunos, alunosId) {
                     aux = 0;
 
-                    document.querySelector('.fw-mediumbold').value = dia;   
-                    document.querySelector('.fw-light').value = hora;
+                    document.querySelector('#dia').value = dia;   
+                    document.querySelector('#hora').value = hora;
                     document.querySelector('#editarCelulaAluno input[name="sala"]').value = sala;
 
                     select = document.querySelector('#editarCelulaAluno select[name="disciplina"]');
