@@ -3,7 +3,7 @@
 
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
-    ini_set('error_log', '/home/xpt123/admin/db/PHP.log');
+    ini_set('error_log', '/home/xpt123/logs/PHP.log');
     error_reporting(E_ALL);
 
     // Configurações de conexão ao banco de dados
