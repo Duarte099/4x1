@@ -34,7 +34,7 @@
         }
     }
 ?>
-    <title>4x1 | Definições</title>
+    <title>Definições | 4x1</title>
     <style>
         h1 {
             text-align: center;

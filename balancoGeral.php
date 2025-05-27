@@ -103,7 +103,7 @@
         $totalDia= 0;
     }
 ?>
-<title>4x1 | Balanço geral</title>
+<title>Balanço geral | 4x1</title>
 </head>
   <body>
     <div class="wrapper">

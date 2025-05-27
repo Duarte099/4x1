@@ -11,7 +11,7 @@
 		exit();
 	}
 ?>
-  <title>4x1 | Configuração pagamentos</title>
+  <title>Configuração pagamentos | 4x1</title>
 </head>
   <body>
     <div class="wrapper">

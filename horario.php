@@ -43,7 +43,7 @@
         $readonly = "readonly";
     }
 ?>
-  <title>4x1 | Horário</title>
+  <title>Horário | 4x1</title>
   <style>
     .professor {
         text-align: center;

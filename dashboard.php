@@ -5,7 +5,7 @@
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 1;
 ?>
-<title>4x1 | Dashboard</title>
+<title>Dashboard | 4x1</title>
 </head>
   <body>
     <div class="wrapper">

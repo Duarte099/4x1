@@ -24,7 +24,7 @@
 		return $meses;
 	}
 ?>
-  <title>4x1 | Despesas e categorias</title>
+  <title>Despesas e categorias | 4x1</title>
 </head>
   <body>
     <div class="wrapper">

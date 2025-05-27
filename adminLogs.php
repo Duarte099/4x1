@@ -12,7 +12,7 @@
         exit();
     }
 ?>
-  <title>4x1 | Logs Administradores</title>
+  <title>Logs Administradores | 4x1</title>
 </head>
   <body>
     <div class="wrapper">

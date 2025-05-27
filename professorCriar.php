@@ -12,7 +12,7 @@
         exit();
     }
 ?>
-    <title>4x1 | Criar Professor</title>
+    <title>Criar Professor | 4x1</title>
     <style>
         h1 {
             text-align: center;

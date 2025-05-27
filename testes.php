@@ -5,7 +5,7 @@
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 6;
 ?>
-    <title>4x1 | Resgistrar testes</title>
+    <title>Resgistrar testes | 4x1</title>
     <style>
         h1 {
             text-align: center;
