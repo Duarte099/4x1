@@ -62,7 +62,7 @@
         $("#basic-datatables").DataTable({});
 
         $("#multi-filter-select").DataTable({
-          pageLength: 5,
+          pageLength: 6,
           <?php if (isset($_SESSION['testes']) && $_SESSION['testes'] == "true") { ?>
             order: [[2, 'asc']],
           <?php } unset($_SESSION['testes']);?>
@@ -100,7 +100,7 @@
         });
 
         $("#multi-filter-select2").DataTable({
-          pageLength: 5,
+          pageLength: 6,
           order: [[3, 'asc']],
           language: {
               url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
