@@ -45,13 +45,13 @@
 											<div class="modal-body">
 												<form action="pagamentoConfigInserir.php?op=save" method="POST">
 													<div class="row">
-														<div class="col-md-12 pe-0">
+														<div class="col-md-12 ">
 															<div class="form-group form-group-default">
 																<label>Ano</label>
 																<input type="number" name="ano" class="form-control" value="0" required>
 															</div>
 														</div>
-														<div class="col-md-6 pe-0">
+														<div class="col-md-6 ">
 															<div class="form-group form-group-default">
 																<label>Horas Grupo</label>
 																<input type="number" name="horasGrupo" value="0" class="form-control" required>
@@ -63,7 +63,7 @@
 																<input type="number" name="mensGrupo" value="0" class="form-control" required>
 															</div>
 														</div>
-														<div class="col-md-6 pe-0">
+														<div class="col-md-6 ">
 															<div class="form-group form-group-default">
 																<label>Horas Individuais</label>
 																<input  type="number" name="horasInd" value="0" class="form-control" required>
@@ -183,13 +183,13 @@
 											<div class="modal-body">
 												<form action="pagamentoConfigInserir.php?op=editMensalidade" method="POST">
 													<div class="row">
-														<div class="col-md-12 pe-0">
+														<div class="col-md-12 ">
 															<div class="form-group form-group-default">
 																<label>Ano</label>
 																<input type="number" name="ano" class="form-control" required>
 															</div>
 														</div>
-														<div class="col-md-6 pe-0">
+														<div class="col-md-6 ">
 															<div class="form-group form-group-default">
 																<label>Horas Grupo</label>
 																<input type="number" name="horasGrupo" class="form-control">
@@ -201,7 +201,7 @@
 																<input type="number" name="mensGrupo" class="form-control">
 															</div>
 														</div>
-														<div class="col-md-6 pe-0">
+														<div class="col-md-6 ">
 															<div class="form-group form-group-default">
 																<label>Horas Individuais</label>
 																<input  type="number" name="horasInd" class="form-control">
@@ -293,7 +293,7 @@
 										<div class="modal-body">
 											<form action="pagamentoConfigInserir.php?op=editPagamento" method="POST">
 												<div class="row">
-													<div class="col-md-6 pe-0">
+													<div class="col-md-6 ">
 														<div class="form-group form-group-default">
 															<label>Ensino</label>
 															<input type="text" name="ensino" class="form-control" readonly>

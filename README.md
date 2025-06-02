@@ -10,6 +10,12 @@ ver como funciona se o aluno sair a meio do mês, se tem de pagar a que fez dura
 
 perguntar se precisa de duração no horario
 
+grafico para novos alunos por mês e alunos descontinuados
+
+colocar pop up a dizer os pagamentos em atraso na pagina do recibo com os recibos em atraso com um click a redirecionar para esse recibo em atraso
+
+
+
 function getParametroUrl(nome) {
                     const params = new URLSearchParams(window.location.search);
                     return params.get(nome);
