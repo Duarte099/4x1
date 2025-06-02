@@ -44,13 +44,22 @@
                           <th>Nome</th>
                           <th>Email</th>
                           <th>Contacto</th>
+                          <th>Estado</th>
                           <th style="width: 10%">Ação</th>
                         </tr>
                       </thead>
+                      <tfoot>
+                          <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Contacto</th>
+                            <th>Estado</th>
+                          </tr>
+                        </tfoot>
                       <tbody>
                         <?php
                           //query para selecionar todos os administradores
-                          $sql = "SELECT id, nome, email, contacto FROM professores ORDER BY ativo DESC;";
+                          $sql = "SELECT id, nome, email, contacto, IF(ativo = 1, 'Ativo', 'Inativo') as estado FROM professores ORDER BY ativo DESC;";
                           $result = $con->query($sql);
                           if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
@@ -59,6 +68,7 @@
                                       <td>{$row['nome']}</td>
                                       <td>{$row['email']}</td>
                                       <td>{$row['contacto']}</td>
+                                      <td>{$row['estado']}</td>
                                       <td>
                                         <div class=\"form-button-action\">
                                           <button
