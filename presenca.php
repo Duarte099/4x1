@@ -214,8 +214,9 @@
                                         </select>
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="duracao" class="form-label">Duração:</label>
-                                        <select class="form-control" name="hora">
+                                        <label for="hora" class="form-label">Duração:</label>
+                                        <input type="number" name="hora" class="form-control">
+                                        <!-- <select class="form-control" name="hora">
                                             <option value="15">15 min</option>
                                             <option value="30">30 min</option>
                                             <option value="45">45 min</option>
@@ -228,7 +229,7 @@
                                             <option value="180">180 min</option>
                                             <option value="210">210 min</option>
                                             <option value="240">240 min</option>
-                                        </select>
+                                        </select> -->
                                     </div>
                                     <div class="col-md-3">
                                         <label for="dia" class="form-label">Dia:</label>
