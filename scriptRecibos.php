@@ -14,6 +14,15 @@
         return $minutos / 60;
     }
 
+    function decimalParaHoraMinutos($horasDecimais) {
+        $horas = floor($horasDecimais); // Parte inteira = horas
+        $minutosDecimais = $horasDecimais - $horas; // Parte decimal
+        $minutos = round($minutosDecimais * 60); // Converte decimal para minutos
+
+        // Retorna como float no formato hh.mm (ex: 1.30, 2.45)
+        return floatval($horas . '.' . str_pad($minutos, 2, '0', STR_PAD_LEFT));
+    }
+
     use Dompdf\Dompdf;
     use Dompdf\Options;
     if ($cronjobRecibos == 1) {
@@ -42,6 +51,10 @@
                 $totalMinutos = 0;
                 $horasRealizadasIndividual = 0;
                 $horasRealizadasGrupo = 0;
+                $balancoIndividualFormatado = 0;
+                $balancoGrupoFormatado = 0;
+                $horasRealizadasIndividualFormatado = 0;
+                $horasRealizadasGrupoFormatado = 0;
 
                 if (!empty($row1['tlmMae'])){
                     $contacto = $row1['tlmMae'];
@@ -85,6 +98,7 @@
                         $totalMinutos = $totalMinutos + $row["duracao"];
                     }
                     $horasRealizadasGrupo = minutosToValor($totalMinutos);
+                    $horasRealizadasGrupoFormatado = decimalParaHoraMinutos($horasRealizadasGrupo)
                 }
 
                 //Horas Individuais
@@ -98,13 +112,16 @@
                         $totalMinutos = $totalMinutos + $row["duracao"];
                     }
                     $horasRealizadasIndividual = minutosToValor($totalMinutos);
+                    $horasRealizadasIndividualFormatado = decimalParaHoraMinutos($horasRealizadasIndividual)
                 }
 
                 //Balanço Grupo
                 $balancoGrupo = $row1['balancoGrupo'] + ($row1['horasGrupo'] - $horasRealizadasGrupo);
+                $balancoGrupoFormatado = decimalParaHoraMinutos($balancoGrupo)
 
                 //Balanço Individual
                 $balancoIndividual = $row1['balancoIndividual'] + ($row1['horasIndividual'] - $horasRealizadasIndividual);
+                $balancoIndividualFormatado = decimalParaHoraMinutos($balancoIndividual)
 
                 //Valor do transporte
                 if ($row1['transporte'] == 1) {
@@ -265,8 +282,8 @@
                             <td class="bold">Balanço Das Horas</td>
                         </tr>
                         <tr>
-                            <td>{$horasRealizadasGrupo}</td>
-                            <td>{$balancoGrupo}</td>
+                            <td>{$horasRealizadasGrupoFormatado}</td>
+                            <td>{$balancoGrupoFormatado}</td>
                         </tr>
                     </table>
                 HTML;
@@ -286,8 +303,8 @@
                             <td class="bold">Balanço Das Horas</td>
                         </tr>
                         <tr>
-                            <td>{$horasRealizadasIndividual}</td>
-                            <td>{$balancoIndividual}</td>
+                            <td>{$horasRealizadasIndividualFormatado}</td>
+                            <td>{$balancoIndividualFormatado}</td>
                         </tr>
                     </table>
                 HTML;
