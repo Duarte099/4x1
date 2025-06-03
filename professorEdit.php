@@ -376,7 +376,7 @@
                                 <form action="" method="GET">
                                     <div class="select-container">
                                         <input type="hidden" style="display: none;" name="idProf" value="<?= $idProfessor ?>">
-                                        <input type="hidden" style="display: none;" name="tab" value="1">
+                                        <input type="hidden" style="display: none;" name="tab" value="recibo">
                                         
                                         <label for="mes" class="form-label mb-0 me-2">Data:</label>
                                         <input type="month" name="mes" id="mes" value="<?= $mesSelecionado ?>" class="form-control" style="width: 200px;" onchange="this.form.submit()">
