@@ -16,6 +16,10 @@
     $idProfessor = $_GET['idProf'];
     $mesSelecionado = $_GET['mes'] ?? date('Y-m');
     $recibo = true;
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
+    if ($tab == "recibo") {
+        $estouEm = 3;
+    }
 
     $stmt = $con->prepare("SELECT * FROM professores WHERE id = ?");
     $stmt->bind_param("i", $idProfessor);
@@ -129,6 +133,7 @@
         //Se houver um aluno com o id recebido, guarda as informações
         if ($result->num_rows > 0) {
             $rowRecibo = $result->fetch_assoc();
+            $total = $rowRecibo["valorParcial1Ciclo"] + $rowRecibo["valorParcial2Ciclo"] + $rowRecibo["valorParcial3Ciclo"] + $rowRecibo["valorParcialSecundario"] + $rowRecibo["valorParcialUniversidade"]; 
         }
         else {
             $recibo = false;
@@ -155,6 +160,26 @@
             border: 1px solid #ced4da !important; /* igual ao form-control */
         }
     </style>
+    <script>
+        $(document).ready(function() {
+            // Obtém o parâmetro da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab'); // Exemplo: ?tab=recibo
+
+            // Define qual aba abrir com base no parâmetro
+            let abaDesejada;
+            switch (tabParam) {
+                case 'recibo':
+                    abaDesejada = '#recibo-tab';
+                    break;
+                default:
+                    abaDesejada = '#editar-prof-tab'; // Aba padrão
+            }
+
+            // Ativa a aba
+            $(abaDesejada).tab('show');
+        });
+    </script>
 </head>
     <body>
         <div class="wrapper">
@@ -443,7 +468,7 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
                                                     <label for="total" class="form-label">Total:</label>
-                                                    <input type="input" name="total" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
+                                                    <input type="input" name="total" class="form-control" value="<?php echo $total; ?>€" readonly>
                                                 </div>
                                             </div>
 

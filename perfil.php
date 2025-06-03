@@ -110,6 +110,7 @@
             //Se houver um aluno com o id recebido, guarda as informações
             if ($result->num_rows > 0) {
                 $rowRecibo = $result->fetch_assoc();
+                $total = $rowRecibo["valorParcial1Ciclo"] + $rowRecibo["valorParcial2Ciclo"] + $rowRecibo["valorParcial3Ciclo"] + $rowRecibo["valorParcialSecundario"] + $rowRecibo["valorParcialUniversidade"]; 
             }
             else {
                 $recibo = false;
@@ -551,7 +552,7 @@
                                                     <div class="form-row">
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>TOTAL:</label>
-                                                            <input type="input" name="total" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
+                                                            <input type="input" name="total" value="<?php echo $total; ?>€" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
