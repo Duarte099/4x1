@@ -466,14 +466,12 @@
                     $horasDadasUniversidade = minutosToValor($horasDadasUniversidade);
                     $valorParcialUniversidade = $horasDadasUniversidade * $valores[4];
                 }
-        
-                $total = $valorParcial1Ciclo + $valorParcial2Ciclo + $valorParcial3Ciclo + $valorParcialSecundario + $valorParcialUniversidade; 
                 
                 //Inserir Recibo
-                $sql4 = "INSERT INTO `professores_recibo`(`idProfessor`, `horasDadas1Ciclo`, `valorUnitario1Ciclo`, `valorParcial1Ciclo`, `horasDadas2Ciclo`, `valorUnitario2Ciclo`, `valorParcial2Ciclo`, `horasDadas3Ciclo`, `valorUnitario3Ciclo`, `valorParcial3Ciclo`, `horasDadasSecundario`, `valorUnitarioSecundario`, `valorParcialSecundario`, `horasDadasUniversidade`, `valorUnitarioUniversidade`, `valorParcialUniversidade`, `total`, `ano`, `mes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                $sql4 = "INSERT INTO `professores_recibo`(`idProfessor`, `horasDadas1Ciclo`, `valorUnitario1Ciclo`, `valorParcial1Ciclo`, `horasDadas2Ciclo`, `valorUnitario2Ciclo`, `valorParcial2Ciclo`, `horasDadas3Ciclo`, `valorUnitario3Ciclo`, `valorParcial3Ciclo`, `horasDadasSecundario`, `valorUnitarioSecundario`, `valorParcialSecundario`, `horasDadasUniversidade`, `valorUnitarioUniversidade`, `valorParcialUniversidade`, `ano`, `mes`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
                 $result4 = $con->prepare($sql4);
                 if ($result4) {
-                    $result4->bind_param("iiiiiiiiiiiiiiiiiii", $row1['id'], $horasDadas1Ciclo, $valores[0], $valorParcial1Ciclo, $horasDadas2Ciclo, $valores[1], $valorParcial2Ciclo, $horasDadas3Ciclo, $valores[2], $valorParcial3Ciclo,  $horasDadasSecundario, $valores[3], $valorParcialSecundario, $horasDadasUniversidade, $valores[4], $valorParcialUniversidade, $total, $ano, $mes);
+                    $result4->bind_param("idddddddddddddddii", $row1['id'], $horasDadas1Ciclo, $valores[0], $valorParcial1Ciclo, $horasDadas2Ciclo, $valores[1], $valorParcial2Ciclo, $horasDadas3Ciclo, $valores[2], $valorParcial3Ciclo,  $horasDadasSecundario, $valores[3], $valorParcialSecundario, $horasDadasUniversidade, $valores[4], $valorParcialUniversidade, $ano, $mes);
                     $result4->execute();
                 }
             }
