@@ -233,7 +233,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label for="dia" class="form-label">Dia:</label>
-                                        <input type="date" name="dia" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                                        <input type="date" name="dia" class="form-control" value="<?php echo date('d-m-Y'); ?>">
                                     </div>
                                     <div class="col-md-3">
                                         <label for="individual" class="form-label">Tipo:</label>
