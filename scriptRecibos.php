@@ -103,7 +103,7 @@
                         $totalMinutos = $totalMinutos + $row["duracao"];
                     }
                     $horasRealizadasGrupo = minutosToValor($totalMinutos);
-                    $horasRealizadasGrupoFormatado = decimalParaHoraMinutos($horasRealizadasGrupo)
+                    $horasRealizadasGrupoFormatado = decimalParaHoraMinutos($horasRealizadasGrupo);
                 }
 
                 //Horas Individuais
@@ -117,16 +117,16 @@
                         $totalMinutos = $totalMinutos + $row["duracao"];
                     }
                     $horasRealizadasIndividual = minutosToValor($totalMinutos);
-                    $horasRealizadasIndividualFormatado = decimalParaHoraMinutos($horasRealizadasIndividual)
+                    $horasRealizadasIndividualFormatado = decimalParaHoraMinutos($horasRealizadasIndividual);
                 }
 
                 //Balanço Grupo
                 $balancoGrupo = $row1['balancoGrupo'] + ($row1['horasGrupo'] - $horasRealizadasGrupo);
-                $balancoGrupoFormatado = decimalParaHoraMinutos($balancoGrupo)
+                $balancoGrupoFormatado = decimalParaHoraMinutos($balancoGrupo);
 
                 //Balanço Individual
                 $balancoIndividual = $row1['balancoIndividual'] + ($row1['horasIndividual'] - $horasRealizadasIndividual);
-                $balancoIndividualFormatado = decimalParaHoraMinutos($balancoIndividual)
+                $balancoIndividualFormatado = decimalParaHoraMinutos($balancoIndividual);
 
                 //Valor do transporte
                 if ($row1['transporte'] == 1) {
