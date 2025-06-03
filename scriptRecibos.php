@@ -4,6 +4,16 @@
     include('/home/xpt123/admin/db/conexao.php');
     require "/home/xpt123/vendor/autoload.php";
 
+    function minutosToValor($minutos){
+        // Conversão para horas e minutos
+        $horas = intdiv($minutos, 60);
+
+        $minutosRestantes = $minutos % 60;
+
+        // Conversão para horas decimais
+        return $minutos / 60;
+    }
+
     use Dompdf\Dompdf;
     use Dompdf\Options;
     if ($cronjobRecibos == 1) {
@@ -367,16 +377,6 @@
             while ($row = $result->fetch_assoc()) {
                 $valores[] = $row['valor'];
             }
-        }
-
-        function minutosToValor($minutos){
-            // Conversão para horas e minutos
-            $horas = intdiv($minutos, 60);
-
-            $minutosRestantes = $minutos % 60;
-
-            // Conversão para horas decimais
-            return $minutos / 60;
         }
 
         //RECIBO PROFESSORES
