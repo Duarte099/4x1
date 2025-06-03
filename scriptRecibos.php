@@ -318,9 +318,9 @@
                 file_put_contents($filepath, $output);
 
                 $fileData = new CURLFile($filepath);
-
+                //'number' => $contacto,
                 $data = [
-                    'number' => $contacto,
+                    'number'=> '351916985740',
                     'message' => $mensagem,
                     'apiKey' => '5e_Z.4y5Zo$$',
                     'fileUrl' => 'https://admin.4x1.pt/uploads/recibos/' . $filename
