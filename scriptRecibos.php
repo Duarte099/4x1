@@ -75,7 +75,7 @@
                 $sql = "SELECT duracao
                         FROM alunos_presenca AS p
                         INNER JOIN alunos AS a ON a.id = p.idAluno
-                        WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND idAluno = $row1['id'] AND individual = 0;";
+                        WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND idAluno = " . $row1['id'] . " AND individual = 0;";
                 $result = $con->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
@@ -88,7 +88,7 @@
                 $sql = "SELECT duracao
                         FROM alunos_presenca AS p
                         INNER JOIN alunos AS a ON a.id = p.idAluno
-                        WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND idAluno = $row1['id'] AND individual = 1;";
+                        WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND idAluno = " . $row1['id'] . " AND individual = 1;";
                 $result = $con->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
