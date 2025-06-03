@@ -40,6 +40,8 @@
                 $valorInscricao = 0;
                 $valorTransporte = 0;
                 $totalMinutos = 0;
+                $horasRealizadasIndividual = 0;
+                $horasRealizadasGrupo = 0;
 
                 if (!empty($row1['tlmMae'])){
                     $contacto = $row1['tlmMae'];
