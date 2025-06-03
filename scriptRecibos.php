@@ -61,22 +61,30 @@
                     }
                 }
 
-                //Horas Grupo Realizadas
-                $horasRealizadasGrupo = 0;
-                $sql2 = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . (int) $row1['id'] . " AND MONTH(dia) = $mes AND YEAR(dia) = $ano AND individual = 0";
-                $result2 = $con->query($sql2);
-                if ($result2->num_rows >= 0) {
-                    $row2 = $result2->fetch_assoc();
-                    $horasRealizadasGrupo = $row2['horasRealizadas'];
+                //Horas Grupo
+                $sql = "SELECT duracao
+                        FROM alunos_presenca AS p
+                        INNER JOIN alunos AS a ON a.id = p.idAluno
+                        WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND idAluno = $row1['id'] AND individual = 0;";
+                $result = $con->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $totalMinutos = $totalMinutos + $row["duracao"];
+                    }
+                    $horasRealizadasGrupo = minutosToValor($totalMinutos);
                 }
 
-                //Horas Individuais Realizadas
-                $horasRealizadasIndividual = 0;
-                $sql3 = "SELECT COUNT(*) AS horasRealizadas FROM alunos_presenca WHERE idAluno = " . (int) $row1['id'] . " AND MONTH(dia) = $mes AND YEAR(dia) = $ano AND individual = 1";
-                $result3 = $con->query($sql3);
-                if ($result3->num_rows >= 0) {
-                    $row3 = $result3->fetch_assoc();
-                    $horasRealizadasIndividual = $row3['horasRealizadas'];
+                //Horas Individuais
+                $sql = "SELECT duracao
+                        FROM alunos_presenca AS p
+                        INNER JOIN alunos AS a ON a.id = p.idAluno
+                        WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND idAluno = $row1['id'] AND individual = 1;";
+                $result = $con->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $totalMinutos = $totalMinutos + $row["duracao"];
+                    }
+                    $horasRealizadasIndividual = minutosToValor($totalMinutos);
                 }
 
                 //Balanço Grupo
