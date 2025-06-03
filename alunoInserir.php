@@ -178,7 +178,7 @@
                 }
             }
             //header('Location: alunoEdit.php?idAluno=' . $idAluno);
-            //header('Location: aluno.php');
+            header('Location: aluno.php');
         }
         else {
             notificacao('warning', 'Operação inválida.');
