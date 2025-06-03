@@ -1,11 +1,6 @@
 <?php
     global $auxLogin; // Permite acesso à variável externa
 
-    ini_set('display_errors', 0);
-    ini_set('log_errors', 1);
-    ini_set('error_log', '/home/xpt123/logs/PHP.log');
-    error_reporting(E_ALL);
-
     // Configurações de conexão ao banco de dados
     $DATABASE_HOST = '4x1.pt';
     $DATABASE_USER = 'xpt123_4x1';
@@ -62,6 +57,10 @@
     }
 
     if (!isset($cronjob) || $cronjob === false) {
+        ini_set('display_errors', 0);
+        ini_set('log_errors', 1);
+        ini_set('error_log', '/home/xpt123/logs/PHP.log');
+        error_reporting(E_ALL);
         //Chama as funções para serem usadas em todas as paginas
         include_once './db/functions.php';
     }
