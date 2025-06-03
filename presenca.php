@@ -246,8 +246,8 @@
                                 <div class="row mb-3">
                                     <div class="col-md-3">
                                         <label for="professor" class="form-label">Professor:</label>
-                                        <input type="text" class="form-control" name="professor" list="datalistNomes" required>
-                                        <datalist id='datalistNomes'>
+                                        <input type="text" class="form-control" name="professor" list="datalistNomes2" required>
+                                        <datalist id='datalistNomes2'>
                                             <?php
                                                 //Obtem todas as referencias dos produtos que estao ativos
                                                 $sql = "SELECT id, nome FROM professores WHERE ativo = 1;";
