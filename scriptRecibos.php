@@ -15,11 +15,16 @@
     }
 
     function decimalParaHoraMinutos($horasDecimais) {
-        $horas = floor($horasDecimais); // Parte inteira = horas
-        $minutosDecimais = $horasDecimais - $horas; // Parte decimal
-        $minutos = round($minutosDecimais * 60); // Converte decimal para minutos
+        $horas = floor($horasDecimais);
+        $minutosDecimais = $horasDecimais - $horas;
+        $minutos = round($minutosDecimais * 60);
 
-        // Retorna como float no formato hh.mm (ex: 1.30, 2.45)
+        // Corrigir casos em que arredondamento dá 60 minutos
+        if ($minutos == 60) {
+            $horas += 1;
+            $minutos = 0;
+        }
+
         return floatval($horas . '.' . str_pad($minutos, 2, '0', STR_PAD_LEFT));
     }
 
