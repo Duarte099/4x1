@@ -190,57 +190,21 @@
 
                                 <div class="row mb-3">
                                     <div class="col-md-3">
-                                        <label for="disciplina" class="form-label">Disciplina:</label>
-                                        <select class="form-control" name="disciplina">
-                                            <?php 
-                                                if ($_SESSION['tipo'] == "professor") {
-                                                    $sql = "SELECT d.nome, d.id
-                                                    FROM disciplinas AS d 
-                                                    INNER JOIN professores_disciplinas AS pd ON d.id = pd.idDisciplina 
-                                                    INNER JOIN professores AS p ON pd.idProfessor = p.id 
-                                                    WHERE p.id = {$_SESSION['id']};";
-                                                }
-                                                elseif ($_SESSION['tipo'] == "administrador") {
-                                                    $sql = "SELECT d.nome, d.id FROM disciplinas AS d;";
-                                                }
-                                                
+                                        <label for="professor" class="form-label">Professor:</label>
+                                        <input type="text" class="form-control" name="professor" list="datalistNomes" required>
+                                        <datalist id='datalistNomes'>
+                                            <?php
+                                                //Obtem todas as referencias dos produtos que estao ativos
+                                                $sql = "SELECT id, nome FROM professores WHERE ativo = 1;";
                                                 $result = $con->query($sql);
                                                 if ($result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) { 
-                                                        echo "<option value='disciplina_" . $row['id'] . "'>". $row['nome'] . "</option>";  
+                                                    //Percorre todos os produtos e adiciona-os como opção na dataList
+                                                    while ($row = $result->fetch_assoc()) {
+                                                        echo "<option>$row[id] | $row[nome]</option>";
                                                     }
                                                 }
                                             ?>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="hora" class="form-label">Duração:</label>
-                                        <input type="number" name="hora" class="form-control">
-                                        <!-- <select class="form-control" name="hora">
-                                            <option value="15">15 min</option>
-                                            <option value="30">30 min</option>
-                                            <option value="45">45 min</option>
-                                            <option value="60">60 min</option>
-                                            <option value="75">75 min</option>
-                                            <option value="90">90 min</option>
-                                            <option value="105">105 min</option>
-                                            <option value="120">120 min</option>
-                                            <option value="150">150 min</option>
-                                            <option value="180">180 min</option>
-                                            <option value="210">210 min</option>
-                                            <option value="240">240 min</option>
-                                        </select> -->
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="dia" class="form-label">Dia:</label>
-                                        <input type="date" name="dia" class="form-control" value="<?php echo date('Y-m-d'); ?>">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="individual" class="form-label">Tipo:</label>
-                                        <select class="form-control" name="individual">
-                                            <option value="1" >Individual</option>
-                                            <option value="0" selected>Grupo</option>
-                                        </select> 
+                                        </datalist>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Registrar presença</button>

@@ -42,7 +42,7 @@
             }
             $idProfessor = $_SESSION['id'];
             if ($_SESSION['tipo'] == "administrador") {
-                $idProfessor = 8;
+                $idProfessor = $_POST['professor'];
             }
 
             $sql = "INSERT INTO alunos_presenca (idAluno, idDisciplina, idProfessor, duracao, dia, individual) VALUES (?, ?, ?, ?, ?, ?)";
