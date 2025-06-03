@@ -14,7 +14,11 @@ grafico para novos alunos por mês e alunos descontinuados
 
 colocar pop up a dizer os pagamentos em atraso na pagina do recibo com os recibos em atraso com um click a redirecionar para esse recibo em atraso
 
+atualizar:
+    perfil
+    professorEdit
 
+pergutnar como funciona se o aluno nao tiver no perfil horas grupo e registarem
 
 function getParametroUrl(nome) {
                     const params = new URLSearchParams(window.location.search);
