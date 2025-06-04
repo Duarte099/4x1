@@ -107,7 +107,8 @@
 
         //Mensalidades grupo e individual
         if ($rowAluno['horasGrupo'] > 0) {
-            echo "teste 1";
+            echo $rowAluno['ano'];
+            echo $rowAluno['horasGrupo'];
             $result6 = $con->prepare('SELECT mensalidadeHorasGrupo FROM mensalidade WHERE ano = ? AND horasGrupo = ?');
             $result6->bind_param('ii', $rowAluno['ano'], $rowAluno['horasGrupo']);
             $result6->execute();
@@ -117,6 +118,7 @@
                 $rowRecibo['mensalidadeGrupo'] = $row6['mensalidadeHorasGrupo'];
                 echo $rowRecibo['mensalidadeGrupo'];
             }
+            echo $rowRecibo['mensalidadeGrupo'];
         }
         if ($rowAluno['horasIndividual'] > 0) {
             echo "teste 2";
