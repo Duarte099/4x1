@@ -389,7 +389,7 @@
                                                         <input type="text" name="prof" list="datalistProfs" class="form-control" required <?= $readonly; ?>>
                                                         <datalist id="datalistProfs">
                                                             <?php
-                                                            $sql = "SELECT id, nome FROM professores;";
+                                                            $sql = "SELECT id, nome FROM professores WHERE ativo = 1 ORDER BY nome ASC;";
                                                             $result = $con->query($sql);
                                                             while ($row = $result->fetch_assoc()) {
                                                                 echo "<option>{$row['id']} | {$row['nome']}</option>";
@@ -430,7 +430,7 @@
                                                     ?>
                                                     <datalist id="datalistAlunos">
                                                         <?php
-                                                            $sql = "SELECT id, nome FROM alunos;";
+                                                            $sql = "SELECT id, nome FROM alunos WHERE ativo = 1 ORDER BY nome ASC;";
                                                             $result = $con->query($sql);
                                                             while ($row = $result->fetch_assoc()) {
                                                                 echo "<option>{$row['id']} | {$row['nome']}</option>";
