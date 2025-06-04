@@ -15,6 +15,11 @@
     />
     <meta name="theme-color" content="#007bff">
 
+    <meta property="og:title" content="Centro de Estudo 4x1">
+    <meta property="og:description" content="Explicações, apoio escolar e muito mais.">
+    <meta property="og:image" content="https://admin.4x1.pt/images/LogoBranco4x1.png">
+    <meta property="og:url" content="https://admin.4x1.pt">
+
     <!-- Permitir "web app" no iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -22,6 +27,7 @@
 
     <!-- Ícone que aparece no ecrã principal -->
     <link rel="apple-touch-icon" href="/images/icon4x1_192x192.png">
+    <link rel="apple-touch-startup-image" href="/images/icon4x1_512x512.png">
 
     <link rel="manifest" href="/manifest.json">
     <link
