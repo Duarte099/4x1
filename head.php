@@ -14,6 +14,15 @@
         name="viewport"
     />
     <meta name="theme-color" content="#007bff">
+
+    <!-- Permitir "web app" no iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="4x1 Centro de Estudo">
+
+    <!-- Ícone que aparece no ecrã principal -->
+    <link rel="apple-touch-icon" href="/images/icon4x1_192x192.png">
+
     <link rel="manifest" href="/manifest.json">
     <link
         rel="icon"
