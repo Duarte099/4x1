@@ -13,6 +13,8 @@
         content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
         name="viewport"
     />
+    <meta name="theme-color" content="#007bff">
+    <link rel="manifest" href="/manifest.json">
     <link
         rel="icon"
         href="./images/Icon4x1.png"

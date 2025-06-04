@@ -1,0 +1,16 @@
+{
+  "name": "4x1",
+  "short_name": "4x1",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "images/icon4x1.png",
+      "sizes": "145x134",
+      "type": "image/png"
+    }
+  ]
+}

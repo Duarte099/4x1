@@ -173,5 +173,14 @@
             window.history.replaceState({}, document.title, cleanUrl);
         <?php endif; ?>
     });    
-    
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then(() => {
+          console.log("Service Worker registado com sucesso!");
+        })
+        .catch((error) => {
+          console.error("Erro ao registar o Service Worker:", error);
+        });
+    }
 </script>
