@@ -13,7 +13,7 @@
         content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
         name="viewport"
     />
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#1a2035">
 
     <meta property="og:title" content="Centro de Estudo 4x1">
     <meta property="og:description" content="Explicações, apoio escolar e muito mais.">
