@@ -23,10 +23,10 @@
                 <!-- <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20"> -->
             </a>
             <div class="nav-toggle">
-                <button class="btn btn-toggle toggle-sidebar d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                <button class="btn btn-toggle toggle-sidebar" style="width: 40px; height: 40px;">
                     <i class="gg-menu-right"></i>
                 </button>
-                <button class="btn btn-toggle sidenav-toggler d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                <button class="btn btn-toggle sidenav-toggler" style="width: 40px; height: 40px;">
                     <i class="gg-menu-left"></i>
                 </button>
             </div>
