@@ -34,7 +34,7 @@
                 while ($row = $result->fetch_assoc()) {
                     $horasDadas1Ciclo = $horasDadas1Ciclo + $row["duracao"];
                 }
-                $horasDadas1Ciclo = minutosToValor($horasDadas1Ciclo);
+                $horasDadas1Ciclo = decimalParaHoraMinutos(minutosToValor($horasDadas1Ciclo));
                 $valorParcial1Ciclo = $horasDadas1Ciclo * $valores[0];
             }
 
@@ -50,7 +50,7 @@
                 while ($row = $result->fetch_assoc()) {
                     $horasDadas2Ciclo = $horasDadas2Ciclo + $row["duracao"];
                 }
-                $horasDadas2Ciclo = minutosToValor($horasDadas2Ciclo);
+                $horasDadas2Ciclo = decimalParaHoraMinutos(minutosToValor($horasDadas2Ciclo));
                 $valorParcial2Ciclo = $horasDadas2Ciclo * $valores[1];
             }
 
@@ -66,7 +66,7 @@
                 while ($row = $result->fetch_assoc()) {
                     $horasDadas3Ciclo = $horasDadas3Ciclo + $row["duracao"];
                 }
-                $horasDadas3Ciclo = minutosToValor($horasDadas3Ciclo);
+                $horasDadas3Ciclo = decimalParaHoraMinutos(minutosToValor($horasDadas3Ciclo));
                 $valorParcial3Ciclo = $horasDadas3Ciclo * $valores[2];
             }
 
@@ -82,7 +82,7 @@
                 while ($row = $result->fetch_assoc()) {
                     $horasDadasSecundario = $horasDadasSecundario + $row["duracao"];
                 }
-                $horasDadasSecundario = minutosToValor($horasDadasSecundario);
+                $horasDadasSecundario = decimalParaHoraMinutos(minutosToValor($horasDadasSecundario));
                 $valorParcialSecundario = $horasDadasSecundario * $valores[3];
             }
 
@@ -98,7 +98,7 @@
                 while ($row = $result->fetch_assoc()) {
                     $horasDadasUniversidade = $horasDadasUniversidade + $row["duracao"];
                 }
-                $horasDadasUniversidade = minutosToValor($horasDadasUniversidade);
+                $horasDadasUniversidade = decimalParaHoraMinutos(minutosToValor($horasDadasUniversidade));
                 $valorParcialUniversidade = $horasDadasUniversidade * $valores[4];
             }
 
@@ -472,7 +472,7 @@
                                                     <div class="form-row">
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>HORAS 1º CICLO:</label>
-                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo $rowRecibo['horasDadas1Ciclo'];} ?>" readonly>
+                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo decimalParaHoraMinutos($rowRecibo['horasDadas1Ciclo']);} ?>" readonly>
                                                         </div>
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>VALOR UNITÁRIO:</label>
@@ -488,7 +488,7 @@
                                                     <div class="form-row">
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>HORAS 2º CICLO:</label>
-                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo $rowRecibo['horasDadas2Ciclo'];} ?>" readonly>
+                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo decimalParaHoraMinutos($rowRecibo['horasDadas2Ciclo']);} ?>" readonly>
                                                         </div>
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>VALOR UNITÁRIO:</label>
@@ -504,7 +504,7 @@
                                                     <div class="form-row">
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>HORAS 3º CICLO:</label>
-                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo $rowRecibo['horasDadas3Ciclo'];} ?>" readonly>
+                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo decimalParaHoraMinutos($rowRecibo['horasDadas3Ciclo']);} ?>" readonly>
                                                         </div>
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>VALOR UNITÁRIO:</label>
@@ -520,7 +520,7 @@
                                                     <div class="form-row">
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>HORAS SECUNDÁRIO:</label>
-                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo $rowRecibo['horasDadasSecundario'];} ?>" readonly>
+                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo decimalParaHoraMinutos($rowRecibo['horasDadasSecundario']);} ?>" readonly>
                                                         </div>
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>VALOR UNITÁRIO:</label>
@@ -536,7 +536,7 @@
                                                     <div class="form-row">
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>HORAS UNIVERSIDADE:</label>
-                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo $rowRecibo['horasDadasUniversidade'];} ?>" readonly>
+                                                            <input type="input" name="horasGrupo" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo decimalParaHoraMinutos($rowRecibo['horasDadasUniversidade']);} ?>" readonly>
                                                         </div>
                                                         <div class="campo" style="flex: 0 0 32%;">
                                                             <label>VALOR UNITÁRIO:</label>
