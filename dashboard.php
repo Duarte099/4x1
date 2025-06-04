@@ -107,7 +107,7 @@
                                                         while ($row = $result->fetch_assoc()) {
                                                             $minutosTotais += $row['duracao'];
                                                         }
-                                                        echo minutosToValor($minutosTotais) . "h";
+                                                        echo decimalParaHoraMinutos(minutosToValor($minutosTotais)) . "h";
                                                     } else {
                                                         echo "0";
                                                     }
