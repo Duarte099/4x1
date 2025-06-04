@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>4x1 | Login</title>
-    <link rel="icon" href="./images/Icon4x1.png" type="image/x-icon"/>
-
+<?php 
+    $login = true;
+    include('./head.php'); 
+?>
     <!-- Font Icon -->
     <link rel="stylesheet" href="./assets/fonts/material-icon/css/material-design-iconic-font.min.css">
 
@@ -16,6 +11,8 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/plugins.min.css" />
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+
+    <title>4x1 | Login</title>
     <style>
         .logo-img {
             width: 500px; /* ou o tamanho que quiser */

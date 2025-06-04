@@ -1,6 +1,7 @@
 <?php 
-    //inclui a base de dados e segurança da página
-    include('./db/conexao.php'); 
+    if (!isset($login) || $login === false) {
+        include('./db/conexao.php');
+    }
 ?>
 
 <!DOCTYPE html>
