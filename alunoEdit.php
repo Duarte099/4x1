@@ -460,7 +460,7 @@
                                     $result = $stmt->get_result();
                                     if ($result->num_rows > 0) {
                                         while($row5 = $result->fetch_assoc()){?>
-                                            <div class="alert alert-success d-flex align-items-center">
+                                            <div class="alert alert-warning d-flex align-items-center">
                                                 <i class="bi bi-cake2-fill me-2"></i>
                                                 <div>
                                                     O pagamento relativo ao mês <?php echo $row5['mes']; ?> de <?php echo $row5['ano']; ?> está pendente. <a href="alunoEdit.php?idAluno=<?php echo $idAluno ?>&mes=<?php echo $row5['ano']?>-<?php echo $row5['mes']?>&tab=recibo">Ver mais</a>
@@ -473,7 +473,7 @@
                                     $result = $stmt->get_result();
                                     if ($result->num_rows > 0) {
                                         while($row5 = $result->fetch_assoc()){?>
-                                            <div class="alert alert-success d-flex align-items-center">
+                                            <div class="alert alert-danger d-flex align-items-center">
                                                 <i class="bi bi-cake2-fill me-2"></i>
                                                 <div>
                                                     O pagamento relativo ao mês <?php echo $row5['mes']; ?> de <?php echo $row5['ano']; ?> está em atraso. <a href="alunoEdit.php?idAluno=<?php echo $idAluno ?>&mes=<?php echo $row5['ano']?>-<?php echo $row5['mes']?>&tab=recibo">Ver mais</a>
