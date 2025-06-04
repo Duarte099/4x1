@@ -36,7 +36,7 @@
          * Render the PHP template before passing it to Dompdf
          */
         ob_start();
-        require '/home/xpt123/scriptSeguroPdf.php';
+        require '/home/xpt123/cronJobs/scriptSeguroPdf.php';
         $html = ob_get_clean();
 
         $dompdf->loadHtml($html);
