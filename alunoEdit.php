@@ -445,15 +445,6 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="recibo" role="tabpanel" aria-labelledby="recibo-tab">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <form action="" method="GET" class="d-flex align-items-center">
-                                        <input type="hidden" name="idAluno" value="<?= $idAluno ?>">
-                                        <input type="hidden" name="tab" value="recibo">
-
-                                        <label for="mes" class="form-label mb-0 me-2">Data:</label>
-                                        <input type="month" name="mes" id="mes" value="<?= $mesSelecionado ?>" class="form-control" style="width: 200px;" onchange="this.form.submit()">
-                                    </form>
-                                </div>
                                 <?php 
                                     $stmt = $con->prepare("SELECT * FROM alunos as a INNER JOIN alunos_recibo as ar ON ar.idAluno = a.id WHERE a.id = $idAluno AND pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) < 8");
                                     $stmt->execute();
@@ -482,6 +473,15 @@
                                         <?php }
                                     }
                                 ?>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <form action="" method="GET" class="d-flex align-items-center">
+                                        <input type="hidden" name="idAluno" value="<?= $idAluno ?>">
+                                        <input type="hidden" name="tab" value="recibo">
+
+                                        <label for="mes" class="form-label mb-0 me-2">Data:</label>
+                                        <input type="month" name="mes" id="mes" value="<?= $mesSelecionado ?>" class="form-control" style="width: 200px;" onchange="this.form.submit()">
+                                    </form>
+                                </div>
                                 <div class="page-inner">
                                     <form action="pagamentoInserir.php?idAluno=<?php echo $idAluno ?>&ano=<?php echo $ano ?>&mes=<?php echo $mes ?>&op=save" method="POST" id="formEdit" class="formEdit">
                                         <div class="container2">
