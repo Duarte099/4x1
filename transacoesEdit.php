@@ -27,9 +27,6 @@
     }
 ?>  
     <title>4x1 | Editar Transação</title>
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css'>
     <style>
         .container2 {
             background: white;
@@ -37,6 +34,9 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             max-width: 800px;
             margin: 0 auto;
+        }
+        .card {
+            min-height: 100vh !important;
         }
     </style>
 </head>
@@ -46,54 +46,56 @@
                 include('./sideBar.php'); 
             ?>
             <div class="container">
-                <form action="transacoesInserir?idTransacao=<?php echo $idTransacao ?>&op=edit" method="POST">
-                    <div class="page-inner">
-                        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
-                            <div>
-                                <h2 class="fw-bold mb-3">Editar Transação</h2>
-                            </div>
-                        </div>
-                        <div class="container2">
-                            <div class="form-section">
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 64%;">
-                                        <label>DESCRIÇÃO:</label>
-                                        <input type="input" name="descricao" value="<?php echo $rowTransacao['descricao']; ?>">
-                                    </div>
-                                    <div class="campo" style="flex: 0 0 34%;">
-                                        <label>VALOR:</label>
-                                        <input type="number" step="0.01" min="0" name="valor" value="<?php echo $rowTransacao['valor']; ?>">
-                                    </div>
+                <div class="card">
+                    <form action="transacoesInserir?idTransacao=<?php echo $idTransacao ?>&op=edit" method="POST">
+                        <div class="page-inner">
+                            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
+                                <div>
+                                    <h2 class="fw-bold mb-3">Editar Transação</h2>
                                 </div>
                             </div>
-                            <div class="form-section">
-                                <div class="form-row">
-                                    <div class="campo" style="flex: 0 0 49%;">
-                                        <label>CATEGORIA:</label>
-                                        <select name="categoria" class="select-box">
-                                            <?php
-                                                $sql = "SELECT id, nome, tipo FROM categorias;";
-                                                $result = $con->query($sql);
-                                                if ($result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        if ($rowTransacao['idCategoria'] = $row['id']) { ?>
-                                                            <option selected value="<?php echo $row['id']; ?>"><?php echo $row['tipo']; ?> | <?php echo $row['nome']; ?></option>
-                                                        <?php } 
-                                                        else {
-                                                        ?>
-                                                            <option value="<?php echo $row['id']; ?>"><?php echo $row['tipo']; ?> | <?php echo $row['nome']; ?></option>
-                                                        <?php }
+                            <div class="container2">
+                                <div class="form-section">
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 64%;">
+                                            <label>DESCRIÇÃO:</label>
+                                            <input type="input" name="descricao" value="<?php echo $rowTransacao['descricao']; ?>">
+                                        </div>
+                                        <div class="campo" style="flex: 0 0 34%;">
+                                            <label>VALOR:</label>
+                                            <input type="number" step="0.01" min="0" name="valor" value="<?php echo $rowTransacao['valor']; ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-section">
+                                    <div class="form-row">
+                                        <div class="campo" style="flex: 0 0 49%;">
+                                            <label>CATEGORIA:</label>
+                                            <select name="categoria" class="select-box">
+                                                <?php
+                                                    $sql = "SELECT id, nome, tipo FROM categorias;";
+                                                    $result = $con->query($sql);
+                                                    if ($result->num_rows > 0) {
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            if ($rowTransacao['idCategoria'] = $row['id']) { ?>
+                                                                <option selected value="<?php echo $row['id']; ?>"><?php echo $row['tipo']; ?> | <?php echo $row['nome']; ?></option>
+                                                            <?php } 
+                                                            else {
+                                                            ?>
+                                                                <option value="<?php echo $row['id']; ?>"><?php echo $row['tipo']; ?> | <?php echo $row['nome']; ?></option>
+                                                            <?php }
+                                                        }
                                                     }
-                                                }
-                                            ?>
-                                        </select>
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
+                                <button type="submit" class="btn btn-primary">Guardar alterações</button>
                             </div>
-                            <button type="submit" class="btn btn-primary">Guardar alterações</button>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
         <?php include('./endPage.php'); ?>

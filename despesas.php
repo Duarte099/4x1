@@ -62,13 +62,13 @@
 											<div class="modal-body">
 												<form action="despesasInserir.php?op=saveDespesa" method="POST">
 													<div class="row">
-														<div class="col-md-6 pe-0">
+														<div class="col-md-6">
 															<div class="form-group form-group-default">
 																<label>Despesa</label>
 																<input type="input" name="despesa" class="form-control" required>
 															</div>
 														</div>
-														<div class="col-md-6 pe-0">
+														<div class="col-md-6">
 															<div class="form-group form-group-default">
 																<label>Valor</label>
 																<input type="number" step="0.01" min="0" name="valor" value="0" class="form-control" required>
@@ -171,13 +171,13 @@
 											<div class="modal-body">
 												<form action="despesasInserir.php?op=saveDespesa" method="POST" >
 													<div class="row">
-														<div class="col-md-6 pe-0">
+														<div class="col-md-6">
 															<div class="form-group form-group-default">
 																<label>Despesa</label>
 																<input type="input" name="despesa" class="form-control" value="0" required>
 															</div>
 														</div>
-														<div class="col-md-6 pe-0">
+														<div class="col-md-6">
 															<div class="form-group form-group-default">
 																<label>Valor</label>
 																<input type="number" step="0.01" min="0" name="valor" value="0" class="form-control" required>
@@ -219,13 +219,13 @@
 								<div class="modal-body">
 									<form action="despesasInserir.php?op=saveCategoria" method="POST">
 										<div class="row">
-											<div class="col-md-6 pe-0">
+											<div class="col-md-6">
 												<div class="form-group form-group-default">
 													<label>Categoria</label>
 													<input type="input" name="categoria" class="form-control" required>
 												</div>
 											</div>
-											<div class="col-md-6 pe-0">
+											<div class="col-md-6">
 												<div class="form-group form-group-default">
 													<label>Tipo</label>
 													<select name="tipo" class="select-box">
@@ -343,13 +343,13 @@
 								<div class="modal-body">
 									<form action="despesasInserir.php?op=editCategoria" method="POST">
 										<div class="row">
-											<div class="col-md-6 pe-0">
+											<div class="col-md-6">
 												<div class="form-group form-group-default">
 													<label>Categoria</label>
 													<input type="input" name="categoria" class="form-control" required>
 												</div>
 											</div>
-											<div class="col-md-6 pe-0">
+											<div class="col-md-6">
 												<div class="form-group form-group-default">
 													<label>Tipo</label>
 													<select name="tipo" class="select-box">
