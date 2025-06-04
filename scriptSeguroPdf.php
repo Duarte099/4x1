@@ -54,7 +54,7 @@
     }
     
     $aux4 = 1;
-    $sql = "SELECT nome, DATE_FORMAT(dataNascimento, '%d.%m.%Y') as dataNascimento FROM alunos WHERE ano > 9 AND ativo = 1;";
+    $sql = "SELECT nome, DATE_FORMAT(dataNascimento, '%d.%m.%Y') as dataNascimento FROM alunos WHERE ano > 9 AND ano <= 12 AND ativo = 1;";
     $result1 = $con->query($sql);
     $alunos_secundario = "";
     
