@@ -195,8 +195,7 @@
         .form-group input[type="text"],
         .form-group input[type="email"],
         .form-group input[type="input"],
-        .form-group input[type="password"],
-        .form-group input[type="tel"] {
+        .form-group input[type="password"] {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid #ccc;
