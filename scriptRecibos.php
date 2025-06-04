@@ -25,7 +25,7 @@
         }
 
         // Retorna como string no formato hh:mm
-        return sprintf('%d:%02d', $horas, $minutos);
+        return sprintf('%d.%02d', $horas, $minutos);
     }
 
     use Dompdf\Dompdf;
