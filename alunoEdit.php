@@ -115,6 +115,7 @@
             if ($result6->num_rows > 0) {
                 $row6 = $result6->fetch_assoc();
                 $rowRecibo['mensalidadeGrupo'] = $row6['mensalidadeHorasGrupo'];
+                echo $rowRecibo['mensalidadeGrupo'];
             }
         }
         if ($rowAluno['horasIndividual'] > 0) {
