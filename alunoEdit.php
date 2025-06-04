@@ -151,9 +151,6 @@
 ?>
     <title>4x1 | Editar Aluno</title>
     <style>
-        .card {
-            min-height: 100vh !important;
-        }
         th {
             padding: 10px;
             background-color: #f2f2f2;
