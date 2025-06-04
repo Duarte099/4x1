@@ -155,6 +155,14 @@
             min-height: 100vh !important;
         }
 
+        .container2 {
+            background: white;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
         .form-control:disabled,
         .form-control[readonly] {
             background-color: white !important;
