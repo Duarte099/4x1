@@ -21,6 +21,9 @@
             max-width: 800px;
             margin: 0 auto;
         }
+        .card {
+            min-height: 100vh !important;
+        }
     </style>
 </head>
     <body>

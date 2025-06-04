@@ -6,6 +6,11 @@
     $estouEm = 2;
 ?>
     <title>4x1 | Criar Aluno</title>
+    <style>
+        .card {
+            min-height: 100vh !important;
+        }
+    </style>
 </head>
     <body>
         <div class="wrapper">

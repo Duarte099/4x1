@@ -13,6 +13,11 @@
     }
 ?>
     <title>4x1 | Criar Administrador</title>
+    <style>
+        .card {
+            min-height: 100vh !important;
+        }
+    </style>
 </head>
     <body>
         <div class="wrapper">

@@ -7,6 +7,10 @@
 ?>
     <title>4x1 | Registrar presença</title>
     <style>
+        .card {
+            min-height: 100vh !important;
+        }
+        
         h1 {
             text-align: center;
             color: #343a40;
