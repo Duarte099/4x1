@@ -68,7 +68,8 @@
         $mail->Username   = "geral@4x1.pt"; // SMTP account username
         $mail->Password   = "nTgY}w0_fBj}";        // SMTP account password     
 
-        $mail->addAddress('marco.rodrigues@segup.pt');
+        // $mail->addAddress('marco.rodrigues@segup.pt');
+        $mail->addAddress('duarte102007marques@gmail.com');
         $mail->SetFrom('geral@4x1.pt', '4x1 | CENTRO DE ESTUDO');
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';
