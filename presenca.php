@@ -241,7 +241,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label for="individual" class="form-label">Tipo:</label>
-                                            <select class="form-control" name="individual" id="individual" disabled>
+                                            <select class="form-control" name="individual" id="individual" disabled required>
                                                 <option value="1" >Individual</option>
                                                 <option value="0" selected>Grupo</option>
                                             </select> 

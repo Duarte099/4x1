@@ -41,9 +41,6 @@
                 $individual = 0;
             }
             $idProfessor = $_SESSION['id'];
-            if ($_SESSION['tipo'] == "administrador") {
-                $idProfessor = $_POST['professor'];
-            }
 
             $sql = "INSERT INTO alunos_presenca (idAluno, idDisciplina, idProfessor, duracao, dia, individual) VALUES (?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
