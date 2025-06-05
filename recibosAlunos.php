@@ -60,7 +60,8 @@
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT 
+                            $sql = "SELECT * FROM (
+                                    SELECT 
                                         ar.id AS idRecibo, 
                                         a.id AS idAluno, 
                                         a.nome AS nomeAluno, 
@@ -70,15 +71,14 @@
                                         ar.horasRealizadasIndividual, 
                                         ar.mes, 
                                         ar.ano, 
-                                        ar.verificado
+                                        ar.verificado,
+                                        0 AS prioridade
                                     FROM 
                                         alunos_recibo AS ar
                                     INNER JOIN 
                                         alunos AS a ON ar.idAluno = a.id
                                     WHERE 
                                         ar.verificado = 0
-                                    ORDER BY 
-                                        ar.ano DESC, ar.mes DESC
 
                                     UNION ALL
                                     SELECT 
@@ -91,7 +91,8 @@
                                         ar.horasRealizadasIndividual, 
                                         ar.mes, 
                                         ar.ano, 
-                                        ar.verificado
+                                        ar.verificado,
+                                        1 AS prioridade
                                     FROM 
                                         alunos_recibo AS ar
                                     INNER JOIN 
@@ -99,7 +100,12 @@
                                     WHERE 
                                         ar.verificado = 1
                                         AND ar.ano = YEAR(DATE_SUB(CURDATE(), INTERVAL 1 MONTH))
-                                        AND ar.mes = MONTH(DATE_SUB(CURDATE(), INTERVAL 1 MONTH));";
+                                        AND ar.mes = MONTH(DATE_SUB(CURDATE(), INTERVAL 1 MONTH))
+                                ) AS recibos
+                                ORDER BY 
+                                    prioridade ASC,
+                                    ano DESC,
+                                    mes DESC;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
