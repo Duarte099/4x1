@@ -3,7 +3,7 @@
     include('./head.php'); 
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-    $estouEm = 15;
+    $estouEm = 10;
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
@@ -60,16 +60,55 @@
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT ar.id as idRecibo, a.id as idAluno, a.nome as nomeAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.mes, ar.ano, ar.verificado FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id ORDER BY verificado;";
+                            $sql = "SELECT 
+                                        ar.id AS idRecibo, 
+                                        a.id AS idAluno, 
+                                        a.nome AS nomeAluno, 
+                                        ar.packGrupo, 
+                                        ar.horasRealizadasGrupo, 
+                                        ar.packIndividual, 
+                                        ar.horasRealizadasIndividual, 
+                                        ar.mes, 
+                                        ar.ano, 
+                                        ar.verificado
+                                    FROM 
+                                        alunos_recibo AS ar
+                                    INNER JOIN 
+                                        alunos AS a ON ar.idAluno = a.id
+                                    WHERE 
+                                        ar.verificado = 0
+                                    ORDER BY 
+                                        ar.ano DESC, ar.mes DESC
+
+                                    UNION ALL
+                                    SELECT 
+                                        ar.id AS idRecibo, 
+                                        a.id AS idAluno, 
+                                        a.nome AS nomeAluno, 
+                                        ar.packGrupo, 
+                                        ar.horasRealizadasGrupo, 
+                                        ar.packIndividual, 
+                                        ar.horasRealizadasIndividual, 
+                                        ar.mes, 
+                                        ar.ano, 
+                                        ar.verificado
+                                    FROM 
+                                        alunos_recibo AS ar
+                                    INNER JOIN 
+                                        alunos AS a ON ar.idAluno = a.id
+                                    WHERE 
+                                        ar.verificado = 1
+                                        AND ar.ano = YEAR(DATE_SUB(CURDATE(), INTERVAL 1 MONTH))
+                                        AND ar.mes = MONTH(DATE_SUB(CURDATE(), INTERVAL 1 MONTH));";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
                                     if ($row['verificado'] == 1) {
-                                        $row['verificado'] = "Sim";
+                                        $row['verificado'] = "Verificado";
                                         $corStatus = "2ecc71";
                                     }
                                     else {
-                                        $row['verificado'] = "Não";
+                                        $row['verificado'] = "Pendente";
                                         $corStatus = "ff0000";
                                     }
                                     ?>
@@ -83,7 +122,7 @@
                                             <td><?php echo $row['mes'] ?>-<?php echo $row['ano'] ?></td>
                                             <td>
                                                 <div class="form-button-action">
-                                                    <?php if ($row['verificado'] == 0) { ?>
+                                                    <?php if ($row['verificado'] == "Pendente") { ?>
                                                         <button
                                                             type="button"
                                                             class="btn btn-link btn-primary btn-lg"
