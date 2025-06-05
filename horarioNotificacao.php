@@ -16,7 +16,7 @@
     $mensagem = "";
     $notificacao = 0;
     $contacto = "";
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['acao'] === 'enviar_notificacoes') {
+    //if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['acao'] === 'enviar_notificacoes') {
         $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND notHorario = 1;";
         $result1 = $con->query($sql1);
         if ($result1->num_rows > 0) {
@@ -321,6 +321,6 @@
             }
         }
         exit(); // Termina o script depois de enviar
-    }
-    header('Location: horario.php');
+    //}
+    //header('Location: horario.php');
 ?>
