@@ -246,12 +246,12 @@
                     'Content-Type: application/json',
                     'Accept: application/json'
                 ]);
+                $response = curl_exec($ch);
                 if (curl_errno($ch)) {
                     echo 'Erro cURL: ' . curl_error($ch);
                 } else {
                     echo 'Resposta da API: ' . $response;
                 }
-                $response = curl_exec($ch);
                 if ($response === false) {
                     // Se ocorreu erro na cURL
                     notificacao('danger', 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . curl_error($ch));
