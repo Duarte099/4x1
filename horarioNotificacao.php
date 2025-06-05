@@ -237,13 +237,13 @@
                     'fileUrl' => 'https://admin.4x1.pt/uploads/horarios/' . $filename
                 ];
 
-                // $ch = curl_init();
-                // curl_setopt($ch, CURLOPT_URL, $url);
-                // curl_setopt($ch, CURLOPT_POST, 1);
-                // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-                // $response = curl_exec($ch);
+                $response = curl_exec($ch);
                 if ($response === false) {
                     // Se ocorreu erro na cURL
                     notificacao('danger', 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . curl_error($ch));
