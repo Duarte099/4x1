@@ -242,7 +242,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label for="individual" class="form-label">Tipo:</label>
-                                            <select class="form-control" name="individual">
+                                            <select class="form-control" name="individual" id="individual" disabled>
                                                 <option value="1" >Individual</option>
                                                 <option value="0" selected>Grupo</option>
                                             </select> 
@@ -280,24 +280,57 @@
                 // O valor do input é o ID do aluno, conforme definido nas opções do datalist
                 var partes = input.value.split(" | ");
                 var alunoId = partes[0];
-                
-                // Se um valor for selecionado (não vazio)
-                if(alunoId !== "") {
+
+                const select = document.getElementById("individual");
+                const horasGrupoInput = document.getElementById("horasGrupo");
+                const horasIndividualInput = document.getElementById("horasIndividual");
+
+                // Limpa e desativa o select inicialmente
+                select.innerHTML = '';
+                select.disabled = true;
+
+                if (alunoId !== "") {
                     // Realiza a requisição AJAX para obter os dados do aluno
                     $.ajax({
                         url: 'json.obterNome.php',
                         type: 'GET',
-                        data: { idAluno: alunoId},
-                        success: function(response) 
-                        {
-                            var data = JSON.parse(response);
-                            if (data == "erro") {
-                                document.getElementById("horasGrupo").value = "";
-                                document.getElementById("horasIndividual").value = "";
+                        data: { idAluno: alunoId },
+                        success: function(response) {
+                            let data;
+
+                            try {
+                                data = JSON.parse(response);
+                            } catch (e) {
+                                console.error('Resposta inválida:', response);
+                                return;
                             }
-                            else{
-                                document.getElementById("horasGrupo").value = data.horasGrupo;
-                                document.getElementById("horasIndividual").value = data.horasIndividual;
+
+                            if (data === "erro") {
+                                horasGrupoInput.value = "";
+                                horasIndividualInput.value = "";
+                            } else {
+                                horasGrupoInput.value = data.horasGrupo;
+                                horasIndividualInput.value = data.horasIndividual;
+
+                                // Atualizar o select conforme as horas
+                                if (data.horasGrupo > 0) {
+                                    const optGrupo = document.createElement("option");
+                                    optGrupo.value = "grupo";
+                                    optGrupo.text = "Grupo";
+                                    select.appendChild(optGrupo);
+                                }
+
+                                if (data.horasIndividual > 0) {
+                                    const optIndividual = document.createElement("option");
+                                    optIndividual.value = "individual";
+                                    optIndividual.text = "Individual";
+                                    select.appendChild(optIndividual);
+                                }
+
+                                // Só ativa se houver pelo menos uma opção
+                                if (select.options.length > 0) {
+                                    select.disabled = false;
+                                }
                             }
                         },
                         error: function() {
@@ -305,9 +338,9 @@
                         }
                     });
                 } else {
-                    // Se não houver um ID válido, limpa o campo Pack
-                    document.getElementById("horasGrupo").value = "";
-                    document.getElementById("horasIndividual").value = "";
+                    // Limpa campos se o input for inválido
+                    horasGrupoInput.value = "";
+                    horasIndividualInput.value = "";
                 }
             }
         </script>
