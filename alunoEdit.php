@@ -182,11 +182,11 @@
                 case 'recibo':
                     abaDesejada = '#recibo-tab';
                     break;
+                case 'explicacoes':
+                    abaDesejada = '#explicacoes-tab';
+                    break;
                 case 'presenca':
                     abaDesejada = '#registro-presenca-tab';
-                    break;
-                case 'pagamento':
-                    abaDesejada = '#pagamento-tab';
                     break;
                 default:
                     abaDesejada = '#editar-aluno-tab'; // Aba padrão
@@ -208,6 +208,9 @@
                         <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
                             <li class="nav-item1">
                                 <a class="nav-link active" id="editar-aluno-tab" data-bs-toggle="pill" href="#editar-aluno" role="tab" aria-controls="editar-aluno" aria-selected="true">Ficha do Aluno</a>
+                            </li>
+                            <li class="nav-item1">
+                                <a class="nav-link" id="explicacoes-tab" data-bs-toggle="pill" href="#explicacoes" role="tab" aria-controls="explicacoes" aria-selected="false">Explicações</a>
                             </li>
                             <li class="nav-item1">
                                 <a class="nav-link" id="recibo-tab" data-bs-toggle="pill" href="#recibo" role="tab" aria-controls="recibo" aria-selected="false">Recibo</a>
@@ -423,6 +426,63 @@
                                             <button type="submit" class="btn btn-primary">Guardar alterações</button>
                                         </div>
                                     </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="explicacoes" role="tabpanel" aria-labelledby="explicacoes-tab">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table
+                                                    id="multi-filter-select"
+                                                    class="display table table-striped table-hover"
+                                                >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Professor</th>
+                                                            <th>Disciplina</th>
+                                                            <th>Duração(h)</th>
+                                                            <th>Tipo</th>
+                                                            <th>Dia</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>Professor</th>
+                                                            <th>Disciplina</th>
+                                                            <th>Duração(h)</th>
+                                                            <th>Tipo</th>
+                                                            <th>Dia</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        <?php
+                                                            //query para selecionar todos os administradores
+                                                            $sql = "SELECT p.nome as nomeProfessor, d.nome as nomeDisciplina, individual, duracao, DATE_FORMAT(dia, '%d-%m-%Y') as dia FROM alunos_presenca as ap INNER JOIN alunos as a ON ap.idAluno = a.id INNER JOIN professores as p ON ap.idProfessor = p.id INNER JOIN disciplinas as d ON ap.idDisciplina = d.id WHERE a.id = $idAluno;";
+                                                            $result = $con->query($sql);
+                                                            if ($result->num_rows > 0) {
+                                                                while ($row = $result->fetch_assoc()) { 
+                                                                    if ($row['individual'] == 1) {
+                                                                        $tipo = "Individual";
+                                                                    }
+                                                                    else {
+                                                                        $tipo = "Grupo";
+                                                                    }?>
+                                                                    <tr>
+                                                                        <td><?php echo $row['nomeProfessor'] ?></td>
+                                                                        <td><?php echo $row['nomeDisciplina'] ?></td>
+                                                                        <td><?php echo decimalParaHoraMinutos(minutosToValor($row['duracao'])) ?></td>
+                                                                        <td><?php echo $tipo ?></td>
+                                                                        <td><?php echo $row['dia'] ?></td>
+                                                                    </tr>
+                                                            <?php }
+                                                            }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="recibo" role="tabpanel" aria-labelledby="recibo-tab">
