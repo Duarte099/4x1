@@ -3,7 +3,7 @@
 	include('./head.php'); 
 
 	//variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-	$estouEm = 12;
+	$estouEm = 14;
 
   	if ($_SESSION["tipo"] == "professor") {
 		notificacao('warning', 'Não tens permissão para aceder a esta página.');

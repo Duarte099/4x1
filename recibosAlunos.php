@@ -12,7 +12,7 @@
         exit();
     }
 ?>
-  <title>Transações | 4x1</title>
+  <title>4x1 | Recibos alunos</title>
 </head>
   <body>
     <div class="wrapper">
@@ -25,10 +25,7 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h3 class="fw-bold mb-3">Transações</h3>
-              </div>
-              <div class="ms-md-auto py-2 py-md-0">
-                <a href="transacoesCriar.php" class="btn btn-primary btn-round">Nova transação</a>
+                <h3 class="fw-bold mb-3">Recibos alunos</h3>
               </div>
             </div>
             <div class="col-md-12">
@@ -41,55 +38,59 @@
                       >
                         <thead>
                           <tr>
-                            <th>Transação</th>
-                            <th>Tipo</th>
-                            <th>Descrição</th>
-                            <th>Valor</th>
-                            <th>Data</th>
+                            <th>Aluno</th>
+                            <th>Horas grupo</th>
+                            <th>Horas realizadas grupo</th>
+                            <th>Horas individual</th>
+                            <th>Horas realizadas individual</th>
+                            <th>Estado</th>
                             <th style="width: 10%">Ação</th>
                           </tr>
                         </thead>
                         <tfoot>
                           <tr>
-                            <th>Transação</th>
-                            <th>Tipo</th>
-                            <th>Descrição</th>
-                            <th>Valor</th>
-                            <th>Data</th>
+                            <th>Aluno</th>
+                            <th>Horas grupo</th>
+                            <th>Horas realizadas grupo</th>
+                            <th>Horas individual</th>
+                            <th>Horas realizadas individual</th>
+                            <th>Estado</th>
                           </tr>
                         </tfoot>
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT t.id, nome, tipo, descricao, valor, DATE_FORMAT(data, '%d-%m-%Y') AS data FROM transacoes as t LEFT JOIN categorias as c ON t.idCategoria = c.id;";
+                            $sql = "SELECT ar.id as idRecibo, a.id as idAluno a.nome as nomeAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.mes, ar.ano, ar.verificado FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $row['nome'] ?></td>
-                                            <td><?php echo $row['tipo'] ?></td>
-                                            <td><?php echo $row['descricao'] ?></td>
-                                            <td><?php echo $row['valor'] ?></td>
-                                            <td><?php echo $row['data'] ?></td>
+                                            <td><?php echo $row['nomeAluno'] ?></td>
+                                            <td><?php echo $row['packGrupo'] ?></td>
+                                            <td><?php echo $row['horasRealizadasGrupo'] ?></td>
+                                            <td><?php echo $row['packIndividual'] ?></td>
+                                            <td><?php echo $row['horasRealizadasIndividual'] ?></td>
+                                            <td><?php echo $row['verificado'] ?></td>
                                             <td>
                                                 <div class="form-button-action">
+                                                    <?php if ($row['verificado'] == 0) { ?>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-link btn-primary btn-lg"
+                                                            data-original-title="Editar transação"
+                                                            onclick="window.location.href='recibosAlunosVerificar.php?idRecibo=<?php echo $row['idRecibo']; ?>'"
+                                                        >
+                                                            <i class="fa fa-check"></i>
+                                                        </button>
+                                                    <?php } ?>
                                                     <button
                                                         type="button"
                                                         class="btn btn-link btn-primary btn-lg"
                                                         data-original-title="Editar transação"
-                                                        onclick="window.location.href='transacoesEdit.php?idTransacao=<?php echo $row['id']; ?>'"
-                                                        >
-                                                            <i class="fa fa-edit"></i>
-                                                        </button>
-                                                        <button 
-                                                            type="button" 
-                                                            data-bs-toggle="tooltip" 
-                                                            id="alert_demo_7"
-                                                            class="btn btn-link btn-danger" 
-                                                            onclick="transacaoDelete(<?php echo $row['id']; ?>)"
-                                                        >
-                                                            <i class="fa fa-times"></i>
+                                                        onclick="window.location.href='alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&mes=<?php echo $row['mes']; ?>-<?php echo $row['ano']; ?>&tab=recibo'"
+                                                    >
+                                                        <i class="fa fa-edit"></i>
                                                     </button>
                                                 </div>
                                             </td>   
@@ -108,17 +109,6 @@
         </div>
       </div>
     </div>
-    <script>    
-        function transacaoDelete(id) {
-            //Faz uma pergunta e guarda o resultado em result
-            const result = confirm("Tem a certeza que deseja eliminar esta transação?");
-            //Se tiver respondido que sim
-            if (result) {
-                //redireciona para a pagina fichaTrabalhoDelete e manda o id da ficha a ser deletada por GET
-                window.location.href = "transacoesDelete.php?op=delete&idTransacao=" + id;
-            }
-        }
-    </script>
     <?php   
       include('./endPage.php'); 
     ?>
