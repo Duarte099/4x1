@@ -237,9 +237,10 @@
                 //     'fileUrl' => 'https://admin.4x1.pt/uploads/horarios/' . $filename
                 // ];
 
+                //'number' => $contacto,
                 $data = [
-                    'number' => "351916985740",
-                    'message' => "teste",
+                    'number'=> '351916985740',
+                    'message' => $mensagem,
                     'apiKey' => '5e_Z.4y5Zo$$',
                     'fileUrl' => 'https://admin.4x1.pt/uploads/horarios/' . $filename
                 ];
@@ -247,12 +248,9 @@
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data)); // Enviar como JSON
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'Content-Type: application/json',
-                    'Accept: application/json'
-                ]);
+
                 $response = curl_exec($ch);
                 if (curl_errno($ch)) {
                     echo 'Erro cURL: ' . curl_error($ch);
