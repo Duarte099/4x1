@@ -320,7 +320,7 @@
                 curl_close($ch);
             }
         }
-        exit(); // Termina o script depois de enviar
+        //exit(); // Termina o script depois de enviar
     //}
     //header('Location: horario.php');
 ?>
