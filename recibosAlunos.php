@@ -60,10 +60,19 @@
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT ar.id as idRecibo, a.id as idAluno a.nome as nomeAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.mes, ar.ano, ar.verificado FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id;";
+                            $sql = "SELECT ar.id as idRecibo, a.id as idAluno, a.nome as nomeAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.mes, ar.ano, ar.verificado FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id ORDER BY verificado;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
+                                while ($row = $result->fetch_assoc()) 
+                                    if ($row['verificado'] == 1) {
+                                        $row['verificado'] = "Sim";
+                                        $corStatus = "2ecc71";
+                                    }
+                                    else {
+                                        $row['verificado'] = "Não";
+                                        $corStatus = "ff0000";
+                                    }
+                                {
                                     ?>
                                         <tr>
                                             <td><?php echo $row['nomeAluno'] ?></td>
@@ -71,7 +80,8 @@
                                             <td><?php echo $row['horasRealizadasGrupo'] ?></td>
                                             <td><?php echo $row['packIndividual'] ?></td>
                                             <td><?php echo $row['horasRealizadasIndividual'] ?></td>
-                                            <td><?php echo $row['verificado'] ?></td>
+                                            <td style="color: #<?php echo $corStatus; ?>"><?php echo $row['verificado'] ?></td>
+                                            <td><?php echo $row['mes'] ?>-<?php echo $row['ano'] ?></td>
                                             <td>
                                                 <div class="form-button-action">
                                                     <?php if ($row['verificado'] == 0) { ?>
