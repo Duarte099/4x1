@@ -17,7 +17,7 @@
     $notificacao = 0;
     $contacto = "";
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['acao'] === 'enviar_notificacoes') {
-        $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND notHorario = 1;";
+        $sql1 = "SELECT id, contacto, ano, tlmMae, tlmPai, nome FROM alunos WHERE ativo = 1 AND notHorario = 1;";
         $result1 = $con->query($sql1);
         if ($result1->num_rows > 0) {
             while ($row1 = $result1->fetch_assoc()) {
@@ -274,7 +274,7 @@
                 notificacao('success', 'Alunos notificados com sucesso!');
             }
         }
-        $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND notHorario = 1 AND defNotHorario = 1;";
+        $sql1 = "SELECT id, nome, contacto FROM professores WHERE ativo = 1 AND notHorario = 1 AND defNotHorario = 1;";
         $result1 = $con->query($sql1);
         if ($result1->num_rows > 0) {
             while ($row1 = $result1->fetch_assoc()) {
