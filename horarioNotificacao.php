@@ -239,10 +239,10 @@
 
                 //'number' => $contacto,
                 $data = [
-                    'number'=> '351916985740',
-                    'message' => $mensagem,
-                    'apiKey' => '5e_Z.4y5Zo$$',
-                    'fileUrl' => 'https://admin.4x1.pt/uploads/horarios/' . $filename
+                    'number'=> "351916985740",
+                    'message' => "teste",
+                    'apiKey' => "5e_Z.4y5Zo$$",
+                    'fileUrl' => "https://admin.4x1.pt/uploads/horarios/" . $filename
                 ];
 
                 $ch = curl_init();
