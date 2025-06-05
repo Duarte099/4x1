@@ -230,7 +230,7 @@
                 $filepath = __DIR__ . "/uploads/horarios/" . $filename;
                 file_put_contents($filepath, $output);
 
-                var_dump($contacto, $mensagem)
+                var_dump($contacto, $mensagem);
 
                 echo $contacto;
                 echo $mensagem;
