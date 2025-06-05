@@ -457,19 +457,26 @@
             </div>
         </div>
         <script>
-            fetch("horarioNotificacao.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "acao=enviar_notificacoes"
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data); // Ver erro PHP aqui
-                window.location.href = "horario.php";
-            })
-            .catch(error => {
-                alert("Erro ao enviar notificações: " + error);
-            });
+            function enviarNotificacoes() {
+                // Mostrar o modal
+                const modal = new bootstrap.Modal(document.getElementById('modalProgresso'));
+                modal.show();
+
+                // Enviar o pedido AJAX para o ficheiro correto
+                fetch("horarioNotificacao.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: "acao=enviar_notificacoes"
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data); // Ver erro PHP aqui
+                    window.location.href = "horario.php";
+                })
+                .catch(error => {
+                    alert("Erro ao enviar notificações: " + error);
+                });
+            }
 
             document.addEventListener("DOMContentLoaded", function () {
                 // Seleciona todas as células com dados
