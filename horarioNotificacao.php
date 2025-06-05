@@ -240,9 +240,17 @@
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data)); // Enviar como JSON
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                    'Content-Type: application/json',
+                    'Accept: application/json'
+                ]);
+                if (curl_errno($ch)) {
+                    echo 'Erro cURL: ' . curl_error($ch);
+                } else {
+                    echo 'Resposta da API: ' . $response;
+                }
                 $response = curl_exec($ch);
                 if ($response === false) {
                     // Se ocorreu erro na cURL
