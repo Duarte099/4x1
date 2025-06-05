@@ -40,7 +40,7 @@
                 $rowRecibo = $result->fetch_assoc();
             }
 
-            $sql = "UPDATE alunos_recibo SET estado = 'Pago', idMetodo = ?, observacao = ?, pagoEm = ?, idProfessor = ? WHERE idAluno = ? AND ano = ? AND mes = ?";
+            $sql = "UPDATE alunos_recibo SET idMetodo = ?, observacao = ?, pagoEm = ?, idProfessor = ? WHERE idAluno = ? AND ano = ? AND mes = ?";
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("issiiii", $idMetodo, $observacao, $pagoEm, $idProfessor, $idAluno, $ano, $mes);

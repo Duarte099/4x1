@@ -24,9 +24,12 @@
             <div
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
-              <div>
-                <h3 class="fw-bold mb-3">Recibos professores</h3>
-              </div>
+                <div>
+                    <h3 class="fw-bold mb-3">Recibos professores</h3>
+                </div>
+                <div class="ms-md-auto py-2 py-md-0">
+                    <a href=".php" class="btn btn-primary btn-round">Assumir pagamentos</a>
+                </div>
             </div>
             <div class="col-md-12">
                 <div class="card">
@@ -62,7 +65,54 @@
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT pr.id as idRecibo, p.id as idProfessor, p.nome as nomeProf, pr.horasDadas1Ciclo, pr.horasDadas2Ciclo, pr.horasDadas3Ciclo, pr.horasDadasSecundario, pr.horasDadasUniversidade, pr.ano, pr.mes, pr.verificado FROM professores_recibo as pr INNER JOIN professores as p ON pr.idProfessor = p.id;";
+                            $sql = "SELECT * FROM (
+                                        SELECT 
+                                            pr.id AS idRecibo, 
+                                            p.id AS idProfessor, 
+                                            p.nome AS nomeProf, 
+                                            pr.horasDadas1Ciclo, 
+                                            pr.horasDadas2Ciclo, 
+                                            pr.horasDadas3Ciclo, 
+                                            pr.horasDadasSecundario, 
+                                            pr.horasDadasUniversidade, 
+                                            pr.ano, 
+                                            pr.mes, 
+                                            pr.verificado,
+                                            0 AS prioridade
+                                        FROM 
+                                            professores_recibo AS pr
+                                        INNER JOIN 
+                                            professores AS p ON pr.idProfessor = p.id
+                                        WHERE 
+                                            pr.verificado = 0
+
+                                        UNION ALL
+                                        SELECT 
+                                            pr.id AS idRecibo, 
+                                            p.id AS idProfessor, 
+                                            p.nome AS nomeProf, 
+                                            pr.horasDadas1Ciclo, 
+                                            pr.horasDadas2Ciclo, 
+                                            pr.horasDadas3Ciclo, 
+                                            pr.horasDadasSecundario, 
+                                            pr.horasDadasUniversidade, 
+                                            pr.ano, 
+                                            pr.mes, 
+                                            pr.verificado,
+                                            1 AS prioridade
+                                        FROM 
+                                            professores_recibo AS pr
+                                        INNER JOIN 
+                                            professores AS p ON pr.idProfessor = p.id
+                                        WHERE 
+                                            pr.verificado = 1
+                                            AND pr.ano = YEAR(DATE_SUB(CURDATE(), INTERVAL 1 MONTH))
+                                            AND pr.mes = MONTH(DATE_SUB(CURDATE(), INTERVAL 1 MONTH))
+                                    ) AS recibos
+                                    ORDER BY 
+                                        prioridade ASC,
+                                        ano DESC,
+                                        mes DESC;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
