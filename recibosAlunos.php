@@ -24,9 +24,12 @@
             <div
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
-              <div>
-                <h3 class="fw-bold mb-3">Recibos alunos</h3>
-              </div>
+                <div>
+                    <h3 class="fw-bold mb-3">Recibos alunos</h3>
+                </div>
+                <div class="ms-md-auto py-2 py-md-0">
+                    <a href="recibosNotificacao.php" class="btn btn-primary btn-round">Notificar alunos</a>
+                </div>
             </div>
             <div class="col-md-12">
                 <div class="card">
@@ -43,7 +46,9 @@
                             <th>Horas realizadas grupo</th>
                             <th>Horas individual</th>
                             <th>Horas realizadas individual</th>
-                            <th>Estado</th>
+                            <th>Estado verificação</th>
+                            <th>Estado pagamento</th>
+                            <th>Estado notificação</th>
                             <th style="width: 10%">Ação</th>
                           </tr>
                         </thead>
@@ -54,7 +59,9 @@
                             <th>Horas realizadas grupo</th>
                             <th>Horas individual</th>
                             <th>Horas realizadas individual</th>
-                            <th>Estado</th>
+                            <th>Estado verificação</th>
+                            <th>Estado pagamento</th>
+                            <th>Estado notificação</th>
                           </tr>
                         </tfoot>
                         <tbody>
@@ -111,11 +118,25 @@
                                 while ($row = $result->fetch_assoc()) {
                                     if ($row['verificado'] == 1) {
                                         $row['verificado'] = "Verificado";
-                                        $corStatus = "2ecc71";
+                                        $corVerificacao = "2ecc71";
+                                        if ($row['pago'] == 1) {
+                                            $row['pago'] = "Pago";
+                                            $corPagamento = "2ecc71";
+                                        }
                                     }
                                     else {
                                         $row['verificado'] = "Pendente";
-                                        $corStatus = "ff0000";
+                                        $corVerificacao = "ff0000";
+                                        $row['pago'] = "Pendente";
+                                        $corPagamento = "ff0000";
+                                    }
+                                    if ($row['notificacao'] == 1) {
+                                        $row['notificacao'] = "Notificado";
+                                        $corNotificacao = "2ecc71";
+                                    }
+                                    else {
+                                        $row['notificacao'] = "Pendente";
+                                        $corNotificacao = "ff0000";
                                     }
                                     ?>
                                         <tr>
@@ -124,7 +145,9 @@
                                             <td><?php echo $row['horasRealizadasGrupo'] ?></td>
                                             <td><?php echo $row['packIndividual'] ?></td>
                                             <td><?php echo $row['horasRealizadasIndividual'] ?></td>
-                                            <td style="color: #<?php echo $corStatus; ?>"><?php echo $row['verificado'] ?></td>
+                                            <td style="color: #<?php echo $corVerificacao; ?>"><?php echo $row['verificado'] ?></td>
+                                            <td style="color: #<?php echo $corPagamento; ?>"><?php echo $row['pago'] ?></td>
+                                            <td style="color: #<?php echo $corNotificacao; ?>"><?php echo $row['notificacao'] ?></td>
                                             <td><?php echo $row['mes'] ?>-<?php echo $row['ano'] ?></td>
                                             <td>
                                                 <div class="form-button-action">

@@ -28,7 +28,7 @@
                     <h3 class="fw-bold mb-3">Recibos professores</h3>
                 </div>
                 <div class="ms-md-auto py-2 py-md-0">
-                    <a href=".php" class="btn btn-primary btn-round">Assumir pagamentos</a>
+                    <a href="pagamentoProfessorInserir.php" class="btn btn-primary btn-round">Assumir pagamentos</a>
                 </div>
             </div>
             <div class="col-md-12">
@@ -47,7 +47,8 @@
                             <th>Horas 3ºCiclo</th>
                             <th>Horas Secundário</th>
                             <th>Horas Universidade</th>
-                            <th>Estado</th>
+                            <th>Estado Verificação</th>
+                            <th>Estado Pagamento</th>
                             <th style="width: 10%">Ação</th>
                           </tr>
                         </thead>
@@ -59,7 +60,8 @@
                             <th>Horas 3ºCiclo</th>
                             <th>Horas Secundário</th>
                             <th>Horas Universidade</th>
-                            <th>Estado</th>
+                            <th>Estado Verificação</th>
+                            <th>Estado Pagamento</th>
                           </tr>
                         </tfoot>
                         <tbody>
@@ -116,6 +118,20 @@
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
+                                    if ($row['verificado'] == 1) {
+                                        $row['verificado'] = "Verificado";
+                                        $corStatusVerificacao = "2ecc71";
+                                        if ($row['pago'] == 1) {
+                                            $row['pago'] = "Pago";
+                                            $corStatusPagamento = "2ecc71";
+                                        }
+                                    }
+                                    else {
+                                        $row['verificado'] = "Pendente";
+                                        $corStatusVerificacao = "ff0000";
+                                        $row['pago'] = "Pendente";
+                                        $corStatusPagamento = "ff0000";
+                                    }
                                     ?>
                                         <tr>
                                             <td><?php echo $row['nomeProf'] ?></td>
@@ -124,17 +140,20 @@
                                             <td><?php echo $row['horasDadas3Ciclo'] ?></td>
                                             <td><?php echo $row['horasDadasSecundario'] ?></td>
                                             <td><?php echo $row['horasDadasUniversidade'] ?></td>
-                                            <td><?php echo $row['verificado'] ?></td>
+                                            <td style="color: #<?php echo $corStatusVerificacao; ?>"><?php echo $row['verificado'] ?></td>
+                                            <td style="color: #<?php echo $corStatusPagamento; ?>"><?php echo $row['pago'] ?></td>
                                             <td>
                                                 <div class="form-button-action">
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-link btn-primary btn-lg"
-                                                        data-original-title="Verificar recibo"
-                                                        onclick="window.location.href='recibosProfessoresVerificar.php?idRecibo=<?php echo $row['idRecibo']; ?>'"
-                                                    >
-                                                        <i class="fa fa-check"></i>
-                                                    </button>
+                                                    <?php if ($row['verificado'] == "Pendente") { ?>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-link btn-primary btn-lg"
+                                                            data-original-title="Verificar recibo"
+                                                            onclick="window.location.href='recibosProfessoresVerificar.php?idRecibo=<?php echo $row['idRecibo']; ?>'"
+                                                        >
+                                                            <i class="fa fa-check"></i>
+                                                        </button>
+                                                    <?php } ?>
                                                     <button
                                                         type="button"
                                                         class="btn btn-link btn-primary btn-lg"
