@@ -230,9 +230,16 @@
                 $filepath = __DIR__ . "/uploads/horarios/" . $filename;
                 file_put_contents($filepath, $output);
 
+                // $data = [
+                //     'number' => $contacto,
+                //     'message' => $mensagem,
+                //     'apiKey' => '5e_Z.4y5Zo$$',
+                //     'fileUrl' => 'https://admin.4x1.pt/uploads/horarios/' . $filename
+                // ];
+
                 $data = [
-                    'number' => $contacto,
-                    'message' => $mensagem,
+                    'number' => "351916985740",
+                    'message' => "teste",
                     'apiKey' => '5e_Z.4y5Zo$$',
                     'fileUrl' => 'https://admin.4x1.pt/uploads/horarios/' . $filename
                 ];
