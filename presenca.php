@@ -220,8 +220,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label for="hora" class="form-label">Duração:</label>
-                                            <input type="number" name="hora" class="form-control">
-                                            <!-- <select class="form-control" name="hora">
+                                            <select class="form-control" name="hora">
                                                 <option value="15">15 min</option>
                                                 <option value="30">30 min</option>
                                                 <option value="45">45 min</option>
@@ -234,7 +233,7 @@
                                                 <option value="180">180 min</option>
                                                 <option value="210">210 min</option>
                                                 <option value="240">240 min</option>
-                                            </select> -->
+                                            </select>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="dia" class="form-label">Dia:</label>
@@ -246,25 +245,6 @@
                                                 <option value="1" >Individual</option>
                                                 <option value="0" selected>Grupo</option>
                                             </select> 
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-3">
-                                            <label for="professor" class="form-label">Professor:</label>
-                                            <input type="text" class="form-control" name="professor" list="datalistNomes2" required>
-                                            <datalist id='datalistNomes2'>
-                                                <?php
-                                                    //Obtem todas as referencias dos produtos que estao ativos
-                                                    $sql = "SELECT id, nome FROM professores WHERE ativo = 1;";
-                                                    $result = $con->query($sql);
-                                                    if ($result->num_rows > 0) {
-                                                        //Percorre todos os produtos e adiciona-os como opção na dataList
-                                                        while ($row = $result->fetch_assoc()) {
-                                                            echo "<option>$row[id] | $row[nome]</option>";
-                                                        }
-                                                    }
-                                                ?>
-                                            </datalist>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Registrar presença</button>
