@@ -463,6 +463,7 @@
                 modal.show();
 
                 // Enviar o pedido AJAX para o ficheiro correto
+                console.log("A enviar pedido para horarioNotificacao.php");
                 fetch("horarioNotificacao.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -474,6 +475,7 @@
                     window.location.href = "horario.php";
                 })
                 .catch(error => {
+                    console.error("Erro na requisição:", error);
                     alert("Erro ao enviar notificações: " + error);
                 });
             }
