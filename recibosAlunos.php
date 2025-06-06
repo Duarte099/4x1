@@ -79,6 +79,7 @@
                                         ar.mes, 
                                         ar.ano, 
                                         ar.verificado,
+                                        ar.notificacao,
                                         0 AS prioridade
                                     FROM 
                                         alunos_recibo AS ar
@@ -99,6 +100,7 @@
                                         ar.mes, 
                                         ar.ano, 
                                         ar.verificado,
+                                        ar.notificacao,
                                         1 AS prioridade
                                     FROM 
                                         alunos_recibo AS ar
