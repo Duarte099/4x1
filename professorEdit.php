@@ -386,7 +386,7 @@
                                                 >
                                                     <thead>
                                                         <tr>
-                                                            <th>Aluno</th>
+                                                            <th>Professor</th>
                                                             <th>Disciplina</th>
                                                             <th>Duração(h)</th>
                                                             <th>Tipo</th>
@@ -405,7 +405,7 @@
                                                     <tbody>
                                                         <?php
                                                             //query para selecionar todos os administradores
-                                                            $sql = "SELECT a.nome as nomeAluno, d.nome as nomeDisciplina, individual, duracao, DATE_FORMAT(dia, '%d-%m-%Y') as dia FROM alunos_presenca as ap INNER JOIN alunos as a ON ap.idAluno = a.id INNER JOIN professores as p ON ap.idProfessor = p.id INNER JOIN disciplinas as d ON ap.idDisciplina = d.id WHERE p.id = $idProfessor;";
+                                                            $sql = "SELECT p.nome as nomeProfessor, d.nome as nomeDisciplina, individual, duracao, DATE_FORMAT(dia, '%d-%m-%Y') as dia FROM alunos_presenca as ap INNER JOIN alunos as a ON ap.idAluno = a.id INNER JOIN professores as p ON ap.idProfessor = p.id INNER JOIN disciplinas as d ON ap.idDisciplina = d.id WHERE p.id = $idProfessor;";
                                                             $result = $con->query($sql);
                                                             if ($result->num_rows > 0) {
                                                                 while ($row = $result->fetch_assoc()) { 

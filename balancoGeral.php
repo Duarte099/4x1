@@ -88,7 +88,7 @@
 
     //Total pagamentos hoje
     $stmt = $con->prepare("SELECT
-        IFNULL(SUM(mensalidadeGrupo + mensalidadeIndividual + transporte + inscricao + coima), 0) AS total_dia
+        IFNULL(SUM(mensalidadeGrupo + mensalidadeIndividual + transporte + inscricao), 0) AS total_dia
         FROM alunos_recibo
         WHERE DATE(pagoEm) = CURDATE()
         AND idMetodo = 1;

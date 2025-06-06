@@ -165,7 +165,7 @@
                                                         type="button"
                                                         class="btn btn-link btn-primary btn-lg"
                                                         data-original-title="Editar recibo"
-                                                        onclick="window.location.href='professorEdit.php?idProf=<?php echo $row['idProfessor']; ?>&mes=<?php echo $row['mes']; ?>-<?php echo $row['ano']; ?>&tab=recibo'"
+                                                        onclick="window.location.href='professorEdit.php?idProf=<?php echo $row['idProfessor']; ?>&mes=<?php echo $row['ano']; ?>-<?php echo $row['mes']; ?>&tab=recibo'"
                                                     >
                                                         <i class="fa fa-edit"></i>
                                                     </button>

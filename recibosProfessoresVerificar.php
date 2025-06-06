@@ -36,6 +36,7 @@
         else {
             notificacao('danger', 'Erro ao verificar recibo: ' . $result->error);
         }
+        header('Location: recibosProfessores.php');
     }
     else {
         header('Location: dashboard.php');
