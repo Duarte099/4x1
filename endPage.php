@@ -12,8 +12,18 @@
 <script src="assets/js/plugin/chart.js/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
+<!-- jQuery Sparkline -->
+<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+
+<!-- Chart Circle -->
+<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+
 <!-- Datatables -->
 <script src="assets/js/plugin/datatables/datatables.min.js"></script>
+
+<!-- Estilos do intl-tel-input -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
 
 <!-- Bootstrap Notify -->
 <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
@@ -37,6 +47,10 @@
         <?php endif; ?>
     });
 </script>
+
+<!-- jQuery Vector Maps -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
 <!-- Sweet Alert -->
 <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
