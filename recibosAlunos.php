@@ -47,8 +47,8 @@
                             <th>Horas individual</th>
                             <th>Horas realizadas individual</th>
                             <th>Estado verificação</th>
-                            <th>Estado pagamento</th>
                             <th>Estado notificação</th>
+                            <th>Estado pagamento</th>
                             <th>Data</th>
                             <th style="width: 10%">Ação</th>
                           </tr>
@@ -61,6 +61,7 @@
                             <th>Horas individual</th>
                             <th>Horas realizadas individual</th>
                             <th>Estado verificação</th>
+                            <th>Estado notificação</th>
                             <th>Estado pagamento</th>
                             <th>Data</th>
                           </tr>
@@ -153,8 +154,8 @@
                                             <td><?php echo $row['packIndividual'] ?></td>
                                             <td><?php echo $row['horasRealizadasIndividual'] ?></td>
                                             <td style="color: #<?php echo $corVerificacao; ?>"><?php echo $row['verificado'] ?></td>
-                                            <td style="color: #<?php echo $corPagamento; ?>"><?php echo $row['pago'] ?></td>
                                             <td style="color: #<?php echo $corNotificacao; ?>"><?php echo $row['notificacao'] ?></td>
+                                            <td style="color: #<?php echo $corPagamento; ?>"><?php echo $row['pago'] ?></td>
                                             <td><?php echo $row['mes'] ?>-<?php echo $row['ano'] ?></td>
                                             <td>
                                                 <div class="form-button-action">
