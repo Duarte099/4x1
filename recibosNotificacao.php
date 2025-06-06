@@ -224,7 +224,7 @@
             //'number' => $contacto,
             $data = [
                 'number'=> '351916985740',
-                'message' => $mensagem,
+                'message' => "teste",
                 'apiKey' => '5e_Z.4y5Zo$$',
                 'fileUrl' => 'https://admin.4x1.pt/uploads/recibos/' . $filename
             ];
@@ -244,7 +244,7 @@
                 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 
                 if ($httpCode == 200) {
-                    $sql = "UPDATE alunos_recibo SET notificacaco = 1 WHERE id = ?";
+                    $sql = "UPDATE alunos_recibo SET notificacao = 1 WHERE id = ?";
                     $result = $con->prepare($sql);
                     if ($result) {
                         $result->bind_param("i", $row1['id']);
