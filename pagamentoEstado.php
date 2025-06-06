@@ -80,28 +80,27 @@
                                     }
                                     else {
                                         $corStatus = "";
-                                    }
-                                //mostra os resultados todos 
-                                echo "<tr>
-                                        <td>{$row['ensino']}</td>
-                                        <td>{$row['nome']}</td>
-                                        <td>{$row['dataNascimento']}</td>
-                                        <td style=\"color: #$corStatus;\">{$row['estado']}</td>
-                                        <td>
-                                          <div class=\"form-button-action\">
-                                            <button
-                                              type=\"button\"
-                                              data-bs-toggle=\"tooltip\"
-                                              onclick=\"window.location.href='alunoEdit.php?idAluno=" . $row['id'] . "&tab=recibo'\"
-                                              class=\"btn btn-link btn-primary btn-lg\"
-                                              data-original-title=\"Editar Aluno\"
+                                    } ?>
+                                <tr>
+                                    <td><?php echo $row['ensino'] ?></td>
+                                    <td><?php echo $row['nome'] ?></td>
+                                    <td><?php echo $row['dataNascimento'] ?></td>
+                                    <td style="color: #$corStatus;"><?php echo $row['estado'] ?></td>
+                                    <td>
+                                        <div class="form-button-action">
+                                            <a
+                                                href="alunoEdit.php?idAluno=<?php echo $row['id'] ?>&tab=recibo"
+                                                class="btn btn-link btn-primary btn-lg"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Ver recibo"
                                             >
-                                              <i class=\"fa fa-edit\"></i>
-                                            </button>
-                                          </div>
-                                        </td>
-                                    </tr>";
-                              }
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                              <?php }
                             }
                           ?>
                         </tbody>

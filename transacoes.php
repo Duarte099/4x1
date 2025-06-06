@@ -74,23 +74,24 @@
                                             <td><?php echo $row['data'] ?></td>
                                             <td>
                                                 <div class="form-button-action">
-                                                    <button
-                                                        type="button"
+                                                    <a
+                                                        href="transacoesEdit.php?idTransacao=<?php echo $row['id']; ?>"
                                                         class="btn btn-link btn-primary btn-lg"
-                                                        data-original-title="Editar transação"
-                                                        onclick="window.location.href='transacoesEdit.php?idTransacao=<?php echo $row['id']; ?>'"
-                                                        >
-                                                            <i class="fa fa-edit"></i>
-                                                        </button>
-                                                        <button 
-                                                            type="button" 
-                                                            data-bs-toggle="tooltip" 
-                                                            id="alert_demo_7"
-                                                            class="btn btn-link btn-danger" 
-                                                            onclick="transacaoDelete(<?php echo $row['id']; ?>)"
-                                                        >
-                                                            <i class="fa fa-times"></i>
-                                                    </button>
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        title="Editar transação"
+                                                    >
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    <a 
+                                                        onclick="transacaoDelete(<?php echo $row['id']; ?>)"
+                                                        class="btn btn-link btn-primary btn-lg"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        title="Eliminar transação"
+                                                    >
+                                                        <i class="fa fa-times"></i>
+                                                    </a>
                                                 </div>
                                             </td>   
                                         </tr>

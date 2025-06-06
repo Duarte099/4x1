@@ -160,23 +160,25 @@
                                             <td>
                                                 <div class="form-button-action">
                                                     <?php if ($row['verificado'] == "Pendente") { ?>
-                                                        <button
-                                                            type="button"
+                                                        <a
+                                                            href="recibosAlunosVerificar.php?idRecibo=<?php echo $row['idRecibo']; ?>"
                                                             class="btn btn-link btn-primary btn-lg"
-                                                            data-original-title="Editar transação"
-                                                            onclick="window.location.href='recibosAlunosVerificar.php?idRecibo=<?php echo $row['idRecibo']; ?>'"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            title="Verificar recibo"
                                                         >
                                                             <i class="fa fa-check"></i>
-                                                        </button>
+                                                        </a>
                                                     <?php } ?>
-                                                    <button
-                                                        type="button"
+                                                    <a
+                                                        href="alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&mes=<?php echo $row['mes']; ?>-<?php echo $row['ano']; ?>&tab=recibo"
                                                         class="btn btn-link btn-primary btn-lg"
-                                                        data-original-title="Editar transação"
-                                                        onclick="window.location.href='alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&mes=<?php echo $row['mes']; ?>-<?php echo $row['ano']; ?>&tab=recibo'"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        title="Editar recibo"
                                                     >
                                                         <i class="fa fa-edit"></i>
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </td>   
                                         </tr>

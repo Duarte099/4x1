@@ -75,25 +75,25 @@
                                             <td>
                                                 <div class="form-button-action">
                                                     <?php if ($row['adminMor'] == 0){ ?>
-                                                        <button
-                                                            type="button"
-                                                            data-bs-toggle="tooltip"
-                                                            onclick="window.location.href='adminEdit.php?idAdmin=<?php echo $row['id']; ?>'"
+                                                        <a
+                                                            href="adminEdit.php?idAdmin=<?php echo $row['id']; ?>"
                                                             class="btn btn-link btn-primary btn-lg"
-                                                            data-original-title="Editar Administrador"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            title="Editar administrador"
                                                         >
                                                             <i class="fa fa-edit"></i>
-                                                        </button>
+                                                        </a>
                                                     <?php } ?>
-                                                    <button
-                                                        type="button"
-                                                        data-bs-toggle="tooltip"
-                                                        onclick="window.location.href='adminLogs.php?idProf=<?php echo $row['id'] ?>'"
+                                                    <a
+                                                        href="adminLogs.php?idAdmin=<?php echo $row['id'] ?>"
                                                         class="btn btn-link btn-primary btn-lg"
-                                                        data-original-title="Logs Administrador"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        title="Logs administrador"
                                                     >
                                                         <i class="fa-file-alt"></i>
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </td>   
                                         </tr>

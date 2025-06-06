@@ -120,7 +120,7 @@
 																<td><?php echo $row['valor'] ?>€</td>
 																<td>
 																	<div class="form-button-action">
-																		<button
+																		<a
 																			type="button"
 																			data-bs-toggle="modal"
 																			data-bs-target="#editarDespesa"
@@ -138,17 +138,16 @@
 																			)'
 																		>
 																			<i class="fa fa-edit"></i>
-																		</button>
-																		<button
-																			type="button"
-																			data-bs-toggle="tooltip"
-																			title=""
-																			class="btn btn-link btn-danger"
-																			data-original-title="Remove"
+																		</a>
+																		<a
 																			onclick="deleteDespesa(<?php echo $row['id']; ?>)"
+																			class="btn btn-link btn-primary btn-lg"
+																			data-bs-toggle="tooltip"
+																			data-bs-placement="top"
+																			title="Eliminar despesa"
 																		>
 																			<i class="fa fa-times"></i>
-																		</button>
+																		</a>
 																	</div>
 																</td>
 															</tr>
@@ -308,16 +307,15 @@
 																		>
 																			<i class="fa fa-edit"></i>
 																		</button>
-																		<button
-																			type="button"
-																			data-bs-toggle="tooltip"
-																			title=""
-																			class="btn btn-link btn-danger"
-																			data-original-title="Remove"
+																		<a
 																			onclick="deleteCategoria(<?php echo $row['id']; ?>)"
+																			class="btn btn-link btn-primary btn-lg"
+																			data-bs-toggle="tooltip"
+																			data-bs-placement="top"
+																			title="Eliminar categoria"
 																		>
-																		<i class="fa fa-times"></i>
-																		</button>
+																			<i class="fa fa-times"></i>
+																		</a>
 																	</div>
 																</td>
 															</tr>

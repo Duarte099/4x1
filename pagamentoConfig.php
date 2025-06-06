@@ -141,16 +141,15 @@
 																	)">
 																		<i class="fa fa-edit"></i>
 																	</button>
-																	<button 
-																		type="button" 
-																		data-bs-toggle="tooltip" 
-																		title="" 
-																		class="btn btn-link btn-danger" 
-																		data-original-title="Remove"
+																	<a 
 																		onclick="mensalidadeDelete(<?php echo $row['id']; ?>)"
+																		class="btn btn-link btn-primary btn-lg"
+																		data-bs-toggle="tooltip"
+																		data-bs-placement="top"
+																		title="Eliminar mensalidade"
 																	>
 																		<i class="fa fa-times"></i>
-																	</button>
+																	</a>
 																</div>
 															</td>
 														</tr>

@@ -70,24 +70,24 @@
                                         <td><?php echo $row['estado'] ?></td>
                                         <td>
                                             <div class="form-button-action">
-                                            <button
-                                                type="button"
-                                                data-bs-toggle="tooltip"
-                                                onclick="window.location.href='professorEdit.php?idProf=<?php echo $row['id'] ?>'"
-                                                class="btn btn-link btn-primary btn-lg"
-                                                data-original-title="Editar Professor"
-                                            >
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                data-bs-toggle="tooltip"
-                                                onclick="window.location.href='professorLogs.php?idProf=<?php echo $row['id'] ?>'"
-                                                class="btn btn-link btn-primary btn-lg"
-                                                data-original-title="Logs Professor"
-                                            >
-                                                <i class="fa-file-alt"></i>
-                                            </button>
+                                                <a
+                                                    href="professorEdit.php?idProf=<?php echo $row['id'] ?>"
+                                                    class="btn btn-link btn-primary btn-lg"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    title="Editar professor"
+                                                >
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a
+                                                    href="professorLogs.php?idProf=<?php echo $row['id'] ?>"
+                                                    class="btn btn-link btn-primary btn-lg"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    title="Logs professor"
+                                                >
+                                                    <i class="fa-file-alt"></i>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
