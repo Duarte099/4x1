@@ -97,7 +97,7 @@
 								</div>
 								<div class="table-responsive">
 									<table
-										id="add-row"
+										id="tabela-despesas"
 										class="display table table-striped table-hover"
 									>
 										<thead>
@@ -262,7 +262,7 @@
 							<div class="card-body">
 								<div class="table-responsive">
 									<table
-										id="multi-filter-select"
+										id="tabela-categorias"
 										class="display table table-striped table-hover"
 									>
 										<thead>
@@ -424,6 +424,47 @@
 			}
 		}
 	</script>
+	<script>
+        $("#tabela-categorias").DataTable({
+            pageLength: 6,
+            order: [[1, 'asc']],
+            language: {
+              url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
+            },
+            initComplete: function () {
+                this.api()
+                .columns()
+                .every(function () {
+                    var column = this;
+                    var select = $(
+                        '<select class="form-select"><option value=""></option></select>'
+                    )
+                    .appendTo($(column.footer()).empty())
+                    .on("change", function () {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                        column
+                        .search(val ? "^" + val + "$" : "", true, false)
+                        .draw();
+                    });
+
+                    column
+                    .data()
+                    .unique()
+                    .sort()
+                    .each(function (d, j) {
+                        select.append(
+                            '<option value="' + d + '">' + d + "</option>"
+                        );
+                    });
+                });
+            },
+        });
+
+		$("#tabela-despesas").DataTable({
+          pageLength: 5,
+        });
+    </script>
     <?php   
       include('./endPage.php'); 
     ?>

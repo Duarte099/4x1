@@ -214,8 +214,6 @@
                 </div>
             </div>  
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
         <script>
             const input1 = document.querySelector("#contacto");
             const hiddenInput1 = document.querySelector("#contactoHidden");

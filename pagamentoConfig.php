@@ -88,7 +88,7 @@
 								</div>
 								<div class="table-responsive">
 									<table
-										id="multi-filter-select"
+										id="tabela-pagamentos-config"
 										class="display table table-striped table-hover"
 									>
 										<thead>
@@ -234,7 +234,7 @@
 							<div class="card-body">
 								<div class="table-responsive">
 									<table
-										id="multi-filter-select"
+										id="tabela-profs-pagamentos-config"
 										class="display table table-striped table-hover"
 									>
 										<thead>
@@ -343,6 +343,79 @@
 			const form = document.querySelector('#editarPagamento form');
 			form.action = `pagamentoConfigInserir.php?op=editPagamento&idPagamento=${id}`;
 		}
+	</script>
+	<script>
+        $("#tabela-alunos-pagamentos-config").DataTable({
+            pageLength: 6,
+            order: [[1, 'asc']],
+            language: {
+              url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
+            },
+            initComplete: function () {
+                this.api()
+                .columns()
+                .every(function () {
+                    var column = this;
+                    var select = $(
+                        '<select class="form-select"><option value=""></option></select>'
+                    )
+                    .appendTo($(column.footer()).empty())
+                    .on("change", function () {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                        column
+                        .search(val ? "^" + val + "$" : "", true, false)
+                        .draw();
+                    });
+
+                    column
+                    .data()
+                    .unique()
+                    .sort()
+                    .each(function (d, j) {
+                        select.append(
+                            '<option value="' + d + '">' + d + "</option>"
+                        );
+                    });
+                });
+            },
+        });
+
+		$("#tabela-profs-pagamentos-config").DataTable({
+            pageLength: 6,
+            order: [[1, 'asc']],
+            language: {
+              url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
+            },
+            initComplete: function () {
+                this.api()
+                .columns()
+                .every(function () {
+                    var column = this;
+                    var select = $(
+                        '<select class="form-select"><option value=""></option></select>'
+                    )
+                    .appendTo($(column.footer()).empty())
+                    .on("change", function () {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                        column
+                        .search(val ? "^" + val + "$" : "", true, false)
+                        .draw();
+                    });
+
+                    column
+                    .data()
+                    .unique()
+                    .sort()
+                    .each(function (d, j) {
+                        select.append(
+                            '<option value="' + d + '">' + d + "</option>"
+                        );
+                    });
+                });
+            },
+        });
 	</script>
     <?php   
       include('./endPage.php'); 
