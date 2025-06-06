@@ -56,6 +56,7 @@
                             <th>Ensino</th>
                             <th>Nome</th>
                             <th>Data Nascimento</th>
+                            <th>Estado</th>
                             <th style="width: 10%">Ação</th>
                           </tr>
                         </thead>
@@ -64,6 +65,7 @@
                             <th>Ensino</th>
                             <th>Nome</th>
                             <th>Data Nascimento</th>
+                            <th>Estado</th>
                           </tr>
                         </tfoot>
                         <tbody>
