@@ -9,12 +9,12 @@
     }
 
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
-    if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $con->prepare('SELECT id FROM professores_recibo WHERE id = ?');
         $stmt->bind_param('i', $_GET['idRecibo']);
         $stmt->execute(); 
         $stmt->store_result();
-        if ($stmt->num_rows <= 0) {
+        if ($stmt->num_rows == 0) {
             header('Location: dashboard.php');
             exit();
         }
