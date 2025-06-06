@@ -177,10 +177,14 @@
       navigator.serviceWorker
         .register("/sw.js")
         .then(() => {
-          console.log("Service Worker registado com sucesso!");
+          //console.log("Service Worker registado com sucesso!");
         })
         .catch((error) => {
-          console.error("Erro ao registar o Service Worker:", error);
+          //console.error("Erro ao registar o Service Worker:", error);
         });
     }
+    // var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    // tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+    //     new bootstrap.Tooltip(tooltipTriggerEl);
+    // });
 </script>

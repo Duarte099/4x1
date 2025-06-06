@@ -98,15 +98,15 @@
                                                     >
                                                         <i class="fa fa-edit"></i>
                                                     </button>
-                                                    <button
-                                                        type="button"
-                                                        data-bs-toggle="tooltip"
-                                                        onclick="window.location.href='alunoEstado.php?idAluno=<?php echo $row['id']; ?>$op=save'"
+                                                    <a
+                                                        href="alunoEstado.php?idAluno=<?php echo $row['id']; ?>&op=save"
                                                         class="btn btn-link btn-primary btn-lg"
-                                                        data-original-title="Editar Aluno"
+                                                        data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        title="Atualizar estado do aluno"
                                                     >
                                                         <i class="fa fa-sync-alt"></i>
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
