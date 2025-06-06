@@ -27,6 +27,9 @@
                 elseif (!empty($row1['tlmPai'])) {
                     $contacto = $row1['tlmPai'];           
                 }
+                else{
+                    break;
+                }
                 $contacto = str_replace("+", "", $contacto);
                 $mensagem = "*Olá!* 👋\n\nSegue em anexo o recibo do aluno *" . $row1['nome'] . "* relativo ao mês de *" . $nomesMes[$row1['mes']] . "* *" . $row1['ano'] . "*.";
 
