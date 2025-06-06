@@ -12,7 +12,6 @@
     $valorCoima = 0;
     $botao = true;
 
-
     if ($tab == "recibo") {
         $estouEm = 2;
     }

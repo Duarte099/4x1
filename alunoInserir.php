@@ -18,7 +18,7 @@
             $sql = "INSERT INTO alunos (nome, localidade, morada, dataNascimento, codigoPostal, NIF, email, contacto, escola, ano, curso, turma, horasGrupo, horasIndividual, transporte, nomeMae, tlmMae, nomePai, tlmPai, modalidade, dataInscricao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("sssssssssissiiissssss", $_POST['nome'], $_POST['localidade'], $_POST['morada'], $_POST['dataNascimento'], $_POST['codigoPostal'], $_POST['NIF'], $_POST['email'], $_POST['contacto'], $_POST['escola'], $_POST['ano'], $_POST['curso'], $_POST['turma'], $_POST['horasGrupo'], $_POST['horasIndividual'], $_POST['transporte'], $_POST['nomeMae'], $_POST['tlmMae'], $_POST['nomePai'], $_POST['tlmPai'], $_POST['modalidade'], $dataInscricao);
+                $result->bind_param("sssssssssissiiissssss", $_POST['nome'], $_POST['localidade'], $_POST['morada'], $_POST['dataNascimento'], $_POST['codigoPostal'], $_POST['NIF'], $_POST['email'], $_POST['contacto'], $_POST['escola'], $_POST['ano'], $_POST['curso'], $_POST['turma'], $_POST['horasGrupo'], $_POST['horasIndividual'], $_POST['transporte'], $_POST['nomeMae'], $_POST['maeTlm'], $_POST['nomePai'], $_POST['paiTlm'], $_POST['modalidade'], $dataInscricao);
                 if ($result->execute()) {
                     //Obtem o id do novo aluno inserido
                     $idAluno = $con->insert_id;
@@ -93,7 +93,7 @@
             $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, horasGrupo = ?, horasIndividual = ?, transporte = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ?, ativo = ?, dataInscricao = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("sssssssssissiiisssssiis", $_POST['nome'], $_POST['localidade'], $_POST['morada'], $_POST['dataNascimento'], $_POST['codigoPostal'], $_POST['NIF'], $_POST['email'], $_POST['contacto'], $_POST['escola'], $_POST['ano'], $_POST['curso'], $_POST['turma'], $_POST['horasGrupo'], $_POST['horasIndividual'], $_POST['transporte'], $_POST['nomeMae'], $_POST['tlmMae'], $_POST['nomePai'], $_POST['tlmPai'], $_POST['modalidade'], $_POST['estado'], $dataInscricao, $idAluno);
+                $result->bind_param("sssssssssissiiisssssiis", $_POST['nome'], $_POST['localidade'], $_POST['morada'], $_POST['dataNascimento'], $_POST['codigoPostal'], $_POST['NIF'], $_POST['email'], $_POST['contacto'], $_POST['escola'], $_POST['ano'], $_POST['curso'], $_POST['turma'], $_POST['horasGrupo'], $_POST['horasIndividual'], $_POST['transporte'], $_POST['nomeMae'], $_POST['maeTlm'], $_POST['nomePai'], $_POST['paiTlm'], $_POST['modalidade'], $_POST['estado'], $dataInscricao, $idAluno);
                 
                 if ($result->execute()) {
                     notificacao('success', 'Aluno editado com sucesso!');

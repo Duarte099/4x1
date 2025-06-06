@@ -11,6 +11,15 @@
         header('Location: dashboard.php');
         exit();
     }
+
+    $stmt = $con->prepare('SELECT id FROM professores WHERE id = ?');
+    $stmt->bind_param('i', $_GET['idProf']);
+    $stmt->execute(); 
+    $stmt->store_result();
+    if ($stmt->num_rows <= 0) {
+        header('Location: dashboard.php');
+        exit();
+    }
 ?>
   <title>Logs Professores | 4x1</title>
 </head>
@@ -53,17 +62,16 @@
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT nome, DATE_FORMAT(dataLog, '%d-%m-%Y %H:%i:%s') AS dataLog, logFile FROM professores_logs INNER JOIN professores ON idProfessor = id WHERE ativo = 1;";
+                            $sql = "SELECT nome, DATE_FORMAT(dataLog, '%d-%m-%Y %H:%i:%s') AS dataLog, logFile FROM professores_logs INNER JOIN professores ON idProfessor = id WHERE idProfessor = " . $_GET['idProf'];
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    //mostra os resultados todos 
-                                    echo "<tr>
-                                            <td>{$row['nome']}</td>
-                                            <td>{$row['logFile']}</td>
-                                            <td>{$row['dataLog']}</td>
-                                        </tr>";
-                                }
+                                while ($row = $result->fetch_assoc()) { ?>
+                                    <tr>
+                                        <td><?php echo $row['nome'] ?></td>
+                                        <td><?php echo $row['logFile'] ?></td>
+                                        <td><?php echo $row['dataLog'] ?></td>
+                                    </tr>
+                                <?php }
                             }
                           ?>
                         </tbody>

@@ -67,34 +67,50 @@
                           </tr>
                         </tfoot>
                         <tbody>
-                          <?php
-                            //query para selecionar todos os administradores
-                            $sql = "SELECT id, nome, ano, DATE_FORMAT(dataNascimento, '%d-%m-%Y') as dataNascimento, horasGrupo, horasIndividual, IF(ano>=1 AND ano<=4, \"1º CICLO\", IF(ano>4 AND ano<7, \"2º CICLO\", IF(ano>6 AND ano<=9, \"3º CICLO\", IF(ano>9 AND ano<=12, \"SECUNDÁRIO\", IF(ano=0, \"UNIVERSIDADE\", \"ERRO\"))))) as ensino FROM alunos WHERE ativo = 1 ORDER BY (ano = 0), ano ASC;";
-                            $result = $con->query($sql);
-                            if ($result->num_rows > 0) {
-                              while ($row = $result->fetch_assoc()) {
-                                //mostra os resultados todos
-                                echo "<tr>
-                                        <td>{$row['ensino']}</td>
-                                        <td>{$row['nome']}</td>
-                                        <td>{$row['dataNascimento']}</td>
-                                        <td>
-                                          <div class=\"form-button-action\">
-                                            <button
-                                              type=\"button\"
-                                              data-bs-toggle=\"tooltip\"
-                                              onclick=\"window.location.href='alunoEdit.php?idAluno=" . $row['id'] . "'\"
-                                              class=\"btn btn-link btn-primary btn-lg\"
-                                              data-original-title=\"Editar Aluno\"
-                                            >
-                                              <i class=\"fa fa-edit\"></i>
-                                            </button>
-                                          </div>
-                                        </td>
-                                    </tr>";
-                              }
-                            }
-                          ?>
+                            <?php
+                                //query para selecionar todos os administradores
+                                $sql = "SELECT id, nome, ano, DATE_FORMAT(dataNascimento, '%d-%m-%Y') as dataNascimento, horasGrupo, horasIndividual, IF(ano>=1 AND ano<=4, \"1º CICLO\", IF(ano>4 AND ano<7, \"2º CICLO\", IF(ano>6 AND ano<=9, \"3º CICLO\", IF(ano>9 AND ano<=12, \"SECUNDÁRIO\", IF(ano=0, \"UNIVERSIDADE\", \"ERRO\"))))) as ensino FROM alunos ORDER BY (ano = 0), ano ASC ativo DESC;";
+                                $result = $con->query($sql);
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) { 
+                                            if ($row['estado'] == 1) {
+                                                $row['estado'] = "Ativo";
+                                            }
+                                            else {
+                                                $row['estado'] = "Inativo";
+                                            }
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $row['ensino'] ?></td>
+                                            <td><?php echo $row['nome'] ?></td>
+                                            <td><?php echo $row['dataNascimento'] ?></td>
+                                            <td><?php echo $row['estado'] ?></td>
+                                            <td>
+                                                <div class="form-button-action">
+                                                    <button
+                                                        type="button"
+                                                        data-bs-toggle="tooltip"
+                                                        onclick="window.location.href='alunoEdit.php?idAluno=<?php echo $row['id']; ?>'"
+                                                        class="btn btn-link btn-primary btn-lg"
+                                                        data-original-title="Editar Aluno"
+                                                    >
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        data-bs-toggle="tooltip"
+                                                        onclick="window.location.href='alunoEstado.php?idAluno=<?php echo $row['id']; ?>$op=save'"
+                                                        class="btn btn-link btn-primary btn-lg"
+                                                        data-original-title="Editar Aluno"
+                                                    >
+                                                        <i class="fa fa-sync-alt"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php }
+                                }
+                            ?>
                         </tbody>
                       </table>
                     </div>

@@ -76,13 +76,22 @@
                                                 <div class="form-button-action">
                                                     <?php if ($row['adminMor'] == 0){ ?>
                                                         <button
-                                                        type="button"
-                                                        data-bs-toggle="tooltip"
-                                                        onclick="window.location.href='adminEdit.php?idAdmin=<?php echo $row['id']; ?>'"
-                                                        class="btn btn-link btn-primary btn-lg"
-                                                        data-original-title="Editar Administrador"
+                                                            type="button"
+                                                            data-bs-toggle="tooltip"
+                                                            onclick="window.location.href='adminEdit.php?idAdmin=<?php echo $row['id']; ?>'"
+                                                            class="btn btn-link btn-primary btn-lg"
+                                                            data-original-title="Editar Administrador"
                                                         >
-                                                        <i class="fa fa-edit"></i>
+                                                            <i class="fa fa-edit"></i>
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            data-bs-toggle="tooltip"
+                                                            onclick="window.location.href='adminLogs.php?idProf=<?php echo $row['id'] ?>'"
+                                                            class="btn btn-link btn-primary btn-lg"
+                                                            data-original-title="Logs Administrador"
+                                                        >
+                                                            <i class="fa-file-alt"></i>
                                                         </button>
                                                     <?php } ?>
                                                 </div>

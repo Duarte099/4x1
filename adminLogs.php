@@ -11,6 +11,16 @@
         header('Location: dashboard.php');
         exit();
     }
+
+    $stmt = $con->prepare("SELECT * FROM administrador WHERE id = ?");
+    $stmt->bind_param("i", $_GET['idAdmin']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows <= 0) {
+        notificacao('warning', 'ID do administrador inválido.');
+        header('Location: dashboard.php');
+        exit();
+    }
 ?>
   <title>Logs Administradores | 4x1</title>
 </head>
@@ -53,17 +63,16 @@
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT nome, DATE_FORMAT(dataLog, '%d-%m-%Y %H:%i:%s') AS dataLog, logFile FROM administrador_logs INNER JOIN administrador ON idAdministrador = id WHERE active = 1;";
+                            $sql = "SELECT nome, DATE_FORMAT(dataLog, '%d-%m-%Y %H:%i:%s') AS dataLog, logFile FROM administrador_logs INNER JOIN administrador ON idAdministrador = id WHERE idAdministrador = ;" . $_GET['idAdmin'];
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    //mostra os resultados todos 
-                                    echo "<tr>
-                                            <td>{$row['nome']}</td>
-                                            <td>{$row['logFile']}</td>
-                                            <td>{$row['dataLog']}</td>
-                                        </tr>";
-                                }
+                                while ($row = $result->fetch_assoc()) { ?>
+                                    <tr>
+                                        <td><?php echo $row['nome'] ?></td>
+                                        <td><?php echo $row['logFile'] ?></td>
+                                        <td><?php echo $row['dataLog'] ?></td>
+                                    </tr>
+                                <?php }
                             }
                           ?>
                         </tbody>

@@ -58,33 +58,41 @@
                         </tfoot>
                       <tbody>
                         <?php
-                          //query para selecionar todos os administradores
-                          $sql = "SELECT id, nome, email, contacto, IF(ativo = 1, 'Ativo', 'Inativo') as estado FROM professores ORDER BY ativo DESC;";
-                          $result = $con->query($sql);
-                          if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                              //mostra os resultados todos 
-                              echo "<tr>
-                                      <td>{$row['nome']}</td>
-                                      <td>{$row['email']}</td>
-                                      <td>{$row['contacto']}</td>
-                                      <td>{$row['estado']}</td>
-                                      <td>
-                                        <div class=\"form-button-action\">
-                                          <button
-                                            type=\"button\"
-                                            data-bs-toggle=\"tooltip\"
-                                            onclick=\"window.location.href='professorEdit.php?idProf=" . $row['id'] . "'\"
-                                            class=\"btn btn-link btn-primary btn-lg\"
-                                            data-original-title=\"Editar Professor\"
-                                          >
-                                            <i class=\"fa fa-edit\"></i>
-                                          </button>
-                                        </div>
-                                      </td>
-                                  </tr>";
+                            //query para selecionar todos os administradores
+                            $sql = "SELECT id, nome, email, contacto, IF(ativo = 1, 'Ativo', 'Inativo') as estado FROM professores ORDER BY ativo DESC;";
+                            $result = $con->query($sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) { ?>
+                                <tr>
+                                        <td><?php echo $row['nome'] ?></td>
+                                        <td><?php echo $row['email'] ?></td>
+                                        <td><?php echo $row['contacto'] ?></td>
+                                        <td><?php echo $row['estado'] ?></td>
+                                        <td>
+                                            <div class="form-button-action">
+                                            <button
+                                                type="button"
+                                                data-bs-toggle="tooltip"
+                                                onclick="window.location.href='professorEdit.php?idProf=<?php echo $row['id'] ?>'"
+                                                class="btn btn-link btn-primary btn-lg"
+                                                data-original-title="Editar Professor"
+                                            >
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                data-bs-toggle="tooltip"
+                                                onclick="window.location.href='professorLogs.php?idProf=<?php echo $row['id'] ?>'"
+                                                class="btn btn-link btn-primary btn-lg"
+                                                data-original-title="Logs Professor"
+                                            >
+                                                <i class="fa-file-alt"></i>
+                                            </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php }
                             }
-                          }
                         ?>
                       </tbody>
                     </table>

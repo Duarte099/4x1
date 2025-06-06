@@ -61,12 +61,6 @@
                             <p>Professores</p>
                         </a>
                     </li>
-                    <li class="nav-item <?php echo ($estouEm == 4) ? 'active' : ''; ?>">
-                        <a href="professorLogs.php">
-                            <i class="fas fa-clipboard-list"></i>
-                            <p>Logs Professores</p>
-                        </a>
-                    </li>
                 <?php } ?>
                 <li class="nav-item <?php echo ($estouEm == 5) ? 'active' : ''; ?>">
                     <a href="presenca.php">
@@ -84,12 +78,6 @@
                     <a href="pagamentoEstado.php">
                         <i class="fas fa-euro-sign"></i>
                         <p>Estado Pagamentos</p>
-                    </a>
-                </li>
-                <li class="nav-item <?php echo ($estouEm == 8) ? 'active' : ''; ?>">
-                    <a href="estadoAlunos.php">
-                        <i class="fas fa-user-check"></i>
-                        <p>Estado Alunos</p>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 9) ? 'active' : ''; ?>">
@@ -115,12 +103,6 @@
                         <a href="admin.php">
                             <i class="fas fa-user-cog"></i>
                             <p>Administradores</p>
-                        </a>
-                    </li>
-                    <li class="nav-item <?php echo ($estouEm == 13) ? 'active' : ''; ?>">
-                        <a href="adminLogs.php">
-                            <i class="fas fa-file-signature"></i>
-                            <p>Logs Administradores</p>
                         </a>
                     </li>
                     <li class="nav-item <?php echo ($estouEm == 14) ? 'active' : ''; ?>">

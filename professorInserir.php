@@ -8,8 +8,6 @@
         exit();
     }
 
-    print_r($_POST);
-
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         //Obtem o operação 
