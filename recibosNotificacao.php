@@ -221,7 +221,7 @@
             file_put_contents($filepath, $output);
 
             $fileData = new CURLFile($filepath);
-            'number' => $contacto,
+            //'number' => $contacto,
             $data = [
                 'number'=> '351916985740',
                 'message' => $mensagem,
