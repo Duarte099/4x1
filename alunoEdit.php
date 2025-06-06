@@ -9,7 +9,6 @@
     $mesSelecionado = $_GET['mes'] ?? date('Y-m');
     $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
     $recibo = true;
-    $valorCoima = 0;
     $botao = true;
 
     if ($tab == "recibo") {
@@ -42,7 +41,6 @@
         $rowRecibo['anoAluno'] = $rowAluno['anoAluno'];
         $rowRecibo['packGrupo'] = $rowAluno['horasGrupo'];
         $rowRecibo['estado'] = "Pendente";
-        $rowRecibo['coima'] = 0;
         $totalMinutos = 0;
 
         //Horas Grupo
@@ -141,7 +139,7 @@
         //Se houver um aluno com o id recebido, guarda as informações
         if ($result->num_rows > 0) {
             $rowRecibo = $result->fetch_assoc();
-            $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'] + $rowRecibo['coima'];
+            $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'];
         }
         else {
             $recibo = false;
@@ -611,12 +609,6 @@
                                                                 <tr>
                                                                     <td colspan="4" class="text-end fw-bold">Inscrição:</td>
                                                                     <td><?= $rowRecibo['inscricao'] ?>€</td>
-                                                                </tr>
-                                                            <?php endif; ?>
-                                                            <?php if($rowRecibo['coima'] > 0): ?>
-                                                                <tr>
-                                                                    <td colspan="4" class="text-end fw-bold">Coima:</td>
-                                                                    <td><?= $rowRecibo['coima'] ?>€</td>
                                                                 </tr>
                                                             <?php endif; ?>
                                                             <tr class="table-light fw-bold">
