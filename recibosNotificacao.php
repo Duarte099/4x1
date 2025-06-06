@@ -15,6 +15,7 @@
         $result1 = $con->query($sql1);
         if ($result1->num_rows > 0) {
             while ($row1 = $result1->fetch_assoc()) {
+                echo $row1['nome'];
                 $mensalidade = $row1['mensalidadeGrupo'] + $row1['mensalidadeIndividual'] + $row1['transporte'] + $row1['inscricao'];
                 $horasRealizadasIndividualFormatado = decimalParaHoraMinutos(minutosToValor($row1['horasRealizadasIndividual']));
                 $horasRealizadasGrupoFormatado = decimalParaHoraMinutos(minutosToValor($row1['horasRealizadasGrupo']));
@@ -221,7 +222,7 @@
                 $filename = "recibo_{$row1['nome']}_". date("d-m-y_H-i-s") . ".pdf";
                 $filepath = "/home/xpt123/admin/uploads/recibos/" . $filename;
                 file_put_contents($filepath, $output);
-
+                echo "teste";
                 $fileData = new CURLFile($filepath);
                 //'number' => $contacto,
                 $data = [
