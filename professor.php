@@ -104,9 +104,6 @@
         </div>
       </div>
     </div>
-    <?php  
-      include('./endPage.php'); 
-    ?>
     <script>
         $("#tabela-professores").DataTable({
             pageLength: 6,

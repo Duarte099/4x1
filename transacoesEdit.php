@@ -98,7 +98,7 @@
                 </div>
             </div>
         </div>
-        <?php include('./endPage.php'); ?>
+        
     </body>
     </html>
 

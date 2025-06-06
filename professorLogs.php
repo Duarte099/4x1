@@ -84,9 +84,7 @@
         </div>
       </div>
     </div>
-    <?php   
-      include('./endPage.php'); 
-    ?>
+    
     <script>
         $("#tabela-professores-logs").DataTable({
             pageLength: 6,

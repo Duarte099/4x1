@@ -188,9 +188,7 @@
         </div>
       </div>
     </div>
-    <?php   
-      include('./endPage.php'); 
-    ?>
+    
     <script>
         $("#tabela-profs-recibos").DataTable({
             pageLength: 6,

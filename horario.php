@@ -633,8 +633,6 @@
             </script>
         <?php } ?>
     </div>
-    <?php   
-      include('./endPage.php'); 
-    ?>
+    
   </body>
 </html>

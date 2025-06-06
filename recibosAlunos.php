@@ -196,9 +196,7 @@
         </div>
       </div>
     </div>
-    <?php   
-      include('./endPage.php'); 
-    ?>
+    
     <script>
         $("#tabela-alunos-recibos").DataTable({
             pageLength: 6,

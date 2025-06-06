@@ -93,8 +93,6 @@
             <?php endif; ?>
         });
     </script>
-    <?php 
-        include('./endPage.php'); 
-    ?>
+    
 </body>
 </html>

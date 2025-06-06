@@ -465,8 +465,6 @@
           pageLength: 5,
         });
     </script>
-    <?php   
-      include('./endPage.php'); 
-    ?>
+    
   	</body>
 </html>

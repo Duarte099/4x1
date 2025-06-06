@@ -123,9 +123,7 @@
         </div>
       </div>
     </div>
-    <?php   
-      include('./endPage.php'); 
-    ?>
+    
     <script>
         $("#tabela-alunos").DataTable({
             pageLength: 6,

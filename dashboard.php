@@ -302,9 +302,7 @@
             </div>
         </div>
     </div> 
-    <?php  
-        include('./endPage.php'); 
-    ?>
+    
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script>
         fetch('json.obterHorasPorCiclo.php')

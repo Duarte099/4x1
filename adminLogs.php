@@ -85,9 +85,7 @@
         </div>
       </div>
     </div>
-    <?php   
-      include('./endPage.php'); 
-    ?>
+    
     <script>
         $("#tabela-administradores-logs").DataTable({
             pageLength: 6,

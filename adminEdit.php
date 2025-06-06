@@ -163,6 +163,6 @@
                 }
             }
         </script>
-        <?php include('./endPage.php'); ?>
+        
     </body>
 </html>

@@ -113,9 +113,7 @@
         </div>
       </div>
     </div>
-    <?php
-      include('./endPage.php'); 
-    ?>
+    
     <script>
         $("#tabela-pagamentos-atrasados").DataTable({
             pageLength: 6,

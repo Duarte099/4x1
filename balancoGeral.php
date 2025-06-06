@@ -249,9 +249,7 @@
             </div>
         </div>
     </div>
-    <?php  
-        include('./endPage.php'); 
-    ?>
+    
     <script>
         fetch('json.obterLucroPorMes.php')
             .then(response => response.json())

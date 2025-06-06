@@ -111,9 +111,7 @@
         </div>
       </div>
     </div>
-    <?php   
-      include('./endPage.php'); 
-    ?>
+    
     <script>
         $("#tabela-administradores").DataTable({
             pageLength: 6,
