@@ -11,11 +11,10 @@
         $nomesMes = [1 => 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
         //RECIBO ALUNOS
-        $sql1 = "SELECT a.nome, a.horasGrupo, a.horasIndividual, ar.id, ar.anoAluno, ar.ano, ar.mes mensalidadeGrupo, mensalidadeIndividual, ar.transporte, ar.inscricao, horasRealizadasIndividual, horasRealizadasGrupo, horasBalancoIndividual, horasBalancoGrupo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE a.ativo = 1 AND ar.verificado = 1 AND ar.notificacao = 0";
+        $sql1 = "SELECT a.nome, a.horasGrupo, a.horasIndividual, a.tlmMae, a.tlmPai, ar.id, ar.anoAluno, ar.ano, ar.mes mensalidadeGrupo, mensalidadeIndividual, ar.transporte, ar.inscricao, horasRealizadasIndividual, horasRealizadasGrupo, horasBalancoIndividual, horasBalancoGrupo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE a.ativo = 1 AND ar.verificado = 1 AND ar.notificacao = 0";
         $result1 = $con->query($sql1);
         if ($result1->num_rows > 0) {
             while ($row1 = $result1->fetch_assoc()) {
-                echo $row1['nome'];
                 $mensalidade = $row1['mensalidadeGrupo'] + $row1['mensalidadeIndividual'] + $row1['transporte'] + $row1['inscricao'];
                 $horasRealizadasIndividualFormatado = decimalParaHoraMinutos(minutosToValor($row1['horasRealizadasIndividual']));
                 $horasRealizadasGrupoFormatado = decimalParaHoraMinutos(minutosToValor($row1['horasRealizadasGrupo']));
@@ -222,7 +221,7 @@
                 $filename = "recibo_{$row1['nome']}_". date("d-m-y_H-i-s") . ".pdf";
                 $filepath = "/home/xpt123/admin/uploads/recibos/" . $filename;
                 file_put_contents($filepath, $output);
-                echo "teste";
+
                 $fileData = new CURLFile($filepath);
                 //'number' => $contacto,
                 $data = [
