@@ -5,6 +5,7 @@
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
         header('Location: dashboard.php');
+        notificacao('danger', 'Teste 2');
         exit();
     }
 
@@ -16,6 +17,7 @@
         $stmt->store_result();
         if ($stmt->num_rows <= 0) {
             header('Location: dashboard.php');
+            notificacao('danger', 'Teste 1');
             exit();
         }
 
@@ -36,9 +38,11 @@
         else {
             notificacao('danger', 'Erro ao verificar recibo: ' . $result->error);
         }
+        header('Location: recibosAlunos.php');
     }
     else {
         header('Location: dashboard.php');
+        notificacao('danger', 'Teste 3');
         exit();
     }
 ?>
