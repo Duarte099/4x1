@@ -32,7 +32,7 @@
                 }
                 $contacto = str_replace("+", "", $contacto);
                 $mensagem = "*Olá!* 👋\n\nSegue em anexo o recibo do aluno *" . $row1['nome'] . "* relativo ao mês de *" . $nomesMes[$row1['mes']] . "* *" . $row1['ano'] . "*.";
-
+                echo $mensagem;
                 // Configurações do Dompdf
                 $options = new Options;
                 $options->setChroot(__DIR__);
@@ -222,44 +222,44 @@
                 $filepath = "/home/xpt123/admin/uploads/recibos/" . $filename;
                 file_put_contents($filepath, $output);
 
-                $fileData = new CURLFile($filepath);
+                //$fileData = new CURLFile($filepath);
                 //'number' => $contacto,
-                $data = [
-                    'number'=> '351916985740',
-                    'message' => $mensagem,
-                    'apiKey' => '5e_Z.4y5Zo$$',
-                    'fileUrl' => 'https://admin.4x1.pt/uploads/recibos/' . $filename
-                ];
+                // $data = [
+                //     'number'=> '351916985740',
+                //     'message' => $mensagem,
+                //     'apiKey' => '5e_Z.4y5Zo$$',
+                //     'fileUrl' => 'https://admin.4x1.pt/uploads/recibos/' . $filename
+                // ];
 
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                // $ch = curl_init();
+                // curl_setopt($ch, CURLOPT_URL, $url);
+                // curl_setopt($ch, CURLOPT_POST, 1);
+                // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-                $response = curl_exec($ch);
-                if ($response === false) {
-                    // Se ocorreu erro na cURL
-                    echo 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . curl_error($ch);
-                } else {
-                    // Se a requisição foi bem-sucedida, verificar código de status HTTP
-                    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                // $response = curl_exec($ch);
+                // if ($response === false) {
+                //     // Se ocorreu erro na cURL
+                //     echo 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . curl_error($ch);
+                // } else {
+                //     // Se a requisição foi bem-sucedida, verificar código de status HTTP
+                //     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                     
-                    if ($httpCode == 200) {
-                        $sql = "UPDATE alunos_recibo SET notificacaco = 1 WHERE id = ?";
-                        $result = $con->prepare($sql);
-                        if ($result) {
-                            $result->bind_param("i", $row1['id']);
-                            $result->execute();
-                            $result->close();
-                        }
-                    }
-                    else {
-                        echo 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . $httpCode;
-                    }
-                }
+                //     if ($httpCode == 200) {
+                //         $sql = "UPDATE alunos_recibo SET notificacaco = 1 WHERE id = ?";
+                //         $result = $con->prepare($sql);
+                //         if ($result) {
+                //             $result->bind_param("i", $row1['id']);
+                //             $result->execute();
+                //             $result->close();
+                //         }
+                //     }
+                //     else {
+                //         echo 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . $httpCode;
+                //     }
+                // }
                 
-                curl_close($ch);
+                // curl_close($ch);
             }
         }
     }
