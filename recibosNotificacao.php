@@ -224,7 +224,7 @@
             //'number' => $contacto,
             $data = [
                 'number'=> '351916985740',
-                'message' => "teste",
+                'message' => $mensagem,
                 'apiKey' => '5e_Z.4y5Zo$$',
                 'fileUrl' => 'https://admin.4x1.pt/uploads/recibos/' . $filename
             ];
@@ -256,8 +256,8 @@
                     echo 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . $httpCode;
                 }
             }
-            
             curl_close($ch);
+            header('Location: recibosAlunos.php');
         }
     }
 ?>
