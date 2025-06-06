@@ -82,6 +82,7 @@
                                             pr.ano, 
                                             pr.mes, 
                                             pr.verificado,
+                                            pr.pago,
                                             0 AS prioridade
                                         FROM 
                                             professores_recibo AS pr
@@ -103,6 +104,7 @@
                                             pr.ano, 
                                             pr.mes, 
                                             pr.verificado,
+                                            pr.pago,
                                             1 AS prioridade
                                         FROM 
                                             professores_recibo AS pr
@@ -144,7 +146,7 @@
                                             <td><?php echo $row['horasDadasUniversidade'] ?></td>
                                             <td style="color: #<?php echo $corStatusVerificacao; ?>"><?php echo $row['verificado'] ?></td>
                                             <td style="color: #<?php echo $corStatusPagamento; ?>"><?php echo $row['pago'] ?></td>
-                                            <td><?php echo $row['mes'] ?>-<?php echo $row['anp'] ?></td>
+                                            <td><?php echo $row['mes'] ?>-<?php echo $row['ano'] ?></td>
                                             <td>
                                                 <div class="form-button-action">
                                                     <?php if ($row['verificado'] == "Pendente") { ?>

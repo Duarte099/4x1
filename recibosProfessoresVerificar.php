@@ -9,7 +9,7 @@
     }
 
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $stmt = $con->prepare('SELECT id FROM professores_recibo WHERE id = ?');
         $stmt->bind_param('i', $_GET['idRecibo']);
         $stmt->execute(); 
