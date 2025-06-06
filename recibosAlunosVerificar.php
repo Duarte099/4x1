@@ -5,19 +5,17 @@
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
         header('Location: dashboard.php');
-        notificacao('danger', 'Teste 2');
         exit();
     }
 
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $stmt = $con->prepare('SELECT id FROM alunos_recibo WHERE id = ?');
         $stmt->bind_param('i', $_GET['idRecibo']);
         $stmt->execute(); 
         $stmt->store_result();
         if ($stmt->num_rows <= 0) {
             header('Location: dashboard.php');
-            notificacao('danger', 'Teste 1');
             exit();
         }
 
@@ -42,7 +40,6 @@
     }
     else {
         header('Location: dashboard.php');
-        notificacao('danger', 'Teste 3');
         exit();
     }
 ?>
