@@ -49,6 +49,7 @@
                             <th>Estado verificação</th>
                             <th>Estado pagamento</th>
                             <th>Estado notificação</th>
+                            <th>Data</th>
                             <th style="width: 10%">Ação</th>
                           </tr>
                         </thead>
@@ -61,7 +62,7 @@
                             <th>Horas realizadas individual</th>
                             <th>Estado verificação</th>
                             <th>Estado pagamento</th>
-                            <th>Estado notificação</th>
+                            <th>Data</th>
                           </tr>
                         </tfoot>
                         <tbody>

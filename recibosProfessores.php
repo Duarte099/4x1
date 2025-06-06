@@ -49,6 +49,7 @@
                             <th>Horas Universidade</th>
                             <th>Estado Verificação</th>
                             <th>Estado Pagamento</th>
+                            <th>Data</th>
                             <th style="width: 10%">Ação</th>
                           </tr>
                         </thead>
@@ -62,6 +63,7 @@
                             <th>Horas Universidade</th>
                             <th>Estado Verificação</th>
                             <th>Estado Pagamento</th>
+                            <th>Data</th>
                           </tr>
                         </tfoot>
                         <tbody>
@@ -142,6 +144,7 @@
                                             <td><?php echo $row['horasDadasUniversidade'] ?></td>
                                             <td style="color: #<?php echo $corStatusVerificacao; ?>"><?php echo $row['verificado'] ?></td>
                                             <td style="color: #<?php echo $corStatusPagamento; ?>"><?php echo $row['pago'] ?></td>
+                                            <td><?php echo $row['mes'] ?>-<?php echo $row['anp'] ?></td>
                                             <td>
                                                 <div class="form-button-action">
                                                     <?php if ($row['verificado'] == "Pendente") { ?>
