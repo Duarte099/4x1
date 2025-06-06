@@ -14,7 +14,7 @@
         $stmt->bind_param('i', $_GET['idRecibo']);
         $stmt->execute(); 
         $stmt->store_result();
-        if ($stmt->num_rows == 0) {
+        if ($stmt->num_rows <= 0) {
             header('Location: dashboard.php');
             exit();
         }
