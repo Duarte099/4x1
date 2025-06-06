@@ -20,7 +20,7 @@
                 $horasRealizadasGrupoFormatado = decimalParaHoraMinutos(minutosToValor($row1['horasRealizadasGrupo']));
                 $balancoIndividualFormatado = decimalParaHoraMinutos(minutosToValor($row1['horasBalancoIndividual']));
                 $balancoGrupoFormatado = decimalParaHoraMinutos(minutosToValor($row1['horasBalancoGrupo']));
-
+                $mes = $row1['mes'];
                 if (!empty($row1['tlmMae'])){
                     $contacto = $row1['tlmMae'];
                 }
@@ -31,7 +31,7 @@
                     break;
                 }
                 $contacto = str_replace("+", "", $contacto);
-                $mensagem = "*Olá!* 👋\n\nSegue em anexo o recibo do aluno *" . $row1['nome'] . "* relativo ao mês de *" . $nomesMes[$row1['mes']] . "* *" . $row1['ano'] . "*.";
+                $mensagem = "*Olá!* 👋\n\nSegue em anexo o recibo do aluno *" . $row1['nome'] . "* relativo ao mês de *" . $nomesMes[$mes] . "* *" . $row1['ano'] . "*.";
                 echo $mensagem;
                 // Configurações do Dompdf
                 $options = new Options;
