@@ -220,7 +220,7 @@
             $filepath = "/home/xpt123/admin/uploads/recibos/" . $filename;
             file_put_contents($filepath, $output);
 
-            $fileData = new CURLFile($filepath);
+            //$fileData = new CURLFile($filepath);
             //'number' => $contacto,
             $data = [
                 'number'=> '351916985740',
