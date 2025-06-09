@@ -126,20 +126,42 @@
         $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'];
     }
     else {
-        $sql = "SELECT *, CASE 
-                            WHEN pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) > 8 THEN 'Atrasado'
-                            WHEN pagoEm != '0000-00-00 00:00:00' THEN 'Pago'
-                            WHEN pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) < 8 THEN 'Pendente'
-                            ELSE 'Outro'
-                        END AS estado 
-                FROM alunos_recibo as a 
-                    LEFT JOIN metodos_pagamento as m ON a.idMetodo = m.id 
-                WHERE idAluno = $idAluno AND ano = $ano AND mes = $mes";
+        $sql = "SELECT * FROM alunos_recibo as a LEFT JOIN metodos_pagamento as m ON a.idMetodo = m.id WHERE idAluno = $idAluno AND ano = $ano AND mes = $mes";
         $result = $con->query($sql);
-        //Se houver um aluno com o id recebido, guarda as informações
         if ($result->num_rows > 0) {
             $rowRecibo = $result->fetch_assoc();
             $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'];
+            //Se tiver verificado
+            if ($rowRecibo['verificado'] == 1) {
+                if ($rowRecibo['notificacao'] == 1) {
+                    $data_limite = (new DateTime($rowRecibo['notificadoEm']))->modify('+7 days');
+                    $data_hoje = new DateTime();
+                    if ($rowRecibo['estado'] == 1) {
+                        $rowRecibo['estado'] = "Pago";
+                        $corPagamento = "2ecc71";
+                        $botao = false;
+                    }
+                    elseif ($data_hoje > $data_limite) {
+                        $rowRecibo['estado'] = "Em atraso";
+                        $corPagamento = "ff0000";
+                    }
+                    else {
+                        $rowRecibo['estado'] = "Pendente";
+                        $corPagamento = "f1c40f";
+                    }
+                }
+                else {
+                    $rowRecibo['estado'] = "À espera de ser notificado";
+                    $corPagamento = "007BFF";
+                    $botao = false;
+                }
+            }
+            //Se não tiver verificado
+            else {
+                $rowRecibo['estado'] = "À espera de verificação";
+                $corPagamento = "007BFF";
+                $botao = false;
+            }
         }
         else {
             $recibo = false;
@@ -483,21 +505,8 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="recibo" role="tabpanel" aria-labelledby="recibo-tab">
-                                <?php 
-                                    $stmt = $con->prepare("SELECT * FROM alunos as a INNER JOIN alunos_recibo as ar ON ar.idAluno = a.id WHERE a.id = $idAluno AND pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) < 8");
-                                    $stmt->execute();
-                                    $result = $stmt->get_result();
-                                    if ($result->num_rows > 0) {
-                                        while($row5 = $result->fetch_assoc()){?>
-                                            <div class="alert alert-warning d-flex align-items-center">
-                                                <i class="bi bi-cake2-fill me-2"></i>
-                                                <div>
-                                                    O pagamento relativo ao mês <?php echo $row5['mes']; ?> de <?php echo $row5['ano']; ?> está pendente. <a href="alunoEdit.php?idAluno=<?php echo $idAluno ?>&mes=<?php echo $row5['ano']?>-<?php echo $row5['mes']?>&tab=recibo">Ver mais</a>
-                                                </div>
-                                            </div>
-                                        <?php }
-                                    }
-                                    $stmt = $con->prepare("SELECT * FROM alunos as a INNER JOIN alunos_recibo as ar ON ar.idAluno = a.id WHERE a.id = $idAluno AND pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) > 8");
+                                <?php
+                                    $stmt = $con->prepare("SELECT ar.mes, ar.ano, a.id FROM alunos as a INNER JOIN alunos_recibo as ar ON ar.idAluno = a.id WHERE a.id = $idAluno AND CURDATE() > DATE_ADD(data_registo, INTERVAL 7 DAY)");
                                     $stmt->execute();
                                     $result = $stmt->get_result();
                                     if ($result->num_rows > 0) {
@@ -559,69 +568,121 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    <?php } ?>
-                                                    <!-- Tabela de Horas de Grupo -->
-                                                    <?php if ($rowAluno['horasGrupo'] > 0): ?>
-                                                        <div class="table-responsive mb-4">
+                                                        <?php if ($_SESSION["tipo"] == "administrador") {?>
+                                                            <div class="form-section">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-3">
+                                                                        <label for="horasGrupo" class="form-label">Horas grupo:</label>
+                                                                        <input type="text" class="form-control" name="horasGrupo" value="<?php echo $rowRecibo['horasGrupo']; ?>" disabled>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="horasRealizadasGrupo" class="form-label">Horas realizadas:</label>
+                                                                        <input type="text" class="form-control" name="horasRealizadasGrupo" value="<?php echo $rowRecibo['horasRealizadasGrupo']; ?>">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="horasBalancoGrupo" class="form-label">Horas balanço:</label>
+                                                                        <input type="text" class="form-control" name="horasBalancoGrupo" value="<?php echo $rowRecibo['horasBalancoGrupo']; ?>">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="mensalidadeGrupo" class="form-label">Mensalidade:</label>
+                                                                        <input type="text" class="form-control" name="mensalidadeGrupo" value="<?php echo $rowRecibo['mensalidadeGrupo']; ?>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-3">
+                                                                        <label for="horasIndividual" class="form-label">Horas individual:</label>
+                                                                        <input type="text" class="form-control" name="horasIndividual" value="<?php echo $rowRecibo['horasIndividual']; ?>" disabled>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="horasRealizadasIndividual" class="form-label">Horas realizadas:</label>
+                                                                        <input type="text" class="form-control" name="horasRealizadasIndividual" value="<?php echo $rowRecibo['horasRealizadasIndividual']; ?>">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="horasBalancoIndividual" class="form-label">Horas balanço:</label>
+                                                                        <input type="text" class="form-control" name="horasBalancoIndividual" value="<?php echo $rowRecibo['horasBalancoIndividual']; ?>">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="mensalidadeIndividual" class="form-label">Mensalidade:</label>
+                                                                        <input type="text" class="form-control" name="mensalidadeIndividual" value="<?php echo $rowRecibo['mensalidadeIndividual']; ?>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-3">
+                                                                        <label for="mensalidade" class="form-label">Total:</label>
+                                                                        <input type="text" class="form-control" name="mensalidade" value="<?php echo $mensalidade; ?>" disabled>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <?php }?>
+                                                    <?php } if ($_SESSION["tipo"] == "professor") {?>
+                                                        <!-- Tabela de Horas de Grupo -->
+                                                        <?php if ($rowAluno['horasGrupo'] > 0): ?>
+                                                            <div class="table-responsive mb-4">
+                                                                <table class="table table-bordered text-center align-middle">
+                                                                    <tr class="table-secondary">
+                                                                        <th rowspan="2">Horas Grupo</th>
+                                                                        <td rowspan="2" style="width: 100px;"><?= $rowRecibo['packGrupo'] ?></td>
+                                                                        <th colspan="2">HORAS CONTABILIZADAS</th>
+                                                                        <th rowspan="2">Mensalidade<br><strong><?= $rowRecibo['mensalidadeGrupo'] ?>€</strong></th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Horas Realizadas<br><strong><?= $rowRecibo['horasRealizadasGrupo'] ?></strong></td>
+                                                                        <td>Balanço Das Horas<br><strong><?= $rowRecibo['horasBalancoGrupo'] ?></strong></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        <?php endif; ?>
+
+                                                        <!-- Tabela de Horas Individuais -->
+                                                        <?php if ($rowAluno['horasIndividual'] > 0): ?>
+                                                            <div class="table-responsive mb-4">
+                                                                <table class="table table-bordered text-center align-middle">
+                                                                    <tr class="table-secondary">
+                                                                        <th rowspan="2">Horas Individuais</th>
+                                                                        <td rowspan="2" style="width: 100px;"><?= $rowAluno['horasIndividual'] ?> <br> Horas</td>
+                                                                        <th colspan="2">HORAS CONTABILIZADAS</th>
+                                                                        <th rowspan="2">Mensalidade<br><strong><?= $rowRecibo['mensalidadeIndividual'] ?>€</strong></th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Horas Realizadas<br><strong><?= $rowRecibo['horasRealizadasIndividual'] ?></strong></td>
+                                                                        <td>Balanço Das Horas<br><strong><?= $rowRecibo['horasBalancoIndividual'] ?></strong></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        <?php endif; ?>
+
+                                                        <!-- Tabela de Extras + Total -->
+                                                        <div class="table-responsive">
                                                             <table class="table table-bordered text-center align-middle">
-                                                                <tr class="table-secondary">
-                                                                    <th rowspan="2">Horas Grupo</th>
-                                                                    <td rowspan="2" style="width: 100px;"><?= $rowRecibo['packGrupo'] ?></td>
-                                                                    <th colspan="2">HORAS CONTABILIZADAS</th>
-                                                                    <th rowspan="2">Mensalidade<br><strong><?= $rowRecibo['mensalidadeGrupo'] ?>€</strong></th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Horas Realizadas<br><strong><?= $rowRecibo['horasRealizadasGrupo'] ?></strong></td>
-                                                                    <td>Balanço Das Horas<br><strong><?= $rowRecibo['horasBalancoGrupo'] ?></strong></td>
+                                                                <?php if($rowRecibo['transporte'] > 0): ?>
+                                                                    <tr>
+                                                                        <td colspan="4" class="text-end fw-bold">Transporte:</td>
+                                                                        <td><?= $rowRecibo['transporte'] ?>€</td>
+                                                                    </tr>
+                                                                <?php endif; ?>
+                                                                <?php if($rowRecibo['inscricao'] > 0): ?>
+                                                                    <tr>
+                                                                        <td colspan="4" class="text-end fw-bold">Inscrição:</td>
+                                                                        <td><?= $rowRecibo['inscricao'] ?>€</td>
+                                                                    </tr>
+                                                                <?php endif; ?>
+                                                                <tr class="table-light fw-bold">
+                                                                    <td colspan="4" class="text-end">Total:</td>
+                                                                    <td><?= $mensalidade ?>€</td>
                                                                 </tr>
                                                             </table>
                                                         </div>
-                                                    <?php endif; ?>
 
-                                                    <!-- Tabela de Horas Individuais -->
-                                                    <?php if ($rowAluno['horasIndividual'] > 0): ?>
-                                                        <div class="table-responsive mb-4">
-                                                            <table class="table table-bordered text-center align-middle">
-                                                                <tr class="table-secondary">
-                                                                    <th rowspan="2">Horas Individuais</th>
-                                                                    <td rowspan="2" style="width: 100px;"><?= $rowAluno['horasIndividual'] ?> <br> Horas</td>
-                                                                    <th colspan="2">HORAS CONTABILIZADAS</th>
-                                                                    <th rowspan="2">Mensalidade<br><strong><?= $rowRecibo['mensalidadeIndividual'] ?>€</strong></th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Horas Realizadas<br><strong><?= $rowRecibo['horasRealizadasIndividual'] ?></strong></td>
-                                                                    <td>Balanço Das Horas<br><strong><?= $rowRecibo['horasBalancoIndividual'] ?></strong></td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    <?php endif; ?>
-
-                                                    <!-- Tabela de Extras + Total -->
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered text-center align-middle">
-                                                            <?php if($rowRecibo['transporte'] > 0): ?>
-                                                                <tr>
-                                                                    <td colspan="4" class="text-end fw-bold">Transporte:</td>
-                                                                    <td><?= $rowRecibo['transporte'] ?>€</td>
-                                                                </tr>
-                                                            <?php endif; ?>
-                                                            <?php if($rowRecibo['inscricao'] > 0): ?>
-                                                                <tr>
-                                                                    <td colspan="4" class="text-end fw-bold">Inscrição:</td>
-                                                                    <td><?= $rowRecibo['inscricao'] ?>€</td>
-                                                                </tr>
-                                                            <?php endif; ?>
-                                                            <tr class="table-light fw-bold">
-                                                                <td colspan="4" class="text-end">Total:</td>
-                                                                <td><?= $mensalidade ?>€</td>
-                                                            </tr>
-                                                        </table>
+                                                        <?php if($botao == true): ?>
+                                                            <button type="submit" class="btn btn-primary w-100 mt-3">Registrar pagamento</button>
+                                                        <?php endif; ?>
+                                                        <?php if($_SESSION['tipo'] == "administrador"): ?>
+                                                            <button type="submit" class="btn btn-primary w-100 mt-3">Guardar alterações</button>
+                                                        <?php endif; ?>
                                                     </div>
-
-                                                    <?php if($rowRecibo['estado'] != "Pago" && $botao == true): ?>
-                                                        <button type="submit" class="btn btn-primary w-100 mt-3">Registrar pagamento</button>
-                                                    <?php endif; ?>
-                                                </div>
+                                                <?php 
+                                                    }
+                                                ?>
                                             <?php else: ?>
                                                 <p>Sem recibo nesta data.</p>
                                             <?php endif; ?>
@@ -633,8 +694,6 @@
                     </div>
                 </div>
             </div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
             <script>
                 const input1 = document.querySelector("#contacto");
                 const hiddenInput1 = document.querySelector("#contactoHidden");

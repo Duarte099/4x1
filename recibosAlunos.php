@@ -187,7 +187,7 @@
                                                         </a>
                                                     <?php } ?>
                                                     <a
-                                                        href="alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&mes=<?php echo $row['mes']; ?>-<?php echo $row['ano']; ?>&tab=recibo"
+                                                        href="alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&mes=<?php echo $row['ano']; ?>-<?php echo $row['mes']; ?>&tab=recibo"
                                                         class="btn btn-link btn-primary btn-lg"
                                                         data-bs-toggle="tooltip"
                                                         data-bs-placement="top"
