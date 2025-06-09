@@ -134,22 +134,22 @@
                                             $data_limite = (new DateTime($row['notificadoEm']))->modify('+7 days');
                                             $data_hoje = new DateTime();
                                             if ($row['pago'] == 1) {
-                                                $row['pago'] = "Pago"
+                                                $row['pago'] = "Pago";
                                                 $corPagamento = "2ecc71";
                                             }
                                             elseif ($data_hoje > $data_limite) {
-                                                $row['pago'] = "Em atraso"
+                                                $row['pago'] = "Em atraso";
                                                 $corPagamento = "ff0000";
                                             }
                                             else {
-                                                $row['pago'] = "Pendente"
+                                                $row['pago'] = "Pendente";
                                                 $corPagamento = "f1c40f";
                                             }
                                         }
                                         else {
                                             $row['notificacao'] = "Pendente";
                                             $corNotificacao = "ff0000";
-                                            $row['pago'] = "À espera de ser notificado"
+                                            $row['pago'] = "À espera de ser notificado";
                                             $corPagamento = "007BFF";
                                         }
                                     }
@@ -157,9 +157,9 @@
                                     else {
                                         $row['verificado'] = "Pendente";
                                         $corVerificacao = "ff0000";
-                                        $row['notificacao'] = "À espera de verificação"
+                                        $row['notificacao'] = "À espera de verificação";
                                         $corNotificacao = "007BFF";
-                                        $row['pago'] = "À espera de verificação"
+                                        $row['pago'] = "À espera de verificação";
                                         $corPagamento = "007BFF";
                                     }
                                     ?>
