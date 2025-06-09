@@ -225,7 +225,7 @@
             $data = [
                 'number'=> '351916985740',
                 'message' => $mensagem,
-                'apiKey' => '5e_Z.4y5Zo$$',
+                'apiKey' => 'apiKey_9273kLmnTqX4vZ8',
                 'fileUrl' => 'https://admin.4x1.pt/uploads/recibos/' . $filename
             ];
 

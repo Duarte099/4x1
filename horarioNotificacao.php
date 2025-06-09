@@ -233,7 +233,7 @@
                 $data = [
                     'number' => $contacto,
                     'message' => $mensagem,
-                    'apiKey' => '5e_Z.4y5Zo$$',
+                    'apiKey' => 'apiKey_9273kLmnTqX4vZ8',
                     'fileUrl' => 'https://admin.4x1.pt/uploads/horarios/' . $filename
                 ];
 
@@ -284,7 +284,7 @@
                 $data = [
                     'number' => $contacto,
                     'message' => $mensagem,
-                    'apiKey' => '5e_Z.4y5Zo$$'
+                    'apiKey' => 'apiKey_9273kLmnTqX4vZ8'
                 ];
 
                 $ch = curl_init();
