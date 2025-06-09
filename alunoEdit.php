@@ -592,7 +592,7 @@
                                                                         <td style="color: #<?php echo $corVerificacao; ?>"><?php echo $row['verificado'] ?></td>
                                                                         <td style="color: #<?php echo $corNotificacao; ?>"><?php echo $row['notificacao'] ?></td>
                                                                         <td style="color: #<?php echo $corPagamento; ?>"><?php echo $row['pago'] ?></td>
-                                                                        <td><?php echo $row['mensalidadeGrupo'] + $row['mensalidadeIndividual'] + $row['incricao'] + $row['transporte'] ?></td>
+                                                                        <td><?php echo $row['mensalidadeGrupo'] + $row['mensalidadeIndividual'] + $row['inscricao'] + $row['transporte'] ?></td>
                                                                         <td><?php echo $row['mes'] ?>-<?php echo $row['ano'] ?></td>
                                                                         <td>
                                                                             <div class="form-button-action">
