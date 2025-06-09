@@ -74,12 +74,6 @@
                         <p>Registro de Testes</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 7) ? 'active' : ''; ?>">
-                    <a href="pagamentoEstado.php">
-                        <i class="fas fa-euro-sign"></i>
-                        <p>Estado Pagamentos</p>
-                    </a>
-                </li>
                 <li class="nav-item <?php echo ($estouEm == 9) ? 'active' : ''; ?>">
                     <a href="horario.php">
                         <i class="fas fa-calendar-alt"></i>

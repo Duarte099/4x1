@@ -101,12 +101,18 @@
 										class="display table table-striped table-hover"
 									>
 										<thead>
-										<tr>
-											<th>Despesa</th>
-											<th>Valor</th>
-											<th style="width: 10%">Action</th>
-										</tr>
+											<tr>
+												<th>Despesa</th>
+												<th>Valor</th>
+												<th style="width: 10%">Action</th>
+											</tr>
 										</thead>
+										<tfoot>
+											<tr>
+												<th>Despesa</th>
+												<th>Valor</th>
+											</tr>
+										</tfoot>
 										<tbody>
 											<?php
 												//query para selecionar todos os administradores
@@ -276,7 +282,6 @@
 											<tr>
 												<th>Nome</th>
 												<th>Tipo</th>
-												<th>Ação</th>
 											</tr>
 										</tfoot>
 										<tbody>
@@ -427,10 +432,16 @@
 	<script>
         $("#tabela-categorias").DataTable({
             pageLength: 6,
-            order: [[1, 'asc']],
+            order: [
+				[0, 'asc'],
+				[1, 'asc']
+			],
             language: {
               url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
             },
+			columnDefs: [
+                { targets: 2, orderable: false }
+            ],
             initComplete: function () {
                 this.api()
                 .columns()
@@ -462,7 +473,17 @@
         });
 
 		$("#tabela-despesas").DataTable({
-          pageLength: 5,
+          	pageLength: 5,
+			order: [
+				[0, 'asc'],
+				[1, 'desc']
+			],
+            language: {
+              url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
+            },
+			columnDefs: [
+                { targets: 2, orderable: false }
+            ],
         });
     </script>
     

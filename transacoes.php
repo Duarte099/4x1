@@ -123,10 +123,13 @@
     <script>
         $("#tabela-transacoes").DataTable({
             pageLength: 6,
-            order: [[1, 'asc']],
+            order: [[4, 'desc']],
             language: {
                 url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
             },
+            columnDefs: [
+                { targets: 5, orderable: false }
+            ],
             initComplete: function () {
                 this.api()
                 .columns()

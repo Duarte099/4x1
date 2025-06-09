@@ -115,10 +115,16 @@
     <script>
         $("#tabela-administradores").DataTable({
             pageLength: 6,
-            order: [[1, 'asc']],
+            order: [
+                [0, 'asc'],
+                [1, 'asc']
+            ],
             language: {
                 url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
             },
+            columnDefs: [
+                { targets: 3, orderable: false }
+            ],
             initComplete: function () {
                 this.api()
                 .columns()

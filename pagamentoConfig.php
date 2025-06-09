@@ -21,7 +21,7 @@
         <div class="container">
           	<div class="page-inner">
 				<div class="row">
-					<div class="col-md-8">
+					<div class="col-md-7">
 						<div class="card">
 							<div class="card-header">
 								<div class="d-flex align-items-center">
@@ -88,7 +88,7 @@
 								</div>
 								<div class="table-responsive">
 									<table
-										id="tabela-pagamentos-config"
+										id="tabela-alunos-pagamentos-config"
 										class="display table table-striped table-hover"
 									>
 										<thead>
@@ -226,7 +226,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-5">
 						<div class="card">
 							<div class="card-header">
 								<h4 class="card-title">Configuração pagamentos</h4>
@@ -347,10 +347,16 @@
 	<script>
         $("#tabela-alunos-pagamentos-config").DataTable({
             pageLength: 6,
-            order: [[1, 'asc']],
+            order: [
+				[0, 'asc'],
+				[1, 'asc']
+			],
             language: {
               url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
             },
+			columnDefs: [
+                { targets: 5, orderable: false }
+            ],
             initComplete: function () {
                 this.api()
                 .columns()
@@ -382,11 +388,14 @@
         });
 
 		$("#tabela-profs-pagamentos-config").DataTable({
-            pageLength: 6,
-            order: [[1, 'asc']],
+            pageLength: 7,
+            order: [[0, 'asc']],
             language: {
               url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
             },
+			columnDefs: [
+                { targets: 5, orderable: false }
+            ],
             initComplete: function () {
                 this.api()
                 .columns()

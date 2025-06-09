@@ -107,37 +107,46 @@
     <script>
         $("#tabela-professores").DataTable({
             pageLength: 6,
-            order: [[1, 'asc']],
+            order: [
+                    [0, 'asc']
+                ],
             language: {
               url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
             },
+            columnDefs: [
+                { targets: 4, orderable: false }
+            ],
             initComplete: function () {
                 this.api()
-                .columns()
-                .every(function () {
-                    var column = this;
-                    var select = $(
-                        '<select class="form-select"><option value=""></option></select>'
-                    )
-                    .appendTo($(column.footer()).empty())
-                    .on("change", function () {
-                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                    .columns()
+                    .every(function () {
+                        var column = this;
+                        var select = $(
+                            '<select class="form-select"><option value=""></option></select>'
+                        )
+                        .appendTo($(column.footer()).empty())
+                        .on("change", function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                            column
+                            .search(val ? "^" + val + "$" : "", true, false)
+                            .draw();
+                        });
 
                         column
-                        .search(val ? "^" + val + "$" : "", true, false)
-                        .draw();
+                        .data()
+                        .unique()
+                        .sort()
+                        .each(function (d, j) {
+                            select.append(
+                                '<option value="' + d + '">' + d + "</option>"
+                            );
+                        });
+                        if (column.index() === 3) {
+                            select.val('Ativo');
+                        }
                     });
-
-                    column
-                    .data()
-                    .unique()
-                    .sort()
-                    .each(function (d, j) {
-                        select.append(
-                            '<option value="' + d + '">' + d + "</option>"
-                        );
-                    });
-                });
+                this.api().column(3).search('^Ativo$', true, false).draw();
             },
         });
     </script>
