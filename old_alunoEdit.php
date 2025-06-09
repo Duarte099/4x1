@@ -232,7 +232,7 @@
                                 <a class="nav-link" id="explicacoes-tab" data-bs-toggle="pill" href="#explicacoes" role="tab" aria-controls="explicacoes" aria-selected="false">Explicações</a>
                             </li>
                             <li class="nav-item1">
-                                <a class="nav-link" id="recibos-tab" data-bs-toggle="pill" href="#recibos" role="tab" aria-controls="recibos" aria-selected="false">Recibo</a>
+                                <a class="nav-link" id="recibo-tab" data-bs-toggle="pill" href="#recibo" role="tab" aria-controls="recibo" aria-selected="false">Recibo</a>
                             </li>
                         </ul>
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
@@ -453,7 +453,7 @@
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table
-                                                    id="tabela-aluno-explicacoes"
+                                                    id="tabela-alunos-explicacoes"
                                                     class="display table table-striped table-hover"
                                                 >
                                                     <thead>
@@ -495,151 +495,6 @@
                                                                         <td><?php echo $row['dia'] ?></td>
                                                                     </tr>
                                                             <?php }
-                                                            }
-                                                        ?>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="recibos" role="tabpanel" aria-labelledby="recibos-tab">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table
-                                                    id="tabela-aluno-recibos"
-                                                    class="display table table-striped table-hover"
-                                                >
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Horas grupo</th>
-                                                            <th>Horas realizadas grupo</th>
-                                                            <th>Horas individuais</th>
-                                                            <th>Horas realizadas individual</th>
-                                                            <th>Estado verificação</th>
-                                                            <th>Estado notificação</th>
-                                                            <th>Estado pagamento</th>
-                                                            <th>Mensalidade</th>
-                                                            <th>Data</th>
-                                                            <th>Ação</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <th>Horas grupo</th>
-                                                            <th>Horas realizadas grupo</th>
-                                                            <th>Horas individuais</th>
-                                                            <th>Horas realizadas individual</th>
-                                                            <th>Estado verificação</th>
-                                                            <th>Estado notificação</th>
-                                                            <th>Estado pagamento</th>
-                                                            <th>Mensalidade</th>
-                                                            <th>Data</th>
-                                                        </tr>
-                                                    </tfoot>
-                                                    <tbody>
-                                                        <?php
-                                                            //query para selecionar todos os administradores
-                                                            $sql = "SELECT  FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE a.id = $idAluno;";
-                                                            $result = $con->query($sql);
-                                                            if ($result->num_rows > 0) {
-                                                                while ($row = $result->fetch_assoc()) {
-                                                                    if ($row['verificado'] == 1) {
-                                                                        $row['verificado'] = "Verificado";
-                                                                        $corVerificacao = "2ecc71";
-                                                                        if ($row['notificacao'] == 1) {
-                                                                            $row['notificacao'] = "Notificado";
-                                                                            $corNotificacao = "2ecc71";
-                                                                            $data_limite = (new DateTime($row['notificadoEm']))->modify('+7 days');
-                                                                            $data_hoje = new DateTime();
-                                                                            if ($row['pago'] == 1) {
-                                                                                $row['pago'] = "Pago";
-                                                                                $corPagamento = "2ecc71";
-                                                                            }
-                                                                            elseif ($data_hoje > $data_limite) {
-                                                                                $row['pago'] = "Em atraso";
-                                                                                $corPagamento = "ff0000";
-                                                                            }
-                                                                            else {
-                                                                                $row['pago'] = "Pendente";
-                                                                                $corPagamento = "f1c40f";
-                                                                            }
-                                                                        }
-                                                                        else {
-                                                                            $row['notificacao'] = "Pendente";
-                                                                            $corNotificacao = "f1c40f";
-                                                                            $row['pago'] = "À espera de ser notificado";
-                                                                            $corPagamento = "007BFF";
-                                                                        }
-                                                                    }
-                                                                    //Se não tiver verificado
-                                                                    else {
-                                                                        $row['verificado'] = "Pendente";
-                                                                        $corVerificacao = "f1c40f";
-                                                                        $row['notificacao'] = "À espera de verificação";
-                                                                        $corNotificacao = "007BFF";
-                                                                        $row['pago'] = "À espera de verificação";
-                                                                        $corPagamento = "007BFF";
-                                                                    }?>
-                                                                    <tr>
-                                                                        <td><?php echo $row['packGrupo'] ?></td>
-                                                                        <td><?php echo $row['horasRealizadasGrupo'] ?></td>
-                                                                        <td><?php echo $row['packIndividual'] ?></td>
-                                                                        <td><?php echo $row['horasRealizadasIndividual'] ?></td>
-                                                                        <td style="color: #<?php echo $corVerificacao; ?>"><?php echo $row['verificado'] ?></td>
-                                                                        <td style="color: #<?php echo $corNotificacao; ?>"><?php echo $row['notificacao'] ?></td>
-                                                                        <td style="color: #<?php echo $corPagamento; ?>"><?php echo $row['pago'] ?></td>
-                                                                        <td><?php echo $row['mensalidadeGrupo'] + $row['mensalidadeIndividual'] + $row['incricao'] + $row['transporte'] ?></td>
-                                                                        <td><?php echo $row['mes'] ?>-<?php echo $row['ano'] ?></td>
-                                                                        <td>
-                                                                            <div class="form-button-action">
-                                                                                <?php if ($row['verificado'] == "Pendente") { ?>
-                                                                                    <a
-                                                                                        href="recibosAlunosVerificar.php?idRecibo=<?php echo $row['id']; ?>"
-                                                                                        class="btn btn-link btn-primary btn-lg"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="top"
-                                                                                        title="Verificar recibo"
-                                                                                    >
-                                                                                        <i class="fa fa-check"></i>
-                                                                                    </a>
-                                                                                <?php } 
-                                                                                if ($row["pago"] != "Pago" && $row["notificacao"] == "notificado") { ?>
-                                                                                    <a
-                                                                                        href="pagamentoInserir.php?idRecibo=<?php echo $row['id']; ?>"
-                                                                                        class="btn btn-link btn-primary btn-lg"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-placement="top"
-                                                                                        title="Editar recibo"
-                                                                                    >
-                                                                                        <i class="fa fa-edit"></i>
-                                                                                    </a>
-                                                                                <?php }?>
-                                                                                <a
-                                                                                    href="alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=editRecibo"
-                                                                                    class="btn btn-link btn-primary btn-lg"
-                                                                                    data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="top"
-                                                                                    title="Editar recibo"
-                                                                                >
-                                                                                    <i class="fa fa-edit"></i>
-                                                                                </a>
-                                                                                <a
-                                                                                    href="reciboImpressao.php?idRecibo=<?php echo $row['id']; ?>"
-                                                                                    class="btn btn-link btn-primary btn-lg"
-                                                                                    data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="top"
-                                                                                    title="Imprimir recibo"
-                                                                                >
-                                                                                    <i class="fa fa-edit"></i>
-                                                                                </a>
-                                                                            </div>
-                                                                        </td>   
-                                                                    </tr>
-                                                                <?php }
                                                             }
                                                         ?>
                                                     </tbody>
@@ -908,43 +763,7 @@
                 }
             </script>
             <script>
-                $("#tabela-aluno-explicacoes").DataTable({
-                    pageLength: 6,
-                    order: [[1, 'asc']],
-                    language: {
-                    url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
-                    },
-                    initComplete: function () {
-                        this.api()
-                        .columns()
-                        .every(function () {
-                            var column = this;
-                            var select = $(
-                                '<select class="form-select"><option value=""></option></select>'
-                            )
-                            .appendTo($(column.footer()).empty())
-                            .on("change", function () {
-                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                                column
-                                .search(val ? "^" + val + "$" : "", true, false)
-                                .draw();
-                            });
-
-                            column
-                            .data()
-                            .unique()
-                            .sort()
-                            .each(function (d, j) {
-                                select.append(
-                                    '<option value="' + d + '">' + d + "</option>"
-                                );
-                            });
-                        });
-                    },
-                });
-
-                $("#tabela-aluno-recibos").DataTable({
+                $("#tabela-alunos-explicacoes").DataTable({
                     pageLength: 6,
                     order: [[1, 'asc']],
                     language: {
