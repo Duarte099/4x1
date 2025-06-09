@@ -4,7 +4,7 @@
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
-    $url = 'https://api-4x1-whatsapp-production.up.railway.app/enviarMensagem';
+    $url = 'https://api-4x1-whatsapp.onrender.com/enviarMensagem';
     $mensagem = "";
     $contacto = "";
     $nomesMes = [1 => 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
