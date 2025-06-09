@@ -82,6 +82,7 @@
                                         ar.ano, 
                                         ar.verificado,
                                         ar.notificacao,
+                                        ar.notificadoEm,
                                         ar.pago,
                                         0 AS prioridade
                                     FROM 
@@ -104,6 +105,7 @@
                                         ar.ano, 
                                         ar.verificado,
                                         ar.notificacao,
+                                        ar.notificadoEm,
                                         ar.pago,
                                         1 AS prioridade
                                     FROM 
@@ -122,29 +124,43 @@
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
+                                    //Se tiver verificado
                                     if ($row['verificado'] == 1) {
                                         $row['verificado'] = "Verificado";
                                         $corVerificacao = "2ecc71";
+                                        if ($row['notificacao'] == 1) {
+                                            $row['notificacao'] = "Notificado";
+                                            $corNotificacao = "2ecc71";
+                                            $data_limite = (new DateTime($row['notificadoEm']))->modify('+7 days');
+                                            $data_hoje = new DateTime();
+                                            if ($row['pago'] == 1) {
+                                                $row['pago'] = "Pago"
+                                                $corPagamento = "2ecc71";
+                                            }
+                                            elseif ($data_hoje > $data_limite) {
+                                                $row['pago'] = "Em atraso"
+                                                $corPagamento = "ff0000";
+                                            }
+                                            else {
+                                                $row['pago'] = "Pendente"
+                                                $corPagamento = "f1c40f";
+                                            }
+                                        }
+                                        else {
+                                            $row['notificacao'] = "Pendente";
+                                            $corNotificacao = "ff0000";
+                                            $row['pago'] = "À espera de ser notificado"
+                                            $corPagamento = "007BFF";
+                                        }
                                     }
+                                    //Se não tiver verificado
                                     else {
                                         $row['verificado'] = "Pendente";
                                         $corVerificacao = "ff0000";
-                                    }
-                                    if ($row['notificacao'] == 1) {
-                                        $row['notificacao'] = "Notificado";
-                                        $corNotificacao = "2ecc71";
-                                    }
-                                    else {
-                                        $row['notificacao'] = "Pendente";
-                                        $corNotificacao = "ff0000";
-                                    }
-                                    if ($row['pago'] == 1) {
-                                        $row['pago'] = "Pago";
-                                        $corPagamento = "2ecc71";
-                                    }
-                                    else {
-                                        $row['pago'] = "Pendente";
-                                        $corPagamento = "ff0000";
+                                        $row['notificacao'] = "À espera de verificação"
+                                        $corNotificacao = "007BFF";
+                                        $row['pago'] = "À espera de verificação"
+                                        $corPagamento = "007BFF";
                                     }
                                     ?>
                                         <tr>

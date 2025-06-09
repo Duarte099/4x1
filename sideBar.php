@@ -19,8 +19,6 @@
         <div class="logo-header" data-background-color="dark">
             <a href="dashboard.php" class="logo">
                 <img src="./images/LogoBranco4x1.png" alt="navbar brand" class="navbar-brand" height="45">
-                <!-- <img src="./images/logoBranco.png" alt="navbar brand" class="navbar-brand" height="20"> -->
-                <!-- <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20"> -->
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar" style="width: 40px; height: 40px;">
@@ -55,10 +53,22 @@
                     </a>
                 </li>
                 <?php if ($_SESSION["tipo"] == "administrador") { ?>
+                    <li class="nav-item <?php echo ($estouEm == 10) ? 'active' : ''; ?>">
+                        <a href="recibosAlunos.php">
+                            <i class="fas fa-user-cog"></i>
+                            <p>Recibos alunos</p>
+                        </a>
+                    </li>
                     <li class="nav-item <?php echo ($estouEm == 3) ? 'active' : ''; ?>">
                         <a href="professor.php">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <p>Professores</p>
+                        </a>
+                    </li>
+                    <li class="nav-item <?php echo ($estouEm == 11) ? 'active' : ''; ?>">
+                        <a href="recibosProfessores.php">
+                            <i class="fas fa-file-signature"></i>
+                            <p>Recibos professores</p>
                         </a>
                     </li>
                 <?php } ?>
@@ -81,18 +91,6 @@
                     </a>
                 </li>
                 <?php if ($_SESSION["tipo"] == "administrador") { ?>
-                    <li class="nav-item <?php echo ($estouEm == 10) ? 'active' : ''; ?>">
-                        <a href="recibosAlunos.php">
-                            <i class="fas fa-user-cog"></i>
-                            <p>Recibos alunos</p>
-                        </a>
-                    </li>
-                    <li class="nav-item <?php echo ($estouEm == 11) ? 'active' : ''; ?>">
-                        <a href="recibosProfessores.php">
-                            <i class="fas fa-file-signature"></i>
-                            <p>Recibos professores</p>
-                        </a>
-                    </li>
                     <li class="nav-item <?php echo ($estouEm == 12) ? 'active' : ''; ?>">
                         <a href="admin.php">
                             <i class="fas fa-user-cog"></i>

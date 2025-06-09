@@ -125,18 +125,20 @@
                                     if ($row['verificado'] == 1) {
                                         $row['verificado'] = "Verificado";
                                         $corStatusVerificacao = "2ecc71";
+                                        if ($row['pago'] == 1) {
+                                            $row['pago'] = "Pago";
+                                            $corStatusPagamento = "2ecc71";
+                                        }
+                                        else{
+                                            $row['pago'] = "Pendente";
+                                            $corStatusPagamento = "ff0000";
+                                        }
                                     }
                                     else {
                                         $row['verificado'] = "Pendente";
                                         $corStatusVerificacao = "ff0000";
-                                    }
-                                    if ($row['pago'] == 1) {
-                                        $row['pago'] = "Pago";
-                                        $corStatusPagamento = "2ecc71";
-                                    }
-                                    else{
-                                        $row['pago'] = "Pendente";
-                                        $corStatusPagamento = "ff0000";
+                                        $row['pago'] = "À espera de verificação";
+                                        $corStatusPagamento = "007BFF";
                                     }
                                     ?>
                                         <tr>

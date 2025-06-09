@@ -5,7 +5,7 @@
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 5;
 ?>
-    <title>4x1 | Registrar presença</title>
+    <title>Registrar presença | 4x1</title>
     <style>
         .card {
             min-height: 100vh !important;
