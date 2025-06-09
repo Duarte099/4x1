@@ -104,7 +104,7 @@
 											<tr>
 												<th>Despesa</th>
 												<th>Valor</th>
-												<th style="width: 10%">Action</th>
+												<th style="width: 10%">Ação</th>
 											</tr>
 										</thead>
 										<tfoot>
@@ -434,7 +434,7 @@
             pageLength: 6,
             order: [
 				[0, 'asc'],
-				[1, 'asc']
+				[1, 'desc']
 			],
             language: {
               url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
@@ -484,6 +484,34 @@
 			columnDefs: [
                 { targets: 2, orderable: false }
             ],
+			initComplete: function () {
+                this.api()
+                .columns()
+                .every(function () {
+                    var column = this;
+                    var select = $(
+                        '<select class="form-select"><option value=""></option></select>'
+                    )
+                    .appendTo($(column.footer()).empty())
+                    .on("change", function () {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                        column
+                        .search(val ? "^" + val + "$" : "", true, false)
+                        .draw();
+                    });
+
+                    column
+                    .data()
+                    .unique()
+                    .sort()
+                    .each(function (d, j) {
+                        select.append(
+                            '<option value="' + d + '">' + d + "</option>"
+                        );
+                    });
+                });
+            },
         });
     </script>
     
