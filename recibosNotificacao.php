@@ -244,10 +244,10 @@
                 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 
                 if ($httpCode == 200) {
-                    $sql = "UPDATE alunos_recibo SET notificacao = 1 WHERE id = ?";
+                    $sql = "UPDATE alunos_recibo SET notificacao = 1, notificadoEm = ? WHERE id = ?";
                     $result = $con->prepare($sql);
                     if ($result) {
-                        $result->bind_param("i", $row1['id']);
+                        $result->bind_param("i", date("d-m-y_H-i-s")$row1['id']);
                         $result->execute();
                         $result->close();
                     }
