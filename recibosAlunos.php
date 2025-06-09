@@ -148,7 +148,7 @@
                                         }
                                         else {
                                             $row['notificacao'] = "Pendente";
-                                            $corNotificacao = "ff0000";
+                                            $corNotificacao = "f1c40f";
                                             $row['pago'] = "À espera de ser notificado";
                                             $corPagamento = "007BFF";
                                         }
@@ -156,7 +156,7 @@
                                     //Se não tiver verificado
                                     else {
                                         $row['verificado'] = "Pendente";
-                                        $corVerificacao = "ff0000";
+                                        $corVerificacao = "f1c40f";
                                         $row['notificacao'] = "À espera de verificação";
                                         $corNotificacao = "007BFF";
                                         $row['pago'] = "À espera de verificação";

@@ -131,12 +131,12 @@
                                         }
                                         else{
                                             $row['pago'] = "Pendente";
-                                            $corStatusPagamento = "ff0000";
+                                            $corStatusPagamento = "f1c40f";
                                         }
                                     }
                                     else {
                                         $row['verificado'] = "Pendente";
-                                        $corStatusVerificacao = "ff0000";
+                                        $corStatusVerificacao = "f1c40f";
                                         $row['pago'] = "À espera de verificação";
                                         $corStatusPagamento = "007BFF";
                                     }
