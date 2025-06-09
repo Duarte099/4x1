@@ -139,6 +139,7 @@
                 { targets: 4, orderable: false }
             ],
             initComplete: function () {
+                this.api().column(3).search('Ativo').draw();
                 this.api()
                 .columns()
                 .every(function () {
