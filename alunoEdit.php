@@ -136,7 +136,7 @@
                 if ($rowRecibo['notificacao'] == 1) {
                     $data_limite = (new DateTime($rowRecibo['notificadoEm']))->modify('+7 days');
                     $data_hoje = new DateTime();
-                    if ($rowRecibo['estado'] == 1) {
+                    if ($rowRecibo['pago'] == 1) {
                         $rowRecibo['estado'] = "Pago";
                         $corPagamento = "2ecc71";
                         $botao = false;
@@ -506,7 +506,7 @@
                             </div>
                             <div class="tab-pane fade" id="recibo" role="tabpanel" aria-labelledby="recibo-tab">
                                 <?php
-                                    $stmt = $con->prepare("SELECT ar.mes, ar.ano, a.id FROM alunos as a INNER JOIN alunos_recibo as ar ON ar.idAluno = a.id WHERE a.id = $idAluno AND CURDATE() > DATE_ADD(data_registo, INTERVAL 7 DAY)");
+                                    $stmt = $con->prepare("SELECT ar.mes, ar.ano, a.id FROM alunos as a INNER JOIN alunos_recibo as ar ON ar.idAluno = a.id WHERE a.id = $idAluno AND CURDATE() > DATE_ADD(notificadoEm, INTERVAL 7 DAY)");
                                     $stmt->execute();
                                     $result = $stmt->get_result();
                                     if ($result->num_rows > 0) {
