@@ -247,7 +247,7 @@
                     $sql = "UPDATE alunos_recibo SET notificacao = 1, notificadoEm = ? WHERE id = ?";
                     $result = $con->prepare($sql);
                     if ($result) {
-                        $result->bind_param("i", date("d-m-y_H-i-s")$row1['id']);
+                        $result->bind_param("i", date("d-m-y_H-i-s"), $row1['id']);
                         $result->execute();
                         $result->close();
                     }
