@@ -23,7 +23,7 @@
 
     if (isset($_GET['idRecibo'])) {
         $idRecibo = $_GET['idRecibo'];
-        $stmt1 = $con->prepare("SELECT ar.id, ar.idAluno, ar.ano as anoAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE ar.id = ?");
+        $stmt1 = $con->prepare("SELECT ar.id, ar.idAluno, ar.anoAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE ar.id = ?");
         $stmt1->bind_param("i", $idRecibo);
         $stmt1->execute();
         $result1 = $stmt1->get_result();
@@ -139,7 +139,7 @@
                                 <li class="nav-item1">
                                     <a class="nav-link" id="editRecibo-tab" data-bs-toggle="pill" href="#editRecibo" role="tab" aria-controls="editRecibo" aria-selected="false">Editar recibo</a>
                                 </li>
-                            <?php }?>
+                            <?php } ?>
                         </ul>
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="editar-aluno" role="tabpanel" aria-labelledby="editar-aluno-tab">
@@ -585,6 +585,10 @@
                                                     <div class="form-section">
                                                         <div class="row mb-3">
                                                             <div class="col-md-4">
+                                                                <div class="col-md-8">
+                                                                    <label for="observacao" class="form-label">Observação:</label>
+                                                                    <input type="text" class="form-control" name="observacao" value="<?php if ($rowRecibo['estado'] == "Pago") {echo $rowRecibo['observacao'];} ?>" <?php if ($rowRecibo['estado'] == "Pago") { echo "readonly"; } ?>>
+                                                                </div>
                                                                 <label for="metodo" class="form-label">Método:</label>
                                                                 <?php if ($rowRecibo['estado'] == "Pago") { ?>
                                                                     <input type="text" class="form-control" name="metodo" value="<?php echo $rowRecibo['metodo']; ?>" disabled>
@@ -616,24 +620,26 @@
                                                                     <input type="text" class="form-control" name="mensalidadeGrupo" value="<?php echo $rowRecibo['mensalidadeGrupo']; ?>">
                                                                 </div>
                                                             </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-md-3">
-                                                                    <label for="horasIndividual" class="form-label">Horas individual:</label>
-                                                                    <input type="text" class="form-control" name="horasIndividual" value="<?php echo $rowRecibo['packIndividual']; ?>" disabled>
+                                                            <?php if ($rowRecibo['packIndividual'] > 0 || $rowRecibo['horasRealizadasIndividual'] > 0) ?>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-3">
+                                                                        <label for="horasIndividual" class="form-label">Horas individual:</label>
+                                                                        <input type="text" class="form-control" name="horasIndividual" value="<?php echo $rowRecibo['packIndividual']; ?>" disabled>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="horasRealizadasIndividual" class="form-label">Horas realizadas:</label>
+                                                                        <input type="text" class="form-control" name="horasRealizadasIndividual" value="<?php echo $rowRecibo['horasRealizadasIndividual']; ?>">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="horasBalancoIndividual" class="form-label">Horas balanço:</label>
+                                                                        <input type="text" class="form-control" name="horasBalancoIndividual" value="<?php echo $rowRecibo['horasBalancoIndividual']; ?>">
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="mensalidadeIndividual" class="form-label">Mensalidade:</label>
+                                                                        <input type="text" class="form-control" name="mensalidadeIndividual" value="<?php echo $rowRecibo['mensalidadeIndividual']; ?>">
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-3">
-                                                                    <label for="horasRealizadasIndividual" class="form-label">Horas realizadas:</label>
-                                                                    <input type="text" class="form-control" name="horasRealizadasIndividual" value="<?php echo $rowRecibo['horasRealizadasIndividual']; ?>">
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <label for="horasBalancoIndividual" class="form-label">Horas balanço:</label>
-                                                                    <input type="text" class="form-control" name="horasBalancoIndividual" value="<?php echo $rowRecibo['horasBalancoIndividual']; ?>">
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <label for="mensalidadeIndividual" class="form-label">Mensalidade:</label>
-                                                                    <input type="text" class="form-control" name="mensalidadeIndividual" value="<?php echo $rowRecibo['mensalidadeIndividual']; ?>">
-                                                                </div>
-                                                            </div>
+                                                            <?php } ?>
                                                             <div class="row mb-3">
                                                                 <div class="col-md-3">
                                                                     <label for="mensalidade" class="form-label">Total:</label>
