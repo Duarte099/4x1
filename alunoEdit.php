@@ -198,14 +198,14 @@
             // Define qual aba abrir com base no parâmetro
             let abaDesejada;
             switch (tabParam) {
-                case 'recibo':
-                    abaDesejada = '#recibo-tab';
-                    break;
                 case 'explicacoes':
                     abaDesejada = '#explicacoes-tab';
                     break;
-                case 'presenca':
-                    abaDesejada = '#registro-presenca-tab';
+                case 'recibo':
+                    abaDesejada = '#recibo-tab';
+                    break;
+                case 'editRecibo':
+                    abaDesejada = '#editRecibo-tab';
                     break;
                 default:
                     abaDesejada = '#editar-aluno-tab'; // Aba padrão
@@ -234,7 +234,7 @@
                             <li class="nav-item1">
                                 <a class="nav-link" id="recibos-tab" data-bs-toggle="pill" href="#recibos" role="tab" aria-controls="recibos" aria-selected="false">Recibos</a>
                             </li>
-                            <?php if ($_SESSION['tipo'] == "administrador") { ?>
+                            <?php if ($_SESSION['tipo'] == "administrador" && isset($_GET['tab']) && $_GET['tab'] == "editRecibo") { ?>
                                 <li class="nav-item1">
                                     <a class="nav-link" id="editRecibo-tab" data-bs-toggle="pill" href="#editRecibo" role="tab" aria-controls="editRecibo" aria-selected="false">Editar recibo</a>
                                 </li>
@@ -527,6 +527,7 @@
                                                             <th>Estado verificação</th>
                                                             <th>Estado notificação</th>
                                                             <th>Estado pagamento</th>
+                                                            <th>Método pagamento</th>
                                                             <th>Mensalidade</th>
                                                             <th>Data</th>
                                                             <th>Ação</th>
@@ -541,6 +542,7 @@
                                                             <th>Estado verificação</th>
                                                             <th>Estado notificação</th>
                                                             <th>Estado pagamento</th>
+                                                            <th>Método pagamento</th>
                                                             <th>Mensalidade</th>
                                                             <th>Data</th>
                                                         </tr>
@@ -612,7 +614,7 @@
                                                                                         <i class="fa fa-check"></i>
                                                                                     </a>
                                                                                 <?php } 
-                                                                                if ($row["pago"] != "Pago" && $row["notificacao"] == "notificado") { ?>
+                                                                                if ($row["pago"] != "Pago" && $row["notificacao"] == "Notificado") { ?>
                                                                                     <a
                                                                                         href="pagamentoInserir.php?idRecibo=<?php echo $row['id']; ?>"
                                                                                         class="btn btn-link btn-primary btn-lg"
@@ -687,17 +689,13 @@
                                                                     </select>
                                                                 <?php } ?>
                                                             </div>
-                                                            <div class="col-md-8">
-                                                                <label for="observacao" class="form-label">Observação:</label>
-                                                                <input type="text" class="form-control" name="observacao" value="<?php if ($rowRecibo['estado'] == "Pago") {echo $rowRecibo['observacao'];} ?>" <?php if ($rowRecibo['estado'] == "Pago") { echo "readonly"; } ?>>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                         <div class="form-section">
                                                             <div class="row mb-3">
                                                                 <div class="col-md-3">
                                                                     <label for="horasGrupo" class="form-label">Horas grupo:</label>
-                                                                    <input type="text" class="form-control" name="horasGrupo" value="<?php echo $rowRecibo['horasGrupo']; ?>" disabled>
+                                                                    <input type="text" class="form-control" name="horasGrupo" value="<?php echo $rowRecibo['packGrupo']; ?>" disabled>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <label for="horasRealizadasGrupo" class="form-label">Horas realizadas:</label>
@@ -715,7 +713,7 @@
                                                             <div class="row mb-3">
                                                                 <div class="col-md-3">
                                                                     <label for="horasIndividual" class="form-label">Horas individual:</label>
-                                                                    <input type="text" class="form-control" name="horasIndividual" value="<?php echo $rowRecibo['horasIndividual']; ?>" disabled>
+                                                                    <input type="text" class="form-control" name="horasIndividual" value="<?php echo $rowRecibo['packIndividual']; ?>" disabled>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <label for="horasRealizadasIndividual" class="form-label">Horas realizadas:</label>
