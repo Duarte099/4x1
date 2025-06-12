@@ -550,7 +550,7 @@
                                                     <tbody>
                                                         <?php
                                                             //query para selecionar todos os administradores
-                                                            $sql = "SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id INNER JOIN metodos_pagamento as m ON ar.idMetodo = m.metodo WHERE a.id = $idAluno;";
+                                                            $sql = "SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id INNER JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE a.id = $idAluno;";
                                                             $result = $con->query($sql);
                                                             if ($result->num_rows > 0) {
                                                                 while ($row = $result->fetch_assoc()) {
