@@ -6,7 +6,7 @@
     $estouEm = 2;
 
     $idAluno = $_GET['idAluno'];
-    $idRecibo = isset($_GET['idRecibo']) ? $_GET['idRecibo'] : '';
+    $idRecibo = $_GET['idRecibo'];
     $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
     $botao = true;
 
@@ -22,49 +22,51 @@
         exit();
     }
 
-    $stmt1 = $con->prepare("SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE ar.id = ?");
-    $stmt1->bind_param("i", $idRecibo);
-    $stmt1->execute();
-    $result1 = $stmt1->get_result();
-    if ($result1->num_rows > 0) {
-        $rowRecibo = $result1->fetch_assoc();
-        $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'];
-        //Se tiver verificado
-        if ($rowRecibo['verificado'] == 1) {
-            if ($rowRecibo['notificacao'] == 1) {
-                $data_limite = (new DateTime($rowRecibo['notificadoEm']))->modify('+7 days');
-                $data_hoje = new DateTime();
-                if ($rowRecibo['pago'] == 1) {
-                    $rowRecibo['estado'] = "Pago";
-                    $corPagamento = "2ecc71";
-                    $botao = false;
-                }
-                elseif ($data_hoje > $data_limite) {
-                    $rowRecibo['estado'] = "Em atraso";
-                    $corPagamento = "ff0000";
+    if (isset($_GET['idRecibo'])) {
+        $stmt1 = $con->prepare("SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE ar.id = ?");
+        $stmt1->bind_param("i", $idRecibo);
+        $stmt1->execute();
+        $result1 = $stmt1->get_result();
+        if ($result1->num_rows > 0) {
+            $rowRecibo = $result1->fetch_assoc();
+            $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'];
+            //Se tiver verificado
+            if ($rowRecibo['verificado'] == 1) {
+                if ($rowRecibo['notificacao'] == 1) {
+                    $data_limite = (new DateTime($rowRecibo['notificadoEm']))->modify('+7 days');
+                    $data_hoje = new DateTime();
+                    if ($rowRecibo['pago'] == 1) {
+                        $rowRecibo['estado'] = "Pago";
+                        $corPagamento = "2ecc71";
+                        $botao = false;
+                    }
+                    elseif ($data_hoje > $data_limite) {
+                        $rowRecibo['estado'] = "Em atraso";
+                        $corPagamento = "ff0000";
+                    }
+                    else {
+                        $rowRecibo['estado'] = "Pendente";
+                        $corPagamento = "f1c40f";
+                    }
                 }
                 else {
-                    $rowRecibo['estado'] = "Pendente";
-                    $corPagamento = "f1c40f";
+                    $rowRecibo['estado'] = "À espera de ser notificado";
+                    $corPagamento = "007BFF";
+                    $botao = false;
                 }
             }
+            //Se não tiver verificado
             else {
-                $rowRecibo['estado'] = "À espera de ser notificado";
+                $rowRecibo['estado'] = "À espera de verificação";
                 $corPagamento = "007BFF";
                 $botao = false;
             }
         }
-        //Se não tiver verificado
         else {
-            $rowRecibo['estado'] = "À espera de verificação";
-            $corPagamento = "007BFF";
-            $botao = false;
+            notificacao('warning', 'ID do recibo inválido.');
+            header('Location: aluno.php');
+            exit();
         }
-    }
-    else {
-        notificacao('warning', 'ID do recibo inválido.');
-        header('Location: aluno.php');
-        exit();
     }
 ?>
     <title>4x1 | Editar Aluno</title>
