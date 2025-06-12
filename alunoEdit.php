@@ -528,7 +528,7 @@
                                                             <th>Estado notificação</th>
                                                             <th>Estado pagamento</th>
                                                             <th>Método pagamento</th>
-                                                            <th>Mensalidade</th>
+                                                            <th>Total</th>
                                                             <th>Data</th>
                                                             <th>Ação</th>
                                                         </tr>
@@ -543,7 +543,7 @@
                                                             <th>Estado notificação</th>
                                                             <th>Estado pagamento</th>
                                                             <th>Método pagamento</th>
-                                                            <th>Mensalidade</th>
+                                                            <th>Total</th>
                                                             <th>Data</th>
                                                         </tr>
                                                     </tfoot>
@@ -602,7 +602,7 @@
                                                                         <td><?php echo $row['metodo'] ?></td>
                                                                         <td><?php echo $row['mensalidadeGrupo'] + $row['mensalidadeIndividual'] + $row['inscricao'] + $row['transporte'] ?>€</td>
                                                                         <td><?php echo $row['mes'] ?>-<?php echo $row['ano'] ?></td>
-                                                                        <td>
+                                                                        <td style="padding: 0px 0px !important;">
                                                                             <div class="form-button-action">
                                                                                 <?php if ($row['verificado'] == "Pendente") { ?>
                                                                                     <a
