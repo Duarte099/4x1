@@ -6,16 +6,11 @@
     $estouEm = 2;
 
     $idAluno = $_GET['idAluno'];
-    $mesSelecionado = $_GET['mes'] ?? date('Y-m');
+    $idRecibo = isset($_GET['idRecibo']) ? $_GET['idRecibo'] : '';
     $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
-    $recibo = true;
     $botao = true;
 
-    if ($tab == "recibo") {
-        $estouEm = 2;
-    }
-
-    $stmt = $con->prepare("SELECT *, a.ano as anoAluno, a.transporte as tAluno FROM alunos as a LEFT JOIN alunos_recibo as ar ON ar.idAluno = a.id WHERE a.id = ?");
+    $stmt = $con->prepare("SELECT *, a.ano as anoAluno, a.transporte as tAluno FROM alunos as a WHERE a.id = ?");
     $stmt->bind_param("i", $idAluno);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -27,145 +22,49 @@
         exit();
     }
 
-    list($ano, $mes) = explode('-', $mesSelecionado);
-
-    if ($mes == date("n") && $ano == date("Y")) {
-        $botao = false;
-        $mensalidade = 0;
-        $rowRecibo['mensalidadeGrupo'] = 0;
-        $rowRecibo['mensalidadeIndividual'] = 0;
-        $rowRecibo['horasRealizadasGrupo'] = 0;
-        $rowRecibo['horasRealizadasIndividual'] = 0;
-        $rowRecibo['transporte'] = 0;
-        $rowRecibo['inscricao'] = 0;
-        $rowRecibo['anoAluno'] = $rowAluno['anoAluno'];
-        $rowRecibo['packGrupo'] = $rowAluno['horasGrupo'];
-        $rowRecibo['estado'] = "Pendente";
-        $totalMinutos = 0;
-
-        //Horas Grupo
-        $sql = "SELECT duracao
-                FROM alunos_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND idAluno = $idAluno AND individual = 0;";
-        $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $totalMinutos = $totalMinutos + $row["duracao"];
-            }
-            $rowRecibo['horasRealizadasGrupo'] = minutosToValor($totalMinutos);
-        }
-        $rowRecibo['horasBalancoGrupo'] = $rowAluno['balancoGrupo'] + ($rowAluno['horasGrupo'] - $rowRecibo['horasRealizadasGrupo']);
-
-        //Horas Individuais
-        $sql = "SELECT duracao
-                FROM alunos_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND idAluno = $idAluno AND individual = 1;";
-        $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $totalMinutos = $totalMinutos + $row["duracao"];
-            }
-            $rowRecibo['horasRealizadasIndividual'] = minutosToValor($totalMinutos);
-        }
-        $rowRecibo['horasBalancoIndividual'] = $rowAluno['balancoIndividual'] + ($rowAluno['horasIndividual'] - $rowRecibo['horasRealizadasIndividual']);
-
-        //Valores pagamento transporte
-        $sql = "SELECT * FROM valores_pagamento WHERE id = 7;";
-        $result = $con->query($sql);
-        //Se houver um aluno com o id recebido, guarda as informações
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $valorTransporte = $row["valor"];
-        }
-
-        //Valores pagamento inscrição
-        $sql = "SELECT * FROM valores_pagamento WHERE id = 9;";
-        $result = $con->query($sql);
-        //Se houver um aluno com o id recebido, guarda as informações
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $valorInscricao = $row["valor"];
-        }
-
-        if(!empty($rowAluno['dataInscricao'])){
-            $mesInscricao = date('Y-m', strtotime($rowAluno['dataInscricao']));
-            if ($mesInscricao == date('Y-m')) {
-                $mensalidade = $mensalidade + $valorInscricao;
-                $rowRecibo['inscricao'] = $valorInscricao;
-            }
-        }
-
-        if ($rowAluno['transporte'] == 1) {
-            $mensalidade = $mensalidade + $valorTransporte;
-            $rowRecibo['transporte'] = $valorTransporte;
-        }
-
-        //Mensalidades grupo e individual
-        if ($rowAluno['horasGrupo'] > 0) {
-            $result6 = $con->prepare('SELECT mensalidadeHorasGrupo FROM mensalidade WHERE ano = ? AND horasGrupo = ?');
-            $result6->bind_param('ii', $rowAluno['anoAluno'], $rowAluno['horasGrupo']);
-            $result6->execute();
-            $result6 = $result6->get_result();
-            if ($result6->num_rows > 0) {
-                $row6 = $result6->fetch_assoc();
-                $rowRecibo['mensalidadeGrupo'] = $row6['mensalidadeHorasGrupo'];
-            }
-        }
-        if ($rowAluno['horasIndividual'] > 0) {
-            $result6 = $con->prepare('SELECT mensalidadeHorasIndividual FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
-            $result6->bind_param('ii', $rowAluno['anoAluno'], $rowAluno['horasIndividual']);
-            $result6->execute();
-            $result6 = $result6->get_result(); 
-            if ($result6->num_rows > 0) {
-                $row6 = $result6->fetch_assoc();
-                $rowRecibo['mensalidadeIndividual'] = $row6['mensalidadeHorasIndividual'];
-            }
-        }
+    $stmt = $con->prepare("SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar LEFT JOIN metodos_pagamento as m ON a.idMetodo = m.id WHERE ar.id = ?")
+    $stmt->bind_param("i", $idRecibo);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $rowRecibo = $result->fetch_assoc();
         $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'];
-    }
-    else {
-        $sql = "SELECT * FROM alunos_recibo as a LEFT JOIN metodos_pagamento as m ON a.idMetodo = m.id WHERE idAluno = $idAluno AND ano = $ano AND mes = $mes";
-        $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            $rowRecibo = $result->fetch_assoc();
-            $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'];
-            //Se tiver verificado
-            if ($rowRecibo['verificado'] == 1) {
-                if ($rowRecibo['notificacao'] == 1) {
-                    $data_limite = (new DateTime($rowRecibo['notificadoEm']))->modify('+7 days');
-                    $data_hoje = new DateTime();
-                    if ($rowRecibo['pago'] == 1) {
-                        $rowRecibo['estado'] = "Pago";
-                        $corPagamento = "2ecc71";
-                        $botao = false;
-                    }
-                    elseif ($data_hoje > $data_limite) {
-                        $rowRecibo['estado'] = "Em atraso";
-                        $corPagamento = "ff0000";
-                    }
-                    else {
-                        $rowRecibo['estado'] = "Pendente";
-                        $corPagamento = "f1c40f";
-                    }
-                }
-                else {
-                    $rowRecibo['estado'] = "À espera de ser notificado";
-                    $corPagamento = "007BFF";
+        //Se tiver verificado
+        if ($rowRecibo['verificado'] == 1) {
+            if ($rowRecibo['notificacao'] == 1) {
+                $data_limite = (new DateTime($rowRecibo['notificadoEm']))->modify('+7 days');
+                $data_hoje = new DateTime();
+                if ($rowRecibo['pago'] == 1) {
+                    $rowRecibo['estado'] = "Pago";
+                    $corPagamento = "2ecc71";
                     $botao = false;
                 }
+                elseif ($data_hoje > $data_limite) {
+                    $rowRecibo['estado'] = "Em atraso";
+                    $corPagamento = "ff0000";
+                }
+                else {
+                    $rowRecibo['estado'] = "Pendente";
+                    $corPagamento = "f1c40f";
+                }
             }
-            //Se não tiver verificado
             else {
-                $rowRecibo['estado'] = "À espera de verificação";
+                $rowRecibo['estado'] = "À espera de ser notificado";
                 $corPagamento = "007BFF";
                 $botao = false;
             }
         }
+        //Se não tiver verificado
         else {
-            $recibo = false;
+            $rowRecibo['estado'] = "À espera de verificação";
+            $corPagamento = "007BFF";
+            $botao = false;
         }
+    }
+    else {
+        notificacao('warning', 'ID do recibo inválido.');
+        header('Location: aluno.php');
+        exit();
     }
 ?>
     <title>4x1 | Editar Aluno</title>
@@ -549,8 +448,12 @@
                                                     </tfoot>
                                                     <tbody>
                                                         <?php
-                                                            //query para selecionar todos os administradores
-                                                            $sql = "SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE a.id = $idAluno;";
+                                                            if ($_SESSION['tipo'] == "professor") {
+                                                                $sql = "SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE a.id = $idAluno AND ar.pago = 0;";
+                                                            }
+                                                            else {
+                                                                $sql = "SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE a.id = $idAluno;";
+                                                            }
                                                             $result = $con->query($sql);
                                                             if ($result->num_rows > 0) {
                                                                 while ($row = $result->fetch_assoc()) {
