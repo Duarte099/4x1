@@ -6,7 +6,6 @@
     $estouEm = 2;
 
     $idAluno = $_GET['idAluno'];
-    $idRecibo = $_GET['idRecibo'];
     $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
     $botao = true;
 
@@ -23,7 +22,8 @@
     }
 
     if (isset($_GET['idRecibo'])) {
-        $stmt1 = $con->prepare("SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE ar.id = ?");
+        $idRecibo = $_GET['idRecibo'];
+        $stmt1 = $con->prepare("SELECT ar.id, ar.idAluno, ar.ano as anoAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE ar.id = ?");
         $stmt1->bind_param("i", $idRecibo);
         $stmt1->execute();
         $result1 = $stmt1->get_result();
@@ -135,7 +135,7 @@
                             <li class="nav-item1">
                                 <a class="nav-link" id="recibos-tab" data-bs-toggle="pill" href="#recibos" role="tab" aria-controls="recibos" aria-selected="false">Recibos</a>
                             </li>
-                            <?php if ($_SESSION['tipo'] == "administrador" && isset($_GET['tab']) && $_GET['tab'] == "editRecibo") { ?>
+                            <?php if (isset($_GET['tab']) && $_GET['tab'] == "editRecibo") { ?>
                                 <li class="nav-item1">
                                     <a class="nav-link" id="editRecibo-tab" data-bs-toggle="pill" href="#editRecibo" role="tab" aria-controls="editRecibo" aria-selected="false">Editar recibo</a>
                                 </li>
