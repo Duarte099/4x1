@@ -550,7 +550,7 @@
                                                     <tbody>
                                                         <?php
                                                             //query para selecionar todos os administradores
-                                                            $sql = "SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE a.id = $idAluno;";
+                                                            $sql = "SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id INNER JOIN metodos_pagamento as m ON ar.idMetodo = m.metodo WHERE a.id = $idAluno;";
                                                             $result = $con->query($sql);
                                                             if ($result->num_rows > 0) {
                                                                 while ($row = $result->fetch_assoc()) {
@@ -599,6 +599,7 @@
                                                                         <td style="color: #<?php echo $corVerificacao; ?>"><?php echo $row['verificado'] ?></td>
                                                                         <td style="color: #<?php echo $corNotificacao; ?>"><?php echo $row['notificacao'] ?></td>
                                                                         <td style="color: #<?php echo $corPagamento; ?>"><?php echo $row['pago'] ?></td>
+                                                                        <td><?php echo $row['metodo'] ?></td>
                                                                         <td><?php echo $row['mensalidadeGrupo'] + $row['mensalidadeIndividual'] + $row['inscricao'] + $row['transporte'] ?>€</td>
                                                                         <td><?php echo $row['mes'] ?>-<?php echo $row['ano'] ?></td>
                                                                         <td>
