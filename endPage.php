@@ -14,6 +14,7 @@
 <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
 <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 <script src="assets/js/kaiadmin.min.js"></script>
+<script src="assets/js/plugin/datatables/datatables.min.js"></script>
 
 <!-- Service Worker -->
 <script>
