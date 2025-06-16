@@ -194,6 +194,7 @@
     <script>
         $("#tabela-profs-recibos").DataTable({
             pageLength: 6,
+            ordering: false,
             language: {
               url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
             },
