@@ -533,7 +533,7 @@
                                                                                 <?php } 
                                                                                 if ($row["pago"] != "Pago" && $row["notificacao"] == "Notificado") { ?>
                                                                                     <a
-                                                                                        href="pagamentoInserir.php?idRecibo=<?php echo $row['id']; ?>"
+                                                                                        href="alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=pagamento"
                                                                                         class="btn btn-link btn-primary btn-lg"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-bs-placement="top"
