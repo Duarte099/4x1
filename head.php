@@ -38,18 +38,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Core JS Files -->
-    <script src="assets/js/core/popper.min.js"></script>
-    <script src="assets/js/core/bootstrap.min.js"></script>
-
     <!-- jQuery e WebFont -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-    <script src="assets/js/plugin/datatables/datatables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
-    <script src="assets/js/plugin/chart.js/chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
         WebFont.load({
@@ -66,5 +56,58 @@
             active: function () {
                 sessionStorage.fonts = true;
             },
+        });
+    </script>
+
+    <!-- Core JS Files -->
+    <script src="assets/js/core/popper.min.js"></script>
+    <script src="assets/js/core/bootstrap.min.js"></script>
+
+    <!-- Plugins -->
+    <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="assets/js/plugin/chart.js/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+    <script src="assets/js/plugin/datatables/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+    <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script src="assets/js/kaiadmin.min.js"></script>
+
+    <!-- Service Worker -->
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker
+                .register("/sw.js")
+                .then(() => {
+                    //console.log("Service Worker registado com sucesso!");
+                })
+                .catch((error) => {
+                    //console.error("Erro ao registar o Service Worker:", error);
+                });
+        }
+    </script>
+
+    <!-- Notificações -->
+    <script>
+        $(document).ready(function () {
+            <?php if (isset($_SESSION['notificacao'])): ?>
+                $.notify({
+                    message: '<?php echo addslashes($_SESSION['notificacao']['mensagem']); ?>',
+                    title: 'Notificação',
+                    icon: 'fa fa-info-circle',
+                }, {
+                    type: '<?php echo $_SESSION['notificacao']['tipo']; ?>',
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    },
+                    delay: 2000
+                });
+
+                <?php unset($_SESSION['notificacao']); ?>
+            <?php endif; ?>
         });
     </script>
