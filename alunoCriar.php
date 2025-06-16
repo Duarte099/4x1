@@ -244,7 +244,9 @@
                 hiddenInput3.value = iti3.getNumber();
             });
         </script>
-        
+        <?php 
+            include('./endPage.php');
+        ?>
     </body>
     </html>
 

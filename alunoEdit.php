@@ -806,7 +806,9 @@
                 });
             </script>
         </div>
-        
+        <?php 
+            include('./endPage.php');
+        ?>
     </body>
-    </html>
+</html>
 
