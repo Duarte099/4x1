@@ -105,6 +105,9 @@
                 case 'recibo':
                     abaDesejada = '#recibo-tab';
                     break;
+                case 'pagamento':
+                    abaDesejada = '#pagamento-tab';
+                    break;
                 case 'editRecibo':
                     abaDesejada = '#editRecibo-tab';
                     break;
@@ -135,7 +138,12 @@
                             <li class="nav-item1">
                                 <a class="nav-link" id="recibos-tab" data-bs-toggle="pill" href="#recibos" role="tab" aria-controls="recibos" aria-selected="false">Recibos</a>
                             </li>
-                            <?php if (isset($_GET['tab']) && $_GET['tab'] == "editRecibo") { ?>
+                            <?php if (isset($_GET['tab']) && $_GET['tab'] == "pagamento") { ?>
+                                <li class="nav-item1">
+                                    <a class="nav-link" id="pagamento-tab" data-bs-toggle="pill" href="#pagamento" role="tab" aria-controls="pagamento" aria-selected="false">Pagamento</a>
+                                </li>
+                            <?php } ?>
+                            <?php if (isset($_GET['tab']) && $_GET['tab'] == "editRecibo" && $_SESSION['tipo'] == "Administrador") { ?>
                                 <li class="nav-item1">
                                     <a class="nav-link" id="editRecibo-tab" data-bs-toggle="pill" href="#editRecibo" role="tab" aria-controls="editRecibo" aria-selected="false">Editar recibo</a>
                                 </li>
@@ -430,7 +438,8 @@
                                                             <th>Estado pagamento</th>
                                                             <th>Método pagamento</th>
                                                             <th>Total</th>
-                                                            <th>Data</th>
+                                                            <th>Mes</th>
+                                                            <th>Ano</th>
                                                             <th>Ação</th>
                                                         </tr>
                                                     </thead>
@@ -572,23 +581,39 @@
                                                 <div class="form-section">
                                                     <div class="form-section">
                                                         <div class="row mb-3">
-                                                            <div class="col-md-3">
-                                                                <label for="horasGrupo" class="form-label">Horas grupo:</label>
-                                                                <input type="text" class="form-control" name="horasGrupo" value="<?php echo $rowRecibo['packGrupo']; ?>" disabled>
+                                                            <div class="col-md-6">
+                                                                <label for="nome" class="form-label">Nome:</label>
+                                                                <input type="text" class="form-control" name="nome" value="<?php echo $rowAluno['nome']; ?>" disabled>
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <label for="horasRealizadasGrupo" class="form-label">Horas realizadas:</label>
-                                                                <input type="text" class="form-control" name="horasRealizadasGrupo" value="<?php echo $rowRecibo['horasRealizadasGrupo']; ?>">
+                                                                <label for="morada" class="form-label">Ano:</label>
+                                                                <input type="text" class="form-control" name="ano" value="<?php echo $rowRecibo['anoAluno']; ?>º" disabled>
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <label for="horasBalancoGrupo" class="form-label">Horas balanço:</label>
-                                                                <input type="text" class="form-control" name="horasBalancoGrupo" value="<?php echo $rowRecibo['horasBalancoGrupo']; ?>">
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <label for="mensalidadeGrupo" class="form-label">Mensalidade:</label>
-                                                                <input type="text" class="form-control" name="mensalidadeGrupo" value="<?php echo $rowRecibo['mensalidadeGrupo']; ?>">
+                                                                <label for="data" class="form-label">Data:</label>
+                                                                <input type="text" class="form-control" name="data" value="<?php echo $rowRecibo['mes']; ?>-<?php echo $rowRecibo['ano']; ?>" disabled>
                                                             </div>
                                                         </div>
+                                                        <?php if ($rowRecibo['packGrupo'] > 0 || $rowRecibo['horasRealizadasGrupo'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="horasGrupo" class="form-label">Horas grupo:</label>
+                                                                    <input type="text" class="form-control" name="horasGrupo" value="<?php echo $rowRecibo['packGrupo']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasRealizadasGrupo" class="form-label">Horas realizadas:</label>
+                                                                    <input type="text" class="form-control" name="horasRealizadasGrupo" value="<?php echo $rowRecibo['horasRealizadasGrupo']; ?>">
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasBalancoGrupo" class="form-label">Horas balanço:</label>
+                                                                    <input type="text" class="form-control" name="horasBalancoGrupo" value="<?php echo $rowRecibo['horasBalancoGrupo']; ?>">
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidadeGrupo" class="form-label">Mensalidade:</label>
+                                                                    <input type="text" class="form-control" name="mensalidadeGrupo" value="<?php echo $rowRecibo['mensalidadeGrupo']; ?>">
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
                                                         <?php if ($rowRecibo['packIndividual'] > 0 || $rowRecibo['horasRealizadasIndividual'] > 0) {?>
                                                             <div class="row mb-3">
                                                                 <div class="col-md-3">
@@ -609,12 +634,14 @@
                                                                 </div>
                                                             </div>
                                                         <?php } ?>
-                                                        <div class="row mb-3">
-                                                            <div class="col-md-3">
-                                                                <label for="mensalidade" class="form-label">Total:</label>
-                                                                <input type="text" class="form-control" name="mensalidade" value="<?php echo $mensalidade; ?>" disabled>
+                                                        <?php if ($rowRecibo['packIndividual'] > 0 || $rowRecibo['packGrupo'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidade" class="form-label">Total:</label>
+                                                                    <input type="text" class="form-control" name="mensalidade" value="<?php echo $mensalidade; ?>" disabled>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        <?php } ?>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary w-100 mt-3">Guardar alterações</button>
                                                 </div>
