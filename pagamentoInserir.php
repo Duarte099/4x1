@@ -8,7 +8,7 @@
         $op = $_GET['op'];
         $idRecibo = $_GET['idRecibo'];
 
-        $stmt = $con->prepare('SELECT ar.*, a.nome FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE id = ?');
+        $stmt = $con->prepare('SELECT ar.*, a.nome FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE ar.id = ?');
         $stmt->bind_param('i', $idRecibo);
         $stmt->execute(); 
         $result = $stmt->get_result();

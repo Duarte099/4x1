@@ -8,7 +8,7 @@
         $op = $_GET['op'];
         $idRecibo = $_GET['idRecibo'];
 
-        $stmt = $con->prepare('SELECT ar.*, a.nome FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE id = ?');
+        $stmt = $con->prepare('SELECT ar.*, a.nome FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE ar.id = ?');
         $stmt->bind_param('i', $idRecibo);
         $stmt->execute(); 
         $result = $stmt->get_result();
@@ -60,7 +60,7 @@
                     notificacao('danger', 'Erro ao alterar recibo: ' . $result->error);
                 }
             }
-            
+
             if ($result->execute()) {
                 notificacao('success', 'Recibo alterado com sucesso!');
                 registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " editou o recibo do aluno [" . $idAluno . "]" . $rowRecibo["nome"] . ".");
