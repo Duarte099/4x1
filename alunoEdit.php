@@ -143,7 +143,7 @@
                                     <a class="nav-link" id="pagamento-tab" data-bs-toggle="pill" href="#pagamento" role="tab" aria-controls="pagamento" aria-selected="false">Pagamento</a>
                                 </li>
                             <?php } ?>
-                            <?php if (isset($_GET['tab']) && $_GET['tab'] == "editRecibo" && $_SESSION['tipo'] == "Administrador") { ?>
+                            <?php if (isset($_GET['tab']) && $_GET['tab'] == "editRecibo" && $_SESSION['tipo'] == "administrador") { ?>
                                 <li class="nav-item1">
                                     <a class="nav-link" id="editRecibo-tab" data-bs-toggle="pill" href="#editRecibo" role="tab" aria-controls="editRecibo" aria-selected="false">Editar recibo</a>
                                 </li>
