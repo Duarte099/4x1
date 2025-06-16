@@ -8,12 +8,10 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
-<script src="assets/js/plugin/datatables/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
 <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
 <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-<script src="assets/js/kaiadmin.min.js"></script>
 
 <!-- Service Worker -->
 <script>
