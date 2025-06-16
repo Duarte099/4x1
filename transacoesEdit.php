@@ -77,7 +77,7 @@
                                                     $result = $con->query($sql);
                                                     if ($result->num_rows > 0) {
                                                         while ($row = $result->fetch_assoc()) {
-                                                            if ($rowTransacao['idCategoria'] = $row['id']) { ?>
+                                                            if ($rowTransacao['idCategoria'] == $row['id']) { ?>
                                                                 <option selected value="<?php echo $row['id']; ?>"><?php echo $row['tipo']; ?> | <?php echo $row['nome']; ?></option>
                                                             <?php } 
                                                             else {
@@ -98,7 +98,9 @@
                 </div>
             </div>
         </div>
-        
+        <?php 
+            include('./endPage.php');
+        ?>
     </body>
     </html>
 

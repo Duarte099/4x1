@@ -375,5 +375,8 @@
             })
         .catch(error => {console.error("Erro ao carregar os dados do gráfico:", error);});
     </script>
+    <?php 
+        include('./endPage.php');
+    ?>
   </body>
 </html>
