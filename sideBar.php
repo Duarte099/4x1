@@ -23,10 +23,10 @@
                 <!-- <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20"> -->
             </a>
             <div class="nav-toggle">
-                <button class="btn btn-toggle toggle-sidebar">
+                <button class="btn btn-toggle toggle-sidebar" style="width: 40px; height: 40px;">
                     <i class="gg-menu-right"></i>
                 </button>
-                <button class="btn btn-toggle sidenav-toggler">
+                <button class="btn btn-toggle sidenav-toggler" style="width: 40px; height: 40px;">
                     <i class="gg-menu-left"></i>
                 </button>
             </div>
@@ -55,16 +55,22 @@
                     </a>
                 </li>
                 <?php if ($_SESSION["tipo"] == "administrador") { ?>
+                    <li class="nav-item <?php echo ($estouEm == 10) ? 'active' : ''; ?>">
+                        <a href="recibosAlunos.php">
+                            <i class="fas fa-user-cog"></i>
+                            <p>Recibos alunos</p>
+                        </a>
+                    </li>
                     <li class="nav-item <?php echo ($estouEm == 3) ? 'active' : ''; ?>">
                         <a href="professor.php">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <p>Professores</p>
                         </a>
                     </li>
-                    <li class="nav-item <?php echo ($estouEm == 4) ? 'active' : ''; ?>">
-                        <a href="professorLogs.php">
-                            <i class="fas fa-clipboard-list"></i>
-                            <p>Logs Professores</p>
+                    <li class="nav-item <?php echo ($estouEm == 11) ? 'active' : ''; ?>">
+                        <a href="recibosProfessores.php">
+                            <i class="fas fa-file-signature"></i>
+                            <p>Recibos professores</p>
                         </a>
                     </li>
                 <?php } ?>
@@ -80,18 +86,6 @@
                         <p>Registro de Testes</p>
                     </a>
                 </li>
-                <li class="nav-item <?php echo ($estouEm == 7) ? 'active' : ''; ?>">
-                    <a href="pagamentoEstado.php">
-                        <i class="fas fa-euro-sign"></i>
-                        <p>Estado Pagamentos</p>
-                    </a>
-                </li>
-                <li class="nav-item <?php echo ($estouEm == 8) ? 'active' : ''; ?>">
-                    <a href="estadoAlunos.php">
-                        <i class="fas fa-user-check"></i>
-                        <p>Estado Alunos</p>
-                    </a>
-                </li>
                 <li class="nav-item <?php echo ($estouEm == 9) ? 'active' : ''; ?>">
                     <a href="horario.php">
                         <i class="fas fa-calendar-alt"></i>
@@ -99,37 +93,31 @@
                     </a>
                 </li>
                 <?php if ($_SESSION["tipo"] == "administrador") { ?>
-                    <li class="nav-item <?php echo ($estouEm == 10) ? 'active' : ''; ?>">
+                    <li class="nav-item <?php echo ($estouEm == 12) ? 'active' : ''; ?>">
                         <a href="admin.php">
                             <i class="fas fa-user-cog"></i>
                             <p>Administradores</p>
                         </a>
                     </li>
-                    <li class="nav-item <?php echo ($estouEm == 11) ? 'active' : ''; ?>">
-                        <a href="adminLogs.php">
-                            <i class="fas fa-file-signature"></i>
-                            <p>Logs Administradores</p>
-                        </a>
-                    </li>
-                    <li class="nav-item <?php echo ($estouEm == 12) ? 'active' : ''; ?>">
+                    <li class="nav-item <?php echo ($estouEm == 14) ? 'active' : ''; ?>">
                         <a href="pagamentoConfig.php">
                             <i class="fas fa-cogs"></i>
                             <p>Configurações Pagamento</p>
                         </a>
                     </li>
-                    <li class="nav-item <?php echo ($estouEm == 13) ? 'active' : ''; ?>">
+                    <li class="nav-item <?php echo ($estouEm == 15) ? 'active' : ''; ?>">
                         <a href="transacoes.php">
                             <i class="fas fa-exchange-alt"></i>
                             <p>Transações</p>
                         </a>
                     </li>
-                    <li class="nav-item <?php echo ($estouEm == 14) ? 'active' : ''; ?>">
+                    <li class="nav-item <?php echo ($estouEm == 16) ? 'active' : ''; ?>">
                         <a href="despesas.php">
                             <i class="fas fa-receipt"></i>
                             <p>Despesas e Categorias</p>
                         </a>
                     </li>
-                    <li class="nav-item <?php echo ($estouEm == 15) ? 'active' : ''; ?>">
+                    <li class="nav-item <?php echo ($estouEm == 17) ? 'active' : ''; ?>">
                         <a href="balancoGeral.php">
                             <i class="fas fa-chart-pie"></i>
                             <p>Balanço Geral</p>
@@ -151,7 +139,7 @@
                     src="./images/LogoBranco4x1.png"
                     alt="navbar brand"
                     class="navbar-brand"
-                    height="20"
+                    height="45"
                 />
                 </a>
             </div>
