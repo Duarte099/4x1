@@ -30,10 +30,10 @@
                 $idProfessor = 8;
             }
 
-            $sql = "UPDATE alunos_recibo SET idMetodo = ?, observacao = ?, pagoEm = $pagoEm, idProfessor = $idProfessor WHERE id = ?";
+            $sql = "UPDATE alunos_recibo SET idMetodo = ?, observacao = ?, pagoEm = ?, idProfessor = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("isi", $idMetodo, $observacao, $idRecibo);
+                $result->bind_param("issii", $idMetodo, $observacao, $pagoEm, $idProfessor, $idRecibo);
                 if ($result->execute()) {
                     notificacao('success', 'Pagamento registrado com sucesso!');
                     if ($_SESSION["tipo"] == "professor") {
@@ -47,7 +47,6 @@
                 else {
                     notificacao('danger', 'Erro ao registrar pagamento: ' . $result->error);
                 }
-
                 $result->close();
             }
             else {
