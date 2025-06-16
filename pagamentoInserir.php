@@ -30,7 +30,7 @@
                 $idProfessor = 8;
             }
 
-            $sql = "UPDATE alunos_recibo SET idMetodo = ?, observacao = ?, pagoEm = ?, idProfessor = ? WHERE id = ?";
+            $sql = "UPDATE alunos_recibo SET idMetodo = ?, observacao = ?, pago = 1, pagoEm = ?, idProfessor = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("issii", $idMetodo, $observacao, $pagoEm, $idProfessor, $idRecibo);
