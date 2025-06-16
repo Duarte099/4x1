@@ -40,7 +40,7 @@
                     notificacao('danger', 'Erro ao alterar recibo: ' . $result->error);
                 }
 
-                $sql1 = "UPDATE alunos SET horasBalancoIndividual = ?, horasRealizadasGrupo = ? WHERE id = ?";
+                $sql1 = "UPDATE alunos SET balancoIndividual = ?, balancoGrupo = ? WHERE id = ?";
                 $result1 = $con->prepare($sql1);
                 if ($result1) {
                     $result1->bind_param("ddi", $horasBalancoIndividual, $horasBalancoGrupo, $rowRecibo['idAluno']);
@@ -56,7 +56,7 @@
                     notificacao('danger', 'Erro ao alterar recibo: ' . $result->error);
                 }
 
-                $sql1 = "UPDATE alunos SET horasRealizadasGrupo = ? WHERE id = ?";
+                $sql1 = "UPDATE alunos SET balancoGrupo = ? WHERE id = ?";
                 $result1 = $con->prepare($sql1);
                 if ($result1) {
                     $result1->bind_param("di", $horasRealizadasGrupo, $rowRecibo['idAluno']);
@@ -72,7 +72,7 @@
                     notificacao('danger', 'Erro ao alterar recibo: ' . $result->error);
                 }
 
-                $sql1 = "UPDATE alunos SET horasBalancoIndividual = ? WHERE id = ?";
+                $sql1 = "UPDATE alunos SET balancoIndividual = ? WHERE id = ?";
                 $result1 = $con->prepare($sql1);
                 if ($result1) {
                     $result1->bind_param("di", $horasBalancoIndividual, $rowRecibo['idAluno']);
