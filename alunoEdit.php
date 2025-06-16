@@ -573,6 +573,96 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="pagamento" role="tabpanel" aria-labelledby="pagamento-tab">
+                                    <div class="page-inner">
+                                        <form action="pagamentoInserir.php?idAluno=<?php echo $idAluno ?>&ano=<?php echo $ano ?>&mes=<?php echo $mes ?>&op=save" method="POST" id="formEdit" class="formEdit">
+                                            <div class="container2">
+                                                <div class="form-section">
+                                                    <div class="form-section">
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-6">
+                                                                <label for="nome" class="form-label">Nome:</label>
+                                                                <input type="text" class="form-control" name="nome" value="<?php echo $rowAluno['nome']; ?>" disabled>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label for="morada" class="form-label">Ano:</label>
+                                                                <input type="text" class="form-control" name="ano" value="<?php echo $rowRecibo['anoAluno']; ?>º" disabled>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label for="data" class="form-label">Data:</label>
+                                                                <input type="text" class="form-control" name="data" value="<?php echo $rowRecibo['mes']; ?>-<?php echo $rowRecibo['ano']; ?>" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <?php if ($rowRecibo['packGrupo'] > 0 || $rowRecibo['horasRealizadasGrupo'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="horasGrupo" class="form-label">Horas grupo:</label>
+                                                                    <input type="text" class="form-control" name="horasGrupo" value="<?php echo $rowRecibo['packGrupo']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasRealizadasGrupo" class="form-label">Horas realizadas:</label>
+                                                                    <input type="text" class="form-control" name="horasRealizadasGrupo" value="<?php echo $rowRecibo['horasRealizadasGrupo']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasBalancoGrupo" class="form-label">Horas balanço:</label>
+                                                                    <input type="text" class="form-control" name="horasBalancoGrupo" value="<?php echo $rowRecibo['horasBalancoGrupo']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidadeGrupo" class="form-label">Mensalidade:</label>
+                                                                    <input type="text" class="form-control" name="mensalidadeGrupo" value="<?php echo $rowRecibo['mensalidadeGrupo']; ?>" disabled>
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                        <?php if ($rowRecibo['packIndividual'] > 0 || $rowRecibo['horasRealizadasIndividual'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="horasIndividual" class="form-label">Horas individual:</label>
+                                                                    <input type="text" class="form-control" name="horasIndividual" value="<?php echo $rowRecibo['packIndividual']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasRealizadasIndividual" class="form-label">Horas realizadas:</label>
+                                                                    <input type="text" class="form-control" name="horasRealizadasIndividual" value="<?php echo $rowRecibo['horasRealizadasIndividual']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasBalancoIndividual" class="form-label">Horas balanço:</label>
+                                                                    <input type="text" class="form-control" name="horasBalancoIndividual" value="<?php echo $rowRecibo['horasBalancoIndividual']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidadeIndividual" class="form-label">Mensalidade:</label>
+                                                                    <input type="text" class="form-control" name="mensalidadeIndividual" value="<?php echo $rowRecibo['mensalidadeIndividual']; ?>" disabled>
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                        <?php if ($rowRecibo['packIndividual'] > 0 && $rowRecibo['packGrupo'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidade" class="form-label">Total:</label>
+                                                                    <input type="text" class="form-control" name="mensalidade" value="<?php echo $mensalidade; ?>" disabled>
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                        <div class="form-section">
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-4">
+                                                                    <label for="metodo" class="form-label">Método:</label>
+                                                                    <select name="metodo" class="form-control">
+                                                                        <option selected value="1">Dinheiro</option>
+                                                                        <option value="2">MBWay</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <label for="observacao" class="form-label">Observação:</label>
+                                                                    <input type="text" class="form-control" name="observacao" placeholder="Observação sobre o pagamento (opcional)">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3">Registrar pagamento</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             <?php if ($_SESSION['tipo'] == "administrador") { ?> 
                                 <div class="tab-pane fade" id="editRecibo" role="tabpanel" aria-labelledby="editRecibo-tab">
                                     <div class="page-inner">
@@ -634,7 +724,7 @@
                                                                 </div>
                                                             </div>
                                                         <?php } ?>
-                                                        <?php if ($rowRecibo['packIndividual'] > 0 || $rowRecibo['packGrupo'] > 0) {?>
+                                                        <?php if ($rowRecibo['packIndividual'] > 0 && $rowRecibo['packGrupo'] > 0) {?>
                                                             <div class="row mb-3">
                                                                 <div class="col-md-3">
                                                                     <label for="mensalidade" class="form-label">Total:</label>
