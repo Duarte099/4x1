@@ -1,9 +1,4 @@
-<!-- Core JS Files -->
-<script src="assets/js/core/popper.min.js"></script>
-<script src="assets/js/core/bootstrap.min.js"></script>
-
 <!-- Plugins -->
-<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
 <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
