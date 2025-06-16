@@ -541,16 +541,18 @@
                                                                                     >
                                                                                         <i class="fa-credit-card"></i>
                                                                                     </a>
+                                                                                <?php } ?>
+                                                                                <?php if ($row["pago"] != "Pago") { ?>
+                                                                                    <a
+                                                                                        href="alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=editRecibo"
+                                                                                        class="btn btn-link btn-primary btn-lg"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        title="Editar recibo"
+                                                                                    >
+                                                                                        <i class="fa fa-edit"></i>
+                                                                                    </a>
                                                                                 <?php }?>
-                                                                                <a
-                                                                                    href="alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=editRecibo"
-                                                                                    class="btn btn-link btn-primary btn-lg"
-                                                                                    data-bs-toggle="tooltip"
-                                                                                    data-bs-placement="top"
-                                                                                    title="Editar recibo"
-                                                                                >
-                                                                                    <i class="fa fa-edit"></i>
-                                                                                </a>
                                                                                 <a
                                                                                     href="reciboImpressao.php?idRecibo=<?php echo $row['id']; ?>"
                                                                                     class="btn btn-link btn-primary btn-lg"

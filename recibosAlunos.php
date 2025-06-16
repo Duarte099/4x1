@@ -216,7 +216,6 @@
     <script>
         $("#tabela-alunos-recibos").DataTable({
             pageLength: 6,
-            order: [[0, 'asc']],
             language: {
               url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
             },
