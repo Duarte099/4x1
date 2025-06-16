@@ -6,24 +6,22 @@
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         //Obtem o operação 
         $op = $_GET['op'];
-        $idAluno = $_GET['idAluno'];
+        $idRecibo = $_GET['idRecibo'];
 
-        $stmt = $con->prepare('SELECT * FROM alunos WHERE id = ?');
-        $stmt->bind_param('i', $idAluno);
+        $stmt = $con->prepare('SELECT ar.*, a.nome FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE id = ?');
+        $stmt->bind_param('i', $idRecibo);
         $stmt->execute(); 
         $result = $stmt->get_result();
-        if ($result->num_rows <= 0) {
+        if ($result->num_rows == 0) {
             header('Location: dashboard.php');
-            notificacao('warning', 'ID do aluno invàlido.');
+            notificacao('warning', 'ID do recibo invàlido.');
             exit();
         }
         else {
-            $row = $result->fetch_assoc();
+            $rowRecibo = $result->fetch_assoc();
         }
 
         if ($op == 'save') {
-            $mes = $_GET['mes'];
-            $ano = $_GET['ano'];
             $observacao = $_POST['observacao'];
             $idMetodo = $_POST['metodo'];
             $pagoEm = date("Y-m-d H:i:s");
@@ -32,27 +30,19 @@
                 $idProfessor = 8;
             }
 
-            $stmt = $con->prepare('SELECT * FROM alunos_recibo WHERE idAluno = ? AND mes = ? AND ano = ?');
-            $stmt->bind_param('iii', $idAluno, $mes, $ano);
-            $stmt->execute(); 
-            $result = $stmt->get_result();
-            if ($result->num_rows > 0) {
-                $rowRecibo = $result->fetch_assoc();
-            }
-
-            $sql = "UPDATE alunos_recibo SET idMetodo = ?, observacao = ?, pagoEm = ?, idProfessor = ? WHERE idAluno = ? AND ano = ? AND mes = ?";
+            $sql = "UPDATE alunos_recibo SET idMetodo = ?, observacao = ?, pagoEm = $pagoEm, idProfessor = $idProfessor WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
-                $result->bind_param("issiiii", $idMetodo, $observacao, $pagoEm, $idProfessor, $idAluno, $ano, $mes);
+                $result->bind_param("isi", $idMetodo, $observacao, $idRecibo);
                 if ($result->execute()) {
                     notificacao('success', 'Pagamento registrado com sucesso!');
                     if ($_SESSION["tipo"] == "professor") {
-                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $idAluno . "]" . $row["nome"] . ".");
+                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $idAluno . "]" . $rowRecibo["nome"] . ".");
                     }
                     else {
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $idAluno . "]" . $row["nome"] . ".");
+                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $idAluno . "]" . $rowRecibo["nome"] . ".");
                     }
-                    transacao($con, 1, "Pagamento do aluno {$row["nome"]}", $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'] + $rowRecibo['coima']);
+                    transacao($con, 1, "Pagamento do aluno {$row["nome"]}", $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte']);
                 }
                 else {
                     notificacao('danger', 'Erro ao registrar pagamento: ' . $result->error);
@@ -65,7 +55,7 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: pagamentoEstado.php');
+            header('Location: alunoEdit.php?idAluno=' . $rowRecibo['idAluno'] . '&tab=recibos');
         }
         else {
             notificacao('warning', 'Operação inválida.');

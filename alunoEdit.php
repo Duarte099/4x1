@@ -575,7 +575,7 @@
                             </div>
                             <div class="tab-pane fade" id="pagamento" role="tabpanel" aria-labelledby="pagamento-tab">
                                     <div class="page-inner">
-                                        <form action="pagamentoInserir.php?idAluno=<?php echo $idAluno ?>&ano=<?php echo $ano ?>&mes=<?php echo $mes ?>&op=save" method="POST" id="formEdit" class="formEdit">
+                                        <form action="pagamentoInserir.php?idRecibo=<?php echo $rowRecibo['id'] ?>&op=save" method="POST" id="formEdit" class="formEdit">
                                             <div class="container2">
                                                 <div class="form-section">
                                                     <div class="form-section">
