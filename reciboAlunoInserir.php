@@ -4,11 +4,6 @@
 
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard.php
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    } else {
-        header('Location: dashboard.php');
-        notificacao('warning', 'Método de requisição inválido.');
-        exit();
-    }
         //Obtem o operação 
         $op = $_GET['op'];
         $idRecibo = $_GET['idRecibo'];
