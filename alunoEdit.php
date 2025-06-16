@@ -620,7 +620,7 @@
                                                                     <input type="text" class="form-control" name="mensalidadeGrupo" value="<?php echo $rowRecibo['mensalidadeGrupo']; ?>">
                                                                 </div>
                                                             </div>
-                                                            <?php if ($rowRecibo['packIndividual'] > 0 || $rowRecibo['horasRealizadasIndividual'] > 0) ?>
+                                                            <?php if ($rowRecibo['packIndividual'] > 0 || $rowRecibo['horasRealizadasIndividual'] > 0) {?>
                                                                 <div class="row mb-3">
                                                                     <div class="col-md-3">
                                                                         <label for="horasIndividual" class="form-label">Horas individual:</label>
