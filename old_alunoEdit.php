@@ -23,7 +23,7 @@
         $rowAluno = $result->fetch_assoc();
     } else {
         notificacao('warning', 'ID do aluno inválido.');
-        header('Location: aluno.php');
+        header('Location: aluno');
         exit();
     }
 
@@ -238,7 +238,7 @@
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="editar-aluno" role="tabpanel" aria-labelledby="editar-aluno-tab">
                                 <div class="col-12 col-md-10 col-lg-8 mx-auto">
-                                    <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST" id="formEdit" class="formEdit">
+                                    <form action="alunoInserir?idAluno=<?php echo $idAluno ?>&op=edit" method="POST" id="formEdit" class="formEdit">
                                         <!-- <div
                                             class="modal fade"
                                             id="addRowModal"
@@ -514,7 +514,7 @@
                                             <div class="alert alert-danger d-flex align-items-center">
                                                 <i class="bi bi-cake2-fill me-2"></i>
                                                 <div>
-                                                    O pagamento relativo ao mês <?php echo $row5['mes']; ?> de <?php echo $row5['ano']; ?> está em atraso. <a href="alunoEdit.php?idAluno=<?php echo $idAluno ?>&mes=<?php echo $row5['ano']?>-<?php echo $row5['mes']?>&tab=recibo">Ver mais</a>
+                                                    O pagamento relativo ao mês <?php echo $row5['mes']; ?> de <?php echo $row5['ano']; ?> está em atraso. <a href="alunoEdit?idAluno=<?php echo $idAluno ?>&mes=<?php echo $row5['ano']?>-<?php echo $row5['mes']?>&tab=recibo">Ver mais</a>
                                                 </div>
                                             </div>
                                         <?php }
@@ -530,7 +530,7 @@
                                     </form>
                                 </div>
                                 <div class="page-inner">
-                                    <form action="pagamentoInserir.php?idAluno=<?php echo $idAluno ?>&ano=<?php echo $ano ?>&mes=<?php echo $mes ?>&op=save" method="POST" id="formEdit" class="formEdit">
+                                    <form action="pagamentoInserir?idAluno=<?php echo $idAluno ?>&ano=<?php echo $ano ?>&mes=<?php echo $mes ?>&op=save" method="POST" id="formEdit" class="formEdit">
                                         <div class="container2">
                                             <?php if ($recibo == true): ?>
                                                 <div class="form-section">
@@ -800,9 +800,6 @@
                 });
             </script>
         </div>
-        <?php 
-            include('./endPage.php');
-        ?>
     </body>
     </html>
 

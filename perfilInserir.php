@@ -249,16 +249,16 @@
                     notificacao('danger', 'Erro ao atualizar perfil: ' . $con->error);
                 }
             }
-            header('Location: perfil.php');
+            header('Location: perfil');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

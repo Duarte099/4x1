@@ -8,7 +8,7 @@
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -17,7 +17,7 @@
     $stmt->execute(); 
     $stmt->store_result();
     if ($stmt->num_rows <= 0) {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>
@@ -122,8 +122,5 @@
             },
         });
     </script>
-    <?php 
-        include('./endPage.php');
-    ?>
   </body>
 </html>

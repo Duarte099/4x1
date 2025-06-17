@@ -4,7 +4,7 @@
 
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -16,7 +16,7 @@
         $result = $stmt->get_result();
         if ($result->num_rows <= 0) {
             notificacao('warning', 'ID de mensalidade inválido.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
         else {
@@ -39,11 +39,11 @@
         else {
             notificacao('danger', 'Erro ao eliminar mensalidade: ' . $result->error);
         }
-        header('Location: pagamentoConfig.php');
+        header('Location: pagamentoConfig');
         exit();
     }
 
-    //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard.php
+    //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
     if (isset($_GET['op']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         //Obtem o operação 
         $op = $_GET['op'];
@@ -55,7 +55,7 @@
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
                 notificacao('warning', 'Essa mensalidade já existe.');
-                header('Location: pagamentoConfig.php');
+                header('Location: pagamentoConfig');
                 exit();
             }
             else {
@@ -80,7 +80,7 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: pagamentoConfig.php');
+            header('Location: pagamentoConfig');
         }
         elseif ($op == 'editMensalidade') {
             $idMensalidade = $_GET['idMensalidade'];
@@ -90,7 +90,7 @@
             $result = $stmt->get_result();
             if ($result->num_rows <= 0) {
                 notificacao('warning', 'ID de mensalidade inválido.');
-                header('Location: dashboard.php');
+                header('Location: dashboard');
                 exit();
             }
             else {
@@ -125,7 +125,7 @@
             else {
                 notificacao('danger', 'Erro ao alterar mensalidade: ' . $result->error);
             }
-            header('Location: pagamentoConfig.php');
+            header('Location: pagamentoConfig');
         }
         elseif ($op == 'editPagamento') {
             $idPagamento = $_GET['idPagamento'];
@@ -136,7 +136,7 @@
             $result = $stmt->get_result();
             if ($result->num_rows <= 0) {
                 notificacao('warning', 'ID de pagamento inválido.');
-                header('Location: dashboard.php');
+                header('Location: dashboard');
                 exit();
             }
             else {
@@ -167,16 +167,16 @@
             else {
                 notificacao('danger', 'Erro ao alterar pagamento: ' . $result->error);
             }
-            header('Location: pagamentoConfig.php');
+            header('Location: pagamentoConfig');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

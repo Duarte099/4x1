@@ -27,7 +27,7 @@
                 $row = $result->fetch_assoc();
             } else {
                 notificacao('warning', 'ID do aluno inválido.');
-                header('Location: presenca.php');
+                header('Location: presenca');
                 exit();
             }
 
@@ -60,16 +60,16 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: presenca.php');
+            header('Location: presenca');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

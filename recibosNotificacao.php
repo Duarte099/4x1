@@ -257,7 +257,7 @@
                 }
             }
             curl_close($ch);
-            header('Location: recibosAlunos.php');
+            header('Location: recibosAlunos');
         }
     }
 ?>

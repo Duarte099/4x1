@@ -157,7 +157,7 @@
             <div class="container">
                 <div class="card">
                     <div class="col-12 col-md-10 col-lg-8 mx-auto">
-                        <form action="presencaInserir.php?op=save" method="POST">
+                        <form action="presencaInserir?op=save" method="POST">
                             <div class="container2">
                                 <div class="page-inner">
                                     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
@@ -324,8 +324,5 @@
                 }
             }
         </script>
-        <?php 
-            include('./endPage.php');
-        ?>
     </body>
 </html>

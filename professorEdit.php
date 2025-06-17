@@ -8,7 +8,7 @@
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -29,7 +29,7 @@
         $rowProfessor = $result->fetch_assoc();
     } else {
         notificacao('warning', 'ID do professor inválido.');
-        header('Location: professor.php');
+        header('Location: professor');
         exit();
     }
 
@@ -203,7 +203,7 @@
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="editar-prof" role="tabpanel" aria-labelledby="editar-prof-tab">
                                 <div class="col-12 col-md-10 col-lg-8 mx-auto">
-                                    <form action="professorInserir.php?idProf=<?php echo $idProfessor ?>&op=edit" id="formEdit" method="POST" onsubmit="return verificarPasswords(event, '<?php echo $rowProfessor['email']; ?>')">
+                                    <form action="professorInserir?idProf=<?php echo $idProfessor ?>&op=edit" id="formEdit" method="POST" onsubmit="return verificarPasswords(event, '<?php echo $rowProfessor['email']; ?>')">
                                         <!-- <div
                                             class="modal fade"
                                             id="addRowModal"
@@ -622,9 +622,6 @@
                 }
             </script>
         </div>
-        <?php 
-            include('./endPage.php');
-        ?>
     </body>
     </html>
 

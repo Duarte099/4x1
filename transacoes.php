@@ -8,7 +8,7 @@
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>
@@ -28,7 +28,7 @@
                 <h3 class="fw-bold mb-3">Transações</h3>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="transacoesCriar.php" class="btn btn-primary btn-round">Nova transação</a>
+                <a href="transacoesCriar" class="btn btn-primary btn-round">Nova transação</a>
               </div>
             </div>
             <div class="col-md-12">
@@ -75,7 +75,7 @@
                                             <td>
                                                 <div class="form-button-action">
                                                     <a
-                                                        href="transacoesEdit.php?idTransacao=<?php echo $row['id']; ?>"
+                                                        href="transacoesEdit?idTransacao=<?php echo $row['id']; ?>"
                                                         class="btn btn-link btn-primary btn-lg"
                                                         data-bs-toggle="tooltip"
                                                         data-bs-placement="top"
@@ -116,7 +116,7 @@
             //Se tiver respondido que sim
             if (result) {
                 //redireciona para a pagina fichaTrabalhoDelete e manda o id da ficha a ser deletada por GET
-                window.location.href = "transacoesDelete.php?op=delete&idTransacao=" + id;
+                window.location.href = "transacoesDelete?op=delete&idTransacao=" + id;
             }
         }
     </script>
@@ -160,8 +160,5 @@
             },
         });
     </script>
-    <?php 
-        include('./endPage.php');
-    ?>
   </body>
 </html>

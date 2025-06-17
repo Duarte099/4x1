@@ -3,7 +3,7 @@
 
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -32,16 +32,16 @@
                 }
             }
 
-            header('Location: recibosProfessores.php');
+            header('Location: recibosProfessores');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

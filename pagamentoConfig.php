@@ -7,7 +7,7 @@
 
   	if ($_SESSION["tipo"] == "professor") {
 		notificacao('warning', 'Não tens permissão para aceder a esta página.');
-		header('Location: dashboard.php');
+		header('Location: dashboard');
 		exit();
 	}
 ?>
@@ -43,7 +43,7 @@
 												</h5>
 											</div>
 											<div class="modal-body">
-												<form action="pagamentoConfigInserir.php?op=save" method="POST">
+												<form action="pagamentoConfigInserir?op=save" method="POST">
 													<div class="row">
 														<div class="col-md-12">
 															<div class="form-group form-group-default">
@@ -166,7 +166,7 @@
 										//Se tiver respondido que sim
 										if (result) {
 											//redireciona para a pagina fichaTrabalhoDelete e manda o id da ficha a ser deletada por GET
-											window.location.href = "pagamentoConfigInserir.php?op=deleteMensalidade&idMensalidade=" + id;
+											window.location.href = "pagamentoConfigInserir?op=deleteMensalidade&idMensalidade=" + id;
 										}
 									}
 								</script>
@@ -180,7 +180,7 @@
 												</h5>
 											</div>
 											<div class="modal-body">
-												<form action="pagamentoConfigInserir.php?op=editMensalidade" method="POST">
+												<form action="pagamentoConfigInserir?op=editMensalidade" method="POST">
 													<div class="row">
 														<div class="col-md-12">
 															<div class="form-group form-group-default">
@@ -290,7 +290,7 @@
 											</h5>
 										</div>
 										<div class="modal-body">
-											<form action="pagamentoConfigInserir.php?op=editPagamento" method="POST">
+											<form action="pagamentoConfigInserir?op=editPagamento" method="POST">
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group form-group-default">
@@ -332,7 +332,7 @@
 
 			// Alterar a action do formulário
 			const form = document.querySelector('#editarMensalidade form');
-			form.action = `pagamentoConfigInserir.php?op=editMensalidade&idMensalidade=${id}`;
+			form.action = `pagamentoConfigInserir?op=editMensalidade&idMensalidade=${id}`;
 		}
 		function preencherPagamento(id, ensino, valor) {
 			// Preencher os campos do formulário
@@ -341,7 +341,7 @@
 
 			// Alterar a action do formulário
 			const form = document.querySelector('#editarPagamento form');
-			form.action = `pagamentoConfigInserir.php?op=editPagamento&idPagamento=${id}`;
+			form.action = `pagamentoConfigInserir?op=editPagamento&idPagamento=${id}`;
 		}
 	</script>
 	<script>
@@ -426,8 +426,5 @@
             },
         });
 	</script>
-    <?php 
-        include('./endPage.php');
-    ?>
   	</body>
 </html>

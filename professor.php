@@ -8,7 +8,7 @@
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>
@@ -28,7 +28,7 @@
                 <h3 class="fw-bold mb-3">Professores</h3>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="professorCriar.php" class="btn btn-primary btn-round">Adicionar professor</a>
+                <a href="professorCriar" class="btn btn-primary btn-round">Adicionar professor</a>
               </div>
             </div>
             <div class="col-md-12">
@@ -71,7 +71,7 @@
                                         <td>
                                             <div class="form-button-action">
                                                 <a
-                                                    href="professorEdit.php?idProf=<?php echo $row['id'] ?>"
+                                                    href="professorEdit?idProf=<?php echo $row['id'] ?>"
                                                     class="btn btn-link btn-primary btn-lg"
                                                     data-bs-toggle="tooltip"
                                                     data-bs-placement="top"
@@ -80,7 +80,7 @@
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a
-                                                    href="professorLogs.php?idProf=<?php echo $row['id'] ?>"
+                                                    href="professorLogs?idProf=<?php echo $row['id'] ?>"
                                                     class="btn btn-link btn-primary btn-lg"
                                                     data-bs-toggle="tooltip"
                                                     data-bs-placement="top"
@@ -150,8 +150,5 @@
             },
         });
     </script>
-    <?php 
-        include('./endPage.php');
-    ?>
   </body>
 </html>

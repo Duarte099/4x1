@@ -4,7 +4,7 @@
 
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -20,7 +20,7 @@
             $result = $stmt->get_result();
             if ($result->num_rows <= 0) {
                 notificacao('warning', 'ID da categoria inválido.');
-                header('Location: transacoesCriar.php');
+                header('Location: transacoesCriar');
                 exit();
             }
             else{
@@ -48,7 +48,7 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: transacoes.php');
+            header('Location: transacoes');
         }
         //Se a operação for edit
         elseif ($op == 'edit') {
@@ -60,7 +60,7 @@
             $result = $stmt->get_result();
             if ($result->num_rows <= 0) {
                 notificacao('warning', 'ID de transação inválido.');
-                header('Location: dashboard.php');
+                header('Location: dashboard');
                 exit();
             }
             else {
@@ -73,7 +73,7 @@
             $result = $stmt->get_result();
             if ($result->num_rows <= 0) {
                 notificacao('warning', 'ID da categoria inválido.');
-                header('Location: dashboard.php');
+                header('Location: dashboard');
                 exit();
             }
             else {
@@ -108,16 +108,16 @@
             else {
                 notificacao('danger', 'Erro ao editar transação: ' . $result->error);
             }
-            header('Location: transacoes.php');
+            header('Location: transacoes');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

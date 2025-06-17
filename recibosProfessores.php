@@ -8,7 +8,7 @@
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>
@@ -28,7 +28,7 @@
                     <h3 class="fw-bold mb-3">Recibos professores</h3>
                 </div>
                 <div class="ms-md-auto py-2 py-md-0">
-                    <a href="pagamentoProfessorInserir.php" class="btn btn-primary btn-round">Assumir pagamentos</a>
+                    <a href="pagamentoProfessorInserir" class="btn btn-primary btn-round">Assumir pagamentos</a>
                 </div>
             </div>
             <div class="col-md-12">
@@ -155,7 +155,7 @@
                                                 <div class="form-button-action">
                                                     <?php if ($row['verificado'] == "Pendente") { ?>
                                                         <a
-                                                            href="recibosProfessoresVerificar.php?idRecibo=<?php echo $row['idRecibo']; ?>"
+                                                            href="recibosProfessoresVerificar?idRecibo=<?php echo $row['idRecibo']; ?>"
                                                             class="btn btn-link btn-primary btn-lg"
                                                             data-bs-toggle="tooltip"
                                                             data-bs-placement="top"
@@ -165,7 +165,7 @@
                                                         </a>
                                                     <?php } ?>
                                                     <a
-                                                        href="professorEdit.php?idProf=<?php echo $row['idProfessor']; ?>&mes=<?php echo $row['ano']; ?>-<?php echo $row['mes']; ?>&tab=recibo"
+                                                        href="professorEdit?idProf=<?php echo $row['idProfessor']; ?>&mes=<?php echo $row['ano']; ?>-<?php echo $row['mes']; ?>&tab=recibo"
                                                         class="btn btn-link btn-primary btn-lg"
                                                         data-bs-toggle="tooltip"
                                                         data-bs-placement="top"
@@ -231,8 +231,5 @@
             },
         });
     </script>
-    <?php 
-        include('./endPage.php');
-    ?>
   </body>
 </html>

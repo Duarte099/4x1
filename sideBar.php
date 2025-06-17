@@ -17,7 +17,7 @@
         <!-- Logo Header -->
         
         <div class="logo-header" data-background-color="dark">
-            <a href="dashboard.php" class="logo">
+            <a href="dashboard" class="logo">
                 <img src="./images/LogoBranco4x1.png" alt="navbar brand" class="navbar-brand" height="45">
                 <!-- <img src="./images/logoBranco.png" alt="navbar brand" class="navbar-brand" height="20"> -->
                 <!-- <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20"> -->
@@ -40,13 +40,13 @@
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
                 <li class="nav-item <?php echo ($estouEm == 1) ? 'active' : ''; ?>">
-                    <a href="dashboard.php">
+                    <a href="dashboard">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 2) ? 'active' : ''; ?>">
-                    <a href="aluno.php">
+                    <a href="aluno">
                         <i class="fas fa-user-graduate"></i>
                         <p>Alunos</p>
                         <?php if ($numAlunosAniversario > 0) { ?>
@@ -56,69 +56,69 @@
                 </li>
                 <?php if ($_SESSION["tipo"] == "administrador") { ?>
                     <li class="nav-item <?php echo ($estouEm == 10) ? 'active' : ''; ?>">
-                        <a href="recibosAlunos.php">
+                        <a href="recibosAlunos">
                             <i class="fas fa-user-cog"></i>
                             <p>Recibos alunos</p>
                         </a>
                     </li>
                     <li class="nav-item <?php echo ($estouEm == 3) ? 'active' : ''; ?>">
-                        <a href="professor.php">
+                        <a href="professor">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <p>Professores</p>
                         </a>
                     </li>
                     <li class="nav-item <?php echo ($estouEm == 11) ? 'active' : ''; ?>">
-                        <a href="recibosProfessores.php">
+                        <a href="recibosProfessores">
                             <i class="fas fa-file-signature"></i>
                             <p>Recibos professores</p>
                         </a>
                     </li>
                 <?php } ?>
                 <li class="nav-item <?php echo ($estouEm == 5) ? 'active' : ''; ?>">
-                    <a href="presenca.php">
+                    <a href="presenca">
                         <i class="fas fa-calendar-check"></i>
                         <p>Registro de Presença</p>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 6) ? 'active' : ''; ?>">
-                    <a href="testes.php">
+                    <a href="testes">
                         <i class="fas fa-file-alt"></i>
                         <p>Registro de Testes</p>
                     </a>
                 </li>
                 <li class="nav-item <?php echo ($estouEm == 9) ? 'active' : ''; ?>">
-                    <a href="horario.php">
+                    <a href="horario">
                         <i class="fas fa-calendar-alt"></i>
                         <p>Horário</p>
                     </a>
                 </li>
                 <?php if ($_SESSION["tipo"] == "administrador") { ?>
                     <li class="nav-item <?php echo ($estouEm == 12) ? 'active' : ''; ?>">
-                        <a href="admin.php">
+                        <a href="admin">
                             <i class="fas fa-user-cog"></i>
                             <p>Administradores</p>
                         </a>
                     </li>
                     <li class="nav-item <?php echo ($estouEm == 14) ? 'active' : ''; ?>">
-                        <a href="pagamentoConfig.php">
+                        <a href="pagamentoConfig">
                             <i class="fas fa-cogs"></i>
                             <p>Configurações Pagamento</p>
                         </a>
                     </li>
                     <li class="nav-item <?php echo ($estouEm == 15) ? 'active' : ''; ?>">
-                        <a href="transacoes.php">
+                        <a href="transacoes">
                             <i class="fas fa-exchange-alt"></i>
                             <p>Transações</p>
                         </a>
                     </li>
                     <li class="nav-item <?php echo ($estouEm == 16) ? 'active' : ''; ?>">
-                        <a href="despesas.php">
+                        <a href="despesas">
                             <i class="fas fa-receipt"></i>
                             <p>Despesas e Categorias</p>
                         </a>
                     </li>
                     <li class="nav-item <?php echo ($estouEm == 17) ? 'active' : ''; ?>">
-                        <a href="balancoGeral.php">
+                        <a href="balancoGeral">
                             <i class="fas fa-chart-pie"></i>
                             <p>Balanço Geral</p>
                         </a>
@@ -134,7 +134,7 @@
         <div class="main-header-logo">
         <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
-                <a href="dashboard.php" class="logo">
+                <a href="dashboard" class="logo">
                 <img
                     src="./images/LogoBranco4x1.png"
                     alt="navbar brand"
@@ -183,7 +183,7 @@
                                         <h4><?php echo $_SESSION['nome']; ?></h4>
                                         <p class="text-muted"><?php echo $_SESSION['email']; ?></p>
                                         <a
-                                            href="perfil.php"
+                                            href="perfil"
                                             class="btn btn-xs btn-secondary btn-sm"
                                             >Ver Perfil</a
                                         >
@@ -192,10 +192,10 @@
                                 </li>
                                 <li>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="definicoes.php">Definições</a>
+                                    <a class="dropdown-item" href="definicoes">Definições</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="indexLogout.php">Logout</a>
+                                    <a class="dropdown-item" href="indexLogout">Logout</a>
                                 </li>
                             </div>
                         </ul>

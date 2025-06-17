@@ -8,7 +8,7 @@
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -22,7 +22,7 @@
         $rowTransacao = $result->fetch_assoc();
     } else {
         notificacao('warning', 'ID de transação inválido.');
-        header('Location: transacoes.php');
+        header('Location: transacoes');
         exit();
     }
 ?>  
@@ -98,9 +98,6 @@
                 </div>
             </div>
         </div>
-        <?php 
-            include('./endPage.php');
-        ?>
     </body>
     </html>
 

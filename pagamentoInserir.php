@@ -13,7 +13,7 @@
         $stmt->execute(); 
         $result = $stmt->get_result();
         if ($result->num_rows == 0) {
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             notificacao('warning', 'ID do recibo invàlido.');
             exit();
         }
@@ -69,16 +69,16 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: alunoEdit.php?idAluno=' . $rowRecibo['idAluno'] . '&tab=recibos');
+            header('Location: alunoEdit?idAluno=' . $rowRecibo['idAluno'] . '&tab=recibos');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>
