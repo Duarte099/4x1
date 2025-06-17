@@ -13,7 +13,7 @@
             $result1 = $con->query($sql1);
             if ($result1->num_rows > 0) {
                 while ($row1 = $result1->fetch_assoc()) {
-                    $sql = "UPDATE professores_recibo SET pago = 1 WHERE id = $row["id"];";
+                    $sql = "UPDATE professores_recibo SET pago = 1 WHERE id = " . $row['id'];
                     $result = $con->prepare($sql);
                     if ($result) {
                         if ($result->execute()) {
