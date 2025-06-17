@@ -88,8 +88,8 @@
                     },
                     delay: 2000
                 });
-                // const cleanUrl = window.location.origin + window.location.pathname;
-                // window.history.replaceState({}, document.title, cleanUrl);
+                const cleanUrl = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
             <?php endif; ?>
         });
     </script>
