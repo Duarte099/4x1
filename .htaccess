@@ -8,4 +8,4 @@ RewriteRule ^(.*)\.php$ /$1 [R=301,L]
 # Reescrever URLs amigáveis para .php reais
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php [
+RewriteRule ^(.*)$ $1.php [L]
