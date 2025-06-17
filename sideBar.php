@@ -26,11 +26,11 @@
                 <button class="btn btn-toggle toggle-sidebar">
                     <i class="gg-menu-right"></i>
                 </button>
-                <button class="btn btn-toggle sidenav-toggler">
+                <button class="btn btn-toggle sidenav-toggler" style="width: 25px; height: 25px;">
                     <i class="gg-menu-left"></i>
                 </button>
             </div>
-            <button class="topbar-toggler more">
+            <button class="topbar-toggler more" style="width: 25px; height: 25px;">
                 <i class="gg-more-vertical-alt"></i>
             </button>
         </div>
