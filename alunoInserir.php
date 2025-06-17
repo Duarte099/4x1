@@ -23,12 +23,15 @@
                     //Obtem o id do novo aluno inserido
                     $idAluno = $con->insert_id;
                     notificacao('success', 'Aluno criado com sucesso!');
-                    if ($_SESSION["tipo"] == "professor") {
-                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou o aluno [" . $idAluno . "]" . $_POST['nome'] . ".");
-                    }
-                    else {
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou o aluno [" . $idAluno . "]" . $_POST['nome'] . ".");
-                    }
+                    registrar_log($con, "Criar aluno", 
+                        "nome: '{$_POST['nome']}', localidade: '{$_POST['localidade']}', morada: '{$_POST['morada']}', " .
+                        "dataNascimento: '{$_POST['dataNascimento']}', codigoPostal: '{$_POST['codigoPostal']}', NIF: '{$_POST['NIF']}', " .
+                        "email: '{$_POST['email']}', contacto: '{$_POST['contacto']}', escola: '{$_POST['escola']}', ano: '{$_POST['ano']}', " .
+                        "curso: '{$_POST['curso']}', turma: '{$_POST['turma']}', horasGrupo: '{$_POST['horasGrupo']}', " .
+                        "horasIndividual: '{$_POST['horasIndividual']}', transporte: '{$_POST['transporte']}', " .
+                        "nomeMae: '{$_POST['nomeMae']}', maeTlm: '{$_POST['maeTlm']}', nomePai: '{$_POST['nomePai']}', " .
+                        "paiTlm: '{$_POST['paiTlm']}', modalidade: '{$_POST['modalidade']}', dataInscricao: '$dataInscricao'"
+                    );
                 }
                 else {
                     notificacao('danger', 'Erro ao criar aluno: ' . $result->error);
@@ -78,16 +81,21 @@
             // $horas = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
             // $dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
+            $dados_novos = [ 'nome' => $_POST['nome'],'localidade' => $_POST['localidade'],'morada' => $_POST['morada'],'dataNascimento' => $_POST['dataNascimento'],'codigoPostal' => $_POST['codigoPostal'],'NIF' => $_POST['NIF'],'email' => $_POST['email'],'contacto' => $_POST['contacto'],'escola' => $_POST['escola'],'ano' => $_POST['ano'],'curso' => $_POST['curso'],'turma' => $_POST['turma'],'horasGrupo' => $_POST['horasGrupo'],'horasIndividual' => $_POST['horasIndividual'],'transporte' => $_POST['transporte'],'nomeMae' => $_POST['nomeMae'],'maeTlm' => $_POST['maeTlm'],'nomePai' => $_POST['nomePai'],'paiTlm' => $_POST['paiTlm'],'modalidade' => $_POST['modalidade'],'dataInscricao' => $dataInscricao,            ];
+
             $dataInscricao = date('Y-m-d');
             $idAluno = $_GET['idAluno'];
 
-            $stmt = $con->prepare('SELECT id FROM alunos WHERE id = ?');
+            $stmt = $con->prepare('SELECT * FROM alunos WHERE id = ?');
             $stmt->bind_param('i', $idAluno);
-            $stmt->execute(); 
-            $stmt->store_result();
-            if ($stmt->num_rows <= 0) {
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows == 0) {
                 header('Location: dashboard.php');
                 exit();
+            }
+            else {
+                $rowAluno = $result->fetch_assoc();
             }
 
             $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, horasGrupo = ?, horasIndividual = ?, transporte = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ?, estado = ?, dataInscricao = ? WHERE id = ?";
@@ -97,11 +105,10 @@
                 
                 if ($result->execute()) {
                     notificacao('success', 'Aluno editado com sucesso!');
-                    if ($_SESSION["tipo"] == "professor") {
-                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o aluno [" . $idAluno . "]" . $_POST['nome'] . ".");
-                    }
-                    else {
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o aluno [" . $idAluno . "]" . $_POST['nome'] . ".");
+
+                    $detalhes = gerar_detalhes_alteracoes($dados_antigos, $dados_novos);
+                    if (!empty($detalhes)) {
+                        registrar_log($con, "Editar aluno", "id: {$rowAluno['id']}, $detalhes");
                     }
                 } 
                 else {
