@@ -19,6 +19,9 @@
             header('Location: dashboard.php');
             exit();
         }
+        else {
+            $rowDespesa = $result->fetch_assoc();
+        }
 
         $sql = "DELETE FROM despesas WHERE id = ?";
         $result = $con->prepare($sql);
@@ -26,8 +29,8 @@
             $result->bind_param("i", $idDespesa);
             if ($result->execute()) {
                 notificacao('success', 'Despesa eliminada com sucesso!');
-                registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " eliminou a despesa [" . $idDespesa . "].");
-            } 
+                registrar_log($con, "Eliminar despesa", "id: " . $idDespesa . ", despesa: " . $rowDespesa['despesa'] . ", valor: " . $rowDespesa['valor']);
+            }
             else {
                 notificacao('danger', 'Erro ao eliminar despesa: ' . $result->error);
             }
@@ -51,6 +54,9 @@
             header('Location: dashboard.php');
             exit();
         }
+        else {
+            $rowCategoria = $result->fetch_assoc();
+        }
 
         $sql = "DELETE FROM categorias WHERE id = ?";
         $result = $con->prepare($sql);
@@ -58,7 +64,7 @@
             $result->bind_param("i", $idCategoria);
             if ($result->execute()) {
                 notificacao('success', 'Categoria eliminada com sucesso!');
-                registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " eliminou a categoria [" . $idCategoria . "].");
+                registrar_log($con, "Eliminar categoria", "id: " . $idCategoria . ", nome: " . $rowCategoria['nome'] . ", tipo: " . $rowCategoria['tipo']);
             } 
             else {
                 notificacao('danger', 'Erro ao eliminar categoria: ' . $result->error);
@@ -85,7 +91,7 @@
                 if ($result->execute()) {
                     $idDespesa = $con->insert_id;
                     notificacao('success', 'Despesa inserida com sucesso!');
-                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou a despesa [" . $idDespesa . "].");
+                    registrar_log($con, "Criar despesa", "id: " . $idDespesa . ", despesa: " . $_POST['despesa'] . ", valor: " . $_POST['valor']);
 
                     for ($i=1; $i < 13; $i++) { 
                         if (isset($_POST['despesa_'. $i]) && !empty($_POST['despesa_'. $i])) {
@@ -122,6 +128,9 @@
                 header('Location: dashboard.php');
                 exit();
             }
+            else {
+                $rowDespesa = $result->fetch_assoc();
+            }
 
             $sql = "UPDATE despesas SET despesa = ?, valor = ? WHERE id = ?";
             $result = $con->prepare($sql);
@@ -129,8 +138,16 @@
                 $result->bind_param("sdi", $_POST['despesa'], $_POST['valor'], $idDespesa);
                 if ($result->execute()) {
                     notificacao('success', 'Despesa alterada com sucesso!');
-                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " alterou a despesa [" . $idDespesa . "].");
-
+                    $detalhes = gerar_detalhes_alteracoes(
+                        $rowDespesa,
+                        [
+                            'despesa' => $_POST['despesa'],
+                            'valor' => $_POST['valor'],
+                        ]
+                    );
+                    if (!empty($detalhes)) {
+                        registrar_log($con, "Editar despesa", "id: " . $idDespesa . ", " . $detalhes);
+                    }
                     for ($i=1; $i < 13 ; $i++) { 
                         $result4 = $con->prepare('SELECT id FROM despesas_meses WHERE idDespesa = ? AND mes = ?');
                         $result4->bind_param('ii', $idDespesa, $i);
@@ -173,7 +190,7 @@
                 if ($result->execute()) {
                     $idCategoria = $con->insert_id;
                     notificacao('success', 'Despesa inserida com sucesso!');
-                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou a categoria [" . $idCategoria . "].");
+                    registrar_log($con, "Criar categoria", "id: " . $idCategoria . ", nome: " . $_POST['categoria'] . ", tipo: " . $_POST['tipo']);
                 } 
                 else {
                     notificacao('danger', 'Erro ao criar categoria: ' . $result->error);
@@ -199,6 +216,9 @@
                 header('Location: dashboard.php');
                 exit();
             }
+            else {
+                $rowCategoria = $result->fetch_assoc();
+            }
 
             $sql = "UPDATE categorias SET nome = ?, tipo = ? WHERE id = ?";
             $result = $con->prepare($sql);
@@ -206,7 +226,16 @@
                 $result->bind_param("ssi", $_POST['categoria'], $_POST['tipo'], $idCategoria);
                 if ($result->execute()) {
                     notificacao('success', 'Categoria alterada com sucesso!');
-                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " alterou a categoria [" . $idCategoria . "].");
+                    $detalhes = gerar_detalhes_alteracoes(
+                        $rowCategoria,
+                        [
+                            'nome' => $_POST['categoria'],
+                            'tipo' => $_POST['tipo'],
+                        ]
+                    );
+                    if (!empty($detalhes)) {
+                        registrar_log($con, "Editar categoria", "id: " . $idCategoria . ", " . $detalhes);
+                    }
                 } 
                 else {
                     notificacao('danger', 'Erro ao alterar categoria: ' . $result->error);

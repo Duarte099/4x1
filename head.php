@@ -114,3 +114,29 @@
             <?php endif; ?>
         });
     </script>
+
+    <script>
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function (e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        document.addEventListener('touchend', function (e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipeGesture();
+        }, false);
+
+        function handleSwipeGesture() {
+            const limiteMinimo = 50; // distância mínima para considerar swipe
+            const margemEsquerda = 50; // só aceita swipe que comece do lado esquerdo
+
+            if (touchStartX < margemEsquerda && touchEndX - touchStartX > limiteMinimo) {
+                const botaoSidebar = document.querySelector('.btn.btn-toggle.sidenav-toggler');
+                if (botaoSidebar) {
+                    botaoSidebar.click();
+                }
+            }
+        }
+    </script>

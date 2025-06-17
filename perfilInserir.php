@@ -67,18 +67,35 @@
                 if ($stmt) {
                     if ($_SESSION["tipo"] == "professor") {
                         $stmt->bind_param("sssssi", $_POST['nome'], $_POST['email'], $_POST["contacto"], $passwordHash, $caminhoFinal, $_SESSION["id"]);
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $_SESSION,
+                                [
+                                    'nome' => $_POST['nome'],
+                                    'email' => $_POST['email'],
+                                    'contacto' => $_POST['contacto'],
+                                    'img' => $caminhoFinal,
+                                ]
+                        );
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar perfil", $detalhes);
+                        }
                     }
                     else{
                         $stmt->bind_param("ssssi", $_POST['nome'], $_POST['email'], $passwordHash, $caminhoFinal, $_SESSION["id"]);
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $_SESSION,
+                                [
+                                    'nome' => $_POST['nome'],
+                                    'email' => $_POST['email'],
+                                    'img' => $caminhoFinal,
+                                ]
+                        );
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar perfil", $detalhes);
+                        }
                     }
                     if ($stmt->execute()) {
                         notificacao('success', 'Perfil atualizado com sucesso!');
-                        if ($_SESSION["tipo"] == "professor") {
-                            registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o seu perfil");
-                        }
-                        else{
-                            registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o seu perfil");
-                        }
                     } else {
                         notificacao('danger', 'Erro ao atualizar perfil: ' . $stmt->error);
                     }
@@ -100,18 +117,33 @@
                 if ($stmt) {
                     if ($_SESSION["tipo"] == "professor") {
                         $stmt->bind_param("ssssi", $_POST['nome'], $_POST['email'], $_POST["contacto"], $passwordHash, $_SESSION["id"]);
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $_SESSION,
+                                [
+                                    'nome' => $_POST['nome'],
+                                    'email' => $_POST['email'],
+                                    'contacto' => $_POST['contacto'],
+                                ]
+                        );
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar perfil", $detalhes);
+                        }
                     }
                     else{
                         $stmt->bind_param("sssi", $_POST['nome'], $_POST['email'], $passwordHash, $_SESSION["id"]);
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $_SESSION,
+                                [
+                                    'nome' => $_POST['nome'],
+                                    'email' => $_POST['email'],
+                                ]
+                        );
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar perfil", $detalhes);
+                        }
                     }
                     if ($stmt->execute()) {
                         notificacao('success', 'Perfil atualizado com sucesso!');
-                        if ($_SESSION["tipo"] == "professor") {
-                            registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o seu perfil");
-                        }
-                        else{
-                            registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o seu perfil");
-                        }
                     } else {
                         notificacao('danger', 'Erro ao atualizar perfil: ' . $stmt->error);
                     }
@@ -132,18 +164,35 @@
                 if ($stmt) {
                     if ($_SESSION["tipo"] == "professor") {
                         $stmt->bind_param("ssssi", $_POST['nome'], $_POST['email'], $_POST["contacto"], $caminhoFinal, $_SESSION["id"]);
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $_SESSION,
+                                [
+                                    'nome' => $_POST['nome'],
+                                    'email' => $_POST['email'],
+                                    'contacto' => $_POST['contacto'],
+                                    'img' => $caminhoFinal,
+                                ]
+                        );
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar perfil", $detalhes);
+                        }
                     }
                     else{
                         $stmt->bind_param("sssi", $_POST['nome'], $_POST['email'], $caminhoFinal, $_SESSION["id"]);
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $_SESSION,
+                                [
+                                    'nome' => $_POST['nome'],
+                                    'email' => $_POST['email'],
+                                    'img' => $caminhoFinal,
+                                ]
+                        );
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar perfil", $detalhes);
+                        }
                     }
                     if ($stmt->execute()) {
                         notificacao('success', 'Perfil atualizado com sucesso!');
-                        if ($_SESSION["tipo"] == "professor") {
-                            registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o seu perfil");
-                        }
-                        else{
-                            registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o seu perfil");
-                        }
                     } else {
                         notificacao('danger', 'Erro ao atualizar perfil: ' . $stmt->error);
                     }
@@ -155,33 +204,43 @@
             else {
                 // Nem password nem imagem foram alteradas
                 if ($_SESSION["tipo"] == "professor") {
-                    echo 1;
                     $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ? WHERE id = ?";
                 }
                 else{
-                    echo 2; 
                     $sql = "UPDATE administrador SET nome = ?, email = ? WHERE id = ?";
                 }
                 $stmt = $con->prepare($sql);
                 if ($stmt) {
                     if ($_SESSION["tipo"] == "professor") {
-                        echo 3;
                         $stmt->bind_param("sssi", $_POST['nome'], $_POST['email'], $_POST["contacto"], $_SESSION["id"]);
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $_SESSION,
+                                [
+                                    'nome' => $_POST['nome'],
+                                    'email' => $_POST['email'],
+                                    'contacto' => $_POST['contacto'],
+                                ]
+                        );
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar perfil", $detalhes);
+                        }
                     }
                     else{
-                        echo 4;
                         $stmt->bind_param("ssi", $_POST['nome'], $_POST['email'], $_SESSION["id"]);
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $_SESSION,
+                                [
+                                    'nome' => $_POST['nome'],
+                                    'email' => $_POST['email'],
+                                ]
+                        );
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar perfil", $detalhes);
+                        }
                     }
                     
                     if ($stmt->execute()) {
-                        echo 5;
                         notificacao('success', 'Perfil atualizado com sucesso!');
-                        if ($_SESSION["tipo"] == "professor") {
-                            registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o seu perfil");
-                        }
-                        else{
-                            registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o seu perfil");
-                        }
                     } else {
                         notificacao('danger', 'Erro ao atualizar perfil: ' . $stmt->error);
                     }

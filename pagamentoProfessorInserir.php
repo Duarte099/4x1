@@ -18,7 +18,6 @@
                     if ($result) {
                         if ($result->execute()) {
                             notificacao('success', 'Pagamentos registrados com sucesso!');
-                            registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento de todos os recibos dos professores verificados.");
                             transacao($con, 4, "Pagamento do professor {$row1["nome"]}", $row1['valorParcial1Ciclo'] + $row1['valorParcial2Ciclo'] + $row1['valorParcial3Ciclo'] + $row1['valorParcialSecundario'] + $row1['valorParcialUniversidade']);
                         }
                         else {

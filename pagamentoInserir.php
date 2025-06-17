@@ -8,7 +8,7 @@
         $op = $_GET['op'];
         $idRecibo = $_GET['idRecibo'];
 
-        $stmt = $con->prepare('SELECT ar.*, a.nome FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE ar.id = ?');
+        $stmt = $con->prepare('SELECT ar.*, a.nome, m.metodo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE ar.id = ?');
         $stmt->bind_param('i', $idRecibo);
         $stmt->execute(); 
         $result = $stmt->get_result();
@@ -30,17 +30,32 @@
                 $idProfessor = 8;
             }
 
+            $stmt = $con->prepare('SELECT metodo FROM metodos_pagamento WHERE id = ?');
+            $stmt->bind_param('i', $idMetodo);
+            $stmt->execute(); 
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $rowMetodo = $result->fetch_assoc();
+                $metodo = $rowMetodo['metodo'];
+            }
+
             $sql = "UPDATE alunos_recibo SET idMetodo = ?, observacao = ?, pago = 1, pagoEm = ?, idProfessor = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("issii", $idMetodo, $observacao, $pagoEm, $idProfessor, $idRecibo);
                 if ($result->execute()) {
                     notificacao('success', 'Pagamento registrado com sucesso!');
-                    if ($_SESSION["tipo"] == "professor") {
-                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $idAluno . "]" . $rowRecibo["nome"] . ".");
-                    }
-                    else {
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou o pagamento do aluno [" . $idAluno . "]" . $rowRecibo["nome"] . ".");
+                    $detalhes = gerar_detalhes_alteracoes(
+                        $rowPagamento,
+                        [
+                            'metodo' => $metodo,
+                            'observacao' => $observacao,
+                            'pago' => 1,
+                            'pagoEm' => $pagoEm,
+                        ]
+                    );
+                    if (!empty($detalhes)) {
+                        registrar_log($con, "Editar recibo", "id: " . $idRecibo . ", " . $detalhes);
                     }
                     transacao($con, 1, "Pagamento do aluno {$row["nome"]}", $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte']);
                 }

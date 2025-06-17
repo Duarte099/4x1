@@ -31,14 +31,13 @@
                     //Obtem o id do novo professor inserido
                     $idProfessor = $con->insert_id;
                     notificacao('success', 'Professor criado com sucesso!');
-                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou o professor [" . $idProfessor . "]" . $nome . ".");
+                    registrar_log($con, "Criar professor", "id: " . $idProfessor . ", nome: " . $_POST['nome'] . ", email: " . $_POST['email'] . ", contacto: " . $_POST['contacto']);
                 } 
                 else {
                     notificacao('danger', 'Erro ao criar professor: ' . $result->error);
                 }
 
-                $result->close();
-            }
+                $result->close(); 
             else {
                 notificacao('danger', 'Erro ao criar professor: ' . $result->error);
             }
@@ -96,13 +95,16 @@
 
             $estado = $_POST['estado'];
 
-            $stmt = $con->prepare('SELECT id FROM professores WHERE id = ?');
+            $stmt = $con->prepare('SELECT * FROM professores WHERE id = ?');
             $stmt->bind_param('i', $idProfessor);
-            $stmt->execute(); 
-            $stmt->store_result();
-            if ($stmt->num_rows <= 0) {
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows <= 0) {
                 header('Location: dashboard.php');
                 exit();
+            }
+            else {
+                $rowProfessor = $result->fetch_assoc();
             }
 
             if (!empty($_POST['password'])) {
@@ -113,7 +115,18 @@
                     $result->bind_param("ssssbi", $nome, $email, $contacto, $passwordHash, $estado, $idProfessor);
                     if ($result->execute()) {
                         notificacao('success', 'Professor editado com sucesso!');
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o professor [" . $idProfessor . "]" . $nome . ".");
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $rowProfessor,
+                            [
+                                'nome' => $_POST['nome'],
+                                'email' => $_POST['email'],
+                                'contacto' => $_POST['contacto'],
+                                'estado' => $_POST['estado'],
+                            ]
+                        );
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar professor", "id: " . $idProfessor . ", " . $detalhes);
+                        }
                     } 
                     else {
                         notificacao('danger', 'Erro ao editar professor: ' . $result->error);
@@ -132,7 +145,18 @@
                     $result->bind_param("sssbi", $nome, $email, $contacto, $estado, $idProfessor);
                     if ($result->execute()) {
                         notificacao('success', 'Professor editado com sucesso!');
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o professor [" . $idProfessor . "]" . $nome . ".");
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $rowProfessor,
+                            [
+                                'nome' => $_POST['nome'],
+                                'email' => $_POST['email'],
+                                'contacto' => $_POST['contacto'],
+                                'estado' => $_POST['estado'],
+                            ]
+                        );
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar professor", "id: " . $idProfessor . ", " . $detalhes);
+                        }                    
                     } 
                     else {
                         notificacao('danger', 'Erro ao editar prefessor: ' . $result->error);

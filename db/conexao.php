@@ -18,8 +18,8 @@
     $stmt->execute(); 
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()){
-            $cronjobRow[$row['id']] = $row['estado'];
+        while($rowTeste = $result->fetch_assoc()){
+            $cronjobRow[$rowTeste['id']] = $rowTeste['estado'];
         }
         $cronjobSeguro = $cronjobRow[1];
         $cronjobRecibos = $cronjobRow[2];

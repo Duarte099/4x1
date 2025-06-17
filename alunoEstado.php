@@ -19,7 +19,9 @@
 
                 if ($result1->execute()) {
                     notificacao('success', 'Aluno atualizado com sucesso!');
-                    registrar_log($con, "Editar aluno", "id: " . $id . ", estado: 'ativo' => 'inativo'");
+                    if (!empty($detalhes)) {
+                        registrar_log($con, "Editar aluno", "id: " . $id . ", estado: 'ativo' => 'inativo'");
+                    }
                 } 
                 else {
                     notificacao('danger', 'Erro ao editar aluno: ' . $result->error);
@@ -40,7 +42,9 @@
 
                 if ($result1->execute()) {
                     notificacao('success', 'Aluno atualizado com sucesso!');
-                    registrar_log($con, "Editar aluno", "id: " . $id . ", estado: 'inativo' => 'ativo'");
+                    if (!empty($detalhes)) {
+                        registrar_log($con, "Editar aluno", "id: " . $id . ", estado: 'inativo' => 'ativo'");
+                    }
                 }
                 else {
                     notificacao('danger', 'Erro ao editar aluno: ' . $result->error);

@@ -72,7 +72,9 @@
                                 'estado' => $_POST['estado'],
                             ]
                         );
-                        registrar_log($con, "Editar administrador", "id: " . $idAdmin . ", " . $detalhes);                  
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar administrador", "id: " . $idAdmin . ", " . $detalhes);  
+                        }                
                     }
                     else {
                         notificacao('danger', 'Erro ao editar administrador: ' . $result->error);
@@ -100,8 +102,10 @@
                                 'estado' => $_POST['estado'],
                             ]
                         );
-                        registrar_log($con, "Editar administrador", "id: " . $idAdmin . ", " . $detalhes);                         
-                    } 
+                        if (!empty($detalhes)) {
+                            registrar_log($con, "Editar administrador", "id: " . $idAdmin . ", " . $detalhes);
+                        }
+                    }
                     else {
                         notificacao('danger', 'Erro ao editar administrador: ' . $result->error);
                     }

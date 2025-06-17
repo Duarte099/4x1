@@ -22,7 +22,9 @@
                 if ($result) {
                     $result->bind_param("ii", $definicaoHorario, $_SESSION['id']);
                     if ($result->execute()) {
-                        registrar_log("prof", "O professor [{$_SESSION['id']}] {$_SESSION['nome']} {$aux} as notificações do horário!");
+                        if ($_SESSION['defNotHorario'] != $definicaoHorario) {
+                            registrar_log($con, "Editar definições", "defNotHorario: {$_SESSION['defNotHorario']} => $definicaoHorario");
+                        }
                         notificacao('success', "Definições alteradas com sucesso!");
                     }
                     else {
@@ -49,7 +51,18 @@
                         }
                     }
                 }
-                registrar_log("admin", "O administrador [{$_SESSION['id']}] {$_SESSION['nome']} alterou as definições!"); 
+                $detalhes = gerar_detalhes_alteracoes(
+                    $rowTeste,
+                    [
+                        'cronjobSeguro' => $_POST['cronjob_1'],
+                        'cronjobRecibos' => $_POST['cronjob_2'],
+                        'cronjobNovoAnoLetivo' => $_POST['cronjob_3'],
+                        'cronjobDespesas' => $_POST['cronjob_4'],
+                    ]
+                );
+                if (!empty($detalhes)) {
+                    registrar_log($con, "Editar definições", $detalhes);
+                }
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos

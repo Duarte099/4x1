@@ -83,23 +83,36 @@
 
             if ($result->execute()) {
                 notificacao('success', 'Recibo alterado com sucesso!');
-                registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " editou o recibo do aluno [" . $rowRecibo["idAluno"] . "]" . $rowRecibo["nome"] . ".");
+                $detalhes = gerar_detalhes_alteracoes(
+                    $rowRecibo,
+                    [
+                        'horasRealizadasGrupo' => $horasRealizadasGrupo,
+                        'horasBalancoGrupo' => $horasBalancoGrupo,
+                        'mensalidadeGrupo' => $mensalidadeGrupo,
+                        'horasRealizadasIndividual' => $horasRealizadasIndividual,
+                        'horasBalancoIndividual' => $horasBalancoIndividual,
+                        'mensalidadeIndividual' => $mensalidadeIndividual,
+                    ]
+                );
+                if (!empty($detalhes)) {
+                    registrar_log($con, "Editar recibo", "id: " . $idRecibo . ", " . $detalhes);
+                }            
             }
             else {
                 notificacao('danger', 'Erro ao alterar recibo: ' . $result->error);
             }
 
             $result->close();
-            //header('Location: alunoEdit.php?idAluno=' . $rowRecibo['idAluno'] . '&tab=recibos');
+            header('Location: alunoEdit.php?idAluno=' . $rowRecibo['idAluno'] . '&tab=recibos');
         }
         else {
-            // notificacao('warning', 'Operação inválida.');
-            // header('Location: dashboard.php');
-            // exit();
+            notificacao('warning', 'Operação inválida.');
+            header('Location: dashboard.php');
+            exit();
         }
     }
     else {
-        // header('Location: dashboard.php');
-        // exit();
+        header('Location: dashboard.php');
+        exit();
     }
 ?>

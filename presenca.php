@@ -212,7 +212,7 @@
                                                     $result = $con->query($sql);
                                                     if ($result->num_rows > 0) {
                                                         while ($row = $result->fetch_assoc()) { 
-                                                            echo "<option value='disciplina_" . $row['id'] . "'>". $row['nome'] . "</option>";  
+                                                            echo "<option value='$row['id']'>". $row['nome'] . "</option>";  
                                                         }
                                                     }
                                                 ?>

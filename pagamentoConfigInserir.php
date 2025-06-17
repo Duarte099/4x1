@@ -19,6 +19,9 @@
             header('Location: dashboard.php');
             exit();
         }
+        else {
+            $rowMensalidade = $result->fetch_assoc();
+        }
 
         $sql = "DELETE FROM mensalidade WHERE id = ?";
         $result = $con->prepare($sql);
@@ -26,7 +29,7 @@
             $result->bind_param("i", $idMensalidade);
             if ($result->execute()) {
                 notificacao('success', 'Mensalidade eliminada com sucesso!');
-                registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " eliminou a mensalidade [" . $idMensalidade . "].");
+                registrar_log($con, "Eliminar mensalidade", "id: " . $idMensalidade . ", ano: " . $rowMensalidade['ano'] . ", horasGrupo: " . $rowMensalidade['horasGrupo'] . ", horasIndividual: " . $rowMensalidade['horasIndividual'] . ", mensalidadeHorasGrupo: " . $rowMensalidade['mensalidadeHorasGrupo'] . ", mensalidadeHorasIndividual: " . $rowMensalidade['mensalidadeHorasIndividual']);
             } 
             else {
                 notificacao('danger', 'Erro ao eliminar mensalidade: ' . $result->error);
@@ -63,7 +66,7 @@
                     if ($result->execute()) {
                         $idMensalidade = $con->insert_id;
                         notificacao('success', 'Mensalidade inserida com sucesso!');
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou a mensalidade [" . $idMensalidade . "].");
+                        registrar_log($con, "Criar mensalidade", "id: " . $idMensalidade . ", ano: " . $_POST['ano'] . ", horasGrupo: " . $_POST['horasGrupo'] . ", horasIndividual: " . $_POST['horasInd'] . ", mensalidadeHorasGrupo: " . $_POST['mensGrupo'] . ", mensalidadeHorasIndividual: " . $_POST['mensInd']);
                     } 
                     else {
                         notificacao('danger', 'Erro ao criar mensalidade: ' . $result->error);
@@ -90,6 +93,9 @@
                 header('Location: dashboard.php');
                 exit();
             }
+            else {
+                $rowMensalidade = $result->fetch_assoc();
+            }
 
             $sql = "UPDATE mensalidade SET ano = ?, horasGrupo = ?, horasIndividual = ?, mensalidadeHorasGrupo = ?, mensalidadeHorasIndividual = ? WHERE id = ?";
             $result = $con->prepare($sql);
@@ -97,7 +103,19 @@
                 $result->bind_param("iiiiii", $_POST['ano'], $_POST['horasGrupo'], $_POST['horasInd'], $_POST['mensGrupo'], $_POST['mensInd'], $idMensalidade);
                 if ($result->execute()) {
                     notificacao('success', 'Mensalidade alterada com sucesso!');
-                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " alterou a mensalidade [" . $idMensalidade . "].");
+                    $detalhes = gerar_detalhes_alteracoes(
+                        $rowMensalidade,
+                        [
+                            'ano' => $_POST['ano'],
+                            'horasGrupo' => $_POST['horasGrupo'],
+                            'horasIndividual' => $_POST['horasInd'],
+                            'mensalidadeHorasGrupo' => $_POST['mensGrupo'],
+                            'mensalidadeHorasIndividual' => $_POST['mensInd'],
+                        ]
+                    );
+                    if (!empty($detalhes)) {
+                        registrar_log($con, "Editar mensalidade", "id: " . $idMensalidade . ", " . $detalhes);
+                    }
                 } 
                 else {
                     notificacao('danger', 'Erro ao alterar mensalidade: ' . $result->error);
@@ -122,7 +140,7 @@
                 exit();
             }
             else {
-                $row = $result->fetch_assoc();
+                $rowPagamento = $result->fetch_assoc();
             }
 
             $sql = "UPDATE valores_pagamento SET valor = ? WHERE id = ?";
@@ -131,7 +149,15 @@
                 $result->bind_param("di", $_POST['valor'], $idPagamento);
                 if ($result->execute()) {
                     notificacao('success', 'Pagamento alterado com sucesso!');
-                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " alterou o valor do pagamento para o " . $row["nome"] . ".");
+                    $detalhes = gerar_detalhes_alteracoes(
+                        $rowPagamento,
+                        [
+                            'valor' => $_POST['valor'],
+                        ]
+                    );
+                    if (!empty($detalhes)) {
+                        registrar_log($con, "Editar pagamento", "id: " . $idPagamento . ", " . $detalhes);
+                    }
                 }
                 else {
                     notificacao('danger', 'Erro ao alterar pagamento: ' . $result->error);

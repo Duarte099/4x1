@@ -25,7 +25,7 @@
             $result->bind_param("i", $_GET['idRecibo']);
             if ($result->execute()) {
                 notificacao('success', 'Recibo verificado com sucesso!');
-                registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " verificou o recibo [" . $_GET['idRecibo'] . "].");
+                registrar_log($con, "Editar recibo", "id: " . $_GET['idRecibo'] . ", verificado: 0 => 1");
             } 
             else {
                 notificacao('danger', 'Erro ao verificar recibo: ' . $result->error);

@@ -41,12 +41,8 @@
                 $result->bind_param("iis", $idAluno, $idDisciplina, $dia);
                 if ($result->execute()) {
                     notificacao('success', 'Teste registrado com sucesso!');
-                    if ($_SESSION["tipo"] == "professor") {
-                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou um teste para o aluno [" . $idAluno . "]" . $row["nome"] . ".");
-                    }
-                    else {
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou um teste para o aluno [" . $idAluno . "]" . $row["nome"] . ".");
-                    }
+                    $idTeste = $con->insert_id;
+                    registrar_log($con, "Criar teste", "id: " . $idTeste . ", aluno: " . $row["nome"] . ", disciplina: " . $_POST['disciplina'] . ", dia: " . $dia);
                 } 
                 else {
                     notificacao('danger', 'Erro ao inserir teste: ' . $result->error);
