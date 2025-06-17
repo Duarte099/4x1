@@ -81,7 +81,7 @@
                                     unset($_SESSION['redirect_after_login']);
                                     header("Location: $urlDestino");
                                 } else {
-                                    header('Location: dashboard
+                                    header('Location: dashboard');
                                 }
                                 exit();
                             } else {
