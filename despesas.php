@@ -7,7 +7,7 @@
 
   	if ($_SESSION["tipo"] == "professor") {
 		notificacao('warning', 'Não tens permissão para aceder a esta página.');
-		header('Location: dashboard.php');
+		header('Location: dashboard');
 		exit();
 	}
 
@@ -60,7 +60,7 @@
 												</h5>
 											</div>
 											<div class="modal-body">
-												<form action="despesasInserir.php?op=saveDespesa" method="POST">
+												<form action="despesasInserir?op=saveDespesa" method="POST">
 													<div class="row">
 														<div class="col-md-6">
 															<div class="form-group form-group-default">
@@ -174,7 +174,7 @@
 												</h5>
 											</div>
 											<div class="modal-body">
-												<form action="despesasInserir.php?op=saveDespesa" method="POST" >
+												<form action="despesasInserir?op=saveDespesa" method="POST" >
 													<div class="row">
 														<div class="col-md-6">
 															<div class="form-group form-group-default">
@@ -222,7 +222,7 @@
 									</h5>
 								</div>
 								<div class="modal-body">
-									<form action="despesasInserir.php?op=saveCategoria" method="POST">
+									<form action="despesasInserir?op=saveCategoria" method="POST">
 										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group form-group-default">
@@ -344,7 +344,7 @@
 									</h5>
 								</div>
 								<div class="modal-body">
-									<form action="despesasInserir.php?op=editCategoria" method="POST">
+									<form action="despesasInserir?op=editCategoria" method="POST">
 										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group form-group-default">
@@ -396,7 +396,7 @@
 
 			// Atualizar action do formulário
 			const form = document.querySelector('#editarDespesa form');
-			form.action = `despesasInserir.php?op=editDespesa&idDespesa=${id}`;
+			form.action = `despesasInserir?op=editDespesa&idDespesa=${id}`;
 		}
 
 		function deleteDespesa(id) {
@@ -405,7 +405,7 @@
 			//Se tiver respondido que sim
 			if (result) {
 				//redireciona para a pagina fichaTrabalhoDelete e manda o id da ficha a ser deletada por GET
-				window.location.href = "despesasInserir.php?op=deleteDespesa&idDespesa=" + id;
+				window.location.href = "despesasInserir?op=deleteDespesa&idDespesa=" + id;
 			}
 		}
 
@@ -416,7 +416,7 @@
 
 			// Alterar a action do formulário com o ID
 			const form = document.querySelector('#editarCategoria form');
-			form.action = `despesasInserir.php?op=editCategoria&idCategoria=${id}`;
+			form.action = `despesasInserir?op=editCategoria&idCategoria=${id}`;
 		}
 
 		function deleteCategoria(id) {
@@ -425,7 +425,7 @@
 			//Se tiver respondido que sim
 			if (result) {
 				//redireciona para a pagina fichaTrabalhoDelete e manda o id da ficha a ser deletada por GET
-				window.location.href = "despesasInserir.php?op=deleteCategoria&idCategoria=" + id;
+				window.location.href = "despesasInserir?op=deleteCategoria&idCategoria=" + id;
 			}
 		}
 	</script>
@@ -514,8 +514,5 @@
             },
         });
     </script>
-    <?php 
-        include('./endPage.php');
-    ?>
   	</body>
 </html>

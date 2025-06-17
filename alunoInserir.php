@@ -73,7 +73,7 @@
             // }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: aluno.php');
+            header('Location: aluno');
         }
         //Se a operação for edit
         elseif ($op == 'edit') {
@@ -91,7 +91,7 @@
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows == 0) {
-                header('Location: dashboard.php');
+                header('Location: dashboard');
                 exit();
             }
             else {
@@ -184,17 +184,17 @@
                     }
                 }
             }
-            //header('Location: alunoEdit.php?idAluno=' . $idAluno);
-            header('Location: aluno.php');
+            //header('Location: alunoEdit?idAluno=' . $idAluno);
+            header('Location: aluno');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

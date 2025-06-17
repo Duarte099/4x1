@@ -17,7 +17,7 @@
         $rowAluno = $result->fetch_assoc();
     } else {
         notificacao('warning', 'ID do aluno inválido.');
-        header('Location: aluno.php');
+        header('Location: aluno');
         exit();
     }
 
@@ -64,7 +64,7 @@
         }
         else {
             notificacao('warning', 'ID do recibo inválido.');
-            header('Location: aluno.php');
+            header('Location: aluno');
             exit();
         }
     }
@@ -156,7 +156,7 @@
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="editar-aluno" role="tabpanel" aria-labelledby="editar-aluno-tab">
                                 <div class="col-12 col-md-10 col-lg-8 mx-auto">
-                                    <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST" id="formEdit" class="formEdit">
+                                    <form action="alunoInserir?idAluno=<?php echo $idAluno ?>&op=edit" method="POST" id="formEdit" class="formEdit">
                                         <!-- <div
                                             class="modal fade"
                                             id="addRowModal"
@@ -526,7 +526,7 @@
                                                                             <div class="form-button-action">
                                                                                 <?php if ($row['verificado'] == "Pendente") { ?>
                                                                                     <a
-                                                                                        href="recibosAlunosVerificar.php?idRecibo=<?php echo $row['id']; ?>"
+                                                                                        href="recibosAlunosVerificar?idRecibo=<?php echo $row['id']; ?>"
                                                                                         class="btn btn-link btn-primary btn-lg"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-bs-placement="top"
@@ -537,7 +537,7 @@
                                                                                 <?php } 
                                                                                 if ($row["pago"] != "Pago" && $row["notificacao"] == "Notificado") { ?>
                                                                                     <a
-                                                                                        href="alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=pagamento"
+                                                                                        href="alunoEdit?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=pagamento"
                                                                                         class="btn btn-link btn-primary btn-lg"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-bs-placement="top"
@@ -548,7 +548,7 @@
                                                                                 <?php } ?>
                                                                                 <?php if ($row["pago"] != "Pago") { ?>
                                                                                     <a
-                                                                                        href="alunoEdit.php?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=editRecibo"
+                                                                                        href="alunoEdit?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=editRecibo"
                                                                                         class="btn btn-link btn-primary btn-lg"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-bs-placement="top"
@@ -558,7 +558,7 @@
                                                                                     </a>
                                                                                 <?php }?>
                                                                                 <a
-                                                                                    href="reciboImpressao.php?idRecibo=<?php echo $row['id']; ?>"
+                                                                                    href="reciboImpressao?idRecibo=<?php echo $row['id']; ?>"
                                                                                     class="btn btn-link btn-primary btn-lg"
                                                                                     data-bs-toggle="tooltip"
                                                                                     data-bs-placement="top"
@@ -581,7 +581,7 @@
                             </div>
                             <div class="tab-pane fade" id="pagamento" role="tabpanel" aria-labelledby="pagamento-tab">
                                     <div class="page-inner">
-                                        <form action="pagamentoInserir.php?idRecibo=<?php echo $rowRecibo['id'] ?>&op=save" method="POST" id="formEdit" class="formEdit">
+                                        <form action="pagamentoInserir?idRecibo=<?php echo $rowRecibo['id'] ?>&op=save" method="POST" id="formEdit" class="formEdit">
                                             <div class="container2">
                                                 <div class="form-section">
                                                     <div class="form-section">
@@ -672,7 +672,7 @@
                             <?php if ($_SESSION['tipo'] == "administrador") { ?> 
                                 <div class="tab-pane fade" id="editRecibo" role="tabpanel" aria-labelledby="editRecibo-tab">
                                     <div class="page-inner">
-                                        <form action="reciboAlunoInserir.php?idRecibo=<?php echo $rowRecibo['id'] ?>&op=edit" method="POST" id="formEdit" class="formEdit">
+                                        <form action="reciboAlunoInserir?idRecibo=<?php echo $rowRecibo['id'] ?>&op=edit" method="POST" id="formEdit" class="formEdit">
                                             <div class="container2">
                                                 <div class="form-section">
                                                     <div class="form-section">
@@ -891,9 +891,6 @@
                 });
             </script>
         </div>
-        <?php 
-            include('./endPage.php');
-        ?>
     </body>
 </html>
 

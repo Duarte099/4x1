@@ -185,7 +185,7 @@
 									<h4 class="card-title">Testes</h4>
 									<button
 										class="btn btn-primary btn-round ms-auto"
-                                        onclick="window.location.href='testes.php';"
+                                        onclick="window.location.href='testes';"
 									>
 										<i class="fa fa-plus"></i>
 										Adicionar teste
@@ -585,8 +585,5 @@
             },
         });
     </script>
-    <?php 
-        include('./endPage.php');
-    ?>
   </body>
 </html>

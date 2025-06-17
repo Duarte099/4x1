@@ -56,11 +56,11 @@
                 notificacao('danger', 'Erro ao editar aluno: ' . $result->error);
             }
         }
-        header('Location: estadoAlunos.php');
+        header('Location: estadoAlunos');
     }
     else {
         notificacao('warning', 'ID do aluno inválido.');
-        header('Location: estadoAlunos.php');
+        header('Location: estadoAlunos');
         exit();
     }
 ?>

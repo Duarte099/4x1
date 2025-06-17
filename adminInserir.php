@@ -4,7 +4,7 @@
 
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -36,7 +36,7 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: admin.php');
+            header('Location: admin');
         }
         //Se a operação for edit
         elseif ($op == 'edit') {
@@ -48,7 +48,7 @@
             $result = $stmt->get_result();
             if ($result->num_rows <= 0) {
                 notificacao('warning', 'ID do administrador inválido.');
-                header('Location: dashboard.php');
+                header('Location: dashboard');
                 exit();
             }
             else{
@@ -117,16 +117,16 @@
                 }
             }
 
-            header('Location: admin.php');
+            header('Location: admin');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

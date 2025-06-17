@@ -8,7 +8,7 @@
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -18,7 +18,7 @@
     $result = $stmt->get_result();
     if ($result->num_rows <= 0) {
         notificacao('warning', 'ID do administrador inválido.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

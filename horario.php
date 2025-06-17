@@ -359,7 +359,7 @@
                             <div class="modal fade" id="editarCelulaAluno" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <form action="pagamentoConfigInserir.php?op=editMensalidade" method="POST">
+                                        <form action="pagamentoConfigInserir?op=editMensalidade" method="POST">
                                             <!-- Cabeçalho -->
                                             <div class="modal-header border-0">
                                                 <div class="row w-100 align-items-center">
@@ -471,7 +471,7 @@
                 .then(response => response.text())
                 .then(data => {
                     console.log(data); // Ver erro PHP aqui
-                    window.location.href = "horario.php";
+                    window.location.href = "horario";
                 })
                 .catch(error => {
                     alert("Erro ao enviar notificações: " + error);
@@ -550,7 +550,7 @@
                     }
 
                     const form = document.querySelector('#editarCelulaAluno form');
-                    form.action = `horarioInserir.php?op=save&idHorario=${id}`;
+                    form.action = `horarioInserir?op=save&idHorario=${id}`;
                 }
             </script>
         <?php } else if ($_SESSION['tipo'] == "professor") { ?>
@@ -592,7 +592,7 @@
 
                     // Atualizar ação do formulário
                     const form = document.querySelector('#editarCelulaAluno form');
-                    form.action = `horarioInserir.php?op=save&idHorario=${id}`;
+                    form.action = `horarioInserir?op=save&idHorario=${id}`;
                 }
             
                 $(document).ready(function() {
@@ -633,8 +633,5 @@
             </script>
         <?php } ?>
     </div>
-    <?php 
-        include('./endPage.php');
-    ?>
   </body>
 </html>

@@ -50,7 +50,7 @@
             <?php 
                 include('./sideBar.php'); 
             ?>
-            <form action="definicoesInserir.php?op=save" method="POST">
+            <form action="definicoesInserir?op=save" method="POST">
                 <div class="page-inner">
                     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
                         <div>
@@ -60,7 +60,7 @@
                     <div class="container2" style="max-width: 650px;">
                         <div class="form-section">
                             <h4 style="margin-bottom: 1rem; color: #343a40;">Definições</h4>
-                            <form action="definicoes.php" method="POST">
+                            <form action="definicoes" method="POST">
                                 <?php if ($_SESSION['tipo'] == "professor") {?>
                                     <div class="form-row">
                                         <div class="campo" style="flex: 1 1 100%;">
@@ -113,8 +113,5 @@
                 </div>
             </form>
         </div>
-        <?php 
-            include('./endPage.php');
-        ?>
     </body>
 </html>

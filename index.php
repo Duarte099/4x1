@@ -38,7 +38,7 @@
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">Login</h2>
-                        <form action="indexLogin.php" method="POST" class="register-form" id="register-form">
+                        <form action="indexLogin" method="POST" class="register-form" id="register-form">
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
                                 <input type="email" name="email" id="email" placeholder="Email" required/>
@@ -93,8 +93,5 @@
             <?php endif; ?>
         });
     </script>
-    <?php 
-        include('./endPage.php');
-    ?>
 </body>
 </html>

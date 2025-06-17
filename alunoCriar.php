@@ -20,7 +20,7 @@
             <div class="container">
                 <div class="card">
                     <div class="col-12 col-md-10 col-lg-8 mx-auto">
-                        <form action="alunoInserir.php?op=save" method="POST" id="formEdit" class="formEdit">
+                        <form action="alunoInserir?op=save" method="POST" id="formEdit" class="formEdit">
                             <!-- <div
                                 class="modal fade"
                                 id="addRowModal"
@@ -244,9 +244,6 @@
                 hiddenInput3.value = iti3.getNumber();
             });
         </script>
-        <?php 
-            include('./endPage.php');
-        ?>
     </body>
     </html>
 

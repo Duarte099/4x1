@@ -4,7 +4,7 @@
 
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -16,7 +16,7 @@
         $result = $stmt->get_result();
         if ($result->num_rows <= 0) {
             notificacao('warning', 'ID de despesa inválido.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
         else {
@@ -39,7 +39,7 @@
         else {
             notificacao('danger', 'Erro ao eliminar despesa: ' . $result->error);
         }
-        header('Location: despesas.php');
+        header('Location: despesas');
         exit();
     }
 
@@ -51,7 +51,7 @@
         $result = $stmt->get_result();
         if ($result->num_rows <= 0) {
             notificacao('warning', 'ID de categoria inválido.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
         else {
@@ -74,7 +74,7 @@
         else {
             notificacao('danger', 'Erro ao eliminar categoria: ' . $result->error);
         }
-        header('Location: despesas.php');
+        header('Location: despesas');
         exit();
     }
 
@@ -115,7 +115,7 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: despesas.php');
+            header('Location: despesas');
         }
         elseif ($op == 'editDespesa') {
             $idDespesa = $_GET['idDespesa'];
@@ -125,7 +125,7 @@
             $result = $stmt->get_result();
             if ($result->num_rows <= 0) {
                 notificacao('warning', 'ID de despesa inválido.');
-                header('Location: dashboard.php');
+                header('Location: dashboard');
                 exit();
             }
             else {
@@ -180,7 +180,7 @@
             else {
                 notificacao('danger', 'Erro ao alterar despesa: ' . $result->error);
             }
-            header('Location: despesas.php');
+            header('Location: despesas');
         }
         elseif ($op == 'saveCategoria') {
             $sql = "INSERT INTO categorias (nome, tipo) VALUES (?, ?)";
@@ -203,7 +203,7 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: despesas.php');
+            header('Location: despesas');
         }
         elseif ($op == 'editCategoria') {
             $idCategoria = $_GET['idCategoria'];
@@ -213,7 +213,7 @@
             $result = $stmt->get_result();
             if ($result->num_rows <= 0) {
                 notificacao('warning', 'ID de categoria inválido.');
-                header('Location: dashboard.php');
+                header('Location: dashboard');
                 exit();
             }
             else {
@@ -245,16 +245,16 @@
             else {
                 notificacao('danger', 'Erro ao alterar categoria: ' . $result->error);
             }
-            header('Location: despesas.php');
+            header('Location: despesas');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

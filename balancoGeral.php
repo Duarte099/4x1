@@ -7,7 +7,7 @@
 
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -375,8 +375,5 @@
             })
         .catch(error => {console.error("Erro ao carregar os dados do gráfico:", error);});
     </script>
-    <?php 
-        include('./endPage.php');
-    ?>
   </body>
 </html>

@@ -3,7 +3,7 @@
 
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -279,7 +279,7 @@
         if ($result1->num_rows > 0) {
             while ($row1 = $result1->fetch_assoc()) {
                 $contacto = str_replace("+", "", $row1['contacto']);
-                $mensagem = "*Olá!* 👋\n\nO seu horário foi atualizado - https://admin.4x1.pt/horario.php .\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 539 965*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+                $mensagem = "*Olá!* 👋\n\nO seu horário foi atualizado - https://admin.4x1.pt/horario .\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 539 965*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
                 
                 $data = [
                     'number' => $contacto,
@@ -322,5 +322,5 @@
         }
         exit(); // Termina o script depois de enviar
     }
-    header('Location: horario.php');
+    header('Location: horario');
 ?>

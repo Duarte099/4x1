@@ -21,7 +21,7 @@
                 <h3 class="fw-bold mb-3">Alunos</h3>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
-                <a href="alunoCriar.php" class="btn btn-primary btn-round">Adicionar aluno</a>
+                <a href="alunoCriar" class="btn btn-primary btn-round">Adicionar aluno</a>
               </div>
             </div>
             <?php 
@@ -90,7 +90,7 @@
                                             <td>
                                                 <div class="form-button-action">
                                                     <a
-                                                        href="alunoEdit.php?idAluno=<?php echo $row['id']; ?>"
+                                                        href="alunoEdit?idAluno=<?php echo $row['id']; ?>"
                                                         class="btn btn-link btn-primary btn-lg"
                                                         data-bs-toggle="tooltip"
                                                         data-bs-placement="top"
@@ -99,7 +99,7 @@
                                                         <i class="fa fa-edit"></i>
                                                     </a>
                                                     <a
-                                                        href="alunoEstado.php?idAluno=<?php echo $row['id']; ?>&op=save"
+                                                        href="alunoEstado?idAluno=<?php echo $row['id']; ?>&op=save"
                                                         class="btn btn-link btn-primary btn-lg"
                                                         data-bs-toggle="tooltip"
                                                         data-bs-placement="top"
@@ -172,8 +172,5 @@
             }
         });
     </script>
-    <?php 
-        include('./endPage.php');
-    ?>
   </body>
 </html>

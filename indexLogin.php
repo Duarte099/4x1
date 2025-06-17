@@ -37,14 +37,14 @@
                             unset($_SESSION['redirect_after_login']);
                             header("Location: $urlDestino");
                         } else {
-                            header('Location: dashboard.php');
+                            header('Location: dashboard');
                         }
                     } else {
-                        header('Location: index.php?erro=true');
+                        header('Location: index?erro=true');
                         exit();
                     }
                 } else {
-                    header('Location: index.php?erro=true');
+                    header('Location: index?erro=true');
                     exit();
                 }
             } else {
@@ -81,19 +81,19 @@
                                     unset($_SESSION['redirect_after_login']);
                                     header("Location: $urlDestino");
                                 } else {
-                                    header('Location: dashboard.php');
+                                    header('Location: dashboard
                                 }
                                 exit();
                             } else {
-                                header('Location: index.php?erro=true');
+                                header('Location: index?erro=true');
                                 exit();
                             }
                         } else {
-                            header('Location: index.php?erro=true');
+                            header('Location: index?erro=true');
                             exit();
                         }
                     } else {
-                        header('Location: index.php?erro=true');
+                        header('Location: index?erro=true');
                         exit();
                     }
                     $stmt->close();
@@ -103,7 +103,7 @@
         }
     }
     else {
-        header('Location: index.php');
+        header('Location: index');
         exit();
     }
 ?>
