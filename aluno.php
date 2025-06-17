@@ -25,7 +25,7 @@
               </div>
             </div>
             <?php 
-              $stmt = $con->prepare("SELECT * FROM alunos WHERE ativo = 1 AND DATE_FORMAT(dataNascimento, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')");
+              $stmt = $con->prepare("SELECT * FROM alunos WHERE estado = 1 AND DATE_FORMAT(dataNascimento, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')");
               $stmt->execute();
               $result = $stmt->get_result();
               if ($result->num_rows > 0) {
@@ -71,22 +71,22 @@
                         <tbody>
                             <?php
                                 //query para selecionar todos os administradores
-                                $sql = "SELECT id, nome, ano, DATE_FORMAT(dataNascimento, '%d-%m-%Y') as dataNascimento, horasGrupo, horasIndividual, IF(ano>=1 AND ano<=4, \"1º CICLO\", IF(ano>4 AND ano<7, \"2º CICLO\", IF(ano>6 AND ano<=9, \"3º CICLO\", IF(ano>9 AND ano<=12, \"SECUNDÁRIO\", IF(ano=0, \"UNIVERSIDADE\", \"ERRO\"))))) as ensino, ativo FROM alunos ORDER BY (ano = 0), ano ASC, ativo DESC;";
+                                $sql = "SELECT id, nome, ano, DATE_FORMAT(dataNascimento, '%d-%m-%Y') as dataNascimento, horasGrupo, horasIndividual, IF(ano>=1 AND ano<=4, \"1º CICLO\", IF(ano>4 AND ano<7, \"2º CICLO\", IF(ano>6 AND ano<=9, \"3º CICLO\", IF(ano>9 AND ano<=12, \"SECUNDÁRIO\", IF(ano=0, \"UNIVERSIDADE\", \"ERRO\"))))) as ensino, estado FROM alunos ORDER BY (ano = 0), ano ASC, estado DESC;";
                                 $result = $con->query($sql);
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) { 
-                                            if ($row['ativo'] == 1) {
-                                                $row['ativo'] = "Ativo";
+                                            if ($row['estado'] == 1) {
+                                                $row['estado'] = "Ativo";
                                             }
                                             else {
-                                                $row['ativo'] = "Inativo";
+                                                $row['estado'] = "Inativo";
                                             }
                                         ?>
                                         <tr>
                                             <td><?php echo $row['ensino'] ?></td>
                                             <td><?php echo $row['nome'] ?></td>
                                             <td><?php echo $row['dataNascimento'] ?></td>
-                                            <td><?php echo $row['ativo'] ?></td>
+                                            <td><?php echo $row['estado'] ?></td>
                                             <td>
                                                 <div class="form-button-action">
                                                     <a

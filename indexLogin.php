@@ -5,7 +5,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-        if ($stmt = $con->prepare('SELECT id, pass, nome as nomeX, email, img, active FROM administrador WHERE email = ?')) {
+        if ($stmt = $con->prepare('SELECT id, pass, nome as nomeX, email, img, estado FROM administrador WHERE email = ?')) {
             // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
             $stmt->bind_param('s', $_POST['email']);
             $stmt->execute();
@@ -13,10 +13,10 @@
             $stmt->store_result();
 
             if ($stmt->num_rows > 0) {
-                $stmt->bind_result($id, $password, $nomeX, $email, $img, $active);
+                $stmt->bind_result($id, $password, $nomeX, $email, $img, $estado);
                 $stmt->fetch();
                 
-                if ($active == 1) {
+                if ($estado == 1) {
                     // Account exists, now we verify the password.
                     // Note: remember to use password_hash in your registration file to store the hashed passwords.
                     if (password_verify($_POST['password'], $password)) {
@@ -48,7 +48,7 @@
                     exit();
                 }
             } else {
-                if ($stmt = $con->prepare('SELECT id, pass, nome as nomeX, email, contacto, img, ativo FROM professores WHERE email = ?')) {
+                if ($stmt = $con->prepare('SELECT id, pass, nome as nomeX, email, contacto, img, estado FROM professores WHERE email = ?')) {
                     // Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
                     $stmt->bind_param('s', $_POST['email']);
                     $stmt->execute();
@@ -56,9 +56,9 @@
                     $stmt->store_result();
         
                     if ($stmt->num_rows > 0) {
-                        $stmt->bind_result($id, $password, $nomeX, $email, $contacto, $img, $active);
+                        $stmt->bind_result($id, $password, $nomeX, $email, $contacto, $img, $estado);
                         $stmt->fetch();
-                        if ($active == 1) {
+                        if ($estado == 1) {
                             // Account exists, now we verify the password.
                             // Note: remember to use password_hash in your registration file to store the hashed passwords.
                             if (password_verify($_POST['password'], $password)) {

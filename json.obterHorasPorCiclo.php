@@ -24,7 +24,7 @@
         LEFT JOIN 
             alunos_presenca p ON p.idAluno = a.id
         WHERE 
-            a.ativo = 1 AND YEARWEEK(p.dia, 1) = YEARWEEK(CURDATE(), 1) OR p.dia IS NULL
+            a.estado = 1 AND YEARWEEK(p.dia, 1) = YEARWEEK(CURDATE(), 1) OR p.dia IS NULL
         GROUP BY 
             ensino, dia
         ORDER BY 

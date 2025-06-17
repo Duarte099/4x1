@@ -38,7 +38,7 @@
                                             <p class="card-category">Alunos</p>
                                             <h4 class="card-title">
                                                 <?php 
-                                                    $sql = "SELECT COUNT(*) AS numeroAlunos FROM alunos WHERE ativo = 1";
+                                                    $sql = "SELECT COUNT(*) AS numeroAlunos FROM alunos WHERE estado = 1";
                                                     $result = $con->query($sql);
                                                     if ($result->num_rows > 0) {
                                                         while ($row = $result->fetch_assoc()) {
@@ -69,7 +69,7 @@
                                             <p class="card-category">Professores</p>
                                             <h4 class="card-title">
                                                 <?php 
-                                                    $sql = "SELECT COUNT(*) AS numeroProfessores FROM professores WHERE ativo = 1";
+                                                    $sql = "SELECT COUNT(*) AS numeroProfessores FROM professores WHERE estado = 1";
                                                     $result = $con->query($sql);
                                                     if ($result->num_rows > 0) {
                                                         while ($row = $result->fetch_assoc()) {
@@ -101,7 +101,7 @@
                                             <h4 class="card-title">
                                                 <?php 
                                                     $minutosTotais = 0;
-                                                    $sql = "SELECT duracao FROM alunos_presenca as ap INNER JOIN alunos as a ON ap.idAluno = a.id WHERE ativo = 1";
+                                                    $sql = "SELECT duracao FROM alunos_presenca as ap INNER JOIN alunos as a ON ap.idAluno = a.id WHERE estado = 1";
                                                     $result = $con->query($sql);
                                                     if ($result->num_rows > 0) {
                                                         while ($row = $result->fetch_assoc()) {

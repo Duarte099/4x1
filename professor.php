@@ -59,7 +59,7 @@
                       <tbody>
                         <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT id, nome, email, contacto, IF(ativo = 1, 'Ativo', 'Inativo') as estado FROM professores ORDER BY ativo DESC;";
+                            $sql = "SELECT id, nome, email, contacto, IF(estado = 1, 'Ativo', 'Inativo') as estado FROM professores ORDER BY estado DESC;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) { ?>

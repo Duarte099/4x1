@@ -57,19 +57,19 @@
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT id, nome, email, active, adminMor FROM administrador;";
+                            $sql = "SELECT id, nome, email, estado, adminMor FROM administrador;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) {
-                                    if ($row['active'] == 1) {
-                                        $row['active'] = "Ativo";
+                                    if ($row['estado'] == 1) {
+                                        $row['estado'] = "Ativo";
                                     }
                                     else {
-                                        $row['active'] = "Inativo";
+                                        $row['estado'] = "Inativo";
                                     }    
                                     ?>
                                         <tr>
-                                            <td><?php echo $row['active'] ?></td>
+                                            <td><?php echo $row['estado'] ?></td>
                                             <td><?php echo $row['nome'] ?></td>
                                             <td><?php echo $row['email'] ?></td>
                                             <td>

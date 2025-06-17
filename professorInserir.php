@@ -107,7 +107,7 @@
 
             if (!empty($_POST['password'])) {
                 $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, pass = ?, ativo = ? WHERE id = ?";
+                $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, pass = ?, estado = ? WHERE id = ?";
                 $result = $con->prepare($sql);
                 if ($result) {
                     $result->bind_param("ssssbi", $nome, $email, $contacto, $passwordHash, $estado, $idProfessor);
@@ -126,7 +126,7 @@
                 }
             }
             else {
-                $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, ativo = ? WHERE id = ?";
+                $sql = "UPDATE professores SET nome = ?, email = ?, contacto = ?, estado = ? WHERE id = ?";
                 $result = $con->prepare($sql);
                 if ($result) {
                     $result->bind_param("sssbi", $nome, $email, $contacto, $estado, $idProfessor);

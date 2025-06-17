@@ -28,7 +28,7 @@
                     <div class="card-body">
                         <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="editar-admin-tab" data-bs-toggle="pill" href="#editar-admin" role="tab" aria-controls="editar-admin" aria-selected="true">Ficha do Administrador</a>
+                                <a class="nav-link estado" id="editar-admin-tab" data-bs-toggle="pill" href="#editar-admin" role="tab" aria-controls="editar-admin" aria-selected="true">Ficha do Administrador</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="perms-admin-tab" data-bs-toggle="pill" href="#perms-admin" role="tab" aria-controls="perms-admin" aria-selected="false">Permissões do administrador</a>
@@ -36,7 +36,7 @@
                         </ul>
 
                         <div class="tab-content mt-3 mb-3" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="editar-admin" role="tabpanel" aria-labelledby="editar-admin-tab">
+                            <div class="tab-pane fade show estado" id="editar-admin" role="tabpanel" aria-labelledby="editar-admin-tab">
                                 <div class="row mb-3">
                                     <div class="col-12 col-md-10 col-lg-8 mx-auto">
                                         <form action="adminInserir?op=save" method="POST" onsubmit="return verificarPasswords(event)">

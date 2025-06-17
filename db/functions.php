@@ -1,21 +1,38 @@
 <?php
     $auxLogin = true;
     
-    function registrar_log($user, $mensagem) {
-        include('./db/conexao.php');
-
-        if ($user == "admin") {
-            // Inserir na tabela de logs
-            $query = "INSERT INTO administrador_logs (idAdministrador, logFile) VALUES (?, ?)";
+    function registrar_log($con, $acao, $detalhes) {
+        if ($_SESSION['tipo'] == "administrador") {
+            $tipo = "administrador";
         }
-        elseif ($user == "prof") {
-            $query = "INSERT INTO professores_logs (idProfessor, logFile) VALUES (?, ?)";
+        elseif ($_SESSION['tipo'] == "professor") {
+            $tipo = "professor";
         }
+        else {
+            $tipo = "utilizador";
+        }
+        $ip = $_SERVER['REMOTE_ADDR'];
 
+        $query = "INSERT INTO logs (idUtilizador, tipoUtilizador, acao, detalhes, ip) VALUES (?, ?, ?, ?, ?)";
         $stmt = $con->prepare($query);
-        $stmt->bind_param('is', $_SESSION['id'], $mensagem);
+        $stmt->bind_param('issss', $_SESSION['id'], $tipo, $acao, $detalhes, $ip);
 
         $stmt->execute();
+    }
+
+    function gerar_detalhes_alteracoes($originais, $novos, $campos_excluir = []) {
+        $alteracoes = [];
+
+        foreach ($novos as $chave => $valorNovo) {
+            if (in_array($chave, $campos_excluir)) continue; // ignora campos que não interessam
+
+            if (isset($originais[$chave]) && $originais[$chave] != $valorNovo) {
+                $valorAntigo = $originais[$chave];
+                $alteracoes[] = "$chave: '$valorAntigo' => '$valorNovo'";
+            }
+        }
+
+        return implode(", ", $alteracoes);
     }
 
     function notificacao($tipo, $mensagem) {

@@ -23,7 +23,7 @@
                 if ($result->execute()) {
                     $idAdmin = $con->insert_id;
                     notificacao('success', 'Administrador criado com sucesso!');
-                    registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " criou o administrador [" . $idAdmin . "]" . $_POST['nome'] . ".");
+                    registrar_log($con, "Criar administrador", "id: " . $idAdmin . ",nome: " . $_POST['nome'] . ",email: " . $_POST['email']);
                 } 
                 else {
                     notificacao('danger', 'Erro ao criar administrador: ' . $result->error);
@@ -51,18 +51,29 @@
                 header('Location: dashboard.php');
                 exit();
             }
+            else{
+                $rowAdmin = $result->fetch_assoc();
+            }
 
             //Se a password e a imagem não tiverem vazios então insere altera tudo 
             if (!empty($_POST['password'])) {
                 $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                $sql = "UPDATE administrador SET nome = ?, email = ?, pass = ?, active = ? WHERE id = $idAdmin;";
+                $sql = "UPDATE administrador SET nome = ?, email = ?, pass = ?, estado = ? WHERE id = $idAdmin;";
                 $result = $con->prepare($sql);
                 if ($result) {
                     $result->bind_param("sssii", $_POST['nome'], $_POST['email'], $passwordHash, $_POST['estado'], $idAdmin);
                     if ($result->execute()) {
                         notificacao('success', 'Administrador editado com sucesso!');
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o administrador [" . $idAdmin . "]" . $_POST['nome'] . ".");
-                    } 
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $rowAdmin,
+                            [
+                                'nome' => $_POST['nome'],
+                                'email' => $_POST['email'],
+                                'estado' => $_POST['estado'],
+                            ]
+                        );
+                        registrar_log($con, "Editar administrador", "id: " . $idAdmin . ", " . $detalhes);                  
+                    }
                     else {
                         notificacao('danger', 'Erro ao editar administrador: ' . $result->error);
                     }
@@ -75,13 +86,21 @@
             }
             //senão altera tudo menos a password e a imagem
             else {
-                $sql = "UPDATE administrador SET nome = ?, email = ?, active = ? WHERE id = ?;";
+                $sql = "UPDATE administrador SET nome = ?, email = ?, estado = ? WHERE id = ?;";
                 $result = $con->prepare($sql);
                 if ($result) {
                     $result->bind_param("ssii", $_POST['nome'], $_POST['email'], $_POST['estado'], $idAdmin);
                     if ($result->execute()) {
                         notificacao('success', 'Administrador editado com sucesso!');
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " atualizou o administrador [" . $idAdmin . "]" . $_POST['nome'] . ".");
+                        $detalhes = gerar_detalhes_alteracoes(
+                            $rowAdmin,
+                            [
+                                'nome' => $_POST['nome'],
+                                'email' => $_POST['email'],
+                                'estado' => $_POST['estado'],
+                            ]
+                        );
+                        registrar_log($con, "Editar administrador", "id: " . $idAdmin . ", " . $detalhes);                         
                     } 
                     else {
                         notificacao('danger', 'Erro ao editar administrador: ' . $result->error);

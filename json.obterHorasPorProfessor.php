@@ -12,7 +12,7 @@
             alunos_presenca p ON p.idProfessor = pr.id 
             AND MONTH(p.dia) = MONTH(CURDATE()) 
             AND YEAR(p.dia) = YEAR(CURDATE())
-        WHERE pr.ativo = 1
+        WHERE pr.estado = 1
         GROUP BY 
             pr.id
         ORDER BY 

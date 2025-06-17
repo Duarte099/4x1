@@ -89,6 +89,10 @@
             opacity: 1 !important;
             border: 1px solid #ced4da !important; /* igual ao form-control */
         }
+        
+        .btn-lg {
+            padding:0px 0px !important;
+        }
     </style>
     <script>
         $(document).ready(function() {
@@ -103,7 +107,7 @@
                     abaDesejada = '#explicacoes-tab';
                     break;
                 case 'recibos':
-                    abaDesejada = '#recibo-tab';
+                    abaDesejada = '#recibos-tab';
                     break;
                 case 'pagamento':
                     abaDesejada = '#pagamento-tab';
@@ -303,8 +307,8 @@
                                                 <div class="col-md-2">
                                                     <label class="form-label" for="estado">Estado:</label>
                                                     <select class="form-control" name="estado">
-                                                        <option value='1' <?php if ($rowAluno['ativo'] == 1) { echo "selected"; }?>>Ativo</option>
-                                                        <option value='0' <?php if ($rowAluno['ativo'] == 0) { echo "selected"; }?>>Inativo</option>
+                                                        <option value='1' <?php if ($rowAluno['estado'] == 1) { echo "selected"; }?>>Ativo</option>
+                                                        <option value='0' <?php if ($rowAluno['estado'] == 0) { echo "selected"; }?>>Inativo</option>
                                                     </select>
                                                 </div>
                                             </div>

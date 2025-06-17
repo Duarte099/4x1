@@ -172,7 +172,7 @@
                                             <datalist id='datalistNomes'>
                                                 <?php
                                                     //Obtem todas as referencias dos produtos que estao ativos
-                                                    $sql = "SELECT id, nome FROM alunos WHERE ativo = 1 ORDER BY nome ASC;";
+                                                    $sql = "SELECT id, nome FROM alunos WHERE estado = 1 ORDER BY nome ASC;";
                                                     $result = $con->query($sql);
                                                     if ($result->num_rows > 0) {
                                                     //Percorre todos os produtos e adiciona-os como opção na dataList

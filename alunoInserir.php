@@ -90,7 +90,7 @@
                 exit();
             }
 
-            $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, horasGrupo = ?, horasIndividual = ?, transporte = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ?, ativo = ?, dataInscricao = ? WHERE id = ?";
+            $sql = "UPDATE alunos SET nome = ?, localidade = ?, morada = ?, dataNascimento = ?, codigoPostal = ?, NIF = ?, email = ?, contacto = ?, escola = ?, ano = ?, curso = ?, turma = ?, horasGrupo = ?, horasIndividual = ?, transporte = ?, nomeMae = ?, tlmMae = ?, nomePai = ?, tlmPai = ?, modalidade = ?, estado = ?, dataInscricao = ? WHERE id = ?";
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("sssssssssissiiisssssiis", $_POST['nome'], $_POST['localidade'], $_POST['morada'], $_POST['dataNascimento'], $_POST['codigoPostal'], $_POST['NIF'], $_POST['email'], $_POST['contacto'], $_POST['escola'], $_POST['ano'], $_POST['curso'], $_POST['turma'], $_POST['horasGrupo'], $_POST['horasIndividual'], $_POST['transporte'], $_POST['nomeMae'], $_POST['maeTlm'], $_POST['nomePai'], $_POST['paiTlm'], $_POST['modalidade'], $_POST['estado'], $dataInscricao, $idAluno);

@@ -6,7 +6,7 @@
     $estouEm = 9;
 
     $disabled = "";
-    $sql = "SELECT COUNT(*) AS alunos FROM alunos WHERE ativo = 1 AND notHorario = 1";
+    $sql = "SELECT COUNT(*) AS alunos FROM alunos WHERE estado = 1 AND notHorario = 1";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -19,7 +19,7 @@
         $numAlunos = $row['alunos'];
     }
 
-    $sql = "SELECT COUNT(*) AS professores FROM professores WHERE ativo = 1 AND notHorario = 1";
+    $sql = "SELECT COUNT(*) AS professores FROM professores WHERE estado = 1 AND notHorario = 1";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -389,7 +389,7 @@
                                                         <input type="text" name="prof" list="datalistProfs" class="form-control" required <?= $readonly; ?>>
                                                         <datalist id="datalistProfs">
                                                             <?php
-                                                            $sql = "SELECT id, nome FROM professores WHERE ativo = 1 ORDER BY nome ASC;";
+                                                            $sql = "SELECT id, nome FROM professores WHERE estado = 1 ORDER BY nome ASC;";
                                                             $result = $con->query($sql);
                                                             while ($row = $result->fetch_assoc()) {
                                                                 echo "<option>{$row['id']} | {$row['nome']}</option>";
@@ -430,7 +430,7 @@
                                                     ?>
                                                     <datalist id="datalistAlunos">
                                                         <?php
-                                                            $sql = "SELECT id, nome FROM alunos WHERE ativo = 1 ORDER BY nome ASC;";
+                                                            $sql = "SELECT id, nome FROM alunos WHERE estado = 1 ORDER BY nome ASC;";
                                                             $result = $con->query($sql);
                                                             while ($row = $result->fetch_assoc()) {
                                                                 echo "<option>{$row['id']} | {$row['nome']}</option>";
