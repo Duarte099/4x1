@@ -24,10 +24,10 @@
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
-                    <i class="gg-menu-right"></i>
+                    <i class="fas fa-bars"></i>
                 </button>
                 <button class="btn btn-toggle sidenav-toggler">
-                    <i class="gg-menu-left"></i>
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
             <button class="topbar-toggler more">
