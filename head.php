@@ -77,5 +77,6 @@
             <?php endif; ?>
         });
     </script>
-</head>
-<body>
+    <!-- intl-tel-input -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
