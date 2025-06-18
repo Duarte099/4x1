@@ -82,7 +82,7 @@
                             </div>
                         </div> -->
                         <div class="page-inner">
-                            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
+                            <div class="d-flex align-items-left align-items-md-center flex-row pt-2 pb-4" style="text-align: center;">
                                 <div>
                                     <h2 class="fw-bold mb-3">Ficha do professor</h2>
                                 </div>

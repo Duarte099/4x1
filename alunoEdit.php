@@ -91,7 +91,7 @@
         }
         
         .btn-lg {
-            padding:0px 0px !important;
+            padding:5px 5px !important;
         }
     </style>
     <script>
@@ -522,7 +522,7 @@
                                                                         <td><?php echo $row['mensalidadeGrupo'] + $row['mensalidadeIndividual'] + $row['inscricao'] + $row['transporte'] ?>€</td>
                                                                         <td><?php echo $row['mes'] ?></td>
                                                                         <td><?php echo $row['ano'] ?></td>
-                                                                        <td style="padding: 0px 0px !important;">
+                                                                        <td style="padding: 5px 5px !important;">
                                                                             <div class="form-button-action">
                                                                                 <?php if ($row['verificado'] == "Pendente") { ?>
                                                                                     <a
