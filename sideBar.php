@@ -23,14 +23,14 @@
                 <!-- <img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20"> -->
             </a>
             <div class="nav-toggle">
-                <button class="btn btn-toggle toggle-sidebar">
+                <button class="btn btn-toggle toggle-sidebar" style="width: 25px; height: 25px;">
                     <i class="gg-menu-right"></i>
                 </button>
-                <button class="btn btn-toggle sidenav-toggler">
+                <button class="btn btn-toggle sidenav-toggler" style="width: 25px; height: 25px;">
                     <i class="gg-menu-left"></i>
                 </button>
             </div>
-            <button class="topbar-toggler more">
+            <button class="topbar-toggler more" style="width: 25px; height: 25px;">
                 <i class="gg-more-vertical-alt"></i>
             </button>
         </div>

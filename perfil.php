@@ -567,59 +567,58 @@
                     </div>
                 </div>
             </div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
-            <?php if($_SESSION["tipo"] == "professor") { ?>
-                <script>
-                    const input = document.querySelector("#contacto");
-                    const hiddenInput = document.querySelector("#contactoHidden");
-                    const iti = window.intlTelInput(input, {
-                        initialCountry: "pt",
-                        preferredCountries: ["pt", "br", "fr", "gb"],
-                        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                    });
-
-                    // Ao submeter o formulário, atualiza o campo hidden
-                    document.querySelector("#formEdit").addEventListener("submit", function () {
-                        hiddenInput.value = iti.getNumber();
-                    });
-                </script>
-            <?php } ?>
-            <script>
-                function verificarPasswords() {
-                    const password = document.getElementById("password").value;
-                    const confirm = document.getElementById("passwordConfirm").value;
-
-                    if (password === confirm) {
-                        return true;
-                    } else {
-                        $.notify({
-                            message: 'As palavras passes não coincidem!',
-                            title: 'Notificação',
-                            icon: 'fa fa-info-circle',
-                        }, {
-                            type: 'danger',
-                            placement: {
-                                from: 'top',
-                                align: 'right'
-                            },
-                            delay: 2000
-                        });
-
-                        return false;
-                    }
-                }
-
-                function previewImage(event) {
-                    const reader = new FileReader();
-                    reader.onload = function () {
-                        const output = document.getElementById('preview');
-                        output.src = reader.result;
-                    };
-                    reader.readAsDataURL(event.target.files[0]);
-                }
-            </script>
         </div>
-    </body>
-</html>
+        <?php if($_SESSION["tipo"] == "professor") { ?>
+            <script>
+                const input = document.querySelector("#contacto");
+                const hiddenInput = document.querySelector("#contactoHidden");
+                const iti = window.intlTelInput(input, {
+                    initialCountry: "pt",
+                    preferredCountries: ["pt", "br", "fr", "gb"],
+                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+                });
+
+                // Ao submeter o formulário, atualiza o campo hidden
+                document.querySelector("#formEdit").addEventListener("submit", function () {
+                    hiddenInput.value = iti.getNumber();
+                });
+            </script>
+        <?php } ?>
+        <script>
+            function verificarPasswords() {
+                const password = document.getElementById("password").value;
+                const confirm = document.getElementById("passwordConfirm").value;
+
+                if (password === confirm) {
+                    return true;
+                } else {
+                    $.notify({
+                        message: 'As palavras passes não coincidem!',
+                        title: 'Notificação',
+                        icon: 'fa fa-info-circle',
+                    }, {
+                        type: 'danger',
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        },
+                        delay: 2000
+                    });
+
+                    return false;
+                }
+            }
+
+            function previewImage(event) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const output = document.getElementById('preview');
+                    output.src = reader.result;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
+        <?php 
+            include('./endPage.php'); 
+        ?>
 

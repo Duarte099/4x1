@@ -113,5 +113,8 @@
                 </div>
             </form>
         </div>
+        <?php 
+            include('./endPage.php'); 
+        ?>
     </body>
 </html>

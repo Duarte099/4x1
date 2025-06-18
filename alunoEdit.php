@@ -750,147 +750,148 @@
                     </div>
                 </div>
             </div>
-            <script>
-                const input1 = document.querySelector("#contacto");
-                const hiddenInput1 = document.querySelector("#contactoHidden");
-                const iti1 = window.intlTelInput(input1, {
-                    initialCountry: "pt",
-                    preferredCountries: ["pt", "br", "fr", "gb"],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                });
-                const input2 = document.querySelector("#maeTlm");
-                const hiddenInput2 = document.querySelector("#maeTlmHidden");
-                const iti2 = window.intlTelInput(input2, {
-                    initialCountry: "pt",
-                    preferredCountries: ["pt", "br", "fr", "gb"],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                });
-                const input3 = document.querySelector("#paiTlm");
-                const hiddenInput3 = document.querySelector("#paiTlmHidden");
-                const iti3 = window.intlTelInput(input3, {
-                    initialCountry: "pt",
-                    preferredCountries: ["pt", "br", "fr", "gb"],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                });
-
-                // Ao submeter o formulário, atualiza o campo hidden
-                document.querySelector("#formEdit").addEventListener("submit", function () {
-                    hiddenInput1.value = iti1.getNumber();
-                    hiddenInput2.value = iti2.getNumber();
-                    hiddenInput3.value = iti3.getNumber();
-                });
-
-                function atualizarCampos(input) {
-                    // O valor do input é o ID do aluno, conforme definido nas opções do datalist
-                    var partes = input.value.split(" | ");
-                    var alunoId = partes[0];
-                    
-                    // Se um valor for selecionado (não vazio)
-                    if(alunoId !== "") {
-                        // Realiza a requisição AJAX para obter os dados do aluno
-                        $.ajax({
-                            url: 'json.obterNome.php',
-                            type: 'GET',
-                            data: { idAluno: alunoId},
-                            success: function(response) {
-                            var data = JSON.parse(response);
-                            if (data == "erro") {
-                                document.getElementById("pack").value = "";
-                                document.getElementById("disciplinasContainer").style.display = "none";
-                            }
-                            else{
-                                document.getElementById("pack").value = data.pack + " horas";
-                                if (data.ciclo == 1) {
-                                document.getElementById("disciplinasContainer").style.display = "none";
-                                } else {
-                                document.getElementById("disciplinasContainer").style.display = "block";
-                                }
-                            }
-                            },
-                            error: function() {
-                            console.error('Erro ao buscar o nome.');
-                            }
-                        });
-                    } else {
-                    // Se não houver um ID válido, limpa o campo Pack
-                    document.getElementById("pack").value = "";
-                    document.getElementById("disciplinasContainer").style.display = "none";
-                    }
-                }
-            </script>
-            <script>
-                $("#tabela-aluno-explicacoes").DataTable({
-                    pageLength: 6,
-                    order: [[1, 'asc']],
-                    language: {
-                    url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
-                    },
-                    initComplete: function () {
-                        this.api()
-                        .columns()
-                        .every(function () {
-                            var column = this;
-                            var select = $(
-                                '<select class="form-select"><option value=""></option></select>'
-                            )
-                            .appendTo($(column.footer()).empty())
-                            .on("change", function () {
-                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                                column
-                                .search(val ? "^" + val + "$" : "", true, false)
-                                .draw();
-                            });
-
-                            column
-                            .data()
-                            .unique()
-                            .sort()
-                            .each(function (d, j) {
-                                select.append(
-                                    '<option value="' + d + '">' + d + "</option>"
-                                );
-                            });
-                        });
-                    },
-                });
-
-                $("#tabela-aluno-recibos").DataTable({
-                    pageLength: 6,
-                    language: {
-                    url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
-                    },
-                    initComplete: function () {
-                        this.api()
-                        .columns()
-                        .every(function () {
-                            var column = this;
-                            var select = $(
-                                '<select class="form-select"><option value=""></option></select>'
-                            )
-                            .appendTo($(column.footer()).empty())
-                            .on("change", function () {
-                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                                column
-                                .search(val ? "^" + val + "$" : "", true, false)
-                                .draw();
-                            });
-
-                            column
-                            .data()
-                            .unique()
-                            .sort()
-                            .each(function (d, j) {
-                                select.append(
-                                    '<option value="' + d + '">' + d + "</option>"
-                                );
-                            });
-                        });
-                    },
-                });
-            </script>
         </div>
-    </body>
-</html>
+        <script>
+            const input1 = document.querySelector("#contacto");
+            const hiddenInput1 = document.querySelector("#contactoHidden");
+            const iti1 = window.intlTelInput(input1, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            const input2 = document.querySelector("#maeTlm");
+            const hiddenInput2 = document.querySelector("#maeTlmHidden");
+            const iti2 = window.intlTelInput(input2, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            const input3 = document.querySelector("#paiTlm");
+            const hiddenInput3 = document.querySelector("#paiTlmHidden");
+            const iti3 = window.intlTelInput(input3, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            // Ao submeter o formulário, atualiza o campo hidden
+            document.querySelector("#formEdit").addEventListener("submit", function () {
+                hiddenInput1.value = iti1.getNumber();
+                hiddenInput2.value = iti2.getNumber();
+                hiddenInput3.value = iti3.getNumber();
+            });
+
+            function atualizarCampos(input) {
+                // O valor do input é o ID do aluno, conforme definido nas opções do datalist
+                var partes = input.value.split(" | ");
+                var alunoId = partes[0];
+                
+                // Se um valor for selecionado (não vazio)
+                if(alunoId !== "") {
+                    // Realiza a requisição AJAX para obter os dados do aluno
+                    $.ajax({
+                        url: 'json.obterNome.php',
+                        type: 'GET',
+                        data: { idAluno: alunoId},
+                        success: function(response) {
+                        var data = JSON.parse(response);
+                        if (data == "erro") {
+                            document.getElementById("pack").value = "";
+                            document.getElementById("disciplinasContainer").style.display = "none";
+                        }
+                        else{
+                            document.getElementById("pack").value = data.pack + " horas";
+                            if (data.ciclo == 1) {
+                            document.getElementById("disciplinasContainer").style.display = "none";
+                            } else {
+                            document.getElementById("disciplinasContainer").style.display = "block";
+                            }
+                        }
+                        },
+                        error: function() {
+                        console.error('Erro ao buscar o nome.');
+                        }
+                    });
+                } else {
+                // Se não houver um ID válido, limpa o campo Pack
+                document.getElementById("pack").value = "";
+                document.getElementById("disciplinasContainer").style.display = "none";
+                }
+            }
+        </script>
+        <script>
+            $("#tabela-aluno-explicacoes").DataTable({
+                pageLength: 6,
+                order: [[1, 'asc']],
+                language: {
+                url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
+                },
+                initComplete: function () {
+                    this.api()
+                    .columns()
+                    .every(function () {
+                        var column = this;
+                        var select = $(
+                            '<select class="form-select"><option value=""></option></select>'
+                        )
+                        .appendTo($(column.footer()).empty())
+                        .on("change", function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                            column
+                            .search(val ? "^" + val + "$" : "", true, false)
+                            .draw();
+                        });
+
+                        column
+                        .data()
+                        .unique()
+                        .sort()
+                        .each(function (d, j) {
+                            select.append(
+                                '<option value="' + d + '">' + d + "</option>"
+                            );
+                        });
+                    });
+                },
+            });
+
+            $("#tabela-aluno-recibos").DataTable({
+                pageLength: 6,
+                language: {
+                url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
+                },
+                initComplete: function () {
+                    this.api()
+                    .columns()
+                    .every(function () {
+                        var column = this;
+                        var select = $(
+                            '<select class="form-select"><option value=""></option></select>'
+                        )
+                        .appendTo($(column.footer()).empty())
+                        .on("change", function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                            column
+                            .search(val ? "^" + val + "$" : "", true, false)
+                            .draw();
+                        });
+
+                        column
+                        .data()
+                        .unique()
+                        .sort()
+                        .each(function (d, j) {
+                            select.append(
+                                '<option value="' + d + '">' + d + "</option>"
+                            );
+                        });
+                    });
+                },
+            });
+        </script>
+        <?php 
+            include('./endPage.php'); 
+        ?>
 

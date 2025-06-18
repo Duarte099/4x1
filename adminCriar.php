@@ -140,5 +140,6 @@
                 }
             }
         </script>
-    </body>
-</html>
+        <?php 
+            include('./endPage.php'); 
+        ?>

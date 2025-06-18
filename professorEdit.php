@@ -542,86 +542,85 @@
                     </div>
                 </div>
             </div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
-            <script>
-                const input = document.querySelector("#contacto");
-                const hiddenInput = document.querySelector("#contactoHidden");
-                const iti = window.intlTelInput(input, {
-                    initialCountry: "pt",
-                    preferredCountries: ["pt", "br", "fr", "gb"],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                });
-                // Ao submeter o formulário, atualiza o campo hidden
-                document.querySelector("#formEdit").addEventListener("submit", function () {
-                    hiddenInput.value = iti.getNumber();
-                });
-
-                function verificarPasswords(e, emailAntigo) {
-                    e.preventDefault();
-                    const password = document.getElementById("password").value;
-                    const confirm = document.getElementById("passwordConfirm").value;
-                    const emailAdmin = document.getElementById("email").value;
-
-                    let erro = 0;
-
-                    if (password !== confirm) {
-                        $.notify({
-                            message: 'As palavras passes não coincidem!',
-                            title: 'Notificação',
-                            icon: 'fa fa-info-circle',
-                        }, {
-                            type: 'warning',
-                            placement: {
-                                from: 'top',
-                                align: 'right'
-                            },
-                            delay: 3000
-                        });
-                        erro += 1;
-                    }
-
-                    if (erro === 0 && emailAntigo !== emailAdmin) {
-                        $.ajax({
-                            url: 'json.obterEmails.php',
-                            type: 'GET',
-                            success: function(response) 
-                            {
-                                var data = JSON.parse(response);
-                                for (let i = 0; i < data.length; i++) {
-                                    if (data[i].email === emailAdmin ) {
-                                        $.notify({
-                                            message: 'Esse email já existe no sistema.',
-                                            title: 'Notificação',
-                                            icon: 'fa fa-info-circle',
-                                        }, {
-                                            type: 'warning',
-                                            placement: {
-                                                from: 'top',
-                                                align: 'right'
-                                            },
-                                            delay: 3000
-                                        });
-
-                                        erro += 1;
-                                        break;
-                                    }
-                                }
-                                if (erro === 0) {
-                                    e.target.submit();
-                                }
-                            },
-                            error: function() {
-                                console.error('Erro ao buscar os emails.');
-                            }
-                        });
-                    }
-                    else{
-                        e.target.submit();
-                    }
-                }
-            </script>
         </div>
-    </body>
-    </html>
+        <script>
+            const input = document.querySelector("#contacto");
+            const hiddenInput = document.querySelector("#contactoHidden");
+            const iti = window.intlTelInput(input, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            // Ao submeter o formulário, atualiza o campo hidden
+            document.querySelector("#formEdit").addEventListener("submit", function () {
+                hiddenInput.value = iti.getNumber();
+            });
+
+            function verificarPasswords(e, emailAntigo) {
+                e.preventDefault();
+                const password = document.getElementById("password").value;
+                const confirm = document.getElementById("passwordConfirm").value;
+                const emailAdmin = document.getElementById("email").value;
+
+                let erro = 0;
+
+                if (password !== confirm) {
+                    $.notify({
+                        message: 'As palavras passes não coincidem!',
+                        title: 'Notificação',
+                        icon: 'fa fa-info-circle',
+                    }, {
+                        type: 'warning',
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        },
+                        delay: 3000
+                    });
+                    erro += 1;
+                }
+
+                if (erro === 0 && emailAntigo !== emailAdmin) {
+                    $.ajax({
+                        url: 'json.obterEmails.php',
+                        type: 'GET',
+                        success: function(response) 
+                        {
+                            var data = JSON.parse(response);
+                            for (let i = 0; i < data.length; i++) {
+                                if (data[i].email === emailAdmin ) {
+                                    $.notify({
+                                        message: 'Esse email já existe no sistema.',
+                                        title: 'Notificação',
+                                        icon: 'fa fa-info-circle',
+                                    }, {
+                                        type: 'warning',
+                                        placement: {
+                                            from: 'top',
+                                            align: 'right'
+                                        },
+                                        delay: 3000
+                                    });
+
+                                    erro += 1;
+                                    break;
+                                }
+                            }
+                            if (erro === 0) {
+                                e.target.submit();
+                            }
+                        },
+                        error: function() {
+                            console.error('Erro ao buscar os emails.');
+                        }
+                    });
+                }
+                else{
+                    e.target.submit();
+                }
+            }
+        </script>
+        <?php 
+            include('./endPage.php'); 
+        ?>
 

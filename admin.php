@@ -158,5 +158,3 @@
     <?php 
         include('./endPage.php');
     ?>
-  </body>
-</html>
