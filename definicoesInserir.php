@@ -37,8 +37,10 @@
                 for ($i=1; $i < 5; $i++) { 
                     if (isset($_POST['cronjob_' . $i]) && $_POST['cronjob_' . $i] == "on") {
                         $cronjob = 1;
+                        $_POST['cronjob_' . $i] = 1;
                     } else {
                         $cronjob = 0;
+                        $_POST['cronjob_' . $i] = 0;
                     }
                     $sql = "UPDATE cronjobs SET estado = ? WHERE id = ?;";
                     $result = $con->prepare($sql);
