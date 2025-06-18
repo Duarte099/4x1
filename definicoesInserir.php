@@ -61,6 +61,7 @@
                         'cronjobDespesas' => $_POST['cronjob_4'],
                     ]
                 );
+                print_r($detalhes);
                 if (!empty($detalhes)) {
                     echo "teste";
                     registrar_log($con, "Editar definições", $detalhes);
