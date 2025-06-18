@@ -18,6 +18,7 @@
         href="./images/Icon4x1.png"
         type="image/x-icon"
     />
+    <link href="https://unpkg.com/css.gg/icons/icons.css" rel="stylesheet" />
     
     <!-- Estilos do intl-tel-input -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"/>
