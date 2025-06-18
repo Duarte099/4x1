@@ -31,7 +31,7 @@
                         $_SESSION['img'] = $img;
                         $_SESSION['password'] = $password;
                         $_SESSION['passX'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
+                        registrar_log($con, "Login", "Utilizador entrou no sistema.");
                         if (isset($_SESSION['redirect_after_login'])) {
                             $urlDestino = $_SESSION['redirect_after_login'];
                             unset($_SESSION['redirect_after_login']);
@@ -75,7 +75,7 @@
                                 $_SESSION['password'] = $password;
                                 $_SESSION['defNotHorario'] = $defNotHorario;
                                 $_SESSION['passX'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                                
+                                registrar_log($con, "Login", "Utilizador entrou no sistema.");
                                 if (isset($_SESSION['redirect_after_login'])) {
                                     $urlDestino = $_SESSION['redirect_after_login'];
                                     unset($_SESSION['redirect_after_login']);

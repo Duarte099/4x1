@@ -1,6 +1,6 @@
 <?php
     include('./db/conexao.php');
-
+    
     $numAlunosAniversario = 0;
 
     $stmt = $con->prepare("SELECT COUNT(*) as numAlunos FROM alunos WHERE estado = 1 AND DATE_FORMAT(dataNascimento, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')");

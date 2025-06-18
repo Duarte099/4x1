@@ -3,7 +3,7 @@
     include('./head.php'); 
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-    $estouEm = 4;
+    $estouEm = 3;
     
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
@@ -89,7 +89,7 @@
         <script>
             $("#tabela-professores-logs").DataTable({
                 pageLength: 6,
-                order: [[1, 'asc']],
+                order: [[2, 'desc']],
                 language: {
                 url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
                 },

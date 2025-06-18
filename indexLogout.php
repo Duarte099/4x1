@@ -1,8 +1,6 @@
 <?php
-    //Inclui a base de dados e segurança da pagina
     include("./db/conexao.php");
-    //Destroi a sessão (logout)
+    registrar_log($con, "Logout", "Utilizador saiu do sistema.");
     session_destroy();
-    //Redirect to the login page:
-    header('Location: index.php');
+    header('Location: index');
 ?>
