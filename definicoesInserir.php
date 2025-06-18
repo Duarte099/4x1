@@ -26,9 +26,10 @@
                             registrar_log($con, "Editar definições", "defNotHorario: {$_SESSION['defNotHorario']} => $definicaoHorario");
                         }
                         notificacao('success', "Definições alteradas com sucesso!");
+                        $_SESSION['defNotHorario'] = $definicaoHorario;
                     }
                     else {
-                        notificacao('success', "Erro ao alterar definições!");
+                        notificacao('danger', "Erro ao alterar definições!");
                     }
                 }
             }
@@ -47,7 +48,7 @@
                             notificacao('success', "Definições alteradas com sucesso!");
                         }
                         else {
-                            notificacao('success', "Erro ao alterar definições!");
+                            notificacao('danger', "Erro ao alterar definições!");
                         }
                     }
                 }

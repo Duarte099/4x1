@@ -34,12 +34,6 @@
     <link rel="stylesheet" href="assets/css/plugins.min.css" />
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
 
-    <style>
-        .scroll-wrapper>.scroll-content {
-            overflow:scroll!important;
-        }
-    </style>
-
     <!-- jQuery (necessário para notificações e outros plugins dependentes) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

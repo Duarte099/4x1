@@ -79,6 +79,10 @@
                         if (!empty($detalhes)) {
                             registrar_log($con, "Editar perfil", $detalhes);
                         }
+                        $_SESSION['nome'] = $_POST['nome'];
+                        $_SESSION['email'] = $_POST['email'];
+                        $_SESSION['contacto'] = $_POST['contacto'];
+                        $_SESSION['img'] = $caminhoFinal;
                     }
                     else{
                         $stmt->bind_param("ssssi", $_POST['nome'], $_POST['email'], $passwordHash, $caminhoFinal, $_SESSION["id"]);
@@ -93,6 +97,9 @@
                         if (!empty($detalhes)) {
                             registrar_log($con, "Editar perfil", $detalhes);
                         }
+                        $_SESSION['nome'] = $_POST['nome'];
+                        $_SESSION['email'] = $_POST['email'];
+                        $_SESSION['img'] = $caminhoFinal;
                     }
                     if ($stmt->execute()) {
                         notificacao('success', 'Perfil atualizado com sucesso!');
@@ -128,6 +135,9 @@
                         if (!empty($detalhes)) {
                             registrar_log($con, "Editar perfil", $detalhes);
                         }
+                        $_SESSION['nome'] = $_POST['nome'];
+                        $_SESSION['email'] = $_POST['email'];
+                        $_SESSION['contacto'] = $_POST['contacto'];
                     }
                     else{
                         $stmt->bind_param("sssi", $_POST['nome'], $_POST['email'], $passwordHash, $_SESSION["id"]);
@@ -141,6 +151,8 @@
                         if (!empty($detalhes)) {
                             registrar_log($con, "Editar perfil", $detalhes);
                         }
+                        $_SESSION['nome'] = $_POST['nome'];
+                        $_SESSION['email'] = $_POST['email'];
                     }
                     if ($stmt->execute()) {
                         notificacao('success', 'Perfil atualizado com sucesso!');
@@ -176,6 +188,10 @@
                         if (!empty($detalhes)) {
                             registrar_log($con, "Editar perfil", $detalhes);
                         }
+                        $_SESSION['nome'] = $_POST['nome'];
+                        $_SESSION['email'] = $_POST['email'];
+                        $_SESSION['contacto'] = $_POST['contacto'];
+                        $_SESSION['img'] = $caminhoFinal;
                     }
                     else{
                         $stmt->bind_param("sssi", $_POST['nome'], $_POST['email'], $caminhoFinal, $_SESSION["id"]);
@@ -190,7 +206,10 @@
                         if (!empty($detalhes)) {
                             registrar_log($con, "Editar perfil", $detalhes);
                         }
-                    }
+                        $_SESSION['nome'] = $_POST['nome'];
+                        $_SESSION['email'] = $_POST['email'];
+                        $_SESSION['img'] = $caminhoFinal;
+            }
                     if ($stmt->execute()) {
                         notificacao('success', 'Perfil atualizado com sucesso!');
                     } else {
@@ -224,6 +243,9 @@
                         if (!empty($detalhes)) {
                             registrar_log($con, "Editar perfil", $detalhes);
                         }
+                        $_SESSION['nome'] = $_POST['nome'];
+                        $_SESSION['email'] = $_POST['email'];
+                        $_SESSION['contacto'] = $_POST['contacto'];
                     }
                     else{
                         $stmt->bind_param("ssi", $_POST['nome'], $_POST['email'], $_SESSION["id"]);
@@ -237,6 +259,8 @@
                         if (!empty($detalhes)) {
                             registrar_log($con, "Editar perfil", $detalhes);
                         }
+                        $_SESSION['nome'] = $_POST['nome'];
+                        $_SESSION['email'] = $_POST['email'];
                     }
                     
                     if ($stmt->execute()) {
