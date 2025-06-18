@@ -4,8 +4,6 @@
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
     $estouEm = 1;
-
-    $_SESSION['testes'] = true;
 ?>
 <title>4x1 | Dashboard</title>
 </head>
@@ -302,7 +300,9 @@
             </div>
         </div>
     </div> 
-    
+    <?php 
+        include('./endPage.php'); 
+    ?>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script>
         fetch('json.obterHorasPorCiclo.php')
