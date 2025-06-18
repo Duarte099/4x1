@@ -46,6 +46,14 @@
     </script>
 
     <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker
+                .register("/sw.js")
+                .catch(() => {});
+        }
+    </script>
+
+    <script>
         $(document).ready(function () {
             <?php if (isset($_SESSION['notificacao'])): ?>
                 $.notify({
