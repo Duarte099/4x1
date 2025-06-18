@@ -3,7 +3,7 @@
 
     $numAlunosAniversario = 0;
 
-    $stmt = $con->prepare("SELECT COUNT(*) as numAlunos FROM alunos WHERE ativo = 1 AND DATE_FORMAT(dataNascimento, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')");
+    $stmt = $con->prepare("SELECT COUNT(*) as numAlunos FROM alunos WHERE estado = 1 AND DATE_FORMAT(dataNascimento, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')");
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
