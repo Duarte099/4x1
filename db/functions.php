@@ -8,10 +8,12 @@
         $stmt->execute();
     }
 
-    function gerar_detalhes_alteracoes($originais, $novos) {
+    function gerar_detalhes_alteracoes($originais, $novos, $campos_excluir = []) {
         $alteracoes = [];
 
         foreach ($novos as $chave => $valorNovo) {
+            if (in_array($chave, $campos_excluir)) continue; // ignora campos que não interessam
+
             if (isset($originais[$chave]) && $originais[$chave] != $valorNovo) {
                 $valorAntigo = $originais[$chave];
                 $alteracoes[] = "$chave: '$valorAntigo' => '$valorNovo'";

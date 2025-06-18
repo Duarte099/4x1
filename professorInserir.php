@@ -36,8 +36,8 @@
                 else {
                     notificacao('danger', 'Erro ao criar professor: ' . $result->error);
                 }
-
                 $result->close(); 
+            }
             else {
                 notificacao('danger', 'Erro ao criar professor: ' . $result->error);
             }

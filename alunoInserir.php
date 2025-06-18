@@ -106,9 +106,9 @@
                 if ($result->execute()) {
                     notificacao('success', 'Aluno editado com sucesso!');
 
-                    $detalhes = gerar_detalhes_alteracoes($rowAluno, $dados_novos);
+                    $detalhes = gerar_detalhes_alteracoes($rowAluno, $dados_novos, ['data_inscricao']);
                     if (!empty($detalhes)) {
-                        registrar_log($con, "Editar aluno", "id: {$rowAluno['id']}, $detalhes");
+                        registrar_log($con, "Editar aluno", "id: {$rowAluno['id']}, nome: {$rowAluno['nome']}, $detalhes");
                     }
                 } 
                 else {

@@ -15,7 +15,7 @@
 
         if ($op == 'save') {
             $stmt = $con->prepare("SELECT * FROM categorias WHERE id = ?");
-            $stmt->bind_param("i", $_POST['idCategoria']);
+            $stmt->bind_param("i", $_POST['categoria']);
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result->num_rows <= 0) {
@@ -54,7 +54,7 @@
         elseif ($op == 'edit') {
             $idTransacao = $_GET['idTransacao'];
 
-            $stmt = $con->prepare('SELECT t.*, c.nome, c.tipo FROM transacoes as t INNER JOIN categorias as c ON t.idCategoria = c.id WHERE id = ?');
+            $stmt = $con->prepare('SELECT t.*, c.nome, c.tipo FROM transacoes as t INNER JOIN categorias as c ON t.idCategoria = c.id WHERE t.id = ?');
             $stmt->bind_param('i', $idTransacao);
             $stmt->execute(); 
             $result = $stmt->get_result();
@@ -68,12 +68,12 @@
             }
 
             $stmt = $con->prepare('SELECT nome, tipo FROM categorias WHERE id = ?');
-            $stmt->bind_param('i', $_POST['idCategoria']);
+            $stmt->bind_param('i', $_POST['categoria']);
             $stmt->execute(); 
             $result = $stmt->get_result();
             if ($result->num_rows <= 0) {
                 notificacao('warning', 'ID da categoria inválido.');
-                header('Location: dashboard');
+                header('Location: transacoesEdit');
                 exit();
             }
             else {

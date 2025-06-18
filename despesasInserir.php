@@ -146,7 +146,7 @@
                         ]
                     );
                     if (!empty($detalhes)) {
-                        registrar_log($con, "Editar despesa", "id: " . $idDespesa . ", " . $detalhes);
+                        registrar_log($con, "Editar despesa", "id: " . $idDespesa . ", despesa: " . $rowDespesa['despesa'] . ", " . $detalhes);
                     }
                     for ($i=1; $i < 13 ; $i++) { 
                         $result4 = $con->prepare('SELECT id FROM despesas_meses WHERE idDespesa = ? AND mes = ?');

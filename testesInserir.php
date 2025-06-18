@@ -11,12 +11,13 @@
             $partes = explode(" | ", $_POST['nome']);
             $idAluno = $partes[0];
 
-            $sql = "SELECT id FROM disciplinas;";
+            $sql = "SELECT id, nome FROM disciplinas;";
             $result = $con->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     if ($_POST['disciplina'] == 'disciplina_' . $row['id']) {
                         $idDisciplina = $row['id'];
+                        $nomeDisciplina = $row['nome'];
                     }
                 }
             }
@@ -42,7 +43,7 @@
                 if ($result->execute()) {
                     notificacao('success', 'Teste registrado com sucesso!');
                     $idTeste = $con->insert_id;
-                    registrar_log($con, "Criar teste", "id: " . $idTeste . ", aluno: " . $row["nome"] . ", disciplina: " . $_POST['disciplina'] . ", dia: " . $dia);
+                    registrar_log($con, "Criar teste", "id: " . $idTeste . ", aluno: " . $row["nome"] . ", disciplina: " . $nomeDisciplina . ", dia: " . $dia);
                 } 
                 else {
                     notificacao('danger', 'Erro ao inserir teste: ' . $result->error);

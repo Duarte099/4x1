@@ -11,7 +11,7 @@
             $partes = explode(" | ", $_POST['nome']);
             $idAluno = $partes[0];
 
-            $sql = "SELECT nome FROM disciplinas WHERE id = $_POST['disciplina'];";
+            $sql = "SELECT nome FROM disciplinas WHERE id = " . $_POST['disciplina'];
             $result = $con->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {

@@ -130,7 +130,7 @@
         elseif ($op == 'editPagamento') {
             $idPagamento = $_GET['idPagamento'];
 
-            $stmt = $con->prepare('SELECT pv.id, nome, valor FROM valores_pagamento as pv INNER JOIN ensino ON idEnsino = ensino.id WHERE pv.id = ?');
+            $stmt = $con->prepare('SELECT pv.id, nome, valor, ensino.nome as nomeEnsino FROM valores_pagamento as pv INNER JOIN ensino ON idEnsino = ensino.id WHERE pv.id = ?');
             $stmt->bind_param('i', $idPagamento);
             $stmt->execute(); 
             $result = $stmt->get_result();
@@ -156,7 +156,7 @@
                         ]
                     );
                     if (!empty($detalhes)) {
-                        registrar_log($con, "Editar pagamento", "id: " . $idPagamento . ", " . $detalhes);
+                        registrar_log($con, "Editar pagamento", "id: " . $idPagamento . ", tipo: " . $rowPagamento['nomeEnsino'] . ", " . $detalhes);
                     }
                 }
                 else {
