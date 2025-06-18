@@ -79,8 +79,39 @@
     </script>
 
     <script>
+        let vaiSairDoSite = true;
+
+        // Clica num link <a> dentro do site
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function () {
+                vaiSairDoSite = false;
+            });
+        });
+
+        // Submete um formulário <form>
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function () {
+                vaiSairDoSite = false;
+            });
+        });
+
+        // Clica num botão com ação interna
+        document.querySelectorAll('button').forEach(botao => {
+            botao.addEventListener('click', function () {
+                vaiSairDoSite = false;
+            });
+        });
+
+        // Protege chamadas JS internas (ex: window.location)
+        window.addEventListener('click', () => {
+            vaiSairDoSite = false;
+        });
+
+        // Antes de sair da página
         window.addEventListener('beforeunload', function () {
-            navigator.sendBeacon('indexLogout.php');
+            if (vaiSairDoSite) {
+                navigator.sendBeacon('indexLogout.php', dados);
+            }
         });
     </script>
 
