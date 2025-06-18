@@ -27,6 +27,9 @@
         <!-- Kaiadmin JS -->
         <script src="assets/js/kaiadmin.min.js"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+
         <!-- Service Worker -->
         <script>
             if ("serviceWorker" in navigator) {
