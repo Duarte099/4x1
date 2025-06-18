@@ -26,7 +26,7 @@
 								<div class="card-header">
 									<div class="d-flex align-items-center">
 										<h4 class="card-title">Configuração mensalidades alunos</h4>
-										<button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#criarMensalidade">
+										<button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#criarMensalidade">
 											<i class="fa fa-plus"></i>
 											Adicionar mensalidade
 										</button>

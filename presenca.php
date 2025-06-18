@@ -160,9 +160,9 @@
                         <form action="presencaInserir?op=save" method="POST">
                             <div class="container2">
                                 <div class="page-inner">
-                                    <div class="d-flex align-items-left align-items-md-center flex-row pt-2 pb-4" style="text-align: center;">
+                                    <div class="d-flex justify-content-between align-items-center pt-2 pb-4" style="text-align: center;">
                                         <div>
-                                            <h2 class="fw-bold mb-3">Registrar presença</h2>
+                                            <h2 class="fw-bold mb-3 mb-md-0">Registrar presença</h2>
                                         </div>
                                     </div>
                                     <div class="row mb-3">

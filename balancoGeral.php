@@ -113,10 +113,10 @@
             <div class="container">
                 <div class="page-inner">
                     <div
-                        class="d-flex align-items-left align-items-md-center flex-row pt-2 pb-4"
+                        class="d-flex justify-content-between align-items-center pt-2 pb-4"
                         >
                         <div>
-                            <h3 class="fw-bold mb-3">Balanço geral</h3>
+                            <h3 class="fw-bold mb-3 mb-md-0">Balanço geral</h3>
                         </div>
                     </div>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3">

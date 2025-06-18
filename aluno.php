@@ -15,14 +15,14 @@
         <div class="container">
           <div class="page-inner">
             <div
-              class="d-flex align-items-left align-items-md-center flex-row pt-2 pb-4"
+              class="d-flex justify-content-between align-items-center pt-2 pb-4"
             >
-              <div>
-                <h3 class="fw-bold mb-3">Alunos</h3>
-              </div>
-              <div class="ms-md-auto py-2 py-md-0">
-                <a href="alunoCriar" class="btn btn-primary btn-round">Adicionar aluno</a>
-              </div>
+                <div>
+                    <h3 class="fw-bold mb-3 mb-md-0">Alunos</h3>
+                </div>
+                <div>
+                    <a href="alunoCriar" class="btn btn-primary">Adicionar aluno</a>
+                </div>
             </div>
             <?php 
               $stmt = $con->prepare("SELECT * FROM alunos WHERE estado = 1 AND DATE_FORMAT(dataNascimento, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')");

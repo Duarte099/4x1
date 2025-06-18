@@ -40,7 +40,7 @@
 									<div class="d-flex align-items-center">
 										<h4 class="card-title">Despesas</h4>
 										<button
-											class="btn btn-primary btn-round ms-auto"
+											class="btn btn-primary ms-auto"
 											data-bs-toggle="modal"
 											data-bs-target="#criarDespesa"
 										>
@@ -256,7 +256,7 @@
 									<div class="d-flex align-items-center">
 										<h4 class="card-title">Categorias</h4>
 										<button
-											class="btn btn-primary btn-round ms-auto"
+											class="btn btn-primary ms-auto"
 											data-bs-toggle="modal"
 											data-bs-target="#criarCategoria"
 										>

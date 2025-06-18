@@ -31,10 +31,10 @@
             <div class="container">
                 <div class="page-inner">
                     <div
-                        class="d-flex align-items-left align-items-md-center flex-row pt-2 pb-4"
+                        class="d-flex justify-content-between align-items-center pt-2 pb-4"
                     >
                         <div>
-                            <h3 class="fw-bold mb-3">Logs Professores</h3>
+                            <h3 class="fw-bold mb-3 mb-md-0">Logs Professores</h3>
                         </div>
                     </div>
                     <div class="col-md-12">

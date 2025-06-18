@@ -15,10 +15,10 @@
             <div class="container">
                 <div class="page-inner">
                     <div
-                        class="d-flex align-items-left align-items-md-center flex-row pt-2 pb-4"
+                        class="d-flex justify-content-between align-items-center pt-2 pb-4"
                         >
                         <div>
-                            <h3 class="fw-bold mb-3">Dashboard</h3>
+                            <h3 class="fw-bold mb-3 mb-md-0">Dashboard</h3>
                         </div>
                     </div>
                     <div class="row">
@@ -182,7 +182,7 @@
                                     <div class="d-flex align-items-center">
                                         <h4 class="card-title">Testes</h4>
                                         <button
-                                            class="btn btn-primary btn-round ms-auto"
+                                            class="btn btn-primary ms-auto"
                                             onclick="window.location.href='testes';"
                                         >
                                             <i class="fa fa-plus"></i>

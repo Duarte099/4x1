@@ -22,13 +22,13 @@
             <div class="container">
                 <div class="page-inner">
                     <div
-                    class="d-flex align-items-left align-items-md-center flex-row pt-2 pb-4"
+                    class="d-flex justify-content-between align-items-center pt-2 pb-4"
                     >
                         <div>
-                            <h3 class="fw-bold mb-3">Recibos professores</h3>
+                            <h3 class="fw-bold mb-3 mb-md-0">Recibos professores</h3>
                         </div>
-                        <div class="ms-md-auto py-2 py-md-0">
-                            <a href="pagamentoProfessorInserir" class="btn btn-primary btn-round">Assumir pagamentos</a>
+                        <div>
+                            <a href="pagamentoProfessorInserir" class="btn btn-primary">Assumir pagamentos</a>
                         </div>
                     </div>
                         <div class="col-md-12">
