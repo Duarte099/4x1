@@ -19,6 +19,7 @@
         type="image/x-icon"
     />
     <link href="https://unpkg.com/css.gg/icons/all.css" rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json">
     
     <!-- Estilos do intl-tel-input -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"/>
