@@ -62,12 +62,13 @@
                     ]
                 );
                 if (!empty($detalhes)) {
+                    echo "teste";
                     registrar_log($con, "Editar definições", $detalhes);
                 }
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: definicoes');
+            //header('Location: definicoes');
         }
         else {
             notificacao('warning', 'Operação inválida.');

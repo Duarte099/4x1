@@ -2,30 +2,16 @@
     $auxLogin = true;
     
     function registrar_log($con, $acao, $detalhes) {
-        if ($_SESSION['tipo'] == "administrador") {
-            $tipo = "administrador";
-        }
-        elseif ($_SESSION['tipo'] == "professor") {
-            $tipo = "professor";
-        }
-        else {
-            $tipo = "utilizador";
-        }
-        $ip = $_SERVER['REMOTE_ADDR'];
-
         $query = "INSERT INTO logs (idUtilizador, tipoUtilizador, acao, detalhes, ip) VALUES (?, ?, ?, ?, ?)";
         $stmt = $con->prepare($query);
-        $stmt->bind_param('issss', $_SESSION['id'], $tipo, $acao, $detalhes, $ip);
-
+        $stmt->bind_param('issss', $_SESSION['id'], $_SESSION['tipo'], $acao, $detalhes, $_SERVER['REMOTE_ADDR']);
         $stmt->execute();
     }
 
-    function gerar_detalhes_alteracoes($originais, $novos, $campos_excluir = []) {
+    function gerar_detalhes_alteracoes($originais, $novos) {
         $alteracoes = [];
 
         foreach ($novos as $chave => $valorNovo) {
-            if (in_array($chave, $campos_excluir)) continue; // ignora campos que não interessam
-
             if (isset($originais[$chave]) && $originais[$chave] != $valorNovo) {
                 $valorAntigo = $originais[$chave];
                 $alteracoes[] = "$chave: '$valorAntigo' => '$valorNovo'";
