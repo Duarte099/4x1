@@ -5,6 +5,10 @@
         <!-- jQuery Scrollbar -->
         <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
+        <!-- intl-tel-input -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+
         <!-- Chart.js e plugins -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
@@ -26,9 +30,6 @@
 
         <!-- Kaiadmin JS -->
         <script src="assets/js/kaiadmin.min.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
 
         <!-- Service Worker -->
         <script>
