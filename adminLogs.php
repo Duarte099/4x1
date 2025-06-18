@@ -48,29 +48,32 @@
                       >
                         <thead>
                           <tr>
-                            <th>Administrador</th>
-                            <th>Log</th>
+                            <th>Ação</th>
+                            <th>Detalhes</th>
                             <th>Data</th>
+                            <th>IP</th>
                           </tr>
                         </thead>
                         <tfoot>
                           <tr>
-                            <th>Administrador</th>
-                            <th>Log</th>
+                            <th>Ação</th>
+                            <th>Detalhes</th>
                             <th>Data</th>
+                            <th>IP</th>
                           </tr>
                         </tfoot>
                         <tbody>
                           <?php
                             //query para selecionar todos os administradores
-                            $sql = "SELECT nome, DATE_FORMAT(dataLog, '%d-%m-%Y %H:%i:%s') AS dataLog, logFile FROM administrador_logs INNER JOIN administrador ON idAdministrador = id WHERE idAdministrador = ;" . $_GET['idAdmin'];
+                            $sql = "SELECT acao, detalhes, DATE_FORMAT(data, '%d-%m-%Y %H:%i:%s') AS dataLog, ip FROM logs WHERE idUtilizador = " . $_GET['idAdmin'] . " AND tipoUtilizador = 'administrador' ORDER BY data DESC;";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 while ($row = $result->fetch_assoc()) { ?>
                                     <tr>
-                                        <td><?php echo $row['nome'] ?></td>
-                                        <td><?php echo $row['logFile'] ?></td>
+                                        <td><?php echo $row['acao'] ?></td>
+                                        <td><?php echo $row['detalhes'] ?></td>
                                         <td><?php echo $row['dataLog'] ?></td>
+                                        <td><?php echo $row['ip'] ?></td>
                                     </tr>
                                 <?php }
                             }
@@ -89,7 +92,7 @@
     <script>
         $("#tabela-administradores-logs").DataTable({
             pageLength: 6,
-            order: [[1, 'asc']],
+            order: [[2, 'asc']],
             language: {
               url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
             },

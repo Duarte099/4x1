@@ -47,29 +47,32 @@
                                     >
                                         <thead>
                                             <tr>
-                                                <th>Professor</th>
-                                                <th>Log</th>
+                                                <th>Ação</th>
+                                                <th>Detalhes</th>
                                                 <th>Data</th>
+                                                <th>IP</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Professor</th>
-                                                <th>Log</th>
+                                                <th>Ação</th>
+                                                <th>Detalhes</th>
                                                 <th>Data</th>
+                                                <th>IP</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
                                             <?php
                                                 //query para selecionar todos os administradores
-                                                $sql = "SELECT nome, DATE_FORMAT(dataLog, '%d-%m-%Y %H:%i:%s') AS dataLog, logFile FROM professores_logs INNER JOIN professores ON idProfessor = id WHERE idProfessor = " . $_GET['idProf'];
+                                                $sql = "SELECT acao, detalhes, DATE_FORMAT(data, '%d-%m-%Y %H:%i:%s') AS dataLog, ip FROM logs WHERE idUtilizador = " . $_GET['idProf'] . " AND tipoUtilizador = 'professor' ORDER BY data DESC;";
                                                 $result = $con->query($sql);
                                                 if ($result->num_rows > 0) {
                                                     while ($row = $result->fetch_assoc()) { ?>
                                                         <tr>
-                                                            <td><?php echo $row['nome'] ?></td>
-                                                            <td><?php echo $row['logFile'] ?></td>
+                                                            <td><?php echo $row['acao'] ?></td>
+                                                            <td><?php echo $row['detalhes'] ?></td>
                                                             <td><?php echo $row['dataLog'] ?></td>
+                                                            <td><?php echo $row['ip'] ?></td>
                                                         </tr>
                                                     <?php }
                                                 }
