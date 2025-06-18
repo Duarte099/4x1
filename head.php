@@ -18,7 +18,6 @@
         href="./images/Icon4x1.png"
         type="image/x-icon"
     />
-    <link href="https://unpkg.com/css.gg/icons/all.css" rel="stylesheet" />
     <link rel="manifest" href="/manifest.json">
     
     <!-- Estilos do intl-tel-input -->
