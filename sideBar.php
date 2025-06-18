@@ -3,7 +3,7 @@
 
     $numAlunosAniversario = 0;
 
-    $stmt = $con->prepare("SELECT COUNT(*) as numAlunos FROM alunos WHERE estado = 1 AND DATE_FORMAT(dataNascimento, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')");
+    $stmt = $con->prepare("SELECT COUNT(*) as numAlunos FROM alunos WHERE ativo = 1 AND DATE_FORMAT(dataNascimento, '%m-%d') = DATE_FORMAT(CURDATE(), '%m-%d')");
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
@@ -26,11 +26,11 @@
                 <button class="btn btn-toggle toggle-sidebar">
                     <i class="gg-menu-right"></i>
                 </button>
-                <button class="btn btn-toggle sidenav-toggler" style="width: 25px; height: 25px;">
+                <button class="btn btn-toggle sidenav-toggler">
                     <i class="gg-menu-left"></i>
                 </button>
             </div>
-            <button class="topbar-toggler more" style="width: 25px; height: 25px;">
+            <button class="topbar-toggler more">
                 <i class="gg-more-vertical-alt"></i>
             </button>
         </div>
