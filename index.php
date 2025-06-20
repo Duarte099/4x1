@@ -1,6 +1,10 @@
 <?php 
     $login = true;
     include('./head.php');
+
+    if (isset($_GET['erro']) && $_GET['erro'] == "true"){
+        notificacao('danger', 'Password ou user Incorreto!');
+    }
 ?>
     <!-- Font Icon -->
     <link rel="stylesheet" href="./assets/fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -62,9 +66,6 @@
     </div>
     <?php 
         include('endPage.php');
-        if (isset($_GET['erro']) && $_GET['erro'] == "true"){
-            notificacao('danger', 'Password ou user Incorreto!');
-        }
     ?>
     <!-- JS -->
     <script>

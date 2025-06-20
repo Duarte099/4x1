@@ -309,13 +309,10 @@
                                 }
                                 selectModo.disabled = (selectModo.options.length === 0);
 
-                                // Se cicl0 for 1, desativa o select de disciplina
-                                if (selectDisciplina) {
-                                    if (data.ciclo === 1) {
-                                        selectDisciplina.disabled = true;
-                                    } else {
-                                        selectDisciplina.disabled = false;
-                                    }
+                                if (data.ciclo === 1) {
+                                    selectDisciplina.disabled = true;
+                                } else {
+                                    selectDisciplina.disabled = false;
                                 }
                             }
                         },
