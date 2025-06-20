@@ -196,7 +196,7 @@
                                     <div class="row mb-3">
                                         <div class="col-md-3">
                                             <label for="disciplina" class="form-label">Disciplina:</label>
-                                            <select class="form-control" name="disciplina">
+                                            <select class="form-control" name="disciplina" id="disciplina">
                                                 <?php 
                                                     if ($_SESSION['tipo'] == "professor") {
                                                         $sql = "SELECT d.nome, d.id
@@ -257,27 +257,29 @@
         </div>
         <script>
             function atualizarCampos(input) {
-                // O valor do input é o ID do aluno, conforme definido nas opções do datalist
+                // O valor do input é "ID | Nome"
                 var partes = input.value.split(" | ");
                 var alunoId = partes[0];
 
-                const select = document.getElementById("individual");
+                const selectModo = document.getElementById("individual");
+                const selectDisciplina = document.getElementById("disciplina"); // deve ter este ID
                 const horasGrupoInput = document.getElementById("horasGrupo");
                 const horasIndividualInput = document.getElementById("horasIndividual");
 
-                // Limpa e desativa o select inicialmente
-                select.innerHTML = '';
-                select.disabled = true;
+                // Reinicializa os selects
+                selectModo.innerHTML = '';
+                selectModo.disabled = true;
+                if (selectDisciplina) {
+                    selectDisciplina.disabled = false; // default ativo
+                }
 
                 if (alunoId !== "") {
-                    // Realiza a requisição AJAX para obter os dados do aluno
                     $.ajax({
                         url: 'json.obterNome.php',
                         type: 'GET',
                         data: { idAluno: alunoId },
                         success: function(response) {
                             let data;
-
                             try {
                                 data = JSON.parse(response);
                             } catch (e) {
@@ -292,35 +294,41 @@
                                 horasGrupoInput.value = data.horasGrupo;
                                 horasIndividualInput.value = data.horasIndividual;
 
-                                // Atualizar o select conforme as horas
+                                // Atualiza modo (grupo/individual)
                                 if (data.horasGrupo > 0) {
                                     const optGrupo = document.createElement("option");
                                     optGrupo.value = "grupo";
                                     optGrupo.text = "Grupo";
-                                    select.appendChild(optGrupo);
+                                    selectModo.appendChild(optGrupo);
                                 }
-
                                 if (data.horasIndividual > 0) {
                                     const optIndividual = document.createElement("option");
                                     optIndividual.value = "individual";
                                     optIndividual.text = "Individual";
-                                    select.appendChild(optIndividual);
+                                    selectModo.appendChild(optIndividual);
                                 }
+                                selectModo.disabled = (selectModo.options.length === 0);
 
-                                // Só ativa se houver pelo menos uma opção
-                                if (select.options.length > 0) {
-                                    select.disabled = false;
+                                // Se cicl0 for 1, desativa o select de disciplina
+                                if (selectDisciplina) {
+                                    if (data.ciclo === 1) {
+                                        selectDisciplina.disabled = true;
+                                    } else {
+                                        selectDisciplina.disabled = false;
+                                    }
                                 }
                             }
                         },
                         error: function() {
-                            console.error('Erro ao buscar o nome.');
+                            console.error('Erro ao buscar os dados do aluno.');
                         }
                     });
                 } else {
-                    // Limpa campos se o input for inválido
                     horasGrupoInput.value = "";
                     horasIndividualInput.value = "";
+                    if (selectDisciplina) {
+                        selectDisciplina.disabled = false;
+                    }
                 }
             }
         </script>

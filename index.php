@@ -1,6 +1,10 @@
 <?php 
     $login = true;
-    include('./head.php'); 
+    include('./head.php');
+
+    if (isset($_GET['erro']) && $_GET['erro'] == "true"){
+        notificacao('danger', 'Password ou user Incorreto!');
+    }
 ?>
     <!-- Font Icon -->
     <link rel="stylesheet" href="./assets/fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -60,9 +64,10 @@
             </div>
         </section>
     </div>
-
+    <?php 
+        include('endPage.php');
+    ?>
     <!-- JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(".toggle-password").click(function () {
             var input = $($(this).attr("toggle"));
@@ -74,24 +79,4 @@
                 $(this).removeClass("zmdi-eye-off").addClass("zmdi-eye");
             }
         });
-        $(document).ready(function () {
-            <?php if (isset($_GET['erro']) && $_GET['erro'] == "true"): ?>
-                $.notify({
-                    message: 'Password ou user Incorreto!',
-                    title: 'Notificação',
-                    icon: 'fa fa-info-circle',
-                }, {
-                    type: 'danger',
-                    placement: {
-                        from: 'top',
-                        align: 'right'
-                    },
-                    delay: 2000
-                });
-                const cleanUrl = window.location.origin + window.location.pathname;
-                window.history.replaceState({}, document.title, cleanUrl);
-            <?php endif; ?>
-        });
     </script>
-</body>
-</html>

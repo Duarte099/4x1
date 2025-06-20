@@ -299,8 +299,7 @@
                     </div>
                 </div>
             </div>
-        </div> 
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+        </div>
         <script>
             fetch('json.obterHorasPorCiclo.php')
                 .then(response => response.json())
