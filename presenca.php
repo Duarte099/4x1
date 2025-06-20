@@ -287,7 +287,7 @@
                                 return;
                             }
 
-                            if (data === "erro") {
+                            if (data.erro) {
                                 horasGrupoInput.value = "";
                                 horasIndividualInput.value = "";
                             } else {

@@ -28,12 +28,12 @@
 
             echo json_encode($dados);
         } else {
-            echo json_encode(["erro"]);
+            echo json_encode(["erro" => true]);
         }
         
         $stmt->close();
     } else {
         // Se o parâmetro "idAluno" não foi informado
-        echo json_encode(["erro"]);
+        echo json_encode(["erro" => true]);
     }
 ?>
