@@ -3,7 +3,7 @@
 
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -12,12 +12,12 @@
     use Dompdf\Dompdf;
     use Dompdf\Options;
 
-    $url = 'https://api-4x1-whatsapp-production.up.railway.app/enviarMensagem';
+    $url = 'https://api-4x1-whatsapp.onrender.com/enviarMensagem';
     $mensagem = "";
     $notificacao = 0;
     $contacto = "";
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['acao'] === 'enviar_notificacoes') {
-        $sql1 = "SELECT * FROM alunos WHERE ativo = 1 AND notHorario = 1;";
+        $sql1 = "SELECT id, contacto, ano, tlmMae, tlmPai, nome FROM alunos WHERE estado = 1 AND notHorario = 1;";
         $result1 = $con->query($sql1);
         if ($result1->num_rows > 0) {
             while ($row1 = $result1->fetch_assoc()) {
@@ -233,7 +233,7 @@
                 $data = [
                     'number' => $contacto,
                     'message' => $mensagem,
-                    'apiKey' => '5e_Z.4y5Zo$$',
+                    'apiKey' => 'apiKey_9273kLmnTqX4vZ8',
                     'fileUrl' => 'https://admin.4x1.pt/uploads/horarios/' . $filename
                 ];
 
@@ -274,17 +274,17 @@
                 notificacao('success', 'Alunos notificados com sucesso!');
             }
         }
-        $sql1 = "SELECT * FROM professores WHERE ativo = 1 AND notHorario = 1 AND defNotHorario = 1;";
+        $sql1 = "SELECT id, nome, contacto FROM professores WHERE estado = 1 AND notHorario = 1 AND defNotHorario = 1;";
         $result1 = $con->query($sql1);
         if ($result1->num_rows > 0) {
             while ($row1 = $result1->fetch_assoc()) {
                 $contacto = str_replace("+", "", $row1['contacto']);
-                $mensagem = "*Olá!* 👋\n\nO seu horário foi atualizado - https://admin.4x1.pt/horario.php .\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 539 965*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
+                $mensagem = "*Olá!* 👋\n\nO seu horário foi atualizado - https://admin.4x1.pt/horario .\n\nPara qualquer dúvida ou esclarecimento, por favor contacte a diretora pedagógica:\n📞 *966 539 965*\n\n📍 *Centro de Estudo 4x1*\nAlameda Arnaldo Gama nº 161\n4765-001 Vila das Aves\n✉️ geral@4x1.pt";
                 
                 $data = [
                     'number' => $contacto,
                     'message' => $mensagem,
-                    'apiKey' => '5e_Z.4y5Zo$$'
+                    'apiKey' => 'apiKey_9273kLmnTqX4vZ8'
                 ];
 
                 $ch = curl_init();
@@ -322,5 +322,5 @@
         }
         exit(); // Termina o script depois de enviar
     }
-    header('Location: horario.php');
+    header('Location: horario');
 ?>

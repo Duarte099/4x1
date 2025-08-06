@@ -18,6 +18,8 @@ pergutnar como funciona se o aluno nao tiver no perfil horas grupo ou individuai
 
 perguntar quando debito o valor dos pagamentos dos professores
 
+js para alterar o balanco automaticamente
+
 atualizar:
     perfil
     professorEdit

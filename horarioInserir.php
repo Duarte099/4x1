@@ -4,7 +4,7 @@
 
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -28,7 +28,7 @@
                 $stmt->store_result();
                 if ($stmt->num_rows < 0) {
                     notificacao('warning', 'Professor inválido.');
-                    header('Location: horario.php');
+                    header('Location: horario');
                     exit();
                 }
 
@@ -56,7 +56,7 @@
                                 $stmt->store_result();
                                 if ($stmt->num_rows < 0) {
                                     notificacao('warning', 'Aluno inválido.');
-                                    header('Location: horario.php');
+                                    header('Location: horario');
                                     exit();
                                 }
 
@@ -86,25 +86,25 @@
 
                 switch ($_POST['dia']) {
                     case 'segunda':
-                        header('Location: horario.php?dia=segunda');
+                        header('Location: horario?dia=segunda');
                         break;
                     case 'terca':
-                        header('Location: horario.php?dia=terca');
+                        header('Location: horario?dia=terca');
                         break;
                     case 'quarta':
-                        header('Location: horario.php?dia=quarta');
+                        header('Location: horario?dia=quarta');
                         break;
                     case 'quinta':
-                        header('Location: horario.php?dia=quinta');
+                        header('Location: horario?dia=quinta');
                         break;
                     case 'sexta':
-                        header('Location: horario.php?dia=sexta');
+                        header('Location: horario?dia=sexta');
                         break;
                     case 'sabado':
-                        header('Location: horario.php?dia=sabado');
+                        header('Location: horario?dia=sabado');
                         break;
                     default:
-                        header('Location: horario.php');
+                        header('Location: horario');
                 }
             }
             else {
@@ -160,7 +160,7 @@
                         $result = $stmt->get_result();
                         if ($result->num_rows <= 0) {
                             notificacao('warning', 'Aluno ' .  $_POST['aluno_' . $i] . ' inválido.');
-                            header('Location: horario.php');
+                            header('Location: horario');
                             exit();
                         }
 
@@ -232,36 +232,36 @@
 
                 switch ($_POST['dia']) {
                     case 'segunda':
-                        header('Location: horario.php?dia=segunda');
+                        header('Location: horario?dia=segunda');
                         break;
                     case 'terca':
-                        header('Location: horario.php?dia=terca');
+                        header('Location: horario?dia=terca');
                         break;
                     case 'quarta':
-                        header('Location: horario.php?dia=quarta');
+                        header('Location: horario?dia=quarta');
                         break;
                     case 'quinta':
-                        header('Location: horario.php?dia=quinta');
+                        header('Location: horario?dia=quinta');
                         break;
                     case 'sexta':
-                        header('Location: horario.php?dia=sexta');
+                        header('Location: horario?dia=sexta');
                         break;
                     case 'sabado':
-                        header('Location: horario.php?dia=sabado');
+                        header('Location: horario?dia=sabado');
                         break;
                     default:
-                        header('Location: horario.php');
+                        header('Location: horario');
                 }
             }
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

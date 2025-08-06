@@ -22,11 +22,14 @@
                 if ($result) {
                     $result->bind_param("ii", $definicaoHorario, $_SESSION['id']);
                     if ($result->execute()) {
-                        registrar_log("prof", "O professor [{$_SESSION['id']}] {$_SESSION['nome']} {$aux} as notificações do horário!");
+                        if ($_SESSION['defNotHorario'] != $definicaoHorario) {
+                            registrar_log($con, "Editar definições", "defNotHorario: {$_SESSION['defNotHorario']} => $definicaoHorario");
+                        }
                         notificacao('success', "Definições alteradas com sucesso!");
+                        $_SESSION['defNotHorario'] = $definicaoHorario;
                     }
                     else {
-                        notificacao('success', "Erro ao alterar definições!");
+                        notificacao('danger', "Erro ao alterar definições!");
                     }
                 }
             }
@@ -34,8 +37,10 @@
                 for ($i=1; $i < 5; $i++) { 
                     if (isset($_POST['cronjob_' . $i]) && $_POST['cronjob_' . $i] == "on") {
                         $cronjob = 1;
+                        $_POST['cronjob_' . $i] = 1;
                     } else {
                         $cronjob = 0;
+                        $_POST['cronjob_' . $i] = 0;
                     }
                     $sql = "UPDATE cronjobs SET estado = ? WHERE id = ?;";
                     $result = $con->prepare($sql);
@@ -45,24 +50,37 @@
                             notificacao('success', "Definições alteradas com sucesso!");
                         }
                         else {
-                            notificacao('success', "Erro ao alterar definições!");
+                            notificacao('danger', "Erro ao alterar definições!");
                         }
                     }
                 }
-                registrar_log("admin", "O administrador [{$_SESSION['id']}] {$_SESSION['nome']} alterou as definições!"); 
+                $detalhes = gerar_detalhes_alteracoes(
+                    $rowTeste,
+                    [
+                        'cronjobSeguro' => $_POST['cronjob_1'],
+                        'cronjobRecibos' => $_POST['cronjob_2'],
+                        'cronjobNovoAnoLetivo' => $_POST['cronjob_3'],
+                        'cronjobDespesas' => $_POST['cronjob_4'],
+                    ]
+                );
+                print_r($detalhes);
+                if (!empty($detalhes)) {
+                    echo "teste";
+                    registrar_log($con, "Editar definições", $detalhes);
+                }
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: definicoes.php');
+            //header('Location: definicoes');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

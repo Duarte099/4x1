@@ -11,12 +11,13 @@
             $partes = explode(" | ", $_POST['nome']);
             $idAluno = $partes[0];
 
-            $sql = "SELECT id FROM disciplinas;";
+            $sql = "SELECT id, nome FROM disciplinas;";
             $result = $con->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     if ($_POST['disciplina'] == 'disciplina_' . $row['id']) {
                         $idDisciplina = $row['id'];
+                        $nomeDisciplina = $row['nome'];
                     }
                 }
             }
@@ -29,7 +30,7 @@
                 $row = $result->fetch_assoc();
             } else {
                 notificacao('warning', 'ID do aluno inválido.');
-                header('Location: testes.php');
+                header('Location: testes');
                 exit();
             }
 
@@ -41,12 +42,8 @@
                 $result->bind_param("iis", $idAluno, $idDisciplina, $dia);
                 if ($result->execute()) {
                     notificacao('success', 'Teste registrado com sucesso!');
-                    if ($_SESSION["tipo"] == "professor") {
-                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou um teste para o aluno [" . $idAluno . "]" . $row["nome"] . ".");
-                    }
-                    else {
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou um teste para o aluno [" . $idAluno . "]" . $row["nome"] . ".");
-                    }
+                    $idTeste = $con->insert_id;
+                    registrar_log($con, "Criar teste", "id: " . $idTeste . ", aluno: " . $row["nome"] . ", disciplina: " . $nomeDisciplina . ", dia: " . $dia);
                 } 
                 else {
                     notificacao('danger', 'Erro ao inserir teste: ' . $result->error);
@@ -59,16 +56,16 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: testes.php');
+            header('Location: testes');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

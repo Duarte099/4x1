@@ -3,12 +3,12 @@
     include('./head.php'); 
 
     //variável para indicar à sideBar que página esta aberta para ficar como ativa na sideBar
-    $estouEm = 13;
+    $estouEm = 15;
 
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>
@@ -21,6 +21,9 @@
             max-width: 800px;
             margin: 0 auto;
         }
+        .card {
+            min-height: 100vh !important;
+        }
     </style>
 </head>
     <body>
@@ -29,50 +32,52 @@
                 include('./sideBar.php'); 
             ?>
             <div class="container">
-                <div class="col-12 col-md-10 col-lg-8 mx-auto">
-                    <form action="transacoesInserir?op=save" method="POST">
-                        <div class="container2">
-                            <div class="page-inner">
-                                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
-                                    <div>
-                                        <h2 class="fw-bold mb-3">Nova Transação</h2>
+                <div class="card">
+                    <div class="col-12 col-md-10 col-lg-8 mx-auto">
+                        <form action="transacoesInserir?op=save" method="POST">
+                            <div class="container2">
+                                <div class="page-inner">
+                                    <div class="d-flex justify-content-between align-items-center pt-2 pb-4" style="text-align: center;">
+                                        <div>
+                                            <h2 class="fw-bold mb-3 mb-md-0">Nova Transação</h2>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-8">
-                                        <label for="descricao" class="form-label">Descrição:</label>
-                                        <input type="input" name="descricao" class="form-control" required>
+                                    <div class="row mb-3">
+                                        <div class="col-md-8">
+                                            <label for="descricao" class="form-label">Descrição:</label>
+                                            <input type="input" name="descricao" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="valor" class="form-label">Valor:</label>
+                                            <input type="number" class="form-control" step="0.01" min="0" name="valor" required>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="valor" class="form-label">Valor:</label>
-                                        <input type="number" class="form-control" step="0.01" min="0" name="valor" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-12">
-                                        <label for="categoria" class="form-label">Categoria:</label>
-                                        <select name="categoria" class="form-control">
-                                            <?php
-                                                $sql = "SELECT id, nome, tipo FROM categorias;";
-                                                $result = $con->query($sql);
-                                                if ($result->num_rows > 0) {
-                                                    while ($row = $result->fetch_assoc()) { ?>
-                                                            <option value="<?php echo $row['id']; ?>"><?php echo $row['tipo']; ?> | <?php echo $row['nome']; ?></option>
-                                                        <?php 
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <label for="categoria" class="form-label">Categoria:</label>
+                                            <select name="categoria" class="form-control">
+                                                <?php
+                                                    $sql = "SELECT id, nome, tipo FROM categorias;";
+                                                    $result = $con->query($sql);
+                                                    if ($result->num_rows > 0) {
+                                                        while ($row = $result->fetch_assoc()) { ?>
+                                                                <option value="<?php echo $row['id']; ?>"><?php echo $row['tipo']; ?> | <?php echo $row['nome']; ?></option>
+                                                            <?php 
+                                                        }
                                                     }
-                                                }
-                                            ?>
-                                        </select>
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
+                                    <button type="submit" class="btn btn-primary">Criar transação</button>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Criar transação</button>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <?php include('./endPage.php'); ?>
-    </body>
-    </html>
+        <?php 
+            include('./endPage.php'); 
+        ?>
 

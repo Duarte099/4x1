@@ -8,7 +8,7 @@
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>
@@ -20,6 +20,9 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             max-width: 800px;
             margin: 0 auto;
+        }
+        .card {
+            min-height: 100vh !important;
         }
     </style>
 </head>
@@ -79,9 +82,9 @@
                             </div>
                         </div> -->
                         <div class="page-inner">
-                            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4" style="text-align: center;">
+                            <div class="d-flex justify-content-between align-items-center pt-2 pb-4" style="text-align: center;">
                                 <div>
-                                    <h2 class="fw-bold mb-3">Ficha do professor</h2>
+                                    <h2 class="fw-bold mb-3 mb-md-0">Ficha do professor</h2>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -162,86 +165,81 @@
                     </form>
                 </div>
             </div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
-            <script>
-                const input = document.querySelector("#contacto");
-                const hiddenInput = document.querySelector("#contactoHidden");
-                const iti = window.intlTelInput(input, {
-                    initialCountry: "pt",
-                    preferredCountries: ["pt", "br", "fr", "gb"],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                });
-                // Ao submeter o formulário, atualiza o campo hidden
-                document.querySelector("#formEdit").addEventListener("submit", function () {
-                    hiddenInput.value = iti.getNumber();
-                });
-                
-                function verificarPasswords(e) {
-                    e.preventDefault();
-                    const password = document.getElementById("password").value;
-                    const confirm = document.getElementById("passwordConfirm").value;
-                    const emailAdmin = document.getElementById("email").value;
-
-                    let erro = 0;
-
-                    if (password !== confirm) {
-                        $.notify({
-                            message: 'As palavras passes não coincidem!',
-                            title: 'Notificação',
-                            icon: 'fa fa-info-circle',
-                        }, {
-                            type: 'warning',
-                            placement: {
-                                from: 'top',
-                                align: 'right'
-                            },
-                            delay: 3000
-                        });
-                        erro += 1;
-                    }
-
-                    if (erro === 0) {
-                        $.ajax({
-                            url: 'json.obterEmails.php',
-                            type: 'GET',
-                            success: function(response) 
-                            {
-                                var data = JSON.parse(response);
-                                for (let i = 0; i < data.length; i++) {
-                                    if (data[i].email === emailAdmin) {
-                                        $.notify({
-                                            message: 'Esse email já existe no sistema.',
-                                            title: 'Notificação',
-                                            icon: 'fa fa-info-circle',
-                                        }, {
-                                            type: 'warning',
-                                            placement: {
-                                                from: 'top',
-                                                align: 'right'
-                                            },
-                                            delay: 3000
-                                        });
-
-                                        erro += 1;
-                                        break;
-                                    }
-                                }
-                                if (erro === 0) {
-                                    e.target.submit();
-                                }
-                            },
-                            error: function() {
-                                console.error('Erro ao buscar os emails.');
-                            }
-                        });
-                    }
-                }
-            </script>
         </div>
+        <script>
+            const input = document.querySelector("#contacto");
+            const hiddenInput = document.querySelector("#contactoHidden");
+            const iti = window.intlTelInput(input, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            // Ao submeter o formulário, atualiza o campo hidden
+            document.querySelector("#formEdit").addEventListener("submit", function () {
+                hiddenInput.value = iti.getNumber();
+            });
+            
+            function verificarPasswords(e) {
+                e.preventDefault();
+                const password = document.getElementById("password").value;
+                const confirm = document.getElementById("passwordConfirm").value;
+                const emailAdmin = document.getElementById("email").value;
+
+                let erro = 0;
+
+                if (password !== confirm) {
+                    $.notify({
+                        message: 'As palavras passes não coincidem!',
+                        title: 'Notificação',
+                        icon: 'fa fa-info-circle',
+                    }, {
+                        type: 'warning',
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        },
+                        delay: 3000
+                    });
+                    erro += 1;
+                }
+
+                if (erro === 0) {
+                    $.ajax({
+                        url: 'json.obterEmails.php',
+                        type: 'GET',
+                        success: function(response) 
+                        {
+                            var data = JSON.parse(response);
+                            for (let i = 0; i < data.length; i++) {
+                                if (data[i].email === emailAdmin) {
+                                    $.notify({
+                                        message: 'Esse email já existe no sistema.',
+                                        title: 'Notificação',
+                                        icon: 'fa fa-info-circle',
+                                    }, {
+                                        type: 'warning',
+                                        placement: {
+                                            from: 'top',
+                                            align: 'right'
+                                        },
+                                        delay: 3000
+                                    });
+
+                                    erro += 1;
+                                    break;
+                                }
+                            }
+                            if (erro === 0) {
+                                e.target.submit();
+                            }
+                        },
+                        error: function() {
+                            console.error('Erro ao buscar os emails.');
+                        }
+                    });
+                }
+            }
+        </script>
         <?php 
             include('./endPage.php'); 
         ?>
-    </body>
-    </html>
-

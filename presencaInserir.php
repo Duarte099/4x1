@@ -11,13 +11,11 @@
             $partes = explode(" | ", $_POST['nome']);
             $idAluno = $partes[0];
 
-            $sql = "SELECT id FROM disciplinas;";
+            $sql = "SELECT nome FROM disciplinas WHERE id = " . $_POST['disciplina'];
             $result = $con->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    if ($_POST['disciplina'] == 'disciplina_' . $row['id']) {
-                        $idDisciplina = $row['id'];
-                    }
+                    $nomeDisciplina = $row['nome'];
                 }
             }
 
@@ -29,7 +27,7 @@
                 $row = $result->fetch_assoc();
             } else {
                 notificacao('warning', 'ID do aluno inválido.');
-                header('Location: presenca.php');
+                header('Location: presenca');
                 exit();
             }
 
@@ -41,22 +39,15 @@
                 $individual = 0;
             }
             $idProfessor = $_SESSION['id'];
-            if ($_SESSION['tipo'] == "administrador") {
-                $idProfessor = 8;
-            }
 
-            $sql = "INSERT INTO alunos_presenca (idAluno, idDisciplina, idProfessor, duracao, dia, individual) VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO alunos_presenca (idAluno, idDisciplina, duracao, dia, individual) VALUES (?, ?, ?, ?, ?, ?)";
             $result = $con->prepare($sql);
             if ($result) {
                 $result->bind_param("iiiisi", $idAluno, $idDisciplina, $idProfessor, $hora, $dia, $individual);
                 if ($result->execute()) {
+                    $idPresenca = $con->insert_id;
                     notificacao('success', 'Presença registrada com sucesso!');
-                    if ($_SESSION["tipo"] == "professor") {
-                        registrar_log("prof", "O professor [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou a presença do aluno [" . $idAluno . "]" . $row["nome"] . ".");
-                    }
-                    else {
-                        registrar_log("admin", "O administrador [" . $_SESSION["id"] . "]" . $_SESSION["nome"] . " registrou a presença do aluno [" . $idAluno . "]" . $row["nome"] . ".");
-                    }
+                    registrar_log($con, "Criar presença", "id: " . $idPresenca . ", aluno: " . $row["nome"] . ", disciplina: " . $nomeDisciplina . ", duracao: " . $_POST['hora'] . ", dia: " . $_POST['dia'] . ", individual: " . $_POST['individual']);
                 } 
                 else {
                     notificacao('danger', 'Erro ao inserir presença: ' . $result->error);
@@ -69,16 +60,16 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: presenca.php');
+            header('Location: presenca');
         }
         else {
             notificacao('warning', 'Operação inválida.');
-            header('Location: dashboard.php');
+            header('Location: dashboard');
             exit();
         }
     }
     else {
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 ?>

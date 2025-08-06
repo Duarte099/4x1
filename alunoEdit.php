@@ -6,18 +6,10 @@
     $estouEm = 2;
 
     $idAluno = $_GET['idAluno'];
-    $mesSelecionado = $_GET['mes'] ?? date('Y-m');
     $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
-    $recibo = true;
-    $valorCoima = 0;
     $botao = true;
 
-
-    if ($tab == "recibo") {
-        $estouEm = 2;
-    }
-
-    $stmt = $con->prepare("SELECT *, a.ano as anoAluno, a.transporte as tAluno FROM alunos as a LEFT JOIN alunos_recibo as ar ON ar.idAluno = a.id WHERE a.id = ?");
+    $stmt = $con->prepare("SELECT *, a.ano as anoAluno, a.transporte as tAluno FROM alunos as a WHERE a.id = ?");
     $stmt->bind_param("i", $idAluno);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -25,136 +17,67 @@
         $rowAluno = $result->fetch_assoc();
     } else {
         notificacao('warning', 'ID do aluno inválido.');
-        header('Location: aluno.php');
+        header('Location: aluno');
         exit();
     }
 
-    list($ano, $mes) = explode('-', $mesSelecionado);
-
-    if ($mes == date("n") && $ano == date("Y")) {
-        $botao = false;
-        $mensalidade = 0;
-        $rowRecibo['mensalidadeGrupo'] = 0;
-        $rowRecibo['mensalidadeIndividual'] = 0;
-        $rowRecibo['horasRealizadasGrupo'] = 0;
-        $rowRecibo['horasRealizadasIndividual'] = 0;
-        $rowRecibo['transporte'] = 0;
-        $rowRecibo['inscricao'] = 0;
-        $rowRecibo['anoAluno'] = $rowAluno['anoAluno'];
-        $rowRecibo['packGrupo'] = $rowAluno['horasGrupo'];
-        $rowRecibo['estado'] = "Pendente";
-        $rowRecibo['coima'] = 0;
-        $totalMinutos = 0;
-
-        //Horas Grupo
-        $sql = "SELECT duracao
-                FROM alunos_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND idAluno = $idAluno AND individual = 0;";
-        $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $totalMinutos = $totalMinutos + $row["duracao"];
+    if (isset($_GET['idRecibo'])) {
+        $idRecibo = $_GET['idRecibo'];
+        $stmt1 = $con->prepare("SELECT ar.id, ar.idAluno, ar.anoAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE ar.id = ?");
+        $stmt1->bind_param("i", $idRecibo);
+        $stmt1->execute();
+        $result1 = $stmt1->get_result();
+        if ($result1->num_rows > 0) {
+            $rowRecibo = $result1->fetch_assoc();
+            $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'];
+            //Se tiver verificado
+            if ($rowRecibo['verificado'] == 1) {
+                if ($rowRecibo['notificacao'] == 1) {
+                    $data_limite = (new DateTime($rowRecibo['notificadoEm']))->modify('+7 days');
+                    $data_hoje = new DateTime();
+                    if ($rowRecibo['pago'] == 1) {
+                        $rowRecibo['estado'] = "Pago";
+                        $corPagamento = "2ecc71";
+                        $botao = false;
+                    }
+                    elseif ($data_hoje > $data_limite) {
+                        $rowRecibo['estado'] = "Em atraso";
+                        $corPagamento = "ff0000";
+                    }
+                    else {
+                        $rowRecibo['estado'] = "Pendente";
+                        $corPagamento = "f1c40f";
+                    }
+                }
+                else {
+                    $rowRecibo['estado'] = "À espera de ser notificado";
+                    $corPagamento = "007BFF";
+                    $botao = false;
+                }
             }
-            $rowRecibo['horasRealizadasGrupo'] = minutosToValor($totalMinutos);
-        }
-        $rowRecibo['horasBalancoGrupo'] = $rowAluno['balancoGrupo'] + ($rowAluno['horasGrupo'] - $rowRecibo['horasRealizadasGrupo']);
-
-        //Horas Individuais
-        $sql = "SELECT duracao
-                FROM alunos_presenca AS p
-                INNER JOIN alunos AS a ON a.id = p.idAluno
-                WHERE MONTH(p.dia) = $mes AND YEAR(p.dia) = $ano AND idAluno = $idAluno AND individual = 1;";
-        $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $totalMinutos = $totalMinutos + $row["duracao"];
+            //Se não tiver verificado
+            else {
+                $rowRecibo['estado'] = "À espera de verificação";
+                $corPagamento = "007BFF";
+                $botao = false;
             }
-            $rowRecibo['horasRealizadasIndividual'] = minutosToValor($totalMinutos);
-        }
-        $rowRecibo['horasBalancoIndividual'] = $rowAluno['balancoIndividual'] + ($rowAluno['horasIndividual'] - $rowRecibo['horasRealizadasIndividual']);
-
-        //Valores pagamento transporte
-        $sql = "SELECT * FROM valores_pagamento WHERE id = 7;";
-        $result = $con->query($sql);
-        //Se houver um aluno com o id recebido, guarda as informações
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $valorTransporte = $row["valor"];
-        }
-
-        //Valores pagamento inscrição
-        $sql = "SELECT * FROM valores_pagamento WHERE id = 9;";
-        $result = $con->query($sql);
-        //Se houver um aluno com o id recebido, guarda as informações
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $valorInscricao = $row["valor"];
-        }
-
-        if(!empty($rowAluno['dataInscricao'])){
-            $mesInscricao = date('Y-m', strtotime($rowAluno['dataInscricao']));
-            if ($mesInscricao == date('Y-m')) {
-                $mensalidade = $mensalidade + $valorInscricao;
-                $rowRecibo['inscricao'] = $valorInscricao;
-            }
-        }
-
-        if ($rowAluno['transporte'] == 1) {
-            $mensalidade = $mensalidade + $valorTransporte;
-            $rowRecibo['transporte'] = $valorTransporte;
-        }
-
-        //Mensalidades grupo e individual
-        if ($rowAluno['horasGrupo'] > 0) {
-            $result6 = $con->prepare('SELECT mensalidadeHorasGrupo FROM mensalidade WHERE ano = ? AND horasGrupo = ?');
-            $result6->bind_param('ii', $rowAluno['ano'], $rowAluno['horasGrupo']);
-            $result6->execute();
-            $result6 = $result6->get_result();
-            if ($result6->num_rows > 0) {
-                $row6 = $result6->fetch_assoc();
-                $rowRecibo['mensalidadeGrupo'] = $row6['mensalidadeHorasGrupo'];
-            }
-        }
-        if ($rowAluno['horasIndividual'] > 0) {
-            $result6 = $con->prepare('SELECT mensalidadeHorasIndividual FROM mensalidade WHERE ano = ? AND horasIndividual = ?');
-            $result6->bind_param('ii', $rowAluno['ano'], $rowAluno['horasIndividual']);
-            $result6->execute();
-            $result6 = $result6->get_result(); 
-            if ($result6->num_rows > 0) {
-                $row6 = $result6->fetch_assoc();
-                $rowRecibo['mensalidadeIndividual'] = $row6['mensalidadeHorasIndividual'];
-            }
-        }
-        $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'];
-    }
-    else {
-        $sql = "SELECT *, CASE 
-                            WHEN pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) > 8 THEN 'Atrasado'
-                            WHEN pagoEm != '0000-00-00 00:00:00' THEN 'Pago'
-                            WHEN pagoEm = '0000-00-00 00:00:00' AND DAY(CURDATE()) < 8 THEN 'Pendente'
-                            ELSE 'Outro'
-                        END AS estado 
-                FROM alunos_recibo as a 
-                    LEFT JOIN metodos_pagamento as m ON a.idMetodo = m.id 
-                WHERE idAluno = $idAluno AND ano = $ano AND mes = $mes";
-        $result = $con->query($sql);
-        //Se houver um aluno com o id recebido, guarda as informações
-        if ($result->num_rows > 0) {
-            $rowRecibo = $result->fetch_assoc();
-            $mensalidade = $rowRecibo['mensalidadeGrupo'] + $rowRecibo['mensalidadeIndividual'] + $rowRecibo['inscricao'] + $rowRecibo['transporte'] + $rowRecibo['coima'];
         }
         else {
-            $recibo = false;
+            notificacao('warning', 'ID do recibo inválido.');
+            header('Location: aluno');
+            exit();
         }
+    }
+    else {
+        notificacao('warning', 'ID do recibo inválido.');
+        header('Location: aluno');
+        exit();
     }
 ?>
     <title>4x1 | Editar Aluno</title>
     <style>
-        th {
-            padding: 10px;
-            background-color: #f2f2f2;
-            color: #343a40;
+        .card {
+            min-height: 100vh !important;
         }
 
         .container2 {
@@ -164,29 +87,16 @@
             max-width: 800px;
             margin: 0 auto;
         }
-
-        table {
-            width: 100%;
-            margin-bottom: 20px;
-            border-collapse: collapse;
-            margin: 20px auto;
-            background-color: #fff;
-            border: 2px solid #dee2e6;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        table td, table th {
-            padding: 8px;
-            font-size: 15px;
-            border: 1px solid #dee2e6;
-            text-align: center;
-        }
-
+        
         .form-control:disabled,
         .form-control[readonly] {
             background-color: white !important;
             opacity: 1 !important;
             border: 1px solid #ced4da !important; /* igual ao form-control */
+        }
+        
+        .btn-lg {
+            padding:5px 5px !important;
         }
     </style>
     <script>
@@ -198,14 +108,17 @@
             // Define qual aba abrir com base no parâmetro
             let abaDesejada;
             switch (tabParam) {
-                case 'recibo':
-                    abaDesejada = '#recibo-tab';
+                case 'explicacoes':
+                    abaDesejada = '#explicacoes-tab';
                     break;
-                case 'presenca':
-                    abaDesejada = '#registro-presenca-tab';
+                case 'recibos':
+                    abaDesejada = '#recibos-tab';
                     break;
                 case 'pagamento':
                     abaDesejada = '#pagamento-tab';
+                    break;
+                case 'editRecibo':
+                    abaDesejada = '#editRecibo-tab';
                     break;
                 default:
                     abaDesejada = '#editar-aluno-tab'; // Aba padrão
@@ -229,13 +142,26 @@
                                 <a class="nav-link active" id="editar-aluno-tab" data-bs-toggle="pill" href="#editar-aluno" role="tab" aria-controls="editar-aluno" aria-selected="true">Ficha do Aluno</a>
                             </li>
                             <li class="nav-item1">
-                                <a class="nav-link" id="recibo-tab" data-bs-toggle="pill" href="#recibo" role="tab" aria-controls="recibo" aria-selected="false">Recibo</a>
+                                <a class="nav-link" id="explicacoes-tab" data-bs-toggle="pill" href="#explicacoes" role="tab" aria-controls="explicacoes" aria-selected="false">Explicações</a>
                             </li>
+                            <li class="nav-item1">
+                                <a class="nav-link" id="recibos-tab" data-bs-toggle="pill" href="#recibos" role="tab" aria-controls="recibos" aria-selected="false">Recibos</a>
+                            </li>
+                            <?php if (isset($_GET['tab']) && $_GET['tab'] == "pagamento") { ?>
+                                <li class="nav-item1">
+                                    <a class="nav-link" id="pagamento-tab" data-bs-toggle="pill" href="#pagamento" role="tab" aria-controls="pagamento" aria-selected="false">Pagamento</a>
+                                </li>
+                            <?php } ?>
+                            <?php if (isset($_GET['tab']) && $_GET['tab'] == "editRecibo" && $_SESSION['tipo'] == "administrador") { ?>
+                                <li class="nav-item1">
+                                    <a class="nav-link" id="editRecibo-tab" data-bs-toggle="pill" href="#editRecibo" role="tab" aria-controls="editRecibo" aria-selected="false">Editar recibo</a>
+                                </li>
+                            <?php } ?>
                         </ul>
                         <div class="tab-content mt-2 mb-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="editar-aluno" role="tabpanel" aria-labelledby="editar-aluno-tab">
                                 <div class="col-12 col-md-10 col-lg-8 mx-auto">
-                                    <form action="alunoInserir.php?idAluno=<?php echo $idAluno ?>&op=edit" method="POST" id="formEdit" class="formEdit">
+                                    <form action="alunoInserir?idAluno=<?php echo $idAluno ?>&op=edit" method="POST" id="formEdit" class="formEdit">
                                         <!-- <div
                                             class="modal fade"
                                             id="addRowModal"
@@ -386,8 +312,8 @@
                                                 <div class="col-md-2">
                                                     <label class="form-label" for="estado">Estado:</label>
                                                     <select class="form-control" name="estado">
-                                                        <option value='1' <?php if ($rowAluno['ativo'] == 1) { echo "selected"; }?>>Ativo</option>
-                                                        <option value='0' <?php if ($rowAluno['ativo'] == 0) { echo "selected"; }?>>Inativo</option>
+                                                        <option value='1' <?php if ($rowAluno['estado'] == 1) { echo "selected"; }?>>Ativo</option>
+                                                        <option value='0' <?php if ($rowAluno['estado'] == 0) { echo "selected"; }?>>Inativo</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -444,205 +370,533 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="recibo" role="tabpanel" aria-labelledby="recibo-tab">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <form action="" method="GET" class="d-flex align-items-center">
-                                        <input type="hidden" name="idAluno" value="<?= $idAluno ?>">
-                                        <input type="hidden" name="tab" value="recibo">
-
-                                        <label for="mes" class="form-label mb-0 me-2">Data:</label>
-                                        <input type="month" name="mes" id="mes" value="<?= $mesSelecionado ?>" class="form-control" style="width: 200px;" onchange="this.form.submit()">
-                                    </form>
+                            <div class="tab-pane fade" id="explicacoes" role="tabpanel" aria-labelledby="explicacoes-tab">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table
+                                                    id="tabela-aluno-explicacoes"
+                                                    class="display table table-striped table-hover"
+                                                >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Professor</th>
+                                                            <th>Disciplina</th>
+                                                            <th>Duração(h)</th>
+                                                            <th>Tipo</th>
+                                                            <th>Dia</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>Professor</th>
+                                                            <th>Disciplina</th>
+                                                            <th>Duração(h)</th>
+                                                            <th>Tipo</th>
+                                                            <th>Dia</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        <?php
+                                                            //query para selecionar todos os administradores
+                                                            $sql = "SELECT p.nome as nomeProfessor, d.nome as nomeDisciplina, individual, duracao, DATE_FORMAT(dia, '%d-%m-%Y') as dia FROM alunos_presenca as ap INNER JOIN alunos as a ON ap.idAluno = a.id INNER JOIN professores as p ON ap.idProfessor = p.id INNER JOIN disciplinas as d ON ap.idDisciplina = d.id WHERE a.id = $idAluno;";
+                                                            $result = $con->query($sql);
+                                                            if ($result->num_rows > 0) {
+                                                                while ($row = $result->fetch_assoc()) { 
+                                                                    if ($row['individual'] == 1) {
+                                                                        $tipo = "Individual";
+                                                                    }
+                                                                    else {
+                                                                        $tipo = "Grupo";
+                                                                    }?>
+                                                                    <tr>
+                                                                        <td><?php echo $row['nomeProfessor'] ?></td>
+                                                                        <td><?php echo $row['nomeDisciplina'] ?></td>
+                                                                        <td><?php echo decimalParaHoraMinutos(minutosToValor($row['duracao'])) ?></td>
+                                                                        <td><?php echo $tipo ?></td>
+                                                                        <td><?php echo $row['dia'] ?></td>
+                                                                    </tr>
+                                                            <?php }
+                                                            }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="page-inner">
-                                    <form action="pagamentoInserir.php?idAluno=<?php echo $idAluno ?>&ano=<?php echo $ano ?>&mes=<?php echo $mes ?>&op=save" method="POST" id="formEdit" class="formEdit">
-                                        <div class="container2">
-                                            <?php if ($recibo == true): ?>
+                            </div>
+                            <div class="tab-pane fade" id="recibos" role="tabpanel" aria-labelledby="recibos-tab">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table
+                                                    id="tabela-aluno-recibos"
+                                                    class="display table table-striped table-hover"
+                                                >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Horas grupo</th>
+                                                            <th>Horas realizadas grupo</th>
+                                                            <th>Horas individuais</th>
+                                                            <th>Horas realizadas individual</th>
+                                                            <th>Estado verificação</th>
+                                                            <th>Estado notificação</th>
+                                                            <th>Estado pagamento</th>
+                                                            <th>Método pagamento</th>
+                                                            <th>Total</th>
+                                                            <th>Mes</th>
+                                                            <th>Ano</th>
+                                                            <th>Ação</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>Horas grupo</th>
+                                                            <th>Horas realizadas grupo</th>
+                                                            <th>Horas individuais</th>
+                                                            <th>Horas realizadas individual</th>
+                                                            <th>Estado verificação</th>
+                                                            <th>Estado notificação</th>
+                                                            <th>Estado pagamento</th>
+                                                            <th>Método pagamento</th>
+                                                            <th>Total</th>
+                                                            <th>Mes</th>
+                                                            <th>Ano</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        <?php
+                                                            if ($_SESSION['tipo'] == "professor") {
+                                                                $sql = "SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE a.id = $idAluno AND ar.pago = 0;";
+                                                            }
+                                                            else {
+                                                                $sql = "SELECT ar.id, ar.idAluno, ar.packGrupo, ar.horasRealizadasGrupo, ar.horasBalancoGrupo, ar.mensalidadeGrupo, ar.packIndividual, ar.horasRealizadasIndividual, ar.horasBalancoIndividual, ar.mensalidadeIndividual, ar.transporte, ar.inscricao, ar.pago, ar.verificado, ar.notificacao, ar.notificadoEm, ar.ano, ar.mes, m.metodo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id LEFT JOIN metodos_pagamento as m ON ar.idMetodo = m.id WHERE a.id = $idAluno;";
+                                                            }
+                                                            $result = $con->query($sql);
+                                                            if ($result->num_rows > 0) {
+                                                                while ($row = $result->fetch_assoc()) {
+                                                                    if ($row['verificado'] == 1) {
+                                                                        $row['verificado'] = "Verificado";
+                                                                        $corVerificacao = "2ecc71";
+                                                                        if ($row['notificacao'] == 1) {
+                                                                            $row['notificacao'] = "Notificado";
+                                                                            $corNotificacao = "2ecc71";
+                                                                            $data_limite = (new DateTime($row['notificadoEm']))->modify('+7 days');
+                                                                            $data_hoje = new DateTime();
+                                                                            if ($row['pago'] == 1) {
+                                                                                $row['pago'] = "Pago";
+                                                                                $corPagamento = "2ecc71";
+                                                                            }
+                                                                            elseif ($data_hoje > $data_limite) {
+                                                                                $row['pago'] = "Em atraso";
+                                                                                $corPagamento = "ff0000";
+                                                                            }
+                                                                            else {
+                                                                                $row['pago'] = "Pendente";
+                                                                                $corPagamento = "f1c40f";
+                                                                            }
+                                                                        }
+                                                                        else {
+                                                                            $row['notificacao'] = "Pendente";
+                                                                            $corNotificacao = "f1c40f";
+                                                                            $row['pago'] = "À espera de ser notificado";
+                                                                            $corPagamento = "007BFF";
+                                                                        }
+                                                                    }
+                                                                    //Se não tiver verificado
+                                                                    else {
+                                                                        $row['verificado'] = "Pendente";
+                                                                        $corVerificacao = "f1c40f";
+                                                                        $row['notificacao'] = "À espera de verificação";
+                                                                        $corNotificacao = "007BFF";
+                                                                        $row['pago'] = "À espera de verificação";
+                                                                        $corPagamento = "007BFF";
+                                                                    }?>
+                                                                    <tr>
+                                                                        <td><?php echo $row['packGrupo'] ?></td>
+                                                                        <td><?php echo $row['horasRealizadasGrupo'] ?></td>
+                                                                        <td><?php echo $row['packIndividual'] ?></td>
+                                                                        <td><?php echo $row['horasRealizadasIndividual'] ?></td>
+                                                                        <td style="color: #<?php echo $corVerificacao; ?>"><?php echo $row['verificado'] ?></td>
+                                                                        <td style="color: #<?php echo $corNotificacao; ?>"><?php echo $row['notificacao'] ?></td>
+                                                                        <td style="color: #<?php echo $corPagamento; ?>"><?php echo $row['pago'] ?></td>
+                                                                        <td><?php echo $row['metodo'] ?></td>
+                                                                        <td><?php echo $row['mensalidadeGrupo'] + $row['mensalidadeIndividual'] + $row['inscricao'] + $row['transporte'] ?>€</td>
+                                                                        <td><?php echo $row['mes'] ?></td>
+                                                                        <td><?php echo $row['ano'] ?></td>
+                                                                        <td style="padding: 5px 5px !important;">
+                                                                            <div class="form-button-action">
+                                                                                <?php if ($row['verificado'] == "Pendente") { ?>
+                                                                                    <a
+                                                                                        href="recibosAlunosVerificar?idRecibo=<?php echo $row['id']; ?>"
+                                                                                        class="btn btn-link btn-primary btn-lg"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        title="Verificar recibo"
+                                                                                    >
+                                                                                        <i class="fa fa-check"></i>
+                                                                                    </a>
+                                                                                <?php } 
+                                                                                if ($row["pago"] != "Pago" && $row["notificacao"] == "Notificado") { ?>
+                                                                                    <a
+                                                                                        href="alunoEdit?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=pagamento"
+                                                                                        class="btn btn-link btn-primary btn-lg"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        title="Registrar pagamento"
+                                                                                    >
+                                                                                        <i class="fa-credit-card"></i>
+                                                                                    </a>
+                                                                                <?php } ?>
+                                                                                <?php if ($row["pago"] != "Pago") { ?>
+                                                                                    <a
+                                                                                        href="alunoEdit?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=editRecibo"
+                                                                                        class="btn btn-link btn-primary btn-lg"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        title="Editar recibo"
+                                                                                    >
+                                                                                        <i class="fa fa-edit"></i>
+                                                                                    </a>
+                                                                                <?php }?>
+                                                                                <a
+                                                                                    href="reciboImpressao?idRecibo=<?php echo $row['id']; ?>"
+                                                                                    class="btn btn-link btn-primary btn-lg"
+                                                                                    data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="top"
+                                                                                    title="Imprimir recibo"
+                                                                                >
+                                                                                    <i class="fa-solid fa-print"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>   
+                                                                    </tr>
+                                                                <?php }
+                                                            }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pagamento" role="tabpanel" aria-labelledby="pagamento-tab">
+                                    <div class="page-inner">
+                                        <form action="pagamentoInserir?idRecibo=<?php echo $rowRecibo['id'] ?>&op=save" method="POST" id="formEdit" class="formEdit">
+                                            <div class="container2">
                                                 <div class="form-section">
-                                                    <div class="row mb-3">
-                                                        <div class="col-md-6">
-                                                            <label for="nome" class="form-label">Nome:</label>
-                                                            <input type="text" class="form-control" name="nome" value="<?php echo $rowAluno['nome']; ?>" disabled>
+                                                    <div class="form-section">
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-6">
+                                                                <label for="nome" class="form-label">Nome:</label>
+                                                                <input type="text" class="form-control" name="nome" value="<?php echo $rowAluno['nome']; ?>" disabled>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label for="morada" class="form-label">Ano:</label>
+                                                                <input type="text" class="form-control" name="ano" value="<?php echo $rowRecibo['anoAluno']; ?>º" disabled>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label for="data" class="form-label">Data:</label>
+                                                                <input type="text" class="form-control" name="data" value="<?php echo $rowRecibo['mes']; ?>-<?php echo $rowRecibo['ano']; ?>" disabled>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <label for="morada" class="form-label">Ano:</label>
-                                                            <input type="text" class="form-control" name="ano" value="<?php echo $rowRecibo['anoAluno']; ?>º" disabled>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <label for="estado" class="form-label">Estado:</label>
-                                                            <input type="text" class="form-control" name="estado" value="<?php echo $rowRecibo['estado']; ?>" disabled>
-                                                        </div>
-                                                    </div>
-                                                    <?php if ($botao == true) { ?>
+                                                        <?php if ($rowRecibo['packGrupo'] > 0 || $rowRecibo['horasRealizadasGrupo'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="horasGrupo" class="form-label">Horas grupo:</label>
+                                                                    <input type="text" class="form-control" name="horasGrupo" value="<?php echo $rowRecibo['packGrupo']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasRealizadasGrupo" class="form-label">Horas realizadas:</label>
+                                                                    <input type="text" class="form-control" name="horasRealizadasGrupo" value="<?php echo $rowRecibo['horasRealizadasGrupo']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasBalancoGrupo" class="form-label">Horas balanço:</label>
+                                                                    <input type="text" class="form-control" name="horasBalancoGrupo" value="<?php echo $rowRecibo['horasBalancoGrupo']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidadeGrupo" class="form-label">Mensalidade:</label>
+                                                                    <input type="text" class="form-control" name="mensalidadeGrupo" value="<?php echo $rowRecibo['mensalidadeGrupo']; ?>" disabled>
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                        <?php if ($rowRecibo['packIndividual'] > 0 || $rowRecibo['horasRealizadasIndividual'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="horasIndividual" class="form-label">Horas individual:</label>
+                                                                    <input type="text" class="form-control" name="horasIndividual" value="<?php echo $rowRecibo['packIndividual']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasRealizadasIndividual" class="form-label">Horas realizadas:</label>
+                                                                    <input type="text" class="form-control" name="horasRealizadasIndividual" value="<?php echo $rowRecibo['horasRealizadasIndividual']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasBalancoIndividual" class="form-label">Horas balanço:</label>
+                                                                    <input type="text" class="form-control" name="horasBalancoIndividual" value="<?php echo $rowRecibo['horasBalancoIndividual']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidadeIndividual" class="form-label">Mensalidade:</label>
+                                                                    <input type="text" class="form-control" name="mensalidadeIndividual" value="<?php echo $rowRecibo['mensalidadeIndividual']; ?>" disabled>
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                        <?php if ($rowRecibo['packIndividual'] > 0 && $rowRecibo['packGrupo'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidade" class="form-label">Total:</label>
+                                                                    <input type="text" class="form-control" name="mensalidade" value="<?php echo $mensalidade; ?>" disabled>
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
                                                         <div class="form-section">
                                                             <div class="row mb-3">
                                                                 <div class="col-md-4">
                                                                     <label for="metodo" class="form-label">Método:</label>
-                                                                    <?php if ($rowRecibo['estado'] == "Pago") { ?>
-                                                                        <input type="text" class="form-control" name="metodo" value="<?php echo $rowRecibo['metodo']; ?>" disabled>
-                                                                    <?php } else { ?>
-                                                                        <select name="metodo" class="form-control">
-                                                                            <option selected value="1">Dinheiro</option>
-                                                                            <option value="2">MBWay</option>
-                                                                        </select>
-                                                                    <?php } ?>
+                                                                    <select name="metodo" class="form-control">
+                                                                        <option selected value="1">Dinheiro</option>
+                                                                        <option value="2">MBWay</option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <label for="observacao" class="form-label">Observação:</label>
-                                                                    <input type="text" class="form-control" name="observacao" value="<?php if ($rowRecibo['estado'] == "Pago") {echo $rowRecibo['observacao'];} ?>" <?php if ($rowRecibo['estado'] == "Pago") { echo "readonly"; } ?>>
+                                                                    <input type="text" class="form-control" name="observacao" placeholder="Observação sobre o pagamento (opcional)">
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    <?php } ?>
-                                                    <!-- Tabela de Horas de Grupo -->
-                                                    <?php if ($rowAluno['horasGrupo'] > 0): ?>
-                                                        <table>
-                                                            <tr>
-                                                            <th rowspan="2">Horas Grupo</th>
-                                                            <td rowspan="2" style="width: 100px;"><?= $rowRecibo['packGrupo'] ?></td>
-                                                            <th colspan="2">HORAS CONTABILIZADAS</th>
-                                                            <th rowspan="2">Mensalidade<br><strong><?= $rowRecibo['mensalidadeGrupo'] ?>€</strong></th>
-                                                            </tr>
-                                                            <tr>
-                                                            <td>Horas Realizadas<br><strong><?= $rowRecibo['horasRealizadasGrupo'] ?></strong></td>
-                                                            <td>Balanço Das Horas<br><strong><?= $rowRecibo['horasBalancoGrupo'] ?></strong></td>
-                                                            </tr>
-                                                        </table>
-                                                    <?php endif; ?>
-
-                                                    <!-- Espaço entre tabelas -->
-                                                    <div style="height: 20px;"></div>
-
-                                                    <!-- Tabela de Horas Individuais -->
-                                                    <?php if ($rowAluno['horasIndividual'] > 0): ?>
-                                                        <table>
-                                                            <tr>
-                                                            <th rowspan="2">Horas Individuais</th>
-                                                            <td rowspan="2" style="width: 100px;"><?= $rowAluno['horasIndividual'] ?> <br> Horas</td>
-                                                            <th colspan="2">HORAS CONTABILIZADAS</th>
-                                                            <th rowspan="2">Mensalidade<br><strong><?= $rowRecibo['mensalidadeIndividual'] ?>€</strong></th>
-                                                            </tr>
-                                                            <tr>
-                                                            <td>Horas Realizadas<br><strong><?= $rowRecibo['horasRealizadasIndividual'] ?></strong></td>
-                                                            <td>Balanço Das Horas<br><strong><?= $rowRecibo['horasBalancoIndividual'] ?></strong></td>
-                                                            </tr>
-                                                        </table>
-                                                    <?php endif; ?>
-
-                                                    <!-- Extras + Total -->
-                                                    <table style="margin-top: 20px;">
-                                                        <?php if($rowRecibo['transporte'] > 0): ?>
-                                                            <tr>
-                                                                <td colspan="4" style="text-align: right; font-weight: bold;">Transporte:</td>
-                                                                <td style="text-align: center;"><?= $rowRecibo['transporte'] ?>€</td>
-                                                            </tr>
-                                                        <?php endif; ?>
-                                                        <?php if($rowRecibo['inscricao'] > 0): ?>
-                                                            <tr>
-                                                                <td colspan="4" style="text-align: right; font-weight: bold;">Inscrição:</td>
-                                                                <td style="text-align: center;"><?= $rowRecibo['inscricao'] ?>€</td>
-                                                            </tr>
-                                                        <?php endif; ?>
-                                                        <?php if($rowRecibo['coima'] > 0): ?>
-                                                            <tr>
-                                                                <td colspan="4" style="text-align: right; font-weight: bold;">Coima:</td>
-                                                                <td style="text-align: center;"><?= $rowRecibo['coima'] ?>€</td>
-                                                            </tr>
-                                                        <?php endif; ?>
-                                                        <tr style="background-color: #e9ecef;">
-                                                            <td colspan="4" style="text-align: right; font-weight: bold;">Total:</td>
-                                                            <td style="text-align: center; font-weight: bold;">
-                                                            <?= $mensalidade ?>€
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                    <?php if($rowRecibo['estado'] != "Pago" && $botao == true) { ?>
-                                                        <button type="submit" class="btn btn-primary">Registrar pagamento</button>
-                                                    <?php } ?>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3">Registrar pagamento</button>
                                                 </div>
-                                            <?php else: ?>
-                                                <p>Sem recibo nesta data.</p>
-                                            <?php endif; ?>
-                                        </div>
-                                    </form>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php if ($_SESSION['tipo'] == "administrador") { ?> 
+                                <div class="tab-pane fade" id="editRecibo" role="tabpanel" aria-labelledby="editRecibo-tab">
+                                    <div class="page-inner">
+                                        <form action="reciboAlunoInserir?idRecibo=<?php echo $rowRecibo['id'] ?>&op=edit" method="POST" id="formEdit" class="formEdit">
+                                            <div class="container2">
+                                                <div class="form-section">
+                                                    <div class="form-section">
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-6">
+                                                                <label for="nome" class="form-label">Nome:</label>
+                                                                <input type="text" class="form-control" name="nome" value="<?php echo $rowAluno['nome']; ?>" disabled>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label for="morada" class="form-label">Ano:</label>
+                                                                <input type="text" class="form-control" name="ano" value="<?php echo $rowRecibo['anoAluno']; ?>º" disabled>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label for="data" class="form-label">Data:</label>
+                                                                <input type="text" class="form-control" name="data" value="<?php echo $rowRecibo['mes']; ?>-<?php echo $rowRecibo['ano']; ?>" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <?php if ($rowRecibo['packGrupo'] > 0 || $rowRecibo['horasRealizadasGrupo'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="horasGrupo" class="form-label">Horas grupo:</label>
+                                                                    <input type="text" class="form-control" name="horasGrupo" value="<?php echo $rowRecibo['packGrupo']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasRealizadasGrupo" class="form-label">Horas realizadas:</label>
+                                                                    <input type="text" class="form-control" name="horasRealizadasGrupo" value="<?php echo $rowRecibo['horasRealizadasGrupo']; ?>">
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasBalancoGrupo" class="form-label">Horas balanço:</label>
+                                                                    <input type="text" class="form-control" name="horasBalancoGrupo" value="<?php echo $rowRecibo['horasBalancoGrupo']; ?>">
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidadeGrupo" class="form-label">Mensalidade:</label>
+                                                                    <input type="text" class="form-control" name="mensalidadeGrupo" value="<?php echo $rowRecibo['mensalidadeGrupo']; ?>">
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                        <?php if ($rowRecibo['packIndividual'] > 0 || $rowRecibo['horasRealizadasIndividual'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="horasIndividual" class="form-label">Horas individual:</label>
+                                                                    <input type="text" class="form-control" name="horasIndividual" value="<?php echo $rowRecibo['packIndividual']; ?>" disabled>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasRealizadasIndividual" class="form-label">Horas realizadas:</label>
+                                                                    <input type="text" class="form-control" name="horasRealizadasIndividual" value="<?php echo $rowRecibo['horasRealizadasIndividual']; ?>">
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="horasBalancoIndividual" class="form-label">Horas balanço:</label>
+                                                                    <input type="text" class="form-control" name="horasBalancoIndividual" value="<?php echo $rowRecibo['horasBalancoIndividual']; ?>">
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidadeIndividual" class="form-label">Mensalidade:</label>
+                                                                    <input type="text" class="form-control" name="mensalidadeIndividual" value="<?php echo $rowRecibo['mensalidadeIndividual']; ?>">
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                        <?php if ($rowRecibo['packIndividual'] > 0 && $rowRecibo['packGrupo'] > 0) {?>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="mensalidade" class="form-label">Total:</label>
+                                                                    <input type="text" class="form-control" name="mensalidade" value="<?php echo $mensalidade; ?>" disabled>
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary w-100 mt-3">Guardar alterações</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
             </div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
-            <script>
-                const input1 = document.querySelector("#contacto");
-                const hiddenInput1 = document.querySelector("#contactoHidden");
-                const iti1 = window.intlTelInput(input1, {
-                    initialCountry: "pt",
-                    preferredCountries: ["pt", "br", "fr", "gb"],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                });
-                const input2 = document.querySelector("#maeTlm");
-                const hiddenInput2 = document.querySelector("#maeTlmHidden");
-                const iti2 = window.intlTelInput(input2, {
-                    initialCountry: "pt",
-                    preferredCountries: ["pt", "br", "fr", "gb"],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                });
-                const input3 = document.querySelector("#paiTlm");
-                const hiddenInput3 = document.querySelector("#paiTlmHidden");
-                const iti3 = window.intlTelInput(input3, {
-                    initialCountry: "pt",
-                    preferredCountries: ["pt", "br", "fr", "gb"],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                });
-
-                // Ao submeter o formulário, atualiza o campo hidden
-                document.querySelector("#formEdit").addEventListener("submit", function () {
-                    hiddenInput1.value = iti1.getNumber();
-                    hiddenInput2.value = iti2.getNumber();
-                    hiddenInput3.value = iti3.getNumber();
-                });
-
-                function atualizarCampos(input) {
-                    // O valor do input é o ID do aluno, conforme definido nas opções do datalist
-                    var partes = input.value.split(" | ");
-                    var alunoId = partes[0];
-                    
-                    // Se um valor for selecionado (não vazio)
-                    if(alunoId !== "") {
-                        // Realiza a requisição AJAX para obter os dados do aluno
-                        $.ajax({
-                            url: 'json.obterNome.php',
-                            type: 'GET',
-                            data: { idAluno: alunoId},
-                            success: function(response) {
-                            var data = JSON.parse(response);
-                            if (data == "erro") {
-                                document.getElementById("pack").value = "";
-                                document.getElementById("disciplinasContainer").style.display = "none";
-                            }
-                            else{
-                                document.getElementById("pack").value = data.pack + " horas";
-                                if (data.ciclo == 1) {
-                                document.getElementById("disciplinasContainer").style.display = "none";
-                                } else {
-                                document.getElementById("disciplinasContainer").style.display = "block";
-                                }
-                            }
-                            },
-                            error: function() {
-                            console.error('Erro ao buscar o nome.');
-                            }
-                        });
-                    } else {
-                    // Se não houver um ID válido, limpa o campo Pack
-                    document.getElementById("pack").value = "";
-                    document.getElementById("disciplinasContainer").style.display = "none";
-                    }
-                }
-            </script>
         </div>
-        <?php include('./endPage.php'); ?>
-    </body>
-    </html>
+        <script>
+            const input1 = document.querySelector("#contacto");
+            const hiddenInput1 = document.querySelector("#contactoHidden");
+            const iti1 = window.intlTelInput(input1, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            const input2 = document.querySelector("#maeTlm");
+            const hiddenInput2 = document.querySelector("#maeTlmHidden");
+            const iti2 = window.intlTelInput(input2, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            const input3 = document.querySelector("#paiTlm");
+            const hiddenInput3 = document.querySelector("#paiTlmHidden");
+            const iti3 = window.intlTelInput(input3, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+
+            // Ao submeter o formulário, atualiza o campo hidden
+            document.querySelector("#formEdit").addEventListener("submit", function () {
+                hiddenInput1.value = iti1.getNumber();
+                hiddenInput2.value = iti2.getNumber();
+                hiddenInput3.value = iti3.getNumber();
+            });
+
+            function atualizarCampos(input) {
+                // O valor do input é o ID do aluno, conforme definido nas opções do datalist
+                var partes = input.value.split(" | ");
+                var alunoId = partes[0];
+                
+                // Se um valor for selecionado (não vazio)
+                if(alunoId !== "") {
+                    // Realiza a requisição AJAX para obter os dados do aluno
+                    $.ajax({
+                        url: 'json.obterNome.php',
+                        type: 'GET',
+                        data: { idAluno: alunoId},
+                        success: function(response) {
+                        var data = JSON.parse(response);
+                        if (data == "erro") {
+                            document.getElementById("pack").value = "";
+                            document.getElementById("disciplinasContainer").style.display = "none";
+                        }
+                        else{
+                            document.getElementById("pack").value = data.pack + " horas";
+                            if (data.ciclo == 1) {
+                            document.getElementById("disciplinasContainer").style.display = "none";
+                            } else {
+                            document.getElementById("disciplinasContainer").style.display = "block";
+                            }
+                        }
+                        },
+                        error: function() {
+                        console.error('Erro ao buscar o nome.');
+                        }
+                    });
+                } else {
+                // Se não houver um ID válido, limpa o campo Pack
+                document.getElementById("pack").value = "";
+                document.getElementById("disciplinasContainer").style.display = "none";
+                }
+            }
+        </script>
+        <script>
+            $("#tabela-aluno-explicacoes").DataTable({
+                pageLength: 6,
+                order: [[1, 'asc']],
+                language: {
+                url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
+                },
+                initComplete: function () {
+                    this.api()
+                    .columns()
+                    .every(function () {
+                        var column = this;
+                        var select = $(
+                            '<select class="form-select"><option value=""></option></select>'
+                        )
+                        .appendTo($(column.footer()).empty())
+                        .on("change", function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                            column
+                            .search(val ? "^" + val + "$" : "", true, false)
+                            .draw();
+                        });
+
+                        column
+                        .data()
+                        .unique()
+                        .sort()
+                        .each(function (d, j) {
+                            select.append(
+                                '<option value="' + d + '">' + d + "</option>"
+                            );
+                        });
+                    });
+                },
+            });
+
+            $("#tabela-aluno-recibos").DataTable({
+                pageLength: 6,
+                language: {
+                url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json"
+                },
+                initComplete: function () {
+                    this.api()
+                    .columns()
+                    .every(function () {
+                        var column = this;
+                        var select = $(
+                            '<select class="form-select"><option value=""></option></select>'
+                        )
+                        .appendTo($(column.footer()).empty())
+                        .on("change", function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                            column
+                            .search(val ? "^" + val + "$" : "", true, false)
+                            .draw();
+                        });
+
+                        column
+                        .data()
+                        .unique()
+                        .sort()
+                        .each(function (d, j) {
+                            select.append(
+                                '<option value="' + d + '">' + d + "</option>"
+                            );
+                        });
+                    });
+                },
+            });
+        </script>
+        <?php 
+            include('./endPage.php'); 
+        ?>
 

@@ -8,7 +8,7 @@
     //Verifica se o administrador tem acesso para aceder a esta pagina, caso contrario redericiona para a dashboard
     if ($_SESSION["tipo"] == "professor") {
         notificacao('warning', 'Não tens permissão para aceder a esta página.');
-        header('Location: dashboard.php');
+        header('Location: dashboard');
         exit();
     }
 
@@ -16,6 +16,10 @@
     $idProfessor = $_GET['idProf'];
     $mesSelecionado = $_GET['mes'] ?? date('Y-m');
     $recibo = true;
+    $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
+    if ($tab == "recibo") {
+        $estouEm = 3;
+    }
 
     $stmt = $con->prepare("SELECT * FROM professores WHERE id = ?");
     $stmt->bind_param("i", $idProfessor);
@@ -25,7 +29,7 @@
         $rowProfessor = $result->fetch_assoc();
     } else {
         notificacao('warning', 'ID do professor inválido.');
-        header('Location: professor.php');
+        header('Location: professor');
         exit();
     }
 
@@ -53,7 +57,7 @@
             while ($row = $result->fetch_assoc()) {
                 $horasDadas1Ciclo = $horasDadas1Ciclo + $row["duracao"];
             }
-            $horasDadas1Ciclo = minutosToValor($horasDadas1Ciclo);
+            $horasDadas1Ciclo = decimalParaHoraMinutos(minutosToValor($horasDadas1Ciclo));
             $valorParcial1Ciclo = $horasDadas1Ciclo * $valores[0];
         }
 
@@ -69,7 +73,7 @@
             while ($row = $result->fetch_assoc()) {
                 $horasDadas2Ciclo = $horasDadas2Ciclo + $row["duracao"];
             }
-            $horasDadas2Ciclo = minutosToValor($horasDadas2Ciclo);
+            $horasDadas2Ciclo = decimalParaHoraMinutos(minutosToValor($horasDadas2Ciclo));
             $valorParcial2Ciclo = $horasDadas2Ciclo * $valores[1];
         }
 
@@ -85,7 +89,7 @@
             while ($row = $result->fetch_assoc()) {
                 $horasDadas3Ciclo = $horasDadas3Ciclo + $row["duracao"];
             }
-            $horasDadas3Ciclo = minutosToValor($horasDadas3Ciclo);
+            $horasDadas3Ciclo = decimalParaHoraMinutos(minutosToValor($horasDadas3Ciclo));
             $valorParcial3Ciclo = $horasDadas3Ciclo * $valores[2];
         }
 
@@ -101,7 +105,7 @@
             while ($row = $result->fetch_assoc()) {
                 $horasDadasSecundario = $horasDadasSecundario + $row["duracao"];
             }
-            $horasDadasSecundario = minutosToValor($horasDadasSecundario);
+            $horasDadasSecundario = decimalParaHoraMinutos(minutosToValor($horasDadasSecundario));
             $valorParcialSecundario = $horasDadasSecundario * $valores[3];
         }
 
@@ -117,7 +121,7 @@
             while ($row = $result->fetch_assoc()) {
                 $horasDadasUniversidade = $horasDadasUniversidade + $row["duracao"];
             }
-            $horasDadasUniversidade = minutosToValor($horasDadasUniversidade);
+            $horasDadasUniversidade = decimalParaHoraMinutos(minutosToValor($horasDadasUniversidade));
             $valorParcialUniversidade = $horasDadasUniversidade * $valores[4];
         }
 
@@ -129,6 +133,7 @@
         //Se houver um aluno com o id recebido, guarda as informações
         if ($result->num_rows > 0) {
             $rowRecibo = $result->fetch_assoc();
+            $total = $rowRecibo["valorParcial1Ciclo"] + $rowRecibo["valorParcial2Ciclo"] + $rowRecibo["valorParcial3Ciclo"] + $rowRecibo["valorParcialSecundario"] + $rowRecibo["valorParcialUniversidade"]; 
         }
         else {
             $recibo = false;
@@ -136,10 +141,10 @@
     }
 ?>
     <title>4x1 | Editar Professor</title>
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css'>
     <style>
+        .card {
+            min-height: 100vh !important;
+        }
         .container2 {
             background: white;
             padding: 2rem;
@@ -155,6 +160,26 @@
             border: 1px solid #ced4da !important; /* igual ao form-control */
         }
     </style>
+    <script>
+        $(document).ready(function() {
+            // Obtém o parâmetro da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab'); // Exemplo: ?tab=recibo
+
+            // Define qual aba abrir com base no parâmetro
+            let abaDesejada;
+            switch (tabParam) {
+                case 'recibo':
+                    abaDesejada = '#recibo-tab';
+                    break;
+                default:
+                    abaDesejada = '#editar-prof-tab'; // Aba padrão
+            }
+
+            // Ativa a aba
+            $(abaDesejada).tab('show');
+        });
+    </script>
 </head>
     <body>
         <div class="wrapper">
@@ -167,6 +192,9 @@
                         <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
                             <li class="nav-item1">
                                 <a class="nav-link active" id="editar-prof-tab" data-bs-toggle="pill" href="#editar-prof" role="tab" aria-controls="editar-prof" aria-selected="true">Ficha do Profesor</a>
+                            </li>
+                            <li class="nav-item1">
+                                <a class="nav-link" id="explicacoes-tab" data-bs-toggle="pill" href="#explicacoes" role="tab" aria-controls="explicacoes" aria-selected="false">Explicações</a>
                             </li>
                             <li class="nav-item1">
                                 <a class="nav-link" id="recibo-tab" data-bs-toggle="pill" href="#recibo" role="tab" aria-controls="recibo" aria-selected="false">Recibo</a>
@@ -265,8 +293,8 @@
                                                 <div class="col-md-3">
                                                     <label for="estado" class="form-label">Estado:</label>
                                                     <select class="form-control" name="estado" >
-                                                        <option value='1' <?php if ($rowProfessor['ativo'] == 1) { echo "selected"; }?>>Ativo</option>
-                                                        <option value='0' <?php if ($rowProfessor['ativo'] == 0) { echo "selected"; }?>>Inativo</option>
+                                                        <option value='1' <?php if ($rowProfessor['estado'] == 1) { echo "selected"; }?>>Ativo</option>
+                                                        <option value='0' <?php if ($rowProfessor['estado'] == 0) { echo "selected"; }?>>Inativo</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -347,11 +375,68 @@
                                     </form>
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="explicacoes" role="tabpanel" aria-labelledby="explicacoes-tab">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table
+                                                    id="multi-filter-select"
+                                                    class="display table table-striped table-hover"
+                                                >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Professor</th>
+                                                            <th>Disciplina</th>
+                                                            <th>Duração(h)</th>
+                                                            <th>Tipo</th>
+                                                            <th>Dia</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>Professor</th>
+                                                            <th>Disciplina</th>
+                                                            <th>Duração(h)</th>
+                                                            <th>Tipo</th>
+                                                            <th>Dia</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        <?php
+                                                            //query para selecionar todos os administradores
+                                                            $sql = "SELECT p.nome as nomeProfessor, d.nome as nomeDisciplina, individual, duracao, DATE_FORMAT(dia, '%d-%m-%Y') as dia FROM alunos_presenca as ap INNER JOIN alunos as a ON ap.idAluno = a.id INNER JOIN professores as p ON ap.idProfessor = p.id INNER JOIN disciplinas as d ON ap.idDisciplina = d.id WHERE p.id = $idProfessor;";
+                                                            $result = $con->query($sql);
+                                                            if ($result->num_rows > 0) {
+                                                                while ($row = $result->fetch_assoc()) { 
+                                                                    if ($row['individual'] == 1) {
+                                                                        $tipo = "Individual";
+                                                                    }
+                                                                    else {
+                                                                        $tipo = "Grupo";
+                                                                    }?>
+                                                                    <tr>
+                                                                        <td><?php echo $row['nomeProfessor'] ?></td>
+                                                                        <td><?php echo $row['nomeDisciplina'] ?></td>
+                                                                        <td><?php echo decimalParaHoraMinutos(minutosToValor($row['duracao'])) ?></td>
+                                                                        <td><?php echo $tipo ?></td>
+                                                                        <td><?php echo $row['dia'] ?></td>
+                                                                    </tr>
+                                                                <?php }
+                                                            }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="tab-pane fade" id="recibo" role="tabpanel" aria-labelledby="recibo-tab">
                                 <form action="" method="GET">
                                     <div class="select-container">
                                         <input type="hidden" style="display: none;" name="idProf" value="<?= $idProfessor ?>">
-                                        <input type="hidden" style="display: none;" name="tab" value="1">
+                                        <input type="hidden" style="display: none;" name="tab" value="recibo">
                                         
                                         <label for="mes" class="form-label mb-0 me-2">Data:</label>
                                         <input type="month" name="mes" id="mes" value="<?= $mesSelecionado ?>" class="form-control" style="width: 200px;" onchange="this.form.submit()">
@@ -369,7 +454,7 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
                                                     <label for="horasGrupo" class="form-label">Horas 1º Ciclo:</label>
-                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo $rowRecibo['horasDadas1Ciclo'];} ?>" readonly>
+                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas1Ciclo;} else {echo decimalParaHoraMinutos($rowRecibo['horasDadas1Ciclo']);} ?>" readonly>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="valorUnitario" class="form-label">Valor unitário:</label>
@@ -383,7 +468,7 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
                                                     <label for="horas2Ciclo" class="form-label">Horas 2º Ciclo:</label>
-                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo $rowRecibo['horasDadas2Ciclo'];} ?>" readonly>
+                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas2Ciclo;} else {echo decimalParaHoraMinutos($rowRecibo['horasDadas2Ciclo']);} ?>" readonly>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="valorUnitario2Ciclo" class="form-label">Valor unitário:</label>
@@ -398,7 +483,7 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
                                                     <label for="horas3Ciclo" class="form-label">Horas 3º Ciclo:</label>
-                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo $rowRecibo['horasDadas3Ciclo'];} ?>" readonly>
+                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadas3Ciclo;} else {echo decimalParaHoraMinutos($rowRecibo['horasDadas3Ciclo']);} ?>" readonly>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="valorUnitario3Ciclo" class="form-label">Valor unitário:</label>
@@ -413,7 +498,7 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
                                                     <label for="horasSecundario" class="form-label">Horas Secundário:</label>
-                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo $rowRecibo['horasDadasSecundario'];} ?>" readonly>
+                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasSecundario;} else {echo decimalParaHoraMinutos($rowRecibo['horasDadasSecundario']);} ?>" readonly>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="valorUnitarioSecundario" class="form-label">Valor unitário:</label>
@@ -428,7 +513,7 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
                                                     <label for="horasUniversidade" class="form-label">Horas Universidade:</label>
-                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo $rowRecibo['horasDadasUniversidade'];} ?>" readonly>
+                                                    <input type="input" name="horasGrupo" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $horasDadasUniversidade;} else {echo decimalParaHoraMinutos($rowRecibo['horasDadasUniversidade']);} ?>" readonly>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="valorUnitarioUniversidade" class="form-label">Valor unitário:</label>
@@ -443,7 +528,7 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
                                                     <label for="total" class="form-label">Total:</label>
-                                                    <input type="input" name="total" class="form-control" value="<?php if ($mes == date("n") && $ano == date("Y")) {echo $total;} else {echo $rowRecibo['total'];} ?>€" readonly>
+                                                    <input type="input" name="total" class="form-control" value="<?php echo $total; ?>€" readonly>
                                                 </div>
                                             </div>
 
@@ -457,87 +542,85 @@
                     </div>
                 </div>
             </div>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
-            <script>
-                const input = document.querySelector("#contacto");
-                const hiddenInput = document.querySelector("#contactoHidden");
-                const iti = window.intlTelInput(input, {
-                    initialCountry: "pt",
-                    preferredCountries: ["pt", "br", "fr", "gb"],
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-                });
-                // Ao submeter o formulário, atualiza o campo hidden
-                document.querySelector("#formEdit").addEventListener("submit", function () {
-                    hiddenInput.value = iti.getNumber();
-                });
-
-                function verificarPasswords(e, emailAntigo) {
-                    e.preventDefault();
-                    const password = document.getElementById("password").value;
-                    const confirm = document.getElementById("passwordConfirm").value;
-                    const emailAdmin = document.getElementById("email").value;
-
-                    let erro = 0;
-
-                    if (password !== confirm) {
-                        $.notify({
-                            message: 'As palavras passes não coincidem!',
-                            title: 'Notificação',
-                            icon: 'fa fa-info-circle',
-                        }, {
-                            type: 'warning',
-                            placement: {
-                                from: 'top',
-                                align: 'right'
-                            },
-                            delay: 3000
-                        });
-                        erro += 1;
-                    }
-
-                    if (erro === 0 && emailAntigo !== emailAdmin) {
-                        $.ajax({
-                            url: 'json.obterEmails.php',
-                            type: 'GET',
-                            success: function(response) 
-                            {
-                                var data = JSON.parse(response);
-                                for (let i = 0; i < data.length; i++) {
-                                    if (data[i].email === emailAdmin ) {
-                                        $.notify({
-                                            message: 'Esse email já existe no sistema.',
-                                            title: 'Notificação',
-                                            icon: 'fa fa-info-circle',
-                                        }, {
-                                            type: 'warning',
-                                            placement: {
-                                                from: 'top',
-                                                align: 'right'
-                                            },
-                                            delay: 3000
-                                        });
-
-                                        erro += 1;
-                                        break;
-                                    }
-                                }
-                                if (erro === 0) {
-                                    e.target.submit();
-                                }
-                            },
-                            error: function() {
-                                console.error('Erro ao buscar os emails.');
-                            }
-                        });
-                    }
-                    else{
-                        e.target.submit();
-                    }
-                }
-            </script>
         </div>
-        <?php include('./endPage.php'); ?>
-    </body>
-    </html>
+        <script>
+            const input = document.querySelector("#contacto");
+            const hiddenInput = document.querySelector("#contactoHidden");
+            const iti = window.intlTelInput(input, {
+                initialCountry: "pt",
+                preferredCountries: ["pt", "br", "fr", "gb"],
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+            });
+            // Ao submeter o formulário, atualiza o campo hidden
+            document.querySelector("#formEdit").addEventListener("submit", function () {
+                hiddenInput.value = iti.getNumber();
+            });
+
+            function verificarPasswords(e, emailAntigo) {
+                e.preventDefault();
+                const password = document.getElementById("password").value;
+                const confirm = document.getElementById("passwordConfirm").value;
+                const emailAdmin = document.getElementById("email").value;
+
+                let erro = 0;
+
+                if (password !== confirm) {
+                    $.notify({
+                        message: 'As palavras passes não coincidem!',
+                        title: 'Notificação',
+                        icon: 'fa fa-info-circle',
+                    }, {
+                        type: 'warning',
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        },
+                        delay: 3000
+                    });
+                    erro += 1;
+                }
+
+                if (erro === 0 && emailAntigo !== emailAdmin) {
+                    $.ajax({
+                        url: 'json.obterEmails.php',
+                        type: 'GET',
+                        success: function(response) 
+                        {
+                            var data = JSON.parse(response);
+                            for (let i = 0; i < data.length; i++) {
+                                if (data[i].email === emailAdmin ) {
+                                    $.notify({
+                                        message: 'Esse email já existe no sistema.',
+                                        title: 'Notificação',
+                                        icon: 'fa fa-info-circle',
+                                    }, {
+                                        type: 'warning',
+                                        placement: {
+                                            from: 'top',
+                                            align: 'right'
+                                        },
+                                        delay: 3000
+                                    });
+
+                                    erro += 1;
+                                    break;
+                                }
+                            }
+                            if (erro === 0) {
+                                e.target.submit();
+                            }
+                        },
+                        error: function() {
+                            console.error('Erro ao buscar os emails.');
+                        }
+                    });
+                }
+                else{
+                    e.target.submit();
+                }
+            }
+        </script>
+        <?php 
+            include('./endPage.php'); 
+        ?>
 

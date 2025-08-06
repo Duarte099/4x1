@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>4x1 | Login</title>
-    <link rel="icon" href="./images/Icon4x1.png" type="image/x-icon"/>
+<?php 
+    $login = true;
+    include('./head.php');
 
+    if (isset($_GET['erro']) && $_GET['erro'] == "true"){
+        notificacao('danger', 'Password ou user Incorreto!');
+    }
+?>
     <!-- Font Icon -->
     <link rel="stylesheet" href="./assets/fonts/material-icon/css/material-design-iconic-font.min.css">
 
@@ -16,6 +15,8 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/plugins.min.css" />
     <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+
+    <title>4x1 | Login</title>
     <style>
         .logo-img {
             width: 500px; /* ou o tamanho que quiser */
@@ -41,7 +42,7 @@
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">Login</h2>
-                        <form action="indexLogin.php" method="POST" class="register-form" id="register-form">
+                        <form action="indexLogin" method="POST" class="register-form" id="register-form">
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
                                 <input type="email" name="email" id="email" placeholder="Email" required/>
@@ -63,9 +64,10 @@
             </div>
         </section>
     </div>
-
+    <?php 
+        include('endPage.php');
+    ?>
     <!-- JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(".toggle-password").click(function () {
             var input = $($(this).attr("toggle"));
@@ -78,8 +80,3 @@
             }
         });
     </script>
-    <?php 
-        include('./endPage.php'); 
-    ?>
-</body>
-</html>
