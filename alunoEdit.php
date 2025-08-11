@@ -69,9 +69,11 @@
         }
     }
     else {
-        notificacao('warning', 'ID do recibo inválido.');
-        header('Location: aluno');
-        exit();
+        if (isset($_GET['tab']) && $_GET['tab'] == "editRecibo") {
+            notificacao('warning', 'ID do recibo inválido.');
+            header('Location: aluno');
+            // exit();
+        }
     }
 ?>
     <title>4x1 | Editar Aluno</title>

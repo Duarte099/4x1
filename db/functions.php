@@ -62,4 +62,51 @@
         // Retorna como string no formato hh:mm
         return sprintf('%d.%02d', $horas, $minutos);
     }
+
+    function sendEmail($destinatario, $assunto, $corpo, $linkFicheiro = null) {
+        // Carregar PHPMailer
+        require_once __DIR__ . '/../PHPMailer/src/Exception.php';
+        require_once __DIR__ . '/../PHPMailer/src/PHPMailer.php';
+        require_once __DIR__ . '/../PHPMailer/src/SMTP.php';
+
+        try {
+            $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+
+            // Configurações do servidor SMTP
+            $mail->isSMTP();
+            $mail->SMTPDebug = 0;
+            $mail->SMTPAuth = true;
+            $mail->Port = 587;
+            $mail->Host = "mail.4x1.pt";
+            $mail->Username = "geral@4x1.pt";
+            $mail->Password = "nTgY}w0_fBj}";
+
+            // Configurações do remetente
+            $mail->setFrom("geral@4x1.pt", "4x1 | CENTRO DE ESTUDO");
+            $mail->addReplyTo("geral@4x1.pt", "4x1 | CENTRO DE ESTUDO");
+
+            // Destinatário
+            $mail->addAddress($destinatario);
+
+            // Configurações da mensagem
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->Subject = $assunto;
+            $mail->Body = $corpo;
+
+            // Adicionar anexo se fornecido
+            if ($linkFicheiro && file_exists($linkFicheiro)) {
+                $mail->addAttachment($linkFicheiro);
+            }
+
+            // Enviar email
+            $mail->send();
+            return true;
+
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+            return false;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 ?>

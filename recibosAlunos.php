@@ -91,6 +91,8 @@
                                                                 alunos AS a ON ar.idAluno = a.id
                                                             WHERE 
                                                                 ar.verificado = 0
+                                                                OR ar.notificacao = 0
+                                                                OR ar.pago = 0
 
                                                             UNION ALL
                                                             SELECT 

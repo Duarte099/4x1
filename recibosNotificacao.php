@@ -4,13 +4,11 @@
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
-    $url = 'https://api-4x1-whatsapp.onrender.com/enviarMensagem';
     $mensagem = "";
-    $contacto = "";
     $nomesMes = [1 => 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
     //RECIBO ALUNOS
-    $sql1 = "SELECT a.nome, a.horasGrupo, a.horasIndividual, a.tlmMae, a.tlmPai, ar.id, ar.anoAluno, ar.ano, ar.mes, mensalidadeGrupo, mensalidadeIndividual, ar.transporte, ar.inscricao, horasRealizadasIndividual, horasRealizadasGrupo, horasBalancoIndividual, horasBalancoGrupo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE a.estado = 1 AND ar.verificado = 1 AND ar.notificacao = 0";
+    $sql1 = "SELECT a.nome, a.horasGrupo, a.horasIndividual, a.emailRecibo, ar.id, ar.anoAluno, ar.ano, ar.mes, mensalidadeGrupo, mensalidadeIndividual, ar.transporte, ar.inscricao, horasRealizadasIndividual, horasRealizadasGrupo, horasBalancoIndividual, horasBalancoGrupo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE a.estado = 1 AND ar.verificado = 1 AND ar.notificacao = 0";
     $result1 = $con->query($sql1);
     if ($result1->num_rows > 0) {
         while ($row1 = $result1->fetch_assoc()) {
@@ -20,16 +18,6 @@
             $balancoIndividualFormatado = decimalParaHoraMinutos(minutosToValor($row1['horasBalancoIndividual']));
             $balancoGrupoFormatado = decimalParaHoraMinutos(minutosToValor($row1['horasBalancoGrupo']));
 
-            if (!empty($row1['tlmMae'])){
-                $contacto = $row1['tlmMae'];
-            }
-            elseif (!empty($row1['tlmPai'])) {
-                $contacto = $row1['tlmPai'];           
-            }
-            else{
-                break;
-            }
-            $contacto = str_replace("+", "", $contacto);
             $mensagem = "*Olá!* 👋\n\nSegue em anexo o recibo do aluno *" . $row1['nome'] . "* relativo ao mês de *" . $nomesMes[$row1['mes']] . "* *" . $row1['ano'] . "*.";
             // Configurações do Dompdf
             $options = new Options;
@@ -220,30 +208,9 @@
             $filepath = "/home/xpt123/admin/uploads/recibos/" . $filename;
             file_put_contents($filepath, $output);
 
-            //$fileData = new CURLFile($filepath);
-            //'number' => $contacto,
-            $data = [
-                'number'=> '351916985740',
-                'message' => $mensagem,
-                'apiKey' => 'apiKey_9273kLmnTqX4vZ8',
-                'fileUrl' => 'https://admin.4x1.pt/uploads/recibos/' . $filename
-            ];
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            $response = curl_exec($ch);
-            if ($response === false) {
-                // Se ocorreu erro na cURL
-                echo 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . curl_error($ch);
+            if (sendEmail($row1['emailRecibo'], "Recibo de Pagamento", $mensagem, $filepath) === false) {
+                echo 'Erro ao enviar recibo ao aluno ' . $row1['nome'];
             } else {
-                // Se a requisição foi bem-sucedida, verificar código de status HTTP
-                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                
-                if ($httpCode == 200) {
                     $sql = "UPDATE alunos_recibo SET notificacao = 1, notificadoEm = ? WHERE id = ?";
                     $result = $con->prepare($sql);
                     if ($result) {
@@ -251,12 +218,7 @@
                         $result->execute();
                         $result->close();
                     }
-                }
-                else {
-                    echo 'Erro a enviar mensagem ao aluno ' . $row1['nome'] . ': ' . $httpCode;
-                }
             }
-            curl_close($ch);
             header('Location: recibosAlunos');
         }
     }
