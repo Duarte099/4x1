@@ -230,11 +230,11 @@
                     $result->close();
                 }
             }
-            if (isset($_GET['idAluno'])) {
-                header('Location: alunoEdit?idAluno=' . $_GET['idAluno'] . '&tab=recibos');
-            } else {
-                header('Location: recibosAlunos');
-            }
+            // if (isset($_GET['idAluno'])) {
+            //     header('Location: alunoEdit?idAluno=' . $_GET['idAluno'] . '&tab=recibos');
+            // } else {
+            //     header('Location: recibosAlunos');
+            // }
         }
     }
 ?>
