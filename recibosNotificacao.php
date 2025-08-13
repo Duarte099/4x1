@@ -7,6 +7,9 @@
     $mensagem = "";
     $nomesMes = [1 => 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
+    // Array para armazenar alunos com erro
+    $alunosComErro = [];
+
     //RECIBO ALUNOS
     if (isset($_GET['idRecibo'])) {
         $sql1 = "SELECT a.nome, a.horasGrupo, a.horasIndividual, a.emailRecibo, ar.id, ar.anoAluno, ar.ano, ar.mes, mensalidadeGrupo, mensalidadeIndividual, ar.transporte, ar.inscricao, horasRealizadasIndividual, horasRealizadasGrupo, horasBalancoIndividual, horasBalancoGrupo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE a.estado = 1 AND ar.verificado = 1 AND ar.notificacao = 0 AND ar.id = ?";
@@ -219,22 +222,38 @@
             $filepath = "./uploads/recibos/" . $filename;
             file_put_contents($filepath, $output);
 
-            if (sendEmail($row1['emailRecibo'], "Recibo de Pagamento", $mensagem, $filepath) === false) {
-                notificacao('danger', 'Erro ao enviar recibo ao aluno ' . $row1['nome']);
-            } else {
-                $sql = "UPDATE alunos_recibo SET notificacao = 1, notificadoEm = ? WHERE id = ?";
-                $result = $con->prepare($sql);
-                if ($result) {
-                    $result->bind_param("si", date("y-m-d_H-i-s"), $row1['id']);
-                    $result->execute();
-                    $result->close();
+            if (!empty($row1['emailRecibo']) || filter_var($row1['emailRecibo'], FILTER_VALIDATE_EMAIL)) {
+                if (sendEmail($row1['emailRecibo'], "Recibo de Pagamento", $mensagem, $filepath) === false) {
+                    // Adicionar à lista de erros
+                    $alunosComErro[] = $row1['nome'];
+                } else {
+                    $sql = "UPDATE alunos_recibo SET notificacao = 1, notificadoEm = ? WHERE id = ?";
+                    $result = $con->prepare($sql);
+                    if ($result) {
+                        $result->bind_param("si", date("y-m-d_H-i-s"), $row1['id']);
+                        $result->execute();
+                        $result->close();
+                    }
                 }
             }
-            if (isset($_GET['idAluno'])) {
-                header('Location: alunoEdit?idAluno=' . $_GET['idAluno'] . '&tab=recibos');
-            } else {
-                header('Location: recibosAlunos');
+            else {
+                $alunosComErro[] = $row1['nome'];
             }
         }
+        
+        // Mostrar notificação com lista de erros se houver
+        if (!empty($alunosComErro)) {
+            $mensagemErro = "Erro ao enviar recibos aos seguintes alunos: " . implode(", ", $alunosComErro);
+            notificacao('danger', $mensagemErro);
+        } else {
+            notificacao('success', 'Todos os recibos foram enviados com sucesso!');
+        }
+    }
+    
+    // Redirecionar
+    if (isset($_GET['idAluno'])) {
+        header('Location: alunoEdit?idAluno=' . $_GET['idAluno'] . '&tab=recibos');
+    } else {
+        header('Location: recibosAlunos');
     }
 ?>
