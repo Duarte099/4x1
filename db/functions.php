@@ -65,9 +65,9 @@
 
     function sendEmail($destinatario, $assunto, $corpo, $linkFicheiro = null) {
         // Carregar PHPMailer
-        require_once __DIR__ . '/../PHPMailer/src/Exception.php';
-        require_once __DIR__ . '/../PHPMailer/src/PHPMailer.php';
-        require_once __DIR__ . '/../PHPMailer/src/SMTP.php';
+        require_once "/home/xpt123/PHPMailer/src/Exception.php";
+        require_once "/home/xpt123/PHPMailer/src/PHPMailer.php";
+        require_once "/home/xpt123/PHPMailer/src/SMTP.php";
 
         try {
             $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
