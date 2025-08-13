@@ -8,10 +8,10 @@
     $nomesMes = [1 => 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
     //RECIBO ALUNOS
-    if (isset($_GET['idAluno'])) {
-        $sql1 = "SELECT a.nome, a.horasGrupo, a.horasIndividual, a.emailRecibo, ar.id, ar.anoAluno, ar.ano, ar.mes, mensalidadeGrupo, mensalidadeIndividual, ar.transporte, ar.inscricao, horasRealizadasIndividual, horasRealizadasGrupo, horasBalancoIndividual, horasBalancoGrupo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE a.estado = 1 AND ar.verificado = 1 AND ar.notificacao = 0 AND ar.idAluno = ?";
+    if (isset($_GET['idRecibo'])) {
+        $sql1 = "SELECT a.nome, a.horasGrupo, a.horasIndividual, a.emailRecibo, ar.id, ar.anoAluno, ar.ano, ar.mes, mensalidadeGrupo, mensalidadeIndividual, ar.transporte, ar.inscricao, horasRealizadasIndividual, horasRealizadasGrupo, horasBalancoIndividual, horasBalancoGrupo FROM alunos_recibo as ar INNER JOIN alunos as a ON ar.idAluno = a.id WHERE a.estado = 1 AND ar.verificado = 1 AND ar.notificacao = 0 AND ar.id = ?";
         $stmt = $con->prepare($sql1);
-        $stmt->bind_param("i", $_GET['idAluno']);
+        $stmt->bind_param("i", $_GET['idRecibo']);
         $stmt->execute();
         $result1 = $stmt->get_result();
     } else {
