@@ -91,6 +91,8 @@
                                                                 alunos AS a ON ar.idAluno = a.id
                                                             WHERE 
                                                                 ar.verificado = 0
+                                                                OR ar.notificacao = 0
+                                                                OR ar.pago = 0
 
                                                             UNION ALL
                                                             SELECT 
@@ -185,9 +187,19 @@
                                                                                 >
                                                                                     <i class="fa fa-check"></i>
                                                                                 </a>
+                                                                            <?php } else { ?>
+                                                                                <a
+                                                                                    href="recibosNotificacao?idAluno=<?php echo $row['idAluno']; ?>"
+                                                                                    class="btn btn-link btn-primary btn-lg"
+                                                                                    data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="top"
+                                                                                    title="Notificar aluno"
+                                                                                >
+                                                                                    <i class="fa fa-bell"></i>
+                                                                                </a>
                                                                             <?php } ?>
                                                                             <a
-                                                                                href="alunoEdit?idAluno=<?php echo $row['idAluno']; ?>&mes=<?php echo $row['ano']; ?>-<?php echo $row['mes']; ?>&tab=recibo"
+                                                                                href="alunoEdit?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['idRecibo']; ?>&tab=editRecibo"
                                                                                 class="btn btn-link btn-primary btn-lg"
                                                                                 data-bs-toggle="tooltip"
                                                                                 data-bs-placement="top"
