@@ -541,6 +541,16 @@
                                                                                     >
                                                                                         <i class="fa fa-check"></i>
                                                                                     </a>
+                                                                                <?php } else { ?>
+                                                                                    <a
+                                                                                        href="recibosNotificacao?idAluno=<?php echo $row['idAluno']; ?>"
+                                                                                        class="btn btn-link btn-primary btn-lg"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="top"
+                                                                                        title="Notificar aluno"
+                                                                                    >
+                                                                                        <i class="fa fa-bell"></i>
+                                                                                    </a>
                                                                                 <?php } 
                                                                                 if ($row["pago"] != "Pago" && $row["notificacao"] == "Notificado") { ?>
                                                                                     <a
@@ -552,8 +562,8 @@
                                                                                     >
                                                                                         <i class="fa-credit-card"></i>
                                                                                     </a>
-                                                                                <?php } ?>
-                                                                                <?php if ($row["pago"] != "Pago") { ?>
+                                                                                <?php } 
+                                                                                if ($row["pago"] != "Pago") { ?>
                                                                                     <a
                                                                                         href="alunoEdit?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['id']; ?>&tab=editRecibo"
                                                                                         class="btn btn-link btn-primary btn-lg"

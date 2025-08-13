@@ -187,6 +187,16 @@
                                                                                 >
                                                                                     <i class="fa fa-check"></i>
                                                                                 </a>
+                                                                            <?php } else { ?>
+                                                                                <a
+                                                                                    href="recibosNotificacao?idAluno=<?php echo $row['idAluno']; ?>"
+                                                                                    class="btn btn-link btn-primary btn-lg"
+                                                                                    data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="top"
+                                                                                    title="Notificar aluno"
+                                                                                >
+                                                                                    <i class="fa fa-bell"></i>
+                                                                                </a>
                                                                             <?php } ?>
                                                                             <a
                                                                                 href="alunoEdit?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['idRecibo']; ?>&tab=editRecibo"
