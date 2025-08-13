@@ -1,6 +1,6 @@
 <?php
     include('./db/conexao.php');
-    require "./vendor/autoload.php";
+    require "/home/xpt123/vendor/autoload.php";
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
@@ -216,7 +216,7 @@
             $output = $dompdf->output();
 
             $filename = "recibo_{$row1['nome']}_". date("d-m-y_H-i-s") . ".pdf";
-            $filepath = "/home/xpt123/admin/uploads/recibos/" . $filename;
+            $filepath = "./uploads/recibos/" . $filename;
             file_put_contents($filepath, $output);
 
             if (sendEmail($row1['email'], "Recibo de Pagamento", $mensagem, $filepath) === false) {
