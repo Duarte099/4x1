@@ -1,6 +1,6 @@
 <?php
     include('./db/conexao.php');
-    require "/home/xpt123/vendor/autoload.php";
+    require "./vendor/autoload.php";
 
     use Dompdf\Dompdf;
     use Dompdf\Options;
@@ -219,16 +219,17 @@
             $filepath = "/home/xpt123/admin/uploads/recibos/" . $filename;
             file_put_contents($filepath, $output);
 
-            if (sendEmail($row1['emailRecibo'], "Recibo de Pagamento", $mensagem, $filepath) === false) {
+            if (sendEmail($row1['email'], "Recibo de Pagamento", $mensagem, $filepath) === false) {
                 echo 'Erro ao enviar recibo ao aluno ' . $row1['nome'];
             } else {
-                    $sql = "UPDATE alunos_recibo SET notificacao = 1, notificadoEm = ? WHERE id = ?";
-                    $result = $con->prepare($sql);
-                    if ($result) {
-                        $result->bind_param("si", date("y-m-d_H-i-s"), $row1['id']);
-                        $result->execute();
-                        $result->close();
-                    }
+                // Comentado porque as colunas não existem na tabela
+                // $sql = "UPDATE alunos_recibo SET notificacao = 1, notificadoEm = ? WHERE id = ?";
+                // $result = $con->prepare($sql);
+                // if ($result) {
+                //     $result->bind_param("si", date("y-m-d_H-i-s"), $row1['id']);
+                //     $result->execute();
+                //     $result->close();
+                // }
             }
             if (isset($_GET['idAluno'])) {
                 header('Location: alunoEdit?idAluno=' . $_GET['idAluno'] . '&tab=recibos');
