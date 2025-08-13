@@ -36,7 +36,11 @@
         else {
             notificacao('danger', 'Erro ao verificar recibo: ' . $result->error);
         }
-        header('Location: recibosAlunos');
+        if ($_GET['source'] == "alunoEdit") {
+            header('Location: alunoEdit?idAluno=' . $_GET['idAluno'] . '&tab=recibos');	
+        } else {
+            header('Location: recibosAlunos');
+        }
     }
     else {
         header('Location: dashboard');

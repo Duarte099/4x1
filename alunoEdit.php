@@ -533,7 +533,7 @@
                                                                             <div class="form-button-action">
                                                                                 <?php if ($row['verificado'] == "Pendente") { ?>
                                                                                     <a
-                                                                                        href="recibosAlunosVerificar?idRecibo=<?php echo $row['id']; ?>"
+                                                                                        href="recibosAlunosVerificar?idRecibo=<?php echo $row['id']; ?>&source=alunoEdit"
                                                                                         class="btn btn-link btn-primary btn-lg"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-bs-placement="top"
