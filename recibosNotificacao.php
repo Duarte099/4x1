@@ -219,7 +219,7 @@
             $filepath = "./uploads/recibos/" . $filename;
             file_put_contents($filepath, $output);
 
-            if (sendEmail($row1['email'], "Recibo de Pagamento", $mensagem, $filepath) === false) {
+            if (sendEmail($row1['emailRecibo'], "Recibo de Pagamento", $mensagem, $filepath) === false) {
                 echo 'Erro ao enviar recibo ao aluno ' . $row1['nome'];
             } else {
                 // Comentado porque as colunas não existem na tabela
