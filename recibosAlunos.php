@@ -187,7 +187,7 @@
                                                                                 >
                                                                                     <i class="fa fa-check"></i>
                                                                                 </a>
-                                                                            <?php } else { ?>
+                                                                            <?php } else if ($row['notificacao'] == "Pendente") { ?>
                                                                                 <a
                                                                                     href="recibosNotificacao?idAluno=<?php echo $row['idAluno']; ?>"
                                                                                     class="btn btn-link btn-primary btn-lg"
