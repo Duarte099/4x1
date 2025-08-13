@@ -10,13 +10,17 @@
 
     //Caso a variavel op nao esteja declarado e o metodo não seja post volta para a página da dashboard
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $stmt = $con->prepare('SELECT id FROM alunos_recibo WHERE id = ?');
+        $stmt = $con->prepare('SELECT id, idAluno FROM alunos_recibo WHERE id = ?');
         $stmt->bind_param('i', $_GET['idRecibo']);
         $stmt->execute(); 
-        $stmt->store_result();
-        if ($stmt->num_rows <= 0) {
+        $result = $stmt->get_result();
+        if ($result->num_rows <= 0) {
             header('Location: dashboard');
             exit();
+        }       
+        else {
+            $row = $result->fetch_assoc();
+            $idAluno = $row['idAluno'];
         }
 
         $sql = "UPDATE alunos_recibo SET verificado = 1 WHERE id = ?";
@@ -37,7 +41,7 @@
             notificacao('danger', 'Erro ao verificar recibo: ' . $result->error);
         }
         if ($_GET['source'] == "alunoEdit") {
-            header('Location: alunoEdit?idAluno=' . $_GET['idAluno'] . '&tab=recibos');	
+            header('Location: alunoEdit?idAluno=' . $idAluno . '&tab=recibos');	
         } else {
             header('Location: recibosAlunos');
         }
