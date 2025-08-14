@@ -69,7 +69,13 @@
             }
 
             //Após tudo ser concluido redireciona para a página dos alunos
-            header('Location: alunoEdit?idAluno=' . $rowRecibo['idAluno'] . '&tab=recibos');
+            if ($_GET['src'] == "recibosAlunos") {
+                header('Location: recibosAlunos');
+            }
+            else {
+                header('Location: alunoEdit?idAluno=' . $rowRecibo['idAluno'] . '&tab=recibos');
+            }
+            
         }
         else {
             notificacao('warning', 'Operação inválida.');

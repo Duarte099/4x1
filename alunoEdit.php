@@ -8,7 +8,7 @@
     $idAluno = $_GET['idAluno'];
     $tab = isset($_GET['tab']) ? $_GET['tab'] : '0';
     $botao = true;
-
+    $src = isset($_GET['src']) ? $_GET['src'] : 'editAluno';
     $stmt = $con->prepare("SELECT *, a.ano as anoAluno, a.transporte as tAluno FROM alunos as a WHERE a.id = ?");
     $stmt->bind_param("i", $idAluno);
     $stmt->execute();
@@ -598,7 +598,7 @@
                             </div>
                             <div class="tab-pane fade" id="pagamento" role="tabpanel" aria-labelledby="pagamento-tab">
                                     <div class="page-inner">
-                                        <form action="pagamentoInserir?idRecibo=<?php echo $rowRecibo['id'] ?>&op=save" method="POST" id="formEdit" class="formEdit">
+                                        <form action="pagamentoInserir?idRecibo=<?php echo $rowRecibo['id'] ?>&op=save&src=<?php echo $src; ?>" method="POST" id="formEdit" class="formEdit">
                                             <div class="container2">
                                                 <div class="form-section">
                                                     <div class="form-section">
@@ -689,7 +689,7 @@
                             <?php if ($_SESSION['tipo'] == "administrador") { ?> 
                                 <div class="tab-pane fade" id="editRecibo" role="tabpanel" aria-labelledby="editRecibo-tab">
                                     <div class="page-inner">
-                                        <form action="reciboAlunoInserir?idRecibo=<?php echo $rowRecibo['id'] ?>&op=edit" method="POST" id="formEdit" class="formEdit">
+                                        <form action="reciboAlunoInserir?idRecibo=<?php echo $rowRecibo['id'] ?>&op=edit"  method="POST" id="formEdit" class="formEdit">
                                             <div class="container2">
                                                 <div class="form-section">
                                                     <div class="form-section">

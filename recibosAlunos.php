@@ -199,7 +199,7 @@
                                                                                 </a>
                                                                             <?php } if ($row["pago"] != "Pago" && $row["notificacao"] == "Notificado") { ?>
                                                                                 <a
-                                                                                    href="alunoEdit?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['idRecibo']; ?>&tab=pagamento"
+                                                                                    href="alunoEdit?idAluno=<?php echo $row['idAluno']; ?>&idRecibo=<?php echo $row['idRecibo']; ?>&tab=pagamento&src=recibosAlunos"
                                                                                     class="btn btn-link btn-primary btn-lg"
                                                                                     data-bs-toggle="tooltip"
                                                                                     data-bs-placement="top"
