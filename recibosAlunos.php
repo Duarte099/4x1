@@ -189,7 +189,7 @@
                                                                                 </a>
                                                                             <?php } else if ($row['notificacao'] == "Pendente") { ?>
                                                                                 <a
-                                                                                    href="recibosNotificacao?idRecibo=<?php echo $row['idRecibo']; ?>&source=recibosAlunos"
+                                                                                    href="recibosNotificacao?idRecibo=<?php echo $row['idRecibo']; ?>&src=recibosAlunos"
                                                                                     class="btn btn-link btn-primary btn-lg"
                                                                                     data-bs-toggle="tooltip"
                                                                                     data-bs-placement="top"

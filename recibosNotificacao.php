@@ -251,7 +251,7 @@
     }
     
     // Redirecionar
-    if (isset($_GET['idAluno'])) {
+    if ($_GET['src'] == "alunoEdit") {
         header('Location: alunoEdit?idAluno=' . $_GET['idAluno'] . '&tab=recibos');
     } else {
         header('Location: recibosAlunos');
